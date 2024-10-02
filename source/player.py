@@ -35,10 +35,11 @@ class Player:
     def create_bio(self):
         player_name = self.player_info['people'][0]['fullName']
         pitcher_hand = self.player_info['people'][0]['pitchHand']['code']
+        bats_hand = self.player_info['people'][0]['batSide']['code']
         age = self.player_info['people'][0]['currentAge']
         height = self.player_info['people'][0]['height']
         weight = self.player_info['people'][0]['weight']
-        return PlayerBio(player_name, age, height, weight, pitcher_hand, 'Pitcher')
+        return PlayerBio(player_name, age, height, weight, pitcher_hand, bats_hand, 'Pitcher')
 
 
 

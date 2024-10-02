@@ -6,6 +6,36 @@ MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"
 
 color_stats = ['release_speed', 'release_extension', 'delta_run_exp_per_100', 'whiff_rate', 'in_zone_rate', 'chase_rate', 'xwoba']
 
+statcast_events = {
+    'batted_ball_events': [
+        'single', 'double', 'triple', 'home_run', 'field_out', 'grounded_into_double_play', 'force_out', 'sac_fly',
+        'sac_bunt', 'field_error', 'double_play', 'triple_play', 'catcher_interf', 'fielders_choice'
+    ],
+    'hit_events': ['single', 'double', 'triple', 'home_run'],
+    'strikeout_events': ['strikeout', 'strikeout_double_play', 'strikeout_triple_play'],
+    'walk_events': ['walk', 'intent_walk', 'hit_by_pitch'],
+    'other_events': ['runner_double_play', 'fielders_choice_out'],
+    'uncommon_events': ['other_out', 'fan_interference' 'batter_interference', 'sac_bunt_double_play']
+}
+                   
+# Custom color mapping for event types, used by the spray chart
+event_type_colors = {
+    'single': 'black',
+    'double': 'green',
+    'triple': 'lightblue',
+    'home_run': 'red',
+    'field_out': 'grey',
+    'grounded_into_double_play': 'grey',
+    'force_out': 'grey',
+    'sac_fly': 'grey',
+    'sac_bunt': 'grey',
+    'field_error': 'grey',
+    'double_play': 'grey',
+    'triple_play': 'grey',
+    'catcher_interf': 'grey',
+    'fielders_choice': 'grey'
+}
+
 # Define color maps
 cmap_sum = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#648FFF','#FFFFFF','#FFB000'])
 cmap_sum_r = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#FFB000','#FFFFFF','#648FFF'])

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pybaseball as pyb
 from data_fetcher import FANGRAPHS_BASE_URL
 from data_fetcher import DataFetcher
-from fangraphs_stats import fangraphs_stats_dict
+from fangraphs_stats import fangraphs_pitching_stats_dict
 
 
 def format_stat(value, format_spec):
@@ -32,7 +32,7 @@ class PitchingStats:
 
         # Assign the formatted values
         df_fangraphs_pitcher.loc[0] = [
-            format_stat(df_fangraphs_pitcher[x][0], fangraphs_stats_dict[x]['format'])
+            format_stat(df_fangraphs_pitcher[x][0], fangraphs_pitching_stats_dict[x]['format'])
             if df_fangraphs_pitcher[x][0] != '---' else '---' 
             for x in df_fangraphs_pitcher
         ]
@@ -42,7 +42,7 @@ class PitchingStats:
 
         # Adjust column headers
         new_column_names = [
-            fangraphs_stats_dict[x]['table_header'] if x in df_fangraphs_pitcher else '---' for x in self.standard_stats
+            fangraphs_pitching_stats_dict[x]['table_header'] if x in df_fangraphs_pitcher else '---' for x in self.standard_stats
         ]
         for i, col_name in enumerate(new_column_names):
             table_fg.get_celld()[(0, i)].get_text().set_text(col_name)
@@ -60,7 +60,7 @@ class PitchingStats:
 
         # Assign the formatted values
         df_fangraphs_pitcher.loc[0] = [
-            format_stat(df_fangraphs_pitcher[x][0], fangraphs_stats_dict[x]['format'])
+            format_stat(df_fangraphs_pitcher[x][0], fangraphs_pitching_stats_dict[x]['format'])
             if df_fangraphs_pitcher[x][0] != '---' else '---' 
             for x in df_fangraphs_pitcher
         ]
@@ -70,7 +70,7 @@ class PitchingStats:
 
         # Adjust column headers
         new_column_names = [
-            fangraphs_stats_dict[x]['table_header'] if x in df_fangraphs_pitcher else '---' for x in self.advanced_stats
+            fangraphs_pitching_stats_dict[x]['table_header'] if x in df_fangraphs_pitcher else '---' for x in self.advanced_stats
         ]
         for i, col_name in enumerate(new_column_names):
             table_fg.get_celld()[(0, i)].get_text().set_text(col_name)

@@ -7,13 +7,13 @@ from team import Team
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
-from pitching_stats import PitchingStats
-from pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
-from rolling_pitch_usage_plot import RollingPitchUsagePlot
-from pitch_break_plot import PitchBreakPlot
+from pitching.pitching_stats import PitchingStats
+from pitching.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
+from pitching.rolling_pitch_usage_plot import RollingPitchUsagePlot
+from pitching.pitch_break_plot import PitchBreakPlot
 from data_fetcher import DataFetcher
 from constants import swing_code, whiff_code
-from pitch_breakdown_table import PitchBreakdownTable
+from pitching.pitch_breakdown_table import PitchBreakdownTable
 
 
 class PitcherSummarySheet:
@@ -25,16 +25,10 @@ class PitcherSummarySheet:
 
         self.setup()
 
-        # Create a 20 by 20 figure
-        #self.df = df_processing(df)
         self.fig = plt.figure(figsize=(20, 25))
 
         # Create a gridspec layout with 8 columns and 6 rows
         # Include border plots for the header, footer, left, and right
-        # self.gs = gridspec.GridSpec(7, 8,
-        #                 height_ratios=[2,20,9,9,36,36,7],
-        #                 width_ratios=[1,18,18,18,18,18,18,1])
-        
         self.gs = gridspec.GridSpec(9, 8,
                     height_ratios=[2, 20, 9, 9, 0.25, 36, 36, 2, 10],  
                     width_ratios=[1, 18, 18, 18, 18, 18, 18, 1])
@@ -76,10 +70,9 @@ class PitcherSummarySheet:
 
 
     def generate_plots(self, player: Player):
-        fontsize = 16
-        self.plot_headshot(self.ax_headshot, player.get_headshot())
+        self.plot_image(self.ax_headshot, player.get_headshot())
         self.plot_bio(self.ax_bio, player.bio)
-        self.plot_team_logo(self.ax_logo)
+        self.plot_image(self.ax_logo, self.team.get_logo())
 
         pitcher_stats = PitchingStats(pitcher_id=self.player.player_id, season=self.season)
         pitcher_stats.display_standard_stats(self.ax_standard_stats)
@@ -112,23 +105,11 @@ class PitcherSummarySheet:
         ax.text(0.5, 0.40, f'Season Pitching Summary', va='top', ha='center', fontsize=40)
         ax.text(0.5, 0.15, f'2024 MLB Season', va='top', ha='center', fontsize=30, fontstyle='italic')  
         ax.axis('off')
-
     
-    def plot_headshot(self, ax: plt.Axes, img: Image):
-        # Display the image on the axis
+    def plot_image(self, ax: plt.Axes, img: Image):
         ax.set_xlim(0, 1.3)
         ax.set_ylim(0, 1)
         ax.imshow(img, extent=[0, 1, 0, 1], origin='upper')
-        ax.axis('off')
-
-
-    def plot_team_logo(self, ax: plt.Axes):
-        img = self.team.get_logo()
-        # Display the image on the axis
-        ax.set_xlim(0, 1.3)
-        ax.set_ylim(0, 1)
-        ax.imshow(img, extent=[0.3, 1.3, 0, 1], origin='upper')
-
         ax.axis('off')
 
     
@@ -173,5 +154,6 @@ class PitcherSummarySheet:
         df['pfx_z'] = df['pfx_z'] * 12
         df['pfx_x'] = df['pfx_x'] * 12
         return df
+    
     
 

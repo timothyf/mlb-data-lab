@@ -1,5 +1,5 @@
 ### FANGRAPHS STATS DICT ###
-fangraphs_stats_dict = {
+fangraphs_pitching_stats_dict = {
     'W': {'table_header': r'$\bf{W}$', 'format': '.0f'},
     'L': {'table_header': r'$\bf{L}$', 'format': '.0f'},
     'SV': {'table_header': r'$\bf{SV}$', 'format': '.0f'},
@@ -47,4 +47,44 @@ fangraphs_stats_dict = {
     'BS': {'table_header': r'$\bf{BS}$', 'format': '.0f'},
     'ERA-': {'table_header': r'$\bf{ERA-}$', 'format': '.0f'},
     'FIP-': {'table_header': r'$\bf{FIP-}$', 'format': '.0f'},
+}
+
+fangraphs_batting_stats_dict = {
+    'G': {'table_header': r'$\bf{G}$', 'format': '.0f'},
+    'PA': {'table_header': r'$\bf{PA}$', 'format': '.0f'},
+    'AB': {'table_header': r'$\bf{AB}$', 'format': '.0f'},
+    'H': {'table_header': r'$\bf{H}$', 'format': '.0f'},
+    '1B': {'table_header': r'$\bf{1B}$', 'format': '.0f'},
+    '2B': {'table_header': r'$\bf{2B}$', 'format': '.0f'},
+    '3B': {'table_header': r'$\bf{3B}$', 'format': '.0f'},
+    'HR': {'table_header': r'$\bf{HR}$', 'format': '.0f'},
+    'R': {'table_header': r'$\bf{R}$', 'format': '.0f'},
+    'RBI': {'table_header': r'$\bf{RBI}$', 'format': '.0f'},
+    'BB': {'table_header': r'$\bf{BB}$', 'format': '.0f'},
+    'IBB': {'table_header': r'$\bf{IBB}$', 'format': '.0f'},
+    'SO': {'table_header': r'$\bf{SO}$', 'format': '.0f'},
+    'HBP': {'table_header': r'$\bf{HBP}$', 'format': '.0f'},
+    'SF': {'table_header': r'$\bf{SF}$', 'format': '.0f'},
+    'SH': {'table_header': r'$\bf{SH}$', 'format': '.0f'},
+    'GDP': {'table_header': r'$\bf{GDP}$', 'format': '.0f'},
+    'SB': {'table_header': r'$\bf{SB}$', 'format': '.0f'},
+    'CS': {'table_header': r'$\bf{CS}$', 'format': '.0f'},
+    'AVG': {'table_header': r'$\bf{AVG}$', 'format': '.3f'},
+    'OBP': {'table_header': r'$\bf{OBP}$', 'format': '.3f'},
+    'SLG': {'table_header': r'$\bf{SLG}$', 'format': '.3f'},
+    'OPS': {'table_header': r'$\bf{OPS}$', 'format': '.3f'},
+    'wOBA': {'table_header': r'$\bf{wOBA}$', 'format': '.3f'},
+    'wRC+': {'table_header': r'$\bf{wRC+}$', 'format': '.0f'},
+    'WAR': {'table_header': r'$\bf{WAR}$', 'format': '.1f'},
+    'BB%': {'table_header': r'$\bf{BB\%}$', 'format': 'percent'},
+    'K%': {'table_header': r'$\bf{K\%}$', 'format': 'percent'},
+    'BB/K': {'table_header': r'$\bf{BB/K}$', 'format': '.2f'},
+    'ISO': {'table_header': r'$\bf{ISO}$', 'format': '.3f'},
+    'Spd': {'table_header': r'$\bf{Spd}$', 'format': '.1f'},
+    'BABIP': {'table_header': r'$\bf{BABIP}$', 'format': '.3f'},
+    'UBR': {'table_header': r'$\bf{UBR}$', 'format': '.1f'},
+    'wRC': {'table_header': r'$\bf{wRC}$', 'format': '.0f'},
+    'XBR': {'table_header': r'$\bf{XBR}$', 'format': '.1f'},
+    'wRAA': {'table_header': r'$\bf{wRAA}$', 'format': '.1f'},
+    
 }

@@ -12,6 +12,13 @@ class DataFetcher:
         data = requests.get(url).json()
         df = pd.DataFrame(data=data['data'])
         return df
+    
+    @staticmethod
+    def fetch_fangraphs_batting_leaderboards(season:int):
+        url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&season={season}&season1={season}&ind=0&qual=0&type=8&month=0&pageitems=500000"
+        data = requests.get(url).json()
+        df = pd.DataFrame(data=data['data'])
+        return df
 
     @staticmethod
     def fetch_statcast_pitcher_data(pitcher_id: int, start_date: str, end_date: str):

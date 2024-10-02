@@ -1,12 +1,13 @@
 
 class PlayerBio:
-    def __init__(self, name, age, height, weight, pitcher_hand, position):
+    def __init__(self, name, age, height, weight, pitcher_hand, bats_hand, position):
         self.name = name
         self.age = age
         self.height = height
         self.weight = weight
         self.position = position
         self.pitcher_hand = pitcher_hand
+        self.bats_hand = bats_hand
 
     def get_name(self):
         return self.name
