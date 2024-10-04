@@ -5,7 +5,7 @@ import seaborn as sns
 from constants import pitch_colors, pitch_stats_dict
 from matplotlib import colors as mcolors
 import matplotlib
-from constants import color_stats, cmap_sum, cmap_sum_r, table_columns
+from constants import color_stats, cmap_sum, cmap_sum_r, pitch_summary_columns
 
 
 
@@ -98,7 +98,7 @@ class PitchBreakdownTable:
         df_plot = self.plot_pitch_format(df_group)
 
         # Create a table plot with the DataFrame values and specified column labels
-        table_plot = ax.table(cellText=df_plot.values, colLabels=table_columns, cellLoc='center',
+        table_plot = ax.table(cellText=df_plot.values, colLabels=pitch_summary_columns, cellLoc='center',
                             bbox=[0, -0.1, 1, 1],
                             colWidths=[2.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                             cellColours=colour_list_df)
@@ -112,7 +112,7 @@ class PitchBreakdownTable:
         table_plot.scale(1, 0.5)
 
         # Correctly format the new column names using LaTeX formatting
-        new_column_names = ['$\\bf{Pitch\\ Name}$'] + [pitch_stats_dict[x]['table_header'] if x in pitch_stats_dict else '---' for x in table_columns[1:]]
+        new_column_names = ['$\\bf{Pitch\\ Name}$'] + [pitch_stats_dict[x]['table_header'] if x in pitch_stats_dict else '---' for x in pitch_summary_columns[1:]]
 
         # Update the table headers with the new column names
         for i, col_name in enumerate(new_column_names):
@@ -148,7 +148,7 @@ class PitchBreakdownTable:
             select_df = df_statcast_group[df_statcast_group['pitch_type'] == pt]
             df_group_select = df_group[df_group['pitch_type'] == pt]
 
-            for tb in table_columns:
+            for tb in pitch_summary_columns:
 
                 if tb in colour_stats and type(df_group_select[tb].values[0]) == np.float64:
                     if np.isnan(df_group_select[tb].values[0]):
@@ -179,7 +179,7 @@ class PitchBreakdownTable:
     
     def plot_pitch_format(self, df: pd.DataFrame):
         # Create a DataFrame for the summary row with aggregated statistics for all pitches
-        df_group = df[table_columns].fillna('—')
+        df_group = df[pitch_summary_columns].fillna('—')
 
         # Apply the formats to the DataFrame
         # Iterate over each column in pitch_stats_dict

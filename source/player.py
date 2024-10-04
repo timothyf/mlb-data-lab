@@ -2,20 +2,20 @@ from PIL import Image
 from io import BytesIO
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import matplotlib.pyplot as plt
-from constants import mlb_teams
-from constants import STATS_API_BASE_URL, MLB_STATIC_BASE_URL
 import pandas as pd
 from team import Team
 from player_bio import PlayerBio
 from data_fetcher import DataFetcher
+from player_lookup import PlayerLookup  
 
 
 class Player:
 
-    def __init__(self, player_id: int):
-        self.player_id = player_id
+    def __init__(self, player_name: str):
+        player_data = PlayerLookup.lookup_player(player_name)
+        self.player_id = player_data['key_mlbam']
+        self.bbref = player_data['key_bbref']
         self.player_info = DataFetcher.fetch_player_info(self.player_id)
-        #self.stats = ['G', 'W', 'L', 'SV', 'IP', 'TBF', 'WHIP', 'ERA', 'FIP', 'SO', 'BB', 'K%', 'BB%', 'K-BB%']
         self.team_id = self.get_team_id()
         self.team = Team(self.team_id)
         self.bio = self.create_bio()

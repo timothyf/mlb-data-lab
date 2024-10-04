@@ -1,13 +1,8 @@
-from pybaseball import statcast_batter
-from plotting import spraychart
-from plotting import plot_stadium
 import numpy as np
 import matplotlib.lines as mlines
 import mplcursors
 from constants import event_type_colors
 from constants import statcast_events
-
-
 
 
 class BattingSprayChart:

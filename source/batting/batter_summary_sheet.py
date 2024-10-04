@@ -1,18 +1,15 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-from PIL import Image
-from player_bio import PlayerBio
 from player import Player
 from team import Team
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
-from batting.batting_stats import BattingStats
+from stats.base_stats import BattingStats
 from batting.batting_spray_chart import BattingSprayChart
 
-from data_fetcher import DataFetcher
 from pybaseball import statcast_batter
 from constants import statcast_events
+from plotting import Plotting
 
 
 class BatterSummarySheet:
@@ -78,20 +75,18 @@ class BatterSummarySheet:
         mpl.rcParams['figure.dpi'] = 50
 
 
-    def generate_plots(self, player: Player):
-        fontsize = 16
-        self.plot_headshot(self.ax_headshot, player.get_headshot())
-        self.plot_bio(self.ax_bio, player.bio)
-        self.plot_team_logo(self.ax_logo)
+    def generate_plots(self):
+        Plotting.plot_image(self.ax_headshot, self.player.get_headshot())
+        Plotting.plot_bio(self.ax_bio, self.player.bio, 'Season Batting Summary', self.season)
+        Plotting.plot_image(self.ax_logo, self.team.get_logo())
 
-        batting_stats = BattingStats(batter_id=self.player.player_id, season=self.season)
+        batting_stats = BattingStats(player=self.player, season=self.season)
         batting_stats.display_standard_stats(self.ax_standard_stats)
         batting_stats.display_advanced_stats(self.ax_advanced_stats)
 
         #self.plot_spraychart(self.ax_chart1)
         self.plot_spraychart(self.ax_chart2, statcast_events['batted_ball_events'])
         self.plot_spraychart(self.ax_chart3, statcast_events['hit_events'])
-
 
         # Add footer text
         self.ax_footer.text(0, 1, 'Code by: Timothy Fisher', ha='left', va='top', fontsize=24)
@@ -101,34 +96,8 @@ class BatterSummarySheet:
         # Adjust the spacing between subplots
         plt.tight_layout()
 
-        plt.savefig(f'batter_summary_{player.bio.name.lower().replace(" ", "_")}.png')
-        plt.show()
-
-
-    def plot_bio(self, ax: plt.Axes, bio: PlayerBio):        
-        ax.text(0.5, 1, f'{bio.name}', va='top', ha='center', fontsize=56)
-        ax.text(0.5, 0.65, f'Bats: {bio.bats_hand}, Age:{bio.age}, {bio.height}/{bio.weight}', va='top', ha='center', fontsize=30)
-        ax.text(0.5, 0.40, f'Season Batting Summary', va='top', ha='center', fontsize=40)
-        ax.text(0.5, 0.15, f'2024 MLB Season', va='top', ha='center', fontsize=30, fontstyle='italic')  
-        ax.axis('off')
-
-    
-    def plot_headshot(self, ax: plt.Axes, img: Image):
-        # Display the image on the axis
-        ax.set_xlim(0, 1.3)
-        ax.set_ylim(0, 1)
-        ax.imshow(img, extent=[0, 1, 0, 1], origin='upper')
-        ax.axis('off')
-
-
-    def plot_team_logo(self, ax: plt.Axes):
-        img = self.team.get_logo()
-        # Display the image on the axis
-        ax.set_xlim(0, 1.3)
-        ax.set_ylim(0, 1)
-        ax.imshow(img, extent=[0.3, 1.3, 0, 1], origin='upper')
-
-        ax.axis('off')
+        plt.savefig(f'batter_summary_{self.player.bio.name.lower().replace(" ", "_")}.png')
+        #plt.show()
 
 
     def plot_spraychart(self, ax: plt.Axes, events):

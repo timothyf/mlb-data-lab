@@ -1,9 +1,19 @@
 
+
+
 class Utils:
 
+    def __init__(self):
+        pass
+
     @staticmethod
-    def get_random_string(length):
-        letters = string.ascii_lowercase
-        return ''.join(random.choice(letters) for i in range(length))
+    def format_stat(value, format_spec):
+        """Function to apply appropriate formatting to a stat."""
+        if format_spec == 'percent':
+            return f"{value * 100:.1f}%"
+        else:
+            return format(value, format_spec)
+
+
     
     
