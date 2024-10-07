@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.git": true,
+      "**/dist": true,
+      "**/venv": true,
+      "__pycache__": true
+    }
+  }{
+}

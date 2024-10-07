@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
-from player import Player
-from team import Team
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.team import Team
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
-from stats.base_stats import BattingStats
-from batting.batting_spray_chart import BattingSprayChart
+from mlb_summary_sheets.stats.base_stats import BattingStats
+from mlb_summary_sheets.batting.batting_spray_chart import BattingSprayChart
 
 from pybaseball import statcast_batter
-from constants import statcast_events
-from plotting import Plotting
+from mlb_summary_sheets.constants import statcast_events
+from mlb_summary_sheets.plotting import Plotting
 
 class BatterSummarySheet:
 

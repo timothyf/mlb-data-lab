@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
-from config import StatsConfig
-from apis.fangraphs_client import FangraphsClient
-from components.stats_table import StatsTable
-from player import Player
-from apis.pybaseball_client import PybaseballClient
+from mlb_summary_sheets.config import StatsConfig
+from mlb_summary_sheets.apis.fangraphs_client import FangraphsClient
+from mlb_summary_sheets.components.stats_table import StatsTable
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
 
 
 class BaseStats:

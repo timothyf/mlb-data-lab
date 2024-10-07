@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.ticker import FuncFormatter
-from constants import pitch_colors
-from config import FontConfig
+from mlb_summary_sheets.constants import pitch_colors
+from mlb_summary_sheets.config import FontConfig
 
 
 

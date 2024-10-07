@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from data_fetcher import DataFetcher
-from constants import pitch_colors
-from config import FontConfig
+from mlb_summary_sheets.data_fetcher import DataFetcher
+from mlb_summary_sheets.constants import pitch_colors
+from mlb_summary_sheets.config import FontConfig
 
 
 class PitchVelocityDistributionPlot:

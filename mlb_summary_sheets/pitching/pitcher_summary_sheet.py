@@ -1,17 +1,19 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from player import Player
-from team import Team
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.team import Team
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
-from stats.base_stats import PitchingStats
-from pitching.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
-from pitching.rolling_pitch_usage_plot import RollingPitchUsagePlot
-from pitching.pitch_break_plot import PitchBreakPlot
-from data_fetcher import DataFetcher
-from constants import swing_code, whiff_code
-from pitching.pitch_breakdown_table import PitchBreakdownTable
-from plotting import Plotting
+from mlb_summary_sheets.stats.base_stats import PitchingStats
+from mlb_summary_sheets.pitching.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
+from mlb_summary_sheets.pitching.rolling_pitch_usage_plot import RollingPitchUsagePlot
+from mlb_summary_sheets.pitching.pitch_break_plot import PitchBreakPlot
+from mlb_summary_sheets.data_fetcher import DataFetcher
+from mlb_summary_sheets.constants import swing_code, whiff_code
+from mlb_summary_sheets.pitching.pitch_breakdown_table import PitchBreakdownTable
+from mlb_summary_sheets.plotting import Plotting
+from mlb_summary_sheets.config import DATA_DIR
+import os
 
 
 class PitcherSummarySheet:
@@ -86,7 +88,7 @@ class PitcherSummarySheet:
 
     
     def plot_pitch_velocity_distribution(self, df: pd.DataFrame, ax: plt.Axes):
-        df_statcast_group = pd.read_csv('statcast_2024_grouped.csv')
+        df_statcast_group = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_grouped.csv'))
         pvd_plot = PitchVelocityDistributionPlot(self.player)
         pvd_plot.plot(df=df, ax=ax,
                     gs=self.gs,

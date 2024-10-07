@@ -1,6 +1,13 @@
-from player import Player
-from pitching.pitcher_summary_sheet import PitcherSummarySheet
-from batting.batter_summary_sheet import BatterSummarySheet
+import sys
+import os
+
+# Add the project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+from mlb_summary_sheets import Player
+from mlb_summary_sheets.pitching.pitcher_summary_sheet import PitcherSummarySheet
+from mlb_summary_sheets.batting.batter_summary_sheet import BatterSummarySheet
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 
@@ -15,6 +22,7 @@ def generate_pitcher_sheet(pitcher_name: str, year: int = 2024):
 
 def generate_batter_sheet(batter_name: str, year: int = 2024):
     player = Player(batter_name)
+    print(player.export_to_json())
     batter_summary = BatterSummarySheet(player, year)
     batter_summary.generate_plots()
 

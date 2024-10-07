@@ -2,11 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from constants import pitch_colors, pitch_stats_dict
+from mlb_summary_sheets.constants import pitch_colors, pitch_stats_dict
 from matplotlib import colors as mcolors
 import matplotlib
-from constants import color_stats, cmap_sum, cmap_sum_r, pitch_summary_columns
-
+from mlb_summary_sheets.constants import color_stats, cmap_sum, cmap_sum_r, pitch_summary_columns
+from mlb_summary_sheets.config import DATA_DIR
+import os
 
 
 
@@ -14,8 +15,7 @@ class PitchBreakdownTable:
 
     def __init__(self, data):
         self.data = data
-        #self.pitch_stats_dict = PitchStatsDict()
-        self.df_statcast_group = pd.read_csv('statcast_2024_grouped.csv')
+        self.df_statcast_group = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_grouped.csv'))
 
 
     def df_grouping(self, df: pd.DataFrame):

@@ -1,5 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Dict, List
+import os
+
+# Set BASE_DIR to the project root (mlb_stats directory)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Now you can correctly build paths relative to the project root
+DATA_DIR = os.path.join(BASE_DIR, 'mlb_summary_sheets', 'data')
+
 
 
 @dataclass

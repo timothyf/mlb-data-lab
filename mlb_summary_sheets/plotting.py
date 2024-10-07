@@ -1,6 +1,6 @@
 from PIL import Image
 import matplotlib.pyplot as plt
-from player_bio import PlayerBio
+from mlb_summary_sheets.player_bio import PlayerBio
 
 
 class Plotting:

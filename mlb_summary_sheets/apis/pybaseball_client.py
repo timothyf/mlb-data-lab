@@ -1,6 +1,6 @@
 import pybaseball as pyb
 import pandas as pd
-from config import StatsConfig
+from mlb_summary_sheets.config import StatsConfig
 import debugpy
 
 

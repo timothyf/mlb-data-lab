@@ -1,8 +1,22 @@
-
+import json
+import numpy as np
 
 
 class Utils:
 
+    @staticmethod
+    class NumpyEncoder(json.JSONEncoder):
+        """ Custom encoder to convert NumPy data types to native Python types """
+        def default(self, obj):
+            if isinstance(obj, np.integer):
+                return int(obj)
+            elif isinstance(obj, np.floating):
+                return float(obj)
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()  # Convert NumPy arrays to lists
+            else:
+                return super(self.NumpyEncoder, self).default(obj)
+            
     @staticmethod
     def format_stat(value, format_spec):
         """Function to apply appropriate formatting to a stat."""
