@@ -1,5 +1,7 @@
 import pybaseball as pyb
-
+import pandas as pd
+from config import StatsConfig
+import debugpy
 
 
 class PybaseballClient: 
@@ -38,8 +40,55 @@ class PybaseballClient:
 
         # Acces example:
         #    data.xs('vs LHP', level=1)['AB']
-
+        
     @staticmethod
-    def fetch_batting_splits_leaderboards(player_bbref: str, season:int):
+    def fetch_batting_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:
+        # Define the columns you want to keep
+        splits_stats_list = StatsConfig().stat_lists['batting']['splits']
+
+        # Fetching the splits data
         data = pyb.get_splits(playerid=player_bbref, year=season)
-        return data 
+        
+        # Convert to DataFrame if it's not already one
+        if not isinstance(data, pd.DataFrame):
+            data = pd.DataFrame(data)
+
+        # Identify missing columns
+        missing_columns = [col for col in splits_stats_list if col not in data.columns]
+        if missing_columns:
+            print(f"Warning: The following columns are missing from the data: {missing_columns}")
+
+        # Extract data for 'vs LHP' and 'vs RHP' splits
+        splits_data = {}
+        
+        for split in ['vs LHP', 'vs RHP', 'Ahead', 'Behind']:
+            try:
+                split_data = data.xs(split, level=1)
+            except KeyError:
+                print(f"No data found for {split} for player {player_bbref} in season {season}.")
+                split_data = pd.DataFrame()  # Return empty DataFrame if the split is not found
+
+            # Ensure H and AB exist and are numeric
+            if not split_data.empty and 'H' in split_data.columns and 'AB' in split_data.columns:
+                split_data = split_data.copy()
+
+                # Convert H and AB to numeric
+                split_data['H'] = pd.to_numeric(split_data['H'], errors='coerce')
+                split_data['AB'] = pd.to_numeric(split_data['AB'], errors='coerce')
+
+                # Calculate AVG and handle edge cases
+                split_data['AVG'] = split_data['H'] / split_data['AB']
+                split_data['AVG'] = split_data['AVG'].replace([float('inf'), -float('inf')], 0)
+                split_data['AVG'] = split_data['AVG'].fillna(0)
+
+            # Filter the DataFrame to include only columns that exist in both the DataFrame and splits_stats_list
+            existing_columns = [col for col in splits_stats_list if col in split_data.columns]
+            filtered_split_data = split_data[existing_columns]
+
+            # Store filtered data in splits_data dictionary
+            splits_data[split] = filtered_split_data
+
+        # Combine both splits into a single DataFrame or return as a dictionary
+        combined_data = pd.concat([splits_data['vs LHP'], splits_data['vs RHP'], splits_data['Ahead'], splits_data['Behind']], keys=['vs LHP', 'vs RHP', 'Ahead', 'Behind'], axis=0)
+
+        return combined_data

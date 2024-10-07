@@ -13,25 +13,25 @@ class BaseStats:
         self.stat_type = stat_type
         self.standard_stats = StatsConfig().stat_lists[stat_type]['standard']
         self.advanced_stats = StatsConfig().stat_lists[stat_type]['advanced']
-        self.splits_stats = StatsConfig().stat_lists[stat_type]['splits']
+        self.splits_stats_list = StatsConfig().stat_lists[stat_type]['splits']
         self.stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type=self.stat_type)
         if self.stat_type == 'batting':
-             self.spits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.player.bbref, season=self.season)
+             self.splits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.player.bbref, season=self.season)
+
 
     def display_standard_stats(self, ax: plt.Axes, fontsize: int = 20):
         df_player = self.stats[self.stats['xMLBAMID'] == self.player.player_id][self.standard_stats].reset_index(drop=True)
         stats_table = StatsTable(df_player, self.standard_stats, self.stat_type)
-        stats_table.create_table(ax, fontsize, "Standard {} Stats".format(self.stat_type.capitalize()))
+        stats_table.create_table(ax, fontsize, "Standard {}".format(self.stat_type.capitalize()))
 
     def display_advanced_stats(self, ax: plt.Axes, fontsize: int = 20):
         df_player = self.stats[self.stats['xMLBAMID'] == self.player.player_id][self.advanced_stats].reset_index(drop=True)
         stats_table = StatsTable(df_player, self.advanced_stats, self.stat_type)
-        stats_table.create_table(ax, fontsize, "Advanced {} Stats".format(self.stat_type.capitalize()))
+        stats_table.create_table(ax, fontsize, "Advanced {}".format(self.stat_type.capitalize()))
 
-    # def display_splits_stats(self, ax: plt.Axes, fontsize: int = 20):
-    #     df_player = self.splits_stats[self.stats['xMLBAMID'] == self.player.bbref][self.splits_stats].reset_index(drop=True)
-    #     stats_table = StatsTable(df_player, self.splits_stats, self.stat_type)
-    #     stats_table.create_table(ax, fontsize, "Splits {} Stats".format(self.stat_type.capitalize()))
+    def display_splits_stats(self, ax: plt.Axes, fontsize: int = 20):
+        stats_table = StatsTable(self.splits_stats, self.splits_stats_list, self.stat_type)
+        stats_table.create_table(ax, fontsize, "Splits {}".format(self.stat_type.capitalize()), True)
 
 
 class PitchingStats(BaseStats):

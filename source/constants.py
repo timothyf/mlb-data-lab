@@ -16,26 +16,38 @@ statcast_events = {
     'strikeout_events': ['strikeout', 'strikeout_double_play', 'strikeout_triple_play'],
     'walk_events': ['walk', 'intent_walk', 'hit_by_pitch'],
     'other_events': ['runner_double_play', 'fielders_choice_out'],
-    'uncommon_events': ['other_out', 'fan_interference' 'batter_interference', 'sac_bunt_double_play']
+    'uncommon_events': ['other_out', 'fan_interference' 'batter_interference', 'sac_bunt_double_play'],
+    'out_events': [
+        'field_out', 'grounded_into_double_play', 'force_out', 'sac_fly',
+        'sac_bunt', 'field_error', 'double_play', 'triple_play', 'catcher_interf', 'fielders_choice'
+    ]
 }
-                   
-# Custom color mapping for event types, used by the spray chart
-event_type_colors = {
-    'single': 'black',
-    'double': 'green',
-    'triple': 'lightblue',
-    'home_run': 'red',
-    'field_out': 'grey',
-    'grounded_into_double_play': 'grey',
-    'force_out': 'grey',
-    'sac_fly': 'grey',
-    'sac_bunt': 'grey',
-    'field_error': 'grey',
-    'double_play': 'grey',
-    'triple_play': 'grey',
-    'catcher_interf': 'grey',
-    'fielders_choice': 'grey'
+
+event_styles = {
+    'single': {'marker': 'o', 'color': '#1f77b4', 'label': 'Single'}, # Blue for singles
+    'double': {'marker': 'o', 'color': '#2ca02c', 'label': 'Double'}, # Green for doubles
+    'triple': {'marker': 'o', 'color': '#ff7f0e', 'label': 'Triple'}, # Orange for triples
+    'home_run': {'marker': 'o', 'color': '#d62728', 'label': 'Home Run'}, # Red for home runs
+    'field_out': {'marker': 'x', 'color': 'grey', 'label': 'Field Out'},
+    'grounded_into_double_play': {'marker': 'x', 'color': 'grey', 'label': 'GIDP'},
+    'force_out': {'marker': 'x', 'color': 'grey', 'label': 'Force Out'},
+    'sac_fly': {'marker': 's', 'color': 'grey', 'label': 'Sac Fly'},
+    'sac_bunt': {'marker': 's', 'color': 'grey', 'label': 'Sac Bunt'},
+    'field_error': {'marker': 'x', 'color': 'grey', 'label': 'Error'},
+    'double_play': {'marker': 'x', 'color': 'grey', 'label': 'Double Play'},
+    'triple_play': {'marker': 'x', 'color': 'grey', 'label': 'Triple Play'},
+    'catcher_interf': {'marker': 'x', 'color': 'grey', 'label': 'Catcher Interference'},
+    'fielders_choice': {'marker': 'x', 'color': 'grey', 'label': 'Fielder\'s Choice'}
 }
+
+# event_colors = {
+#     '1B': '#1f77b4',  # Blue for singles
+#     '2B': '#2ca02c',  # Green for doubles
+#     '3B': '#ff7f0e',  # Orange for triples
+#     'HR': '#d62728',  # Red for home runs
+#     'LD': '#9467bd',  # Purple for line drives or another hit type
+# }
+
 
 # Define color maps
 cmap_sum = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#648FFF','#FFFFFF','#FFB000'])

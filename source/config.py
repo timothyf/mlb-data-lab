@@ -26,13 +26,14 @@ class StatsConfig:
         'batting': {
             'standard': ['G', 'PA', 'AB', 'H', '1B', '2B', '3B', 'HR', 'R', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SF', 'SH', 'GDP', 'SB', 'CS', 'AVG'],
             'advanced': ['BB%', 'K%', 'BB/K', 'AVG', 'OBP', 'SLG', 'OPS', 'ISO', 'Spd', 'BABIP', 'UBR', 'XBR', 'wRC', 'wRAA', 'wOBA', 'wRC+', 'WAR'],
-            'splits': ['G', 'PA', 'AB', 'R', 'H', '1B', '2B', '3B', 'HR', 'R', 'RBI', 'BB', 'IBB', 'SO', 'AVG', 'OBP', 'SLG', 'OPS']
+            'splits': ['G', 'PA', 'AB', 'R', 'H', '1B', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'AVG', 'OBP', 
+                       'SLG', 'OPS', 'BAbip', 'tOPS+', 'sOPS+']
         },
         'pitching': {
             'standard': ['W', 'L', 'ERA', 'G', 'GS', 'QS', 'CG', 'ShO', 'SV', 'HLD', 'BS', 'IP', 'TBF', 'H', 'R', 'ER', 'HR', 'BB', 'IBB', 'HBP', 'WP', 'BK', 'SO'],
             'advanced': ['K/9', 'BB/9', 'K/BB', 'H/9', 'HR/9', 'K%', 'BB%', 'K-BB%', 'AVG', 'WHIP', 'BABIP', 'LOB%', 'ERA-', 'FIP-','FIP', 'RS/9', 'Swing%'],
             'splits': []
-        }
+        },
     }
 
 
@@ -92,6 +93,7 @@ class StatsDisplayConfig:
 
     batting = {
         'G': {'table_header': r'$\bf{G}$', 'format': '.0f'},
+        'GS': {'table_header': r'$\bf{GS}$', 'format': '.0f'}, 
         'PA': {'table_header': r'$\bf{PA}$', 'format': '.0f'},
         'AB': {'table_header': r'$\bf{AB}$', 'format': '.0f'},
         'H': {'table_header': r'$\bf{H}$', 'format': '.0f'},
@@ -110,26 +112,32 @@ class StatsDisplayConfig:
         'GDP': {'table_header': r'$\bf{GDP}$', 'format': '.0f'},
         'SB': {'table_header': r'$\bf{SB}$', 'format': '.0f'},
         'CS': {'table_header': r'$\bf{CS}$', 'format': '.0f'},
-        'AVG': {'table_header': r'$\bf{AVG}$', 'format': '.3f'},
-        'OBP': {'table_header': r'$\bf{OBP}$', 'format': '.3f'},
-        'SLG': {'table_header': r'$\bf{SLG}$', 'format': '.3f'},
-        'OPS': {'table_header': r'$\bf{OPS}$', 'format': '.3f'},
-        'wOBA': {'table_header': r'$\bf{wOBA}$', 'format': '.3f'},
+        'AVG': {'table_header': r'$\bf{AVG}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
+        'OBP': {'table_header': r'$\bf{OBP}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
+        'SLG': {'table_header': r'$\bf{SLG}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
+        'OPS': {'table_header': r'$\bf{OPS}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
+        'wOBA': {'table_header': r'$\bf{wOBA}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'wRC+': {'table_header': r'$\bf{wRC+}$', 'format': '.0f'},
         'WAR': {'table_header': r'$\bf{WAR}$', 'format': '.1f'},
         'BB%': {'table_header': r'$\bf{BB\%}$', 'format': 'percent'},
         'K%': {'table_header': r'$\bf{K\%}$', 'format': 'percent'},
         'BB/K': {'table_header': r'$\bf{BB/K}$', 'format': '.2f'},
-        'ISO': {'table_header': r'$\bf{ISO}$', 'format': '.3f'},
+        'ISO': {'table_header': r'$\bf{ISO}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'Spd': {'table_header': r'$\bf{Spd}$', 'format': '.1f'},
-        'BABIP': {'table_header': r'$\bf{BABIP}$', 'format': '.3f'},
+        'BABIP': {'table_header': r'$\bf{BABIP}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'UBR': {'table_header': r'$\bf{UBR}$', 'format': '.1f'},
         'wRC': {'table_header': r'$\bf{wRC}$', 'format': '.0f'},
         'XBR': {'table_header': r'$\bf{XBR}$', 'format': '.1f'},
         'wRAA': {'table_header': r'$\bf{wRAA}$', 'format': '.1f'},
-        
+        'BA': {'table_header': r'$\bf{BA}$', 'format': '.3f'},
+        'TB': {'table_header': r'$\bf{TB}$', 'format': '.0f'},
+        'ROE': {'table_header': r'$\bf{ROE}$', 'format': '.0f'},
+        'BAbip': {'table_header': r'$\bf{BAbip}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
+        'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
+        'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
+        'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
+        'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
     }
-
 
 
 
