@@ -1,0 +1,22 @@
+{
+    "mlbam_id": 669373,
+    "bbref_id": "skubata01",
+    "team_name": "Detroit Tigers",
+    "player_bio": {
+        "full_name": "Tarik Skubal",
+        "bats_hand": "R",
+        "throws_hand": "L",
+        "current_age": 27,
+        "height": "6' 3\"",
+        "weight": 240
+    },
+    "player_info": {
+        "mlbam_id": 669373,
+        "first_name": "Tarik",
+        "last_name": "Skubal",
+        "link": "/api/v1/people/669373",
+        "active": true,
+        "primary_position": "P",
+        "use_name": "Tarik"
+    }
+}

@@ -21,9 +21,12 @@ class PlayerLookup:
     # information returned includes: 
     #        name_last, name_first, key_mlbam, key_retro, key_bbref, key_fangraphs, mlb_played_first, mlb_played_last
     @staticmethod
-    def lookup_player(player_name: str):
-        first_name, last_name = player_name.split()
-        player_df = pyb.playerid_lookup(last_name, first_name)
+    def lookup_player(player_name: str="", player_id: int=None):
+        if player_name:
+            first_name, last_name = player_name.split()
+            player_df = pyb.playerid_lookup(last_name, first_name)
+        if player_id:
+            player_df = pyb.playerid_reverse_lookup([player_id], key_type='mlbam')
         if not player_df.empty:
             return player_df.iloc[0]
         else:

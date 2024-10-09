@@ -1,0 +1,22 @@
+{
+    "mlbam_id": 682985,
+    "bbref_id": "greenri03",
+    "team_name": "Detroit Tigers",
+    "player_bio": {
+        "full_name": "Riley Greene",
+        "bats_hand": "L",
+        "throws_hand": "L",
+        "current_age": 24,
+        "height": "6' 3\"",
+        "weight": 200
+    },
+    "player_info": {
+        "mlbam_id": 682985,
+        "first_name": "Riley",
+        "last_name": "Greene",
+        "link": "/api/v1/people/682985",
+        "active": true,
+        "primary_position": "LF",
+        "use_name": "Riley"
+    }
+}

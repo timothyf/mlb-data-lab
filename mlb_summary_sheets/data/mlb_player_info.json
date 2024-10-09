@@ -1,0 +1,60 @@
+{
+  "copyright": "Copyright 2024 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+  "people": [
+    {
+      "id": 669373,
+      "fullName": "Tarik Skubal",
+      "link": "/api/v1/people/669373",
+      "firstName": "Tarik",
+      "lastName": "Skubal",
+      "primaryNumber": "29",
+      "birthDate": "1996-11-20",
+      "currentAge": 27,
+      "birthCity": "Hayward",
+      "birthStateProvince": "CA",
+      "birthCountry": "USA",
+      "height": "6' 3\"",
+      "weight": 240,
+      "active": true,
+      "currentTeam": {
+        "id": 116,
+        "name": "Detroit Tigers",
+        "link": "/api/v1/teams/116"
+      },
+      "primaryPosition": {
+        "code": "1",
+        "name": "Pitcher",
+        "type": "Pitcher",
+        "abbreviation": "P"
+      },
+      "useName": "Tarik",
+      "useLastName": "Skubal",
+      "middleName": "Daniel",
+      "boxscoreName": "Skubal",
+      "gender": "M",
+      "isPlayer": true,
+      "isVerified": false,
+      "draftYear": 2018,
+      "pronunciation": "Tare-ick sku-ble",
+      "mlbDebutDate": "2020-08-18",
+      "batSide": {
+        "code": "R",
+        "description": "Right"
+      },
+      "pitchHand": {
+        "code": "L",
+        "description": "Left"
+      },
+      "nameFirstLast": "Tarik Skubal",
+      "nameSlug": "tarik-skubal-669373",
+      "firstLastName": "Tarik Skubal",
+      "lastFirstName": "Skubal, Tarik",
+      "lastInitName": "Skubal, T",
+      "initLastName": "T Skubal",
+      "fullFMLName": "Tarik Daniel Skubal",
+      "fullLFMName": "Skubal, Tarik Daniel",
+      "strikeZoneTop": 3.49,
+      "strikeZoneBottom": 1.601
+    }
+  ]
+}

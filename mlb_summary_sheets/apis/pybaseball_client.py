@@ -6,6 +6,12 @@ import debugpy
 
 class PybaseballClient: 
 
+    @staticmethod
+    def fetch_statcast_pitcher_data(pitcher_id: int, start_date: str, end_date: str):
+        df_pyb = pyb.statcast_pitcher(start_date, end_date, pitcher_id)
+        df_pyb.head()
+        return df_pyb
+
     # Split types returned:
         # ['Career Totals', 'Last 7 days', 'Last 14 days', 'Last 28 days', 'Last 365 days', 'vs RHP', 'vs LHP', 
         #  'vs RHP as LHB', 'vs LHP as LHB', 'vs RH Starter', 'vs LH Starter', 'Home', 'Away', '1st Half', '2nd Half', 

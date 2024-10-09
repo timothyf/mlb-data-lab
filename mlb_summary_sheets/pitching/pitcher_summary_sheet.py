@@ -1,26 +1,26 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
-from mlb_summary_sheets.player import Player
-from mlb_summary_sheets.team import Team
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
+
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.team import Team
 from mlb_summary_sheets.stats.base_stats import PitchingStats
 from mlb_summary_sheets.pitching.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
 from mlb_summary_sheets.pitching.rolling_pitch_usage_plot import RollingPitchUsagePlot
 from mlb_summary_sheets.pitching.pitch_break_plot import PitchBreakPlot
-from mlb_summary_sheets.data_fetcher import DataFetcher
-from mlb_summary_sheets.constants import swing_code, whiff_code
 from mlb_summary_sheets.pitching.pitch_breakdown_table import PitchBreakdownTable
+from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
+from mlb_summary_sheets.constants import swing_code, whiff_code
 from mlb_summary_sheets.plotting import Plotting
 from mlb_summary_sheets.config import DATA_DIR
-import os
 
 
 class PitcherSummarySheet:
 
     def __init__(self, player: Player, season: int):
         self.player = player
-        self.team = Team(player.team_id)
         self.season = season
 
         # Set the resolution of the figures to 300 DPI
@@ -59,14 +59,14 @@ class PitcherSummarySheet:
 
     def generate_plots(self):
         Plotting.plot_image(self.ax_headshot, self.player.get_headshot())
-        Plotting.plot_bio(self.ax_bio, self.player.bio, 'Season Pitching Summary', self.season)
-        Plotting.plot_image(self.ax_logo, self.team.get_logo())
+        Plotting.plot_bio(self.ax_bio, self.player, 'Season Pitching Summary', self.season)
+        Plotting.plot_image(self.ax_logo, self.player.team.get_logo())
 
         pitcher_stats = PitchingStats(player=self.player, season=self.season)
         pitcher_stats.display_standard_stats(self.ax_standard_stats)
         pitcher_stats.display_advanced_stats(self.ax_advanced_stats)
 
-        statcast_pitching_data = DataFetcher.fetch_statcast_pitcher_data(self.player.player_id, '2024-03-28', '2024-10-01')
+        statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, '2024-03-28', '2024-10-01')
         df = self.df_processing(statcast_pitching_data)
 
         self.plot_pitch_velocity_distribution(statcast_pitching_data, self.ax_pitch_velocity)
@@ -83,7 +83,7 @@ class PitcherSummarySheet:
         # Adjust the spacing between subplots
         plt.tight_layout()
 
-        plt.savefig(f'pitcher_summary_{self.player.bio.name.lower().replace(" ", "_")}.png')
+        plt.savefig(f'output/pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
         #plt.show()
 
     

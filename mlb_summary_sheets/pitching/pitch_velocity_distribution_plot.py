@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from mlb_summary_sheets.data_fetcher import DataFetcher
 from mlb_summary_sheets.constants import pitch_colors
 from mlb_summary_sheets.config import FontConfig
 

@@ -1,22 +1,34 @@
-from source.player import Player
+import sys
+import os
 
+# Add the project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.config import DATA_DIR
+from mlb_summary_sheets.utils import Utils
 
 # Suppress MarkupResemblesLocatorWarning
 #warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 
-
 def save_player(player_name: str):
-    player = Player(player_name)
-    json_data = player.export_to_json()
+    player = Player.create_from_mlb(player_name = player_name)
+    json_data = Utils.dump_json(player.to_json())
 
-    file_path = f"data/players/{player_name.replace(' ', '_').lower()}.json"
+    # Construct the file path
+    file_path = f"{DATA_DIR}/players/{player.mlbam_id}.json"
+
+    # Ensure that the directory exists
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
     # Open the file in write mode and save the JSON data
     with open(file_path, 'w') as json_file:
         json_file.write(json_data)
 
-    print(f"Player data saved to {file_path}")
+    print(f"Player {player_name} data saved to {file_path}")
+
 
 # import debugpy
 

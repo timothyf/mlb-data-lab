@@ -143,8 +143,6 @@ class StatsDisplayConfig:
         'BAbip': {'table_header': r'$\bf{BAbip}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
         'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
-        'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
-        'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
     }
 
 

@@ -1,0 +1,22 @@
+{
+    "mlbam_id": 681481,
+    "bbref_id": "carpeke01",
+    "team_name": "Detroit Tigers",
+    "player_bio": {
+        "full_name": "Kerry Carpenter",
+        "bats_hand": "L",
+        "throws_hand": "R",
+        "current_age": 27,
+        "height": "6' 2\"",
+        "weight": 220
+    },
+    "player_info": {
+        "mlbam_id": 681481,
+        "first_name": "Kerry",
+        "last_name": "Carpenter",
+        "link": "/api/v1/people/681481",
+        "active": true,
+        "primary_position": "RF",
+        "use_name": "Kerry"
+    }
+}

@@ -5,6 +5,10 @@ import numpy as np
 class Utils:
 
     @staticmethod
+    def dump_json(json_str):
+        return json.dumps(json_str, indent=4, cls=Utils.NumpyEncoder)
+
+    @staticmethod
     class NumpyEncoder(json.JSONEncoder):
         """ Custom encoder to convert NumPy data types to native Python types """
         def default(self, obj):
@@ -15,7 +19,7 @@ class Utils:
             elif isinstance(obj, np.ndarray):
                 return obj.tolist()  # Convert NumPy arrays to lists
             else:
-                return super(self.NumpyEncoder, self).default(obj)
+                return super(Utils.NumpyEncoder, self).default(obj)
             
     @staticmethod
     def format_stat(value, format_spec):

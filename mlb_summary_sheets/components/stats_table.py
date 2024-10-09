@@ -12,9 +12,18 @@ class StatsTable:
         self.data = data
         self.stat_list = stat_list
         self.stats_display_config = getattr(StatsDisplayConfig(), stat_type)
-        
 
-    def create_table(self, ax: plt.Axes, fontsize: int = 20, title: str = None, is_splits=False):
+
+    def sanitize_text(self, text):
+        return ''.join(e for e in text if e.isalnum() or e.isspace() or e in ['-', '_', '.', ',', '/'])
+        
+    def create_table(self, ax: plt.Axes, title: str = None, is_splits=False):
+
+        if is_splits:
+            fontsize = 14
+        else:
+            fontsize = 18  # Set a consistent font size for the table
+
         # Ensure the column can hold strings (object dtype)
         data = self.data.astype('object')
 
@@ -33,7 +42,6 @@ class StatsTable:
 
         # Check if we're dealing with splits data
         if is_splits:
-            # Get the split names from the index or elsewhere
             split_names = data.index.get_level_values(0).unique() if isinstance(data.index, pd.MultiIndex) else ['vs LHP', 'vs RHP', 'Ahead', 'Behind']
 
         # Loop through each row in the data to format the values
@@ -58,28 +66,31 @@ class StatsTable:
 
         # Modify column headers based on whether we're displaying splits
         if is_splits:
-            # Add "Split" as the first column header for the split names
             col_labels = ['Split'] + valid_columns
         else:
-            # No split column for non-split data
             col_labels = valid_columns
 
         # Create table with aligned data and column headers
         table_fg = ax.table(cellText=cell_text, colLabels=col_labels, cellLoc='center', bbox=[0.00, 0.0, 1, 1])
+
+        # Disable auto-resizing of font size
+        table_fg.auto_set_font_size(False)
         table_fg.set_fontsize(fontsize)
 
-        # Set background color and make headers bold
-        for i in range(len(col_labels)):
-            header_cell = table_fg[(0, i)]
-            header_cell.set_facecolor("#f0f0f0")  # Light gray background color for the header
-            header_cell.set_fontsize(fontsize)     # Optional: Adjust font size for headers
-            header_cell.set_text_props(fontweight='bold')  # Make the header text bold
+        # Set the font size for all data cells (excluding headers)
+        for key, cell in table_fg.get_celld().items():
+            row, col = key
+            cell.set_fontsize(fontsize)
 
-        # Set font for the table if there's any font issue
-        plt.rcParams["font.family"] = "DejaVu Sans"  # Adjust to a common font if needed
+            # Set background color and bold font for header row (row 0)
+            if row == 0:
+                cell.set_facecolor("#ADD8E6")  # Light blue background color for the header
+                cell.set_text_props(fontweight='bold')
+                cell.get_text().set_fontweight('bold')
+
+        # Set font family if there's any font issue
+        plt.rcParams["font.family"] = "DejaVu Sans"
 
         ax.set_title(title, fontsize=18, pad=10, fontweight='bold')
         ax.axis('off')
 
-    def sanitize_text(self, text):
-        return ''.join(e for e in text if e.isalnum() or e.isspace() or e in ['-', '_', '.', ',', '/'])
