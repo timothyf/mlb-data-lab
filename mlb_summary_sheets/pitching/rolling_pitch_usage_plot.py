@@ -20,7 +20,7 @@ class RollingPitchUsagePlot:
     def plot(self, df: pd.DataFrame, ax: plt.Axes, window: int):
 
         # Create a dictionary mapping pitch types to their colors
-        dict_colour = dict(zip(pitch_colors.keys(), [pitch_colors[key]['colour'] for key in pitch_colors]))
+        dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
         
         # Calculate the proportion of each pitch type per game
         df_game_group = pd.DataFrame((df.groupby(['game_pk', 'game_date', 'pitch_type'])['release_speed'].count() /
@@ -60,7 +60,7 @@ class RollingPitchUsagePlot:
         for i in items_in_order:
                 sns.lineplot(x=range(1, max(df_complete[df_complete['pitch_type'] == i]['game_number']) + 1),
                         y=df_complete[df_complete['pitch_type'] == i]['release_speed'].rolling(window).sum() / window,
-                        color=dict_colour[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                        color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
                         ax=ax, linewidth=3)
                 max_roll.append(np.max(df_complete[df_complete['pitch_type'] == i]['release_speed'].rolling(window).sum() / window))
 

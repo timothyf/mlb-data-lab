@@ -73,32 +73,32 @@ pitch_summary_columns = [ 'pitch_description',
 ### PITCH COLORS ###
 pitch_colors = {
     ## Fastballs ##
-    'FF': {'colour': '#FF007D', 'name': '4-Seam Fastball'},
-    'FA': {'colour': '#FF007D', 'name': 'Fastball'},
-    'SI': {'colour': '#98165D', 'name': 'Sinker'},
-    'FC': {'colour': '#BE5FA0', 'name': 'Cutter'},
+    'FF': {'color': '#FF007D', 'name': '4-Seam Fastball'},
+    'FA': {'color': '#FF007D', 'name': 'Fastball'},
+    'SI': {'color': '#98165D', 'name': 'Sinker'},
+    'FC': {'color': '#BE5FA0', 'name': 'Cutter'},
 
     ## Offspeed ##
-    'CH': {'colour': '#F79E70', 'name': 'Changeup'},
-    'FS': {'colour': '#FE6100', 'name': 'Splitter'},
-    'SC': {'colour': '#F08223', 'name': 'Screwball'},
-    'FO': {'colour': '#FFB000', 'name': 'Forkball'},
+    'CH': {'color': '#F79E70', 'name': 'Changeup'},
+    'FS': {'color': '#FE6100', 'name': 'Splitter'},
+    'SC': {'color': '#F08223', 'name': 'Screwball'},
+    'FO': {'color': '#FFB000', 'name': 'Forkball'},
 
     ## Sliders ##
-    'SL': {'colour': '#67E18D', 'name': 'Slider'},
-    'ST': {'colour': '#1BB999', 'name': 'Sweeper'},
-    'SV': {'colour': '#376748', 'name': 'Slurve'},
+    'SL': {'color': '#67E18D', 'name': 'Slider'},
+    'ST': {'color': '#1BB999', 'name': 'Sweeper'},
+    'SV': {'color': '#376748', 'name': 'Slurve'},
 
     ## Curveballs ##
-    'KC': {'colour': '#311D8B', 'name': 'Knuckle Curve'},
-    'CU': {'colour': '#3025CE', 'name': 'Curveball'},
-    'CS': {'colour': '#274BFC', 'name': 'Slow Curve'},
-    'EP': {'colour': '#648FFF', 'name': 'Eephus'},
+    'KC': {'color': '#311D8B', 'name': 'Knuckle Curve'},
+    'CU': {'color': '#3025CE', 'name': 'Curveball'},
+    'CS': {'color': '#274BFC', 'name': 'Slow Curve'},
+    'EP': {'color': '#648FFF', 'name': 'Eephus'},
 
     ## Others ##
-    'KN': {'colour': '#867A08', 'name': 'Knuckleball'},
-    'PO': {'colour': '#472C30', 'name': 'Pitch Out'},
-    'UN': {'colour': '#9C8975', 'name': 'Unknown'},
+    'KN': {'color': '#867A08', 'name': 'Knuckleball'},
+    'PO': {'color': '#472C30', 'name': 'Pitch Out'},
+    'UN': {'color': '#9C8975', 'name': 'Unknown'},
 }
 
 

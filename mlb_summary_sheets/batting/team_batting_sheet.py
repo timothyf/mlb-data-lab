@@ -7,7 +7,7 @@ from pybaseball import statcast_batter
 
 from mlb_summary_sheets.player import Player
 from mlb_summary_sheets.team import Team
-from mlb_summary_sheets.stats.base_stats import BattingStats
+from mlb_summary_sheets.stats.stats_display import BattingStats
 from mlb_summary_sheets.batting.batting_spray_chart import BattingSprayChart
 from mlb_summary_sheets.constants import statcast_events
 from mlb_summary_sheets.plotting import Plotting

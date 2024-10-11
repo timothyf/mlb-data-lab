@@ -16,7 +16,7 @@ class PitchBreakPlot:
     def plot(self, df: pd.DataFrame, ax: plt.Axes):
 
         # Create a dictionary mapping pitch types to their colors
-        dict_colour = dict(zip(pitch_colors.keys(), [pitch_colors[key]['colour'] for key in pitch_colors]))
+        dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
 
         # Check if the pitcher throws with the right hand
         if df['p_throws'].values[0] == 'R':
@@ -24,7 +24,7 @@ class PitchBreakPlot:
                             x=df['pfx_x']*-1,
                             y=df['pfx_z'],
                             hue=df['pitch_type'],
-                            palette=dict_colour,
+                            palette=dict_color,
                             ec='black',
                             alpha=1,
                             zorder=2)
@@ -35,7 +35,7 @@ class PitchBreakPlot:
                             x=df['pfx_x'],
                             y=df['pfx_z'],
                             hue=df['pitch_type'],
-                            palette=dict_colour,
+                            palette=dict_color,
                             ec='black',
                             alpha=1,
                             zorder=2)

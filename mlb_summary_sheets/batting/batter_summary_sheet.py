@@ -1,16 +1,11 @@
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.gridspec as gridspec
-import seaborn as sns
-
-from pybaseball import statcast_batter
 
 from mlb_summary_sheets.player import Player
-from mlb_summary_sheets.team import Team
-from mlb_summary_sheets.stats.base_stats import BattingStats
+from mlb_summary_sheets.stats.stats_display import StatsDisplay
 from mlb_summary_sheets.batting.batting_spray_chart import BattingSprayChart
 from mlb_summary_sheets.constants import statcast_events
 from mlb_summary_sheets.summary_sheet import SummarySheet
+from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
 
 
 
@@ -19,7 +14,7 @@ class BatterSummarySheet(SummarySheet):
     def __init__(self, player: Player, season: int):
         super().__init__(player, season)
 
-        self.statcast_data = statcast_batter(self.start_date, self.end_date, self.player.mlbam_id)  
+        self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
 
         self.columns_count = 8
         self.rows_count = 8
@@ -45,10 +40,10 @@ class BatterSummarySheet(SummarySheet):
     def generate_plots(self):
         super().generate_plots()
 
-        batting_stats = BattingStats(player=self.player, season=self.season)
-        batting_stats.display_standard_stats(self.ax_standard_stats)
-        batting_stats.display_advanced_stats(self.ax_advanced_stats)
-        batting_stats.display_splits_stats(self.ax_splits_stats)
+        stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='batting')
+        stats_display.display_standard_stats(self.ax_standard_stats)
+        stats_display.display_advanced_stats(self.ax_advanced_stats)
+        stats_display.display_splits_stats(self.ax_splits_stats)
 
         BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events']).plot(self.ax_chart1, self.statcast_data, "Batted Balls")
         BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events']).plot(self.ax_chart2, self.statcast_data, "Hits")

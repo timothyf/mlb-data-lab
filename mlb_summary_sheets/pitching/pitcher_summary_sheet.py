@@ -1,12 +1,9 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.gridspec as gridspec
 
 from mlb_summary_sheets.player import Player
-from mlb_summary_sheets.team import Team
-from mlb_summary_sheets.stats.base_stats import PitchingStats
+from mlb_summary_sheets.stats.stats_display import StatsDisplay
 from mlb_summary_sheets.pitching.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
 from mlb_summary_sheets.pitching.rolling_pitch_usage_plot import RollingPitchUsagePlot
 from mlb_summary_sheets.pitching.pitch_break_plot import PitchBreakPlot
@@ -23,7 +20,7 @@ class PitcherSummarySheet(SummarySheet):
         super().__init__(player, season)
 
         self.statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, self.start_date, self.end_date)
-
+        self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
         self.columns_count = 8
         self.rows_count = 9
         self.height_ratios = [2, 20, 9, 9, 0.25, 36, 36, 2, 10]
@@ -49,16 +46,22 @@ class PitcherSummarySheet(SummarySheet):
     def generate_plots(self):
         super().generate_plots()
 
-        pitcher_stats = PitchingStats(player=self.player, season=self.season)
-        pitcher_stats.display_standard_stats(self.ax_standard_stats)
-        pitcher_stats.display_advanced_stats(self.ax_advanced_stats)
+        stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='pitching')
+        stats_display.display_standard_stats(self.ax_standard_stats)
+        stats_display.display_advanced_stats(self.ax_advanced_stats)
 
         pitching_data = self.prepare_pitching_data(self.statcast_pitching_data)
 
-        self.plot_pitch_velocity_distribution(self.statcast_pitching_data, self.ax_pitch_velocity)
+        PitchVelocityDistributionPlot(self.player).plot(df=self.statcast_pitching_data, ax=self.ax_pitch_velocity,
+                    gs=self.gs,
+                    gs_x=[5, 6],
+                    gs_y=[1, 3],
+                    fig=self.fig,
+                    leage_pitching_avgs=self.league_pitch_averages)
         RollingPitchUsagePlot(self.player).plot(df=self.statcast_pitching_data, ax=self.ax_pitch_usage, window=5)
         PitchBreakPlot(self.player).plot(df=pitching_data, ax=self.ax_pitch_break)
-        PitchBreakdownTable(self.player).plot(df=pitching_data, ax=self.ax_pitch_breakdown, fontsize=16)
+        PitchBreakdownTable(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_breakdown, 
+                                              fontsize=16, league_pitch_avgs=self.league_pitch_averages)
 
         # Adjust the spacing between subplots
         plt.tight_layout()
@@ -66,32 +69,21 @@ class PitcherSummarySheet(SummarySheet):
         plt.savefig(f'output/pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
         plt.close()
 
-    
-    def plot_pitch_velocity_distribution(self, df: pd.DataFrame, ax: plt.Axes):
-        df_statcast_group = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_grouped.csv'))
-        pvd_plot = PitchVelocityDistributionPlot(self.player)
-        pvd_plot.plot(df=df, ax=ax,
-                    gs=self.gs,
-                    gs_x=[5, 6],
-                    gs_y=[1, 3],
-                    fig=self.fig,
-                    df_statcast_group=df_statcast_group)
-
 
     def prepare_pitching_data(self, statcast_pitching_data: pd.DataFrame):
-        df = statcast_pitching_data.copy()
+        enhanced_pitch_stats = statcast_pitching_data.copy()
 
         # Create new columns in the DataFrame to indicate swing, whiff, in-zone, out-zone, and chase
-        df['swing'] = (df['description'].isin(swing_code))
-        df['whiff'] = (df['description'].isin(whiff_code))
-        df['in_zone'] = (df['zone'] < 10)
-        df['out_zone'] = (df['zone'] > 10)
-        df['chase'] = (df.in_zone==False) & (df.swing == 1)
+        enhanced_pitch_stats['swing'] = (enhanced_pitch_stats['description'].isin(swing_code))
+        enhanced_pitch_stats['whiff'] = (enhanced_pitch_stats['description'].isin(whiff_code))
+        enhanced_pitch_stats['in_zone'] = (enhanced_pitch_stats['zone'] < 10)
+        enhanced_pitch_stats['out_zone'] = (enhanced_pitch_stats['zone'] > 10)
+        enhanced_pitch_stats['chase'] = (enhanced_pitch_stats.in_zone==False) & (enhanced_pitch_stats.swing == 1)
 
         # Convert the pitch type to a categorical variable
-        df['pfx_z'] = df['pfx_z'] * 12
-        df['pfx_x'] = df['pfx_x'] * 12
-        return df
+        enhanced_pitch_stats['pfx_z'] = enhanced_pitch_stats['pfx_z'] * 12
+        enhanced_pitch_stats['pfx_x'] = enhanced_pitch_stats['pfx_x'] * 12
+        return enhanced_pitch_stats
     
     
 

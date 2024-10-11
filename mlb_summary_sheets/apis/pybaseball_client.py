@@ -7,6 +7,11 @@ import debugpy
 class PybaseballClient: 
 
     @staticmethod
+    def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):
+        statcast_data = pyb.statcast_batter(start_date, end_date, player_id)  
+        return statcast_data
+    
+    @staticmethod
     def fetch_statcast_pitcher_data(pitcher_id: int, start_date: str, end_date: str):
         df_pyb = pyb.statcast_pitcher(start_date, end_date, pitcher_id)
         df_pyb.head()

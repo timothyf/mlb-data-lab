@@ -22,10 +22,10 @@ class PitchVelocityDistributionPlot:
                     gs_x: list,
                     gs_y: list,
                     fig: plt.Figure,
-                    df_statcast_group: pd.DataFrame):
+                    leage_pitching_avgs: pd.DataFrame):
 
         # Create a dictionary mapping pitch types to their colors
-        dict_colour = dict(zip(pitch_colors.keys(), [pitch_colors[key]['colour'] for key in pitch_colors]))
+        dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
 
         # Get the count of each pitch type and sort them in descending order
         sorted_value_counts = df['pitch_type'].value_counts().sort_values(ascending=False)
@@ -54,25 +54,25 @@ class PitchVelocityDistributionPlot:
                 # Plot a single line if all values are the same
                 ax_top[ax_number].plot([np.unique(df[df['pitch_type'] == i]['release_speed']),
                                         np.unique(df[df['pitch_type'] == i]['release_speed'])], [0, 1], linewidth=4,
-                                    color=dict_colour[df[df['pitch_type'] == i]['pitch_type'].values[0]], zorder=20)
+                                    color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]], zorder=20)
             else:
                 # Plot the KDE for the release speeds
                 sns.kdeplot(df[df['pitch_type'] == i]['release_speed'], ax=ax_top[ax_number], fill=True,
                             clip=(df[df['pitch_type'] == i]['release_speed'].min(), df[df['pitch_type'] == i]['release_speed'].max()),
-                            color=dict_colour[df[df['pitch_type'] == i]['pitch_type'].values[0]])
+                            color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]])
             
             # Plot the mean release speed for the current data
             df_average = df[df['pitch_type'] == i]['release_speed']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
-                                color=dict_colour[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                                color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
                                 linestyle='--')
 
             # Plot the mean release speed for the statcast group data
-            df_average = df_statcast_group[df_statcast_group['pitch_type'] == i]['release_speed']
+            df_average = leage_pitching_avgs[leage_pitching_avgs['pitch_type'] == i]['release_speed']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
-                                color=dict_colour[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                                color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
                                 linestyle=':')
 
             # Set the x-axis limits

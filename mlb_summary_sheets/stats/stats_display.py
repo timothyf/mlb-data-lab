@@ -6,7 +6,7 @@ from mlb_summary_sheets.player import Player
 from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
 
 
-class BaseStats:
+class StatsDisplay:
     def __init__(self, player: Player, season: int, stat_type: str):
         self.player = player
         self.season = season
@@ -32,12 +32,3 @@ class BaseStats:
     def display_splits_stats(self, ax: plt.Axes):
         stats_table = StatsTable(self.splits_stats, self.splits_stats_list, self.stat_type)
         stats_table.create_table(ax, "Splits {}".format(self.stat_type.capitalize()), True)
-
-
-class PitchingStats(BaseStats):
-    def __init__(self, player: Player, season: int):
-        super().__init__(player, season, 'pitching')
-
-class BattingStats(BaseStats):
-    def __init__(self, player: Player, season: int):
-        super().__init__(player, season, 'batting')
