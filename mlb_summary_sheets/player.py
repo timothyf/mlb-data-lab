@@ -22,9 +22,15 @@ class Player:
     @staticmethod
     def create_from_mlb(mlbam_id: int = None, player_name: str = None):
         if player_name:
+            print(f"Creating player: {player_name}")
             # Lookup player data using player name
             player_data = PlayerLookup.lookup_player(player_name)
-            mlbam_id = player_data.get('key_mlbam')  # Safely get the 'key_mlbam' from player_data
+            mlbam_id = player_data.get('key_mlbam')
+
+            # Check if mlbam_id is a list and get the first element
+            if isinstance(mlbam_id, list):
+                print(f"mlbam_id lists: {mlbam_id}")
+                #mlbam_id = mlbam_id[0]
             bbref_id = player_data.get('key_bbref')
             if not mlbam_id:
                 raise ValueError(f"Could not find MLBAM ID for player: {player_name}")

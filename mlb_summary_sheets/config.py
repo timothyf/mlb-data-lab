@@ -8,6 +8,17 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Now you can correctly build paths relative to the project root
 DATA_DIR = os.path.join(BASE_DIR, 'mlb_summary_sheets', 'data')
 
+FOOTER_TEXT = {
+    1: {
+        'text': 'Code by: Timothy Fisher',
+        'fontsize': 24 },
+    2: {
+        'text': 'Color Coding Compares to League Average By Pitch',
+        'fontsize': 16 },
+    3: {
+        'text': 'Data: MLB, Fangraphs\nImages: MLB, ESPN',
+        'fontsize': 24 }
+}
 
 
 @dataclass

@@ -15,7 +15,6 @@ class BaseStats:
         self.advanced_stats = StatsConfig().stat_lists[stat_type]['advanced']
         self.splits_stats_list = StatsConfig().stat_lists[stat_type]['splits']
         self.stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type=self.stat_type)
-        print(list(self.stats.columns))
         if self.stat_type == 'batting':
              self.splits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.player.bbref_id, season=self.season)
 

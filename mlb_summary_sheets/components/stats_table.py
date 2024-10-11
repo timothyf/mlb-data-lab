@@ -5,7 +5,6 @@ from mlb_summary_sheets.utils import Utils
 from mlb_summary_sheets.config import StatsDisplayConfig
 
 
-
 class StatsTable:
 
     def __init__(self, data: pd.DataFrame, stat_list: List[str], stat_type: str = 'batting'):
@@ -13,12 +12,10 @@ class StatsTable:
         self.stat_list = stat_list
         self.stats_display_config = getattr(StatsDisplayConfig(), stat_type)
 
-
     def sanitize_text(self, text):
         return ''.join(e for e in text if e.isalnum() or e.isspace() or e in ['-', '_', '.', ',', '/'])
-        
-    def create_table(self, ax: plt.Axes, title: str = None, is_splits=False):
 
+    def create_table(self, ax: plt.Axes, title: str = None, is_splits=False):
         if is_splits:
             fontsize = 14
         else:
@@ -55,7 +52,7 @@ class StatsTable:
 
             # Format the rest of the values
             for x in data.columns:
-                if x in row and row[x] != '---':
+                if x in row and pd.notna(row[x]) and row[x] != '---':
                     formatted_value = Utils.format_stat(row[x], self.stats_display_config[x]['format'])
                 else:
                     formatted_value = '---'
@@ -94,3 +91,80 @@ class StatsTable:
         ax.set_title(title, fontsize=18, pad=10, fontweight='bold')
         ax.axis('off')
 
+    def to_html_js(self, title: str = None, is_splits=False):
+        """Convert the stats table to an HTML table with optional JavaScript"""
+        # Ensure only valid columns are used
+        valid_columns = [col for col in self.stat_list if col in self.data.columns]
+        data = self.data[valid_columns].fillna('---')  # Fill any NaNs with placeholder
+
+        # Start building HTML string
+        html = "<table border='1'>\n"
+        
+        # Add title, if available
+        if title:
+            html += f"<caption>{title}</caption>\n"
+        
+        # Create the header
+        html += "  <thead>\n    <tr>\n"
+        if is_splits:
+            html += "      <th>Split</th>\n"  # Add "Split" column if it's splits data
+        for col in valid_columns:
+            html += f"      <th>{self.sanitize_text(col)}</th>\n"
+        html += "    </tr>\n  </thead>\n"
+        
+        # Create the body
+        html += "  <tbody>\n"
+        for index, row in data.iterrows():
+            html += "    <tr>\n"
+            if is_splits:
+                # Assuming you want to insert split data in the first column (you can modify as needed)
+                html += f"      <td>{row.name}</td>\n"
+            for col in valid_columns:
+                value = Utils.format_stat(row[col], self.stats_display_config[col]['format']) if row[col] != '---' else '---'
+                html += f"      <td>{self.sanitize_text(str(value))}</td>\n"
+            html += "    </tr>\n"
+        html += "  </tbody>\n</table>\n"
+
+        # Add optional JavaScript for table sorting (simple example)
+        html += """
+        <script>
+            function sortTable(n) {
+              var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+              table = document.querySelector("table");
+              switching = true;
+              dir = "asc"; 
+              while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                  shouldSwitch = false;
+                  x = rows[i].getElementsByTagName("TD")[n];
+                  y = rows[i + 1].getElementsByTagName("TD")[n];
+                  if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
+                    }
+                  } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
+                    }
+                  }
+                }
+                if (shouldSwitch) {
+                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                  switching = true;
+                  switchcount ++; 
+                } else {
+                  if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                  }
+                }
+              }
+            }
+        </script>
+        """
+
+        return html

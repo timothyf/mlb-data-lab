@@ -59,11 +59,6 @@ class PybaseballClient:
         if not isinstance(data, pd.DataFrame):
             data = pd.DataFrame(data)
 
-        # Identify missing columns
-        missing_columns = [col for col in splits_stats_list if col not in data.columns]
-        if missing_columns:
-            print(f"Warning: The following columns are missing from the data: {missing_columns}")
-
         # Extract data for 'vs LHP' and 'vs RHP' splits
         splits_data = {}
         
@@ -86,6 +81,11 @@ class PybaseballClient:
                 split_data['AVG'] = split_data['H'] / split_data['AB']
                 split_data['AVG'] = split_data['AVG'].replace([float('inf'), -float('inf')], 0)
                 split_data['AVG'] = split_data['AVG'].fillna(0)
+
+            # Identify missing columns
+            missing_columns = [col for col in splits_stats_list if col not in split_data.columns]
+            if missing_columns:
+                print(f"Warning: The following columns are missing from the data: {missing_columns}")
 
             # Filter the DataFrame to include only columns that exist in both the DataFrame and splits_stats_list
             existing_columns = [col for col in splits_stats_list if col in split_data.columns]

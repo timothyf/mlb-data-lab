@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from mlb_summary_sheets import Player
 from mlb_summary_sheets.pitching.pitcher_summary_sheet import PitcherSummarySheet
 from mlb_summary_sheets.batting.batter_summary_sheet import BatterSummarySheet
+from mlb_summary_sheets.roster import Roster
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse
@@ -36,37 +37,48 @@ def generate_player_sheet(player_name: str, year: int=2024):
 
 
 if __name__ == "__main__":
-    # Set up argument parser
-    parser = argparse.ArgumentParser(description="Generate player summary sheets.")
-    
-    # Add player names argument (optional)
+    # Initialize the parser
+    parser = argparse.ArgumentParser(description="Generate player sheets.")
+
+    # Add --players and --teams options
     parser.add_argument(
-        'player_names', 
-        nargs='*',  # Allows passing zero or more player names
-        help="List of player names to generate summary sheets for."
+        '--players',
+        nargs='+',  # Allows multiple player names to be passed
+        help='List of player names to generate sheets for'
     )
 
-    # Parse the arguments
+    parser.add_argument(
+        '--teams',
+        nargs='+',  # Allows multiple team names to be passed
+        help='List of team names to generate sheets for'
+    )
+
+    # Parse the command-line arguments
     args = parser.parse_args()
 
-    # Use hardcoded defaults if no player names are passed in
-    if not args.player_names:
-        # Default list of players if none are provided
-        default_pitchers = ['Tarik Skubal']
-        default_batters = ['Kerry Carpenter', 'Riley Greene']
-        print("No player names passed in, using default names.")
-    else:
-        # Use command-line provided names
-        default_pitchers = args.player_names
-        default_batters = []
+    if args.players:
+        players = args.players
+
+    teams = None
+    if args.teams:
+        teams = args.teams
+    elif not args.players:
+        print("No players or teams provided.")
+        # Optionally, set default players or teams here if needed
+        players = ['Tarik Skubal', 'Riley Greene']
+
+        print(f"Using default players: {players}")
+
+    if teams:
+        for team in teams:
+            players = Roster.get_active_roster(team_name = team)
+
+    print(f"Player names: {players}")
+    print(f"Team names: {teams}")
 
     # Generate pitcher summary sheets
-    for pitcher in default_pitchers:
-        generate_player_sheet(pitcher)
-
-    # Generate batter summary sheets if any were hardcoded
-    for batter in default_batters:
-        generate_player_sheet(batter)
+    for player in players:
+        generate_player_sheet(player)
 
 
 

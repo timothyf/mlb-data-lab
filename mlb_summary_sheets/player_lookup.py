@@ -1,6 +1,5 @@
 import pandas as pd
 import pybaseball as pyb
-import statsapi
 
 
 class PlayerLookup:
@@ -11,8 +10,12 @@ class PlayerLookup:
         first_name, last_name = pitcher_name.split()
         player_id_df = pyb.playerid_lookup(last_name, first_name)
         if not player_id_df.empty:
-            return player_id_df.iloc[0]['key_mlbam']
+            key_mlbam_value = player_id_df.iloc[0]['key_mlbam']
+            if isinstance(key_mlbam_value, list):
+                print(f"Multiple names found for: {pitcher_name}")
+            return key_mlbam_value
         else:
+            print(f"Player not found: {pitcher_name}")
             # If fuzzy matching is required
             fuzzy_results = pd.DataFrame(pyb.playerid_lookup(last_name, first_name, fuzzy=True))
             return fuzzy_results
@@ -33,21 +36,3 @@ class PlayerLookup:
             # If fuzzy matching is required
             fuzzy_results = pd.DataFrame(pyb.playerid_lookup(last_name, first_name, fuzzy=True))
             return fuzzy_results
-
-    # This method uses the statsapi library to lookup a player's MLBAM ID
-    @staticmethod
-    def get_player_mlbam_id(player_name):
-        # Search for the player using the player's name
-        search_results = statsapi.lookup_player(player_name)
-        
-        # Check if any results are found
-        if search_results:
-            # Take the first result (or handle multiple results if necessary)
-            player_info = search_results[0]
-            player_id = player_info['id']
-            player_full_name = player_info['fullName']
-            print(f"Player Name: {player_full_name}, MLBAM ID: {player_id}")
-            return player_id
-        else:
-            print(f"No player found for name: {player_name}")
-            return None
