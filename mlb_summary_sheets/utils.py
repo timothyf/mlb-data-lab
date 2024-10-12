@@ -22,9 +22,12 @@ class Utils:
                 return super(Utils.NumpyEncoder, self).default(obj)
             
     @staticmethod
-    def format_stat(value, format_spec):
+    def format_stat(value, format_spec: str = None):
         """Function to apply appropriate formatting to a stat."""
 
+        if format_spec is None:
+            return value
+            
         # Check if the format_spec is a function (e.g., lambda)
         if callable(format_spec):
             return format_spec(value)  # Call the function to format the value

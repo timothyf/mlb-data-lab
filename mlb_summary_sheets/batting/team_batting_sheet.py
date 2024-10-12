@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
-import seaborn as sns
 
 from pybaseball import statcast_batter
 

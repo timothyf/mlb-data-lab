@@ -17,52 +17,52 @@ class RollingPitchUsagePlot:
         self.config = FontConfig()
 
 
-    def plot(self, df: pd.DataFrame, ax: plt.Axes, window: int):
+    def plot(self, pitch_data: pd.DataFrame, ax: plt.Axes, window: int):
 
         # Create a dictionary mapping pitch types to their colors
         dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
         
         # Calculate the proportion of each pitch type per game
-        df_game_group = pd.DataFrame((df.groupby(['game_pk', 'game_date', 'pitch_type'])['release_speed'].count() /
-                                df.groupby(['game_pk', 'game_date'])['release_speed'].count()).reset_index())
+        game_pitch_distribution = pd.DataFrame((pitch_data.groupby(['game_pk', 'game_date', 'pitch_type'])['release_speed'].count() /
+                                pitch_data.groupby(['game_pk', 'game_date'])['release_speed'].count()).reset_index())
 
         # Create a complete list of games
-        all_games = pd.Series(df_game_group['game_pk'].unique())
+        all_games = pd.Series(game_pitch_distribution['game_pk'].unique())
 
         # Create a complete list of pitch types
-        all_pitch_types = pd.Series(df_game_group['pitch_type'].unique())
+        all_pitch_types = pd.Series(game_pitch_distribution['pitch_type'].unique())
 
         # Create a DataFrame with all combinations of games and pitch types
         all_combinations = pd.MultiIndex.from_product([all_games, all_pitch_types], names=['game_pk', 'pitch_type']).to_frame(index=False)
 
         # Merge this DataFrame with your original DataFrame to ensure all combinations are included
-        df_complete = pd.merge(all_combinations, df_game_group, on=['game_pk', 'pitch_type'], how='left')
+        complete_pitch_data = pd.merge(all_combinations, game_pitch_distribution, on=['game_pk', 'pitch_type'], how='left')
 
         # Fill missing values with 0
-        df_complete['release_speed'] = df_complete['release_speed'].fillna(0)
+        complete_pitch_data['release_speed'] = complete_pitch_data['release_speed'].fillna(0)
 
         # Create mappings for game numbers and game dates
-        game_list = df.sort_values(by='game_date')['game_pk'].unique()
+        game_list = pitch_data.sort_values(by='game_date')['game_pk'].unique()
         range_list = list(range(1, len(game_list) + 1))
         game_to_range = dict(zip(game_list, range_list))
-        game_to_date = df.set_index('game_pk')['game_date'].to_dict()
+        game_to_date = pitch_data.set_index('game_pk')['game_date'].to_dict()
 
         # Map game dates and game numbers to the complete DataFrame
-        df_complete['game_date'] = df_complete['game_pk'].map(game_to_date)
-        df_complete = df_complete.sort_values(by='game_date')
-        df_complete['game_number'] = df_complete['game_pk'].map(game_to_range)
+        complete_pitch_data['game_date'] = complete_pitch_data['game_pk'].map(game_to_date)
+        complete_pitch_data = complete_pitch_data.sort_values(by='game_date')
+        complete_pitch_data['game_number'] = complete_pitch_data['game_pk'].map(game_to_range)
 
         # Plot the rolling pitch usage for each pitch type
-        sorted_value_counts = df['pitch_type'].value_counts().sort_values(ascending=False)
+        sorted_value_counts = pitch_data['pitch_type'].value_counts().sort_values(ascending=False)
         items_in_order = sorted_value_counts.index.tolist()
         max_roll = []
 
         for i in items_in_order:
-                sns.lineplot(x=range(1, max(df_complete[df_complete['pitch_type'] == i]['game_number']) + 1),
-                        y=df_complete[df_complete['pitch_type'] == i]['release_speed'].rolling(window).sum() / window,
-                        color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                sns.lineplot(x=range(1, max(complete_pitch_data[complete_pitch_data['pitch_type'] == i]['game_number']) + 1),
+                        y=complete_pitch_data[complete_pitch_data['pitch_type'] == i]['release_speed'].rolling(window).sum() / window,
+                        color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]],
                         ax=ax, linewidth=3)
-                max_roll.append(np.max(df_complete[df_complete['pitch_type'] == i]['release_speed'].rolling(window).sum() / window))
+                max_roll.append(np.max(complete_pitch_data[complete_pitch_data['pitch_type'] == i]['release_speed'].rolling(window).sum() / window))
 
         # Adjust x-axis limits to start from the window size
         ax.set_xlim(window, len(game_list))

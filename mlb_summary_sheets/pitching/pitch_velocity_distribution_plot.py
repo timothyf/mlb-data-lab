@@ -16,7 +16,7 @@ class PitchVelocityDistributionPlot:
         self.config = FontConfig()
         
 
-    def plot(self,  df: pd.DataFrame,
+    def plot(self,  pitch_data: pd.DataFrame,
                     ax: plt.Axes,
                     gs: gridspec,
                     gs_x: list,
@@ -28,7 +28,7 @@ class PitchVelocityDistributionPlot:
         dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
 
         # Get the count of each pitch type and sort them in descending order
-        sorted_value_counts = df['pitch_type'].value_counts().sort_values(ascending=False)
+        sorted_value_counts = pitch_data['pitch_type'].value_counts().sort_values(ascending=False)
 
         # Get the list of pitch types ordered from most to least frequent
         items_in_order = sorted_value_counts.index.tolist()
@@ -50,33 +50,33 @@ class PitchVelocityDistributionPlot:
         # Loop through each pitch type and plot the velocity distribution
         for i in items_in_order:
             # Check if all release speeds for the pitch type are the same
-            if np.unique(df[df['pitch_type'] == i]['release_speed']).size == 1:
+            if np.unique(pitch_data[pitch_data['pitch_type'] == i]['release_speed']).size == 1:
                 # Plot a single line if all values are the same
-                ax_top[ax_number].plot([np.unique(df[df['pitch_type'] == i]['release_speed']),
-                                        np.unique(df[df['pitch_type'] == i]['release_speed'])], [0, 1], linewidth=4,
-                                    color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]], zorder=20)
+                ax_top[ax_number].plot([np.unique(pitch_data[pitch_data['pitch_type'] == i]['release_speed']),
+                                        np.unique(pitch_data[pitch_data['pitch_type'] == i]['release_speed'])], [0, 1], linewidth=4,
+                                    color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]], zorder=20)
             else:
                 # Plot the KDE for the release speeds
-                sns.kdeplot(df[df['pitch_type'] == i]['release_speed'], ax=ax_top[ax_number], fill=True,
-                            clip=(df[df['pitch_type'] == i]['release_speed'].min(), df[df['pitch_type'] == i]['release_speed'].max()),
-                            color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]])
+                sns.kdeplot(pitch_data[pitch_data['pitch_type'] == i]['release_speed'], ax=ax_top[ax_number], fill=True,
+                            clip=(pitch_data[pitch_data['pitch_type'] == i]['release_speed'].min(), pitch_data[pitch_data['pitch_type'] == i]['release_speed'].max()),
+                            color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]])
             
             # Plot the mean release speed for the current data
-            df_average = df[df['pitch_type'] == i]['release_speed']
+            df_average = pitch_data[pitch_data['pitch_type'] == i]['release_speed']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
-                                color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                                color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]],
                                 linestyle='--')
 
             # Plot the mean release speed for the statcast group data
             df_average = leage_pitching_avgs[leage_pitching_avgs['pitch_type'] == i]['release_speed']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
-                                color=dict_color[df[df['pitch_type'] == i]['pitch_type'].values[0]],
+                                color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]],
                                 linestyle=':')
 
             # Set the x-axis limits
-            ax_top[ax_number].set_xlim(math.floor(df['release_speed'].min() / 5) * 5, math.ceil(df['release_speed'].max() / 5) * 5)
+            ax_top[ax_number].set_xlim(math.floor(pitch_data['release_speed'].min() / 5) * 5, math.ceil(pitch_data['release_speed'].max() / 5) * 5)
             ax_top[ax_number].set_xlabel('')
             ax_top[ax_number].set_ylabel('')
 
@@ -88,7 +88,7 @@ class PitchVelocityDistributionPlot:
                 ax_top[ax_number].tick_params(axis='x', colors='none')
 
             # Set the x-ticks and y-ticks
-            ax_top[ax_number].set_xticks(range(math.floor(df['release_speed'].min() / 5) * 5, math.ceil(df['release_speed'].max() / 5) * 5, 5))
+            ax_top[ax_number].set_xticks(range(math.floor(pitch_data['release_speed'].min() / 5) * 5, math.ceil(pitch_data['release_speed'].max() / 5) * 5, 5))
             ax_top[ax_number].set_yticks([])
             ax_top[ax_number].grid(axis='x', linestyle='--')
 
@@ -103,5 +103,5 @@ class PitchVelocityDistributionPlot:
         ax_top[-1].spines['left'].set_visible(False)
 
         # Set the x-ticks and x-label for the last subplot
-        ax_top[-1].set_xticks(list(range(math.floor(df['release_speed'].min() / 5) * 5, math.ceil(df['release_speed'].max() / 5) * 5, 5)))
+        ax_top[-1].set_xticks(list(range(math.floor(pitch_data['release_speed'].min() / 5) * 5, math.ceil(pitch_data['release_speed'].max() / 5) * 5, 5)))
         ax_top[-1].set_xlabel('Velocity (mph)')

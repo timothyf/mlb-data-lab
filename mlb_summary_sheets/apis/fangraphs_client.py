@@ -21,12 +21,28 @@ class FangraphsClient:
         df = pd.DataFrame(data=data['data'])
         return df
     
+    # Sample
+    # https://www.fangraphs.com/api/leaders/major-league/data?age=&pos=all&stats=bat&lg=all&season=2024&season1=2024&ind=0&qual=0&type=8&month=0&pageitems=10
     @staticmethod
     def fetch_batting_leaderboards(season:int):
         url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&season={season}&season1={season}&ind=0&qual=0&type=8&month=0&pageitems=500000"
         data = requests.get(url).json()
         df = pd.DataFrame(data=data['data'])
         return df #df
+    
+    @staticmethod
+    def fetch_batting_leaderboards_as_json(season:int):
+        url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&season={season}&season1={season}&ind=0&qual=0&type=8&month=0&pageitems=500000"
+        data = requests.get(url).json()
+        return data['data']
+    
+    @staticmethod
+    def fetch_pitching_leaderboards_as_json(season:int):
+        url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=pit&lg=all&season={season}&season1={season}&ind=0&qual=0&type=8&month=0&pageitems=500000"
+        data = requests.get(url).json()
+        return data
+    
+
     
 
 

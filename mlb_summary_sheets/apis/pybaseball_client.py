@@ -17,6 +17,7 @@ class PybaseballClient:
         df_pyb.head()
         return df_pyb
 
+
     # Split types returned:
         # ['Career Totals', 'Last 7 days', 'Last 14 days', 'Last 28 days', 'Last 365 days', 'vs RHP', 'vs LHP', 
         #  'vs RHP as LHB', 'vs LHP as LHB', 'vs RH Starter', 'vs LH Starter', 'Home', 'Away', '1st Half', '2nd Half', 
@@ -101,5 +102,65 @@ class PybaseballClient:
 
         # Combine both splits into a single DataFrame or return as a dictionary
         combined_data = pd.concat([splits_data['vs LHP'], splits_data['vs RHP'], splits_data['Ahead'], splits_data['Behind']], keys=['vs LHP', 'vs RHP', 'Ahead', 'Behind'], axis=0)
+
+        return combined_data
+    
+    @staticmethod
+    def fetch_pitching_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:
+        # Define the columns you want to keep
+        splits_stats_list = StatsConfig().stat_lists['pitching']['splits']
+
+        try:
+            # Fetching the splits data
+            data = pyb.get_splits(playerid=player_bbref, year=season, pitching_splits=True)
+        except IndexError as e:
+            print(f"IndexError: {e}")
+            print(f"Failed to fetch data for player {player_bbref} in season {season}")
+            return pd.DataFrame()  # Return an empty DataFrame or handle it appropriately
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            return pd.DataFrame()  # Return an empty DataFrame or handle it appropriately
+        
+        # # Now you can check if the data is empty
+        # if data.empty:
+        #     raise ValueError(f"No data found for player {player_bbref} in season {season}")
+
+        if isinstance(data, tuple):
+                # Try to unpack the tuple into separate variables
+                first_element, second_element = data
+                print(first_element.columns)  # This might be your DataFrame or another object
+                print(second_element.columns)  # This might be metadata or another DataFrame
+                data = first_element  # Assign the DataFrame to data
+
+        #print(data.columns)
+        
+        # Convert to DataFrame if it's not already one
+        if not isinstance(data, pd.DataFrame):
+            data = pd.DataFrame(data)
+
+        # Extract data for 'vs LHP' and 'vs RHP' splits
+        splits_data = {}
+        
+        for split in ['vs LHB', 'vs RHB', 'Ahead', 'Behind']:
+            try:
+                split_data = data.xs(split, level=1)
+            except KeyError:
+                print(f"No data found for {split} for player {player_bbref} in season {season}.")
+                split_data = pd.DataFrame()  # Return empty DataFrame if the split is not found
+        
+            # Identify missing columns
+            missing_columns = [col for col in splits_stats_list if col not in split_data.columns]
+            if missing_columns:
+                print(f"Warning: The following columns are missing from the data: {missing_columns}")
+
+            # Filter the DataFrame to include only columns that exist in both the DataFrame and splits_stats_list
+            existing_columns = [col for col in splits_stats_list if col in split_data.columns]
+            filtered_split_data = split_data[existing_columns]
+
+            # Store filtered data in splits_data dictionary
+            splits_data[split] = filtered_split_data
+
+        # Combine both splits into a single DataFrame or return as a dictionary
+        combined_data = pd.concat([splits_data['vs LHB'], splits_data['vs RHB'], splits_data['Ahead'], splits_data['Behind']], keys=['vs LHP', 'vs RHP', 'Ahead', 'Behind'], axis=0)
 
         return combined_data

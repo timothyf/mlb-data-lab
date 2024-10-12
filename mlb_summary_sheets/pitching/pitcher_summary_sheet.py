@@ -22,8 +22,8 @@ class PitcherSummarySheet(SummarySheet):
         self.statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, self.start_date, self.end_date)
         self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
         self.columns_count = 8
-        self.rows_count = 9
-        self.height_ratios = [2, 20, 9, 9, 0.25, 36, 36, 2, 10]
+        self.rows_count = 10
+        self.height_ratios = [2, 20, 9, 9, 16, 0.25, 36, 36, 2, 10]
         self.width_rations = [1, 18, 18, 18, 18, 18, 18, 1]
 
         self.setup_plots()
@@ -34,10 +34,11 @@ class PitcherSummarySheet(SummarySheet):
         self.ax_logo = self.fig.add_subplot(self.gs[1,5:7])
         self.ax_standard_stats = self.fig.add_subplot(self.gs[2,1:7])
         self.ax_advanced_stats = self.fig.add_subplot(self.gs[3,1:7])
-        self.ax_pitch_velocity = self.fig.add_subplot(self.gs[5,1:3])
-        self.ax_pitch_usage = self.fig.add_subplot(self.gs[5,3:5])
-        self.ax_pitch_break = self.fig.add_subplot(self.gs[5,5:7])
-        self.ax_pitch_breakdown = self.fig.add_subplot(self.gs[6,1:7])
+        self.ax_splits_stats = self.fig.add_subplot(self.gs[4,1:7])
+        self.ax_pitch_velocity = self.fig.add_subplot(self.gs[6,1:3])
+        self.ax_pitch_usage = self.fig.add_subplot(self.gs[6,3:5])
+        self.ax_pitch_break = self.fig.add_subplot(self.gs[6,5:7])
+        self.ax_pitch_breakdown = self.fig.add_subplot(self.gs[7,1:7])
 
         self.add_header_and_footer_subplots()
         self.hide_axis()
@@ -49,17 +50,18 @@ class PitcherSummarySheet(SummarySheet):
         stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='pitching')
         stats_display.display_standard_stats(self.ax_standard_stats)
         stats_display.display_advanced_stats(self.ax_advanced_stats)
+        stats_display.display_splits_stats(self.ax_splits_stats)
 
         pitching_data = self.prepare_pitching_data(self.statcast_pitching_data)
 
-        PitchVelocityDistributionPlot(self.player).plot(df=self.statcast_pitching_data, ax=self.ax_pitch_velocity,
+        PitchVelocityDistributionPlot(self.player).plot(pitch_data=self.statcast_pitching_data, ax=self.ax_pitch_velocity,
                     gs=self.gs,
-                    gs_x=[5, 6],
+                    gs_x=[6, 7],
                     gs_y=[1, 3],
                     fig=self.fig,
                     leage_pitching_avgs=self.league_pitch_averages)
-        RollingPitchUsagePlot(self.player).plot(df=self.statcast_pitching_data, ax=self.ax_pitch_usage, window=5)
-        PitchBreakPlot(self.player).plot(df=pitching_data, ax=self.ax_pitch_break)
+        RollingPitchUsagePlot(self.player).plot(pitch_data=self.statcast_pitching_data, ax=self.ax_pitch_usage, window=5)
+        PitchBreakPlot(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_break)
         PitchBreakdownTable(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_breakdown, 
                                               fontsize=16, league_pitch_avgs=self.league_pitch_averages)
 

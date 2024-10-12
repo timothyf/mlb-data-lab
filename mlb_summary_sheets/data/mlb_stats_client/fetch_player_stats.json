@@ -1,0 +1,63 @@
+[
+    {
+      "season": "2024",
+      "stat": {
+        "gamesPlayed": 137,
+        "groundOuts": 118,
+        "airOuts": 106,
+        "runs": 82,
+        "doubles": 27,
+        "triples": 6,
+        "homeRuns": 24,
+        "strikeOuts": 156,
+        "baseOnBalls": 64,
+        "intentionalWalks": 3,
+        "hits": 134,
+        "hitByPitch": 5,
+        "avg": ".262",
+        "atBats": 512,
+        "obp": ".348",
+        "slg": ".479",
+        "ops": ".827",
+        "caughtStealing": 2,
+        "stolenBases": 4,
+        "stolenBasePercentage": ".667",
+        "groundIntoDoublePlay": 2,
+        "numberOfPitches": 2415,
+        "plateAppearances": 584,
+        "totalBases": 245,
+        "rbi": 74,
+        "leftOnBase": 187,
+        "sacBunts": 0,
+        "sacFlies": 2,
+        "babip": ".329",
+        "groundOutsToAirouts": "1.11",
+        "catchersInterference": 1,
+        "atBatsPerHomeRun": "21.33"
+      },
+      "team": {
+        "id": 116,
+        "name": "Detroit Tigers",
+        "link": "/api/v1/teams/116"
+      },
+      "player": {
+        "id": 682985,
+        "fullName": "Riley Greene",
+        "link": "/api/v1/people/682985"
+      },
+      "league": {
+        "id": 103,
+        "name": "American League",
+        "link": "/api/v1/league/103"
+      },
+      "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+      },
+      "gameType": "R"
+    }
+  ]
+  
+
+  

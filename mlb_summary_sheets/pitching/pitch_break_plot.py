@@ -13,28 +13,28 @@ class PitchBreakPlot:
         self.pitcher = player
         self.config = FontConfig()
 
-    def plot(self, df: pd.DataFrame, ax: plt.Axes):
+    def plot(self, pitch_data: pd.DataFrame, ax: plt.Axes):
 
         # Create a dictionary mapping pitch types to their colors
         dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
 
         # Check if the pitcher throws with the right hand
-        if df['p_throws'].values[0] == 'R':
+        if pitch_data['p_throws'].values[0] == 'R':
             sns.scatterplot(ax=ax,
-                            x=df['pfx_x']*-1,
-                            y=df['pfx_z'],
-                            hue=df['pitch_type'],
+                            x=pitch_data['pfx_x']*-1,
+                            y=pitch_data['pfx_z'],
+                            hue=pitch_data['pitch_type'],
                             palette=dict_color,
                             ec='black',
                             alpha=1,
                             zorder=2)
 
         # Check if the pitcher throws with the left hand
-        if df['p_throws'].values[0] == 'L':
+        if pitch_data['p_throws'].values[0] == 'L':
             sns.scatterplot(ax=ax,
-                            x=df['pfx_x'],
-                            y=df['pfx_z'],
-                            hue=df['pitch_type'],
+                            x=pitch_data['pfx_x'],
+                            y=pitch_data['pfx_z'],
+                            hue=pitch_data['pitch_type'],
                             palette=dict_color,
                             ec='black',
                             alpha=1,
@@ -65,13 +65,13 @@ class PitchBreakPlot:
         ax.set_ylim((-25, 25))
 
         # Add text annotations based on the pitcher's throwing hand
-        if df['p_throws'].values[0] == 'R':
+        if pitch_data['p_throws'].values[0] == 'R':
             ax.text(-24.2, -24.2, s='← Glove Side', fontstyle='italic', ha='left', va='bottom',
                     bbox=dict(facecolor='white', edgecolor='black'), fontsize=10, zorder=3)
             ax.text(24.2, -24.2, s='Arm Side →', fontstyle='italic', ha='right', va='bottom',
                     bbox=dict(facecolor='white', edgecolor='black'), fontsize=10, zorder=3)
 
-        if df['p_throws'].values[0] == 'L':
+        if pitch_data['p_throws'].values[0] == 'L':
             ax.invert_xaxis()
             ax.text(24.2, -24.2, s='← Arm Side', fontstyle='italic', ha='left', va='bottom',
                     bbox=dict(facecolor='white', edgecolor='black'), fontsize=10, zorder=3)

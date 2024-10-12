@@ -4,14 +4,18 @@ import matplotlib.gridspec as gridspec
 
 from mlb_summary_sheets.plotting import Plotting
 from mlb_summary_sheets.config import FOOTER_TEXT
+from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
 
 
 class SummarySheet:
     def __init__(self, player, season=2024):
         self.player = player
         self.season = season
-        self.start_date = f'{self.season}-03-28'
-        self.end_date = f'{self.season}-10-01'
+
+        season_info = MlbStatsClient.get_season_info(season)
+
+        self.start_date = season_info['regularSeasonStartDate']
+        self.end_date = season_info['regularSeasonEndDate']
 
         # Set the resolution of the figures to 300 DPI
         mpl.rcParams['figure.dpi'] = 300

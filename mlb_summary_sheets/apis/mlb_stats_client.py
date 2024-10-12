@@ -20,6 +20,15 @@ class MlbStatsClient:
         data = requests.get(url).json()
         return data.get('teams', {})[0]
     
+    @staticmethod
+    def fetch_player_stats(player_id: int, year: int):
+        stats = statsapi.get('people', {'personIds': player_id, 'season': year, 
+                                        'hydrate': f'stats(group=[hitting,pitching],type=season,season={year})'}
+                            )['people'][0]
+        return stats['stats'][0]['splits']
+
+
+    
     # Sample
         #77  2B  Andy Ibáñez
         #4   P   Beau Brieske
@@ -78,3 +87,8 @@ class MlbStatsClient:
         else:
             print(f"No player found for name: {player_name}")
             return None
+        
+
+    @staticmethod
+    def get_season_info(year):
+        return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   

@@ -53,7 +53,10 @@ class StatsTable:
             # Format the rest of the values
             for x in data.columns:
                 if x in row and pd.notna(row[x]) and row[x] != '---':
-                    formatted_value = Utils.format_stat(row[x], self.stats_display_config[x]['format'])
+                    if 'format' in self.stats_display_config[x]:
+                        formatted_value = Utils.format_stat(value=row[x], format_spec=self.stats_display_config[x]['format'])
+                    else:
+                        formatted_value = Utils.format_stat(value=row[x], format_spec=None)
                 else:
                     formatted_value = '---'
                 formatted_values.append(formatted_value)
@@ -65,7 +68,10 @@ class StatsTable:
         if is_splits:
             col_labels = ['Split'] + valid_columns
         else:
-            col_labels = valid_columns
+            #col_labels = valid_columns
+            # Assuming valid_columns contains the column keys like 'G', 'gamesPlayed', etc.
+            col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
+
 
         # Create table with aligned data and column headers
         table_fg = ax.table(cellText=cell_text, colLabels=col_labels, cellLoc='center', bbox=[0.00, 0.0, 1, 1])
