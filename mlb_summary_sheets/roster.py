@@ -16,16 +16,24 @@ class Roster:
 
 
     @staticmethod
-    def get_active_roster(team_id: int = None, team_name: str = None):
+    def get_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         if team_id:
-            roster = MlbStatsClient.fetch_active_roster(team_id=team_id)
+            roster = MlbStatsClient.fetch_active_roster(team_id=team_id, year=year)
         elif team_name:
-            roster = MlbStatsClient.fetch_active_roster(team_name=team_name)
+            roster = MlbStatsClient.fetch_active_roster(team_name=team_name, year=year)
 
         print(f"Roster: {roster}")
 
         # Updated regular expression to handle middle initials, suffixes, and other name variations
-        player_names = re.findall(r'\d+\s+[A-Z0-9]+\s+([A-Za-z\w\s\-\.\']+(?:\s(Jr\.|Sr\.|II|III|IV|V)?)?)', roster)
+       # player_names = re.findall(r'\d+\s+[A-Z0-9]+\s+([A-Za-z\w\s\-\.\']+(?:\s(Jr\.|Sr\.|II|III|IV|V)?)?)', roster)
+       # player_names = re.findall(r'\s{2,}[A-Za-z\s\'\.\-]+(?:\s(Jr\.|Sr\.|II|III|IV|V)?)', roster)
+       # player_names = re.findall(r'#?\s*[A-Z]+\s+([A-Za-z\'\.\-\s]+(?:\s(Jr\.|Sr\.|II|III|IV|V)?)?)', roster)
+        player_names = re.findall(r'#?\s*[A-Z]+\s+([A-Za-zÁÉÍÓÚáéíóúñÑ\'\.\-\s]+(?:\s(Jr\.|Sr\.|II|III|IV|V)?)?)', roster)
+
+
+
+
+        print(f"Player names: {player_names}")
 
         # Extract only the first element (full name) from each tuple and strip whitespace
         return [name[0].strip() for name in player_names]

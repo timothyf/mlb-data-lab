@@ -14,6 +14,12 @@ class Team:
             return None
         return DataFetcher.fetch_logo_img(team_logo_urls[self.abbrev])
     
+    @staticmethod
+    def get_team_logo(abbrev: str):
+        if abbrev not in team_logo_urls:
+            return None
+        return DataFetcher.fetch_logo_img(team_logo_urls[abbrev])
+    
     def get_short_name(self):
         team_name_parts = self.name.split()  
         team_name_suffix = team_name_parts[-1]

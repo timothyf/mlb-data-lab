@@ -49,7 +49,7 @@ class BatterSummarySheet(SummarySheet):
         BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events']).plot(self.ax_chart2, self.statcast_data, "Hits")
 
         plt.tight_layout()
-        file_path = f'output/{self.season}/{self.player.team.get_short_name()}/'
+        file_path = f'output/{self.season}/{self.club_name}/'
         Utils.ensure_directory_exists(file_path)
         plt.savefig(f'{file_path}batter_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
         plt.close()

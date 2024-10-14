@@ -20,6 +20,10 @@ class MlbStatsClient:
         data = requests.get(url).json()
         return data.get('teams', {})[0]
     
+    # Sample
+    #   https://statsapi.mlb.com/api/v1/people?personIds=669373&season=2024&hydrate=stats(group=[hitting,pitching],type=season,season=2024)
+    #   https://statsapi.mlb.com/api/v1/people?personIds=114752&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
+    #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
     @staticmethod
     def fetch_player_stats(player_id: int, year: int):
         stats = statsapi.get('people', {'personIds': player_id, 'season': year, 
@@ -28,6 +32,17 @@ class MlbStatsClient:
         if 'stats' not in stats:
             return None
         return stats['stats'][0]['splits']
+    
+
+    # Sample
+    #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[],type=season,team,season=1984)
+    @staticmethod
+    def fetch_player_team(player_id: int, year: int):
+        team_info = statsapi.get('people', {'personIds': player_id, 
+                                            'season': year, 
+                                            'hydrate': f'stats(group=[],type=season,team,season={year})'
+                                })['people'][0]['stats'][0]['splits'][0]['team']
+        return team_info
 
 
     
@@ -59,10 +74,10 @@ class MlbStatsClient:
         #19  P   Will Vest
         #39  SS  Zach McKinstry
     @staticmethod
-    def fetch_active_roster(team_id: int = None, team_name: str = None):
+    def fetch_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         if not team_id:
             team_id = MlbStatsClient.get_team_id(team_name)
-        active_roster = statsapi.roster(team_id, rosterType='active')
+        active_roster = statsapi.roster(team_id, rosterType='active', season=year)
         return active_roster
 
     @staticmethod

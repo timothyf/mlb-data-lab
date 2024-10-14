@@ -23,6 +23,9 @@ class BattingSprayChart:
 
         # Drop rows with missing hit coordinates (important for valid plotting)
         data = data.dropna(subset=['hc_x', 'hc_y'])
+        if data.empty:
+            print("No valid data available for plotting.")
+            return
 
         data['color'] = data['events'].map(lambda event: event_styles[event]['color'] if event in event_styles else 'black')
         data['marker'] = data['events'].map(lambda event: event_styles[event]['marker'] if event in event_styles else 'o')

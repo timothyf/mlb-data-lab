@@ -55,125 +55,93 @@ class PybaseballClient:
         
     @staticmethod
     def fetch_batting_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:
-        # Define the columns you want to keep
+        # Define the columns you want to keep for batting splits
         splits_stats_list = StatsConfig().stat_lists['batting']['splits']
 
         # Fetching the splits data
         data = pyb.get_splits(playerid=player_bbref, year=season)
-        
-        # Convert to DataFrame if it's not already one
+
+        # Convert to DataFrame if not already one
         if not isinstance(data, pd.DataFrame):
             data = pd.DataFrame(data)
 
-        # Extract data for 'vs LHP' and 'vs RHP' splits
-        splits_data = {}
-        
-        for split in ['vs LHP', 'vs RHP', 'Ahead', 'Behind']:
-            try:
-                split_data = data.xs(split, level=1)
-            except KeyError:
-                print(f"No data found for {split} for player {player_bbref} in season {season}.")
-                split_data = pd.DataFrame()  # Return empty DataFrame if the split is not found
-
-            # Ensure H and AB exist and are numeric
-            if not split_data.empty and 'H' in split_data.columns and 'AB' in split_data.columns:
-                split_data = split_data.copy()
-
-                # Convert H and AB to numeric
-                split_data['H'] = pd.to_numeric(split_data['H'], errors='coerce')
-                split_data['AB'] = pd.to_numeric(split_data['AB'], errors='coerce')
-
-                # Calculate AVG and handle edge cases
-                split_data['AVG'] = split_data['H'] / split_data['AB']
-                split_data['AVG'] = split_data['AVG'].replace([float('inf'), -float('inf')], 0)
-                split_data['AVG'] = split_data['AVG'].fillna(0)
-
-            # Identify missing columns
-            missing_columns = [col for col in splits_stats_list if col not in split_data.columns]
-            if missing_columns:
-                print(f"Warning: The following columns are missing from the data: {missing_columns}")
-
-            # Filter the DataFrame to include only columns that exist in both the DataFrame and splits_stats_list
-            existing_columns = [col for col in splits_stats_list if col in split_data.columns]
-            filtered_split_data = split_data[existing_columns]
-
-            # Store filtered data in splits_data dictionary
-            splits_data[split] = filtered_split_data
-
-        # Combine both splits into a single DataFrame or return as a dictionary
-        combined_data = pd.concat([splits_data['vs LHP'], splits_data['vs RHP'], splits_data['Ahead'], splits_data['Behind']], keys=['vs LHP', 'vs RHP', 'Ahead', 'Behind'], axis=0)
+        # Process splits data
+        split_labels = ['vs LHP', 'vs RHP', 'Ahead', 'Behind']
+        combined_data = process_splits(data, splits_stats_list, split_labels, player_bbref, season)
 
         return combined_data
     
     @staticmethod
     def fetch_pitching_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:
-        # Define the columns you want to keep
+        # Define the columns you want to keep for pitching splits
         splits_stats_list = StatsConfig().stat_lists['pitching']['splits']
 
         try:
+            # Fetching the splits data for pitching
             data = pyb.get_splits(playerid=player_bbref, year=season, pitching_splits=True)
-
-            # Unpack the data into two DataFrames
             df1, df2 = data
 
-            # Extract the year from the 'Split' level values using a regular expression to match the year
+            # Check if the requested season is present in df1
             split_years = df1.index.get_level_values('Split').str.extract(r'(\d{4})')[0]
+            split_years = split_years.dropna().astype(int)
 
-            # Remove NaN values (entries that don't have a year)
-            split_years = split_years.dropna()
-
-            # Convert to integer after dropping NaN values
-            split_years = split_years.astype(int)
-
-            # Check if the requested season is present in the extracted years
             if season not in split_years.values:
                 print(f"Warning: No splits data available for {season}.")
-                return None
+                return pd.DataFrame()
+
+            data = df1
 
         except IndexError as e:
-            print(f"IndexError: {e}")
-            print(f"Failed to fetch data for player {player_bbref} in season {season}")
-            return pd.DataFrame()  # Return an empty DataFrame or handle it appropriately
+            print(f"IndexError: {e}. Failed to fetch data for player {player_bbref} in season {season}.")
+            return pd.DataFrame()
+
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-            return pd.DataFrame()  # Return an empty DataFrame or handle it appropriately
+            return pd.DataFrame()
 
-        data = df1
-        
-        # Convert to DataFrame if it's not already one
-        if not isinstance(data, pd.DataFrame):
-            data = pd.DataFrame(data)
+        # Process splits data
+        split_labels = ['vs LHB', 'vs RHB', 'Ahead', 'Behind']
+        combined_data = process_splits(data, splits_stats_list, split_labels, player_bbref, season)
 
-        # Extract data for 'vs LHB' and 'vs RHB' splits
+        return combined_data
+
+def process_splits(data, splits_stats_list, split_labels, player_bbref, season):
+        """
+        Processes split data by extracting relevant columns, calculating stats, 
+        and handling missing data for specific split types.
+        """
         splits_data = {}
-        
-        for split in ['vs LHB', 'vs RHB', 'Ahead', 'Behind']:
+
+        for split in split_labels:
             try:
                 split_data = data.xs(split, level=1)
             except KeyError:
                 print(f"No data found for {split} for player {player_bbref} in season {season}.")
-                split_data = pd.DataFrame()  # Return empty DataFrame if the split is not found
-        
-            # Identify missing columns
-            missing_columns = [col for col in splits_stats_list if col not in split_data.columns]
-            if missing_columns:
-                print(f"Warning: The following columns are missing from the data: {missing_columns}")
+                split_data = pd.DataFrame()  # Empty DataFrame if split is not found
 
-            # Filter the DataFrame to include only columns that exist in both the DataFrame and splits_stats_list
-            existing_columns = [col for col in splits_stats_list if col in split_data.columns]
-            filtered_split_data = split_data[existing_columns]
+            # Handle missing columns by reindexing
+            split_data = split_data.reindex(columns=splits_stats_list)
 
-            # Store filtered data in splits_data dictionary
-            splits_data[split] = filtered_split_data
+            # Handle specific columns like 'H', 'AB', 'AVG' for batting splits
+            if not split_data.empty and {'H', 'AB'}.issubset(split_data.columns):
+                split_data['H'] = pd.to_numeric(split_data['H'], errors='coerce')
+                split_data['AB'] = pd.to_numeric(split_data['AB'], errors='coerce')
+                split_data['AVG'] = split_data['H'] / split_data['AB']
 
-        # Filter out any empty DataFrames (including those with only NaN values) from the splits_data dictionary
+                # Replace inf and -inf values with 0 (avoid inplace=True)
+                split_data['AVG'] = split_data['AVG'].replace([float('inf'), -float('inf')], 0)
+
+                # Fill NaN values with 0 (avoid inplace=True)
+                split_data['AVG'] = split_data['AVG'].fillna(0)
+
+            splits_data[split] = split_data
+
+        # Filter out empty DataFrames and combine valid splits
         valid_splits = {key: df for key, df in splits_data.items() if not df.dropna(how='all').empty}
 
-        # Only concatenate if there are valid DataFrames left
         if valid_splits:
             combined_data = pd.concat(valid_splits.values(), keys=valid_splits.keys(), axis=0)
         else:
-            combined_data = pd.DataFrame()  # Return an empty DataFrame if no valid splits exist
-
-
+            combined_data = pd.DataFrame()  # Empty DataFrame if no valid splits exist
+        
         return combined_data

@@ -26,23 +26,16 @@ class StatsDisplay:
 
 
     def display_standard_stats(self, ax: plt.Axes):
-
+        # Handle batting stats
         if self.stat_type == 'batting':
             if self.standard_stat_data is None:
                 return
-            # Flatten the data
-            flattened_data = []
-            for entry in self.standard_stat_data:
-                flattened_entry = entry['stat']  # Start with the stats
-                flattened_entry['season'] = entry['season']
-                #flattened_entry['team'] = entry['team']['name']
-                flattened_entry['player'] = entry['player']['fullName']
-                #flattened_entry['league'] = entry['league']['name']
-                flattened_entry['gameType'] = entry['gameType']
-                flattened_data.append(flattened_entry)
+            
+            df = self._flatten_batting_stats()
 
-            # Convert to DataFrame
-            df = pd.DataFrame(flattened_data)
+            if df is None or df.empty:
+                print("No valid data available for plotting.")
+                return
 
             missing_columns = [col for col in self.standard_stats if col not in df.columns]
             if missing_columns:
@@ -55,37 +48,106 @@ class StatsDisplay:
                     return
 
                 # Only keep available columns
-                df = df[available_columns].reset_index(drop=True)
-
-            else:
-                # If all columns are available, proceed as normal
-                df = df[self.standard_stats].reset_index(drop=True)               
+                df = df[available_columns].reset_index(drop=True)           
 
             df = df[self.standard_stats].reset_index(drop=True)
-            df_player = df #self.stats[0]['stat'] #[self.standard_stats] # .reset_index(drop=True)
+            df_player = df
+        # Handle pitching stats
         else:
             if self.stats is None:
                 return
-            df_player = self.stats[self.stats['xMLBAMID'] == self.player.mlbam_id][self.standard_stats].reset_index(drop=True)
+            df = self.stats[self.stats['xMLBAMID'] == self.player.mlbam_id]
+
+            if df.empty:
+                print("No valid data found for player.")
+                return      
+            
+         # Filter and prepare for plotting
+        df_player = self._filter_columns(df)
         
+        # Display the stats table
         stats_table = StatsTable(df_player, self.standard_stats, self.stat_type)
-        stats_table.create_table(ax, "Standard {}".format(self.stat_type.capitalize()))
+        stats_table.create_table(ax, f"Standard {self.stat_type.capitalize()}")
+
 
     def display_advanced_stats(self, ax: plt.Axes):
-        if self.stat_type == 'batting':
-            if self.advanced_stat_data is None:
+        # Determine which stats data to use (batting or other stat types)
+        stats = self.advanced_stat_data if self.stat_type == 'batting' else self.stats
+
+        # Return early if there's no data available
+        if stats is None:
+            print("No stats data available.")
+            return
+
+        # Filter the data for the specific player
+        df_player = stats[stats['xMLBAMID'] == self.player.mlbam_id]
+
+        # Check if any advanced stats columns are missing
+        missing_columns = [col for col in self.advanced_stats if col not in df_player.columns]
+        if missing_columns:
+            print(f"Warning: The following columns are missing from the DataFrame: {missing_columns}")
+            # Optionally handle missing columns (e.g., skip or fill with default values)
+            available_columns = [col for col in self.advanced_stats if col in df_player.columns]
+            
+            if not available_columns:
+                print("No valid advanced stats columns available for plotting.")
                 return
-            stats = self.advanced_stat_data
-        else:
-            if self.stats is None:
-                return
-            stats = self.stats
-        df_player = stats[stats['xMLBAMID'] == self.player.mlbam_id][self.advanced_stats].reset_index(drop=True)
+            
+            # Keep only the available columns
+            df_player = df_player[available_columns]
+
+        # Handle the case where no data is available after filtering by the player ID
+        if df_player.empty:
+            print(f"No advanced stats available for player {self.player.mlbam_id}.")
+            return
+
+        # Reset index for the DataFrame
+        df_player = df_player.reset_index(drop=True)
+
+        # Display the stats table
         stats_table = StatsTable(df_player, self.advanced_stats, self.stat_type)
-        stats_table.create_table(ax, "Advanced {}".format(self.stat_type.capitalize()))
+        stats_table.create_table(ax, f"Advanced {self.stat_type.capitalize()}")
+
 
     def display_splits_stats(self, ax: plt.Axes):
         if self.splits_stats is None:
             return
         stats_table = StatsTable(self.splits_stats, self.splits_stats_list, self.stat_type)
         stats_table.create_table(ax, "Splits {}".format(self.stat_type.capitalize()), True)
+
+
+    def _flatten_batting_stats(self):
+        """
+        Flattens the batting stats data for easier DataFrame creation.
+        """
+        flattened_data = [
+            {
+                **entry['stat'],
+                'season': entry['season'],
+                'player': entry['player']['fullName'],
+                'gameType': entry['gameType']
+            }
+            for entry in self.standard_stat_data
+        ]
+        
+        return pd.DataFrame(flattened_data) if flattened_data else None
+    
+    def _filter_columns(self, df):
+        """
+        Filters the DataFrame to keep only the available columns from self.standard_stats.
+        Handles missing columns gracefully.
+        """
+        missing_columns = [col for col in self.standard_stats if col not in df.columns]
+        
+        if missing_columns:
+            print(f"Warning: The following columns are missing from the DataFrame: {missing_columns}")
+            available_columns = [col for col in self.standard_stats if col in df.columns]
+
+            if not available_columns:
+                return None  # No valid columns available
+            
+            df = df[available_columns]
+        else:
+            df = df[self.standard_stats]
+
+        return df.reset_index(drop=True)

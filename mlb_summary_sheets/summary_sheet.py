@@ -5,12 +5,16 @@ import matplotlib.gridspec as gridspec
 from mlb_summary_sheets.plotting import Plotting
 from mlb_summary_sheets.config import FOOTER_TEXT
 from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
+from mlb_summary_sheets.team import Team
 
 
 class SummarySheet:
     def __init__(self, player, season=2024):
         self.player = player
         self.season = season
+        team_info = MlbStatsClient.fetch_player_team(player.mlbam_id, season)
+        self.team_abbrev = team_info.get('abbreviation')
+        self.club_name = team_info.get('clubName')
 
         season_info = MlbStatsClient.get_season_info(season)
 
@@ -39,7 +43,7 @@ class SummarySheet:
         else:
             Plotting.plot_bio(self.ax_bio, self.player, 'Season Batting Summary', self.season)
 
-        Plotting.plot_image(self.ax_logo, self.player.team.get_logo())
+        Plotting.plot_image(self.ax_logo, Team.get_team_logo(self.team_abbrev))
 
         # Add footer text
         self.ax_footer.text(0, 1, FOOTER_TEXT[1]['text'], ha='left', va='top', fontsize=FOOTER_TEXT[1]['fontsize'])

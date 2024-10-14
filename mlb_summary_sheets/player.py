@@ -17,10 +17,10 @@ class Player:
         self.bbref_id = None
         self.player_info = PlayerInfo()
         self.player_bio = PlayerBio() 
-        self.team = Team()
+        self.current_team = Team()
 
     @staticmethod
-    def create_from_mlb(mlbam_id: int = None, player_name: str = None):
+    def create_from_mlb(mlbam_id: int = None, player_name: str = None): 
         if player_name:
             print(f"Creating player: {player_name}")
             # Lookup player data using player name
@@ -62,13 +62,13 @@ class Player:
 
 
     def create_team(self, mlb_player_info):
-        self.team.team_id = mlb_player_info.get('currentTeam', {}).get('id')
-        self.team.name = mlb_player_info.get('currentTeam', {}).get('name')
+        self.current_team.team_id = mlb_player_info.get('currentTeam', {}).get('id')
+        self.current_team.name = mlb_player_info.get('currentTeam', {}).get('name')
         # Safely get the team abbreviation if the team_id exists in the mlb_teams dictionary
-        team_data = mlb_teams.get(self.team.team_id, {})
+        team_data = mlb_teams.get(self.current_team.team_id, {})
 
         # Safely get the 'abbrev' from the team data, or use a default value (e.g., None or "")
-        self.team.abbrev = team_data.get('abbrev', None)
+        self.current_team.abbrev = team_data.get('abbrev', None)
 
 
     def get_headshot(self):
@@ -82,7 +82,7 @@ class Player:
         player_data = {
             "mlbam_id": self.mlbam_id,
             "bbref_id": self.bbref_id,
-            "team_name": self.team.name,  
+            "team_name": self.current_team.name,  
             "player_bio": self.player_bio.to_json(),
             "player_info": self.player_info.to_json(),
         }

@@ -1,0 +1,38 @@
+{
+    "allStarStatus": "N",
+    "id": 116,
+    "name": "Detroit Tigers",
+    "link": "/api/v1/teams/116",
+    "season": 1984,
+    "venue": {
+      "id": 6,
+      "name": "Tiger Stadium",
+      "link": "/api/v1/venues/6"
+    },
+    "teamCode": "det",
+    "fileCode": "det",
+    "abbreviation": "DET",
+    "teamName": "Tigers",
+    "locationName": "Detroit",
+    "firstYearOfPlay": "1901",
+    "league": {
+      "id": 103,
+      "name": "American League",
+      "link": "/api/v1/league/103"
+    },
+    "division": {
+      "id": 201,
+      "name": "American League East",
+      "link": "/api/v1/divisions/201"
+    },
+    "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "name": "Major League Baseball"
+    },
+    "shortName": "Detroit",
+    "franchiseName": "Detroit",
+    "clubName": "Tigers",
+    "active": true
+  }
+  

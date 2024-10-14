@@ -1,11 +1,10 @@
-# python generate_sheets.py 'Tarik Skubal' 'Kerry Carpenter'
+# python generate_sheets.py --players 'Tarik Skubal' 'Kerry Carpenter' --year 2024
 
 import sys
 import os
 
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 
 from mlb_summary_sheets import Player
 from mlb_summary_sheets.pitching.pitcher_summary_sheet import PitcherSummarySheet
@@ -15,10 +14,8 @@ import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse
 
-
 # Suppress MarkupResemblesLocatorWarning
 warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
-
 
 def generate_player_sheet(player_name: str, year: int=2024):
     player = Player.create_from_mlb(player_name=player_name)
@@ -29,15 +26,7 @@ def generate_player_sheet(player_name: str, year: int=2024):
         summary = PitcherSummarySheet(player, year)
     else:
         summary = BatterSummarySheet(player, year)
-    summary.generate_plots()   
-
-# import debugpy
-
-# # 5678 is the default attach port in the VS Code debug configurations. Unless a host and port are specified, host defaults to 127.0.0.1
-# debugpy.listen(5678)
-# print("Waiting for debugger attach")
-# debugpy.wait_for_client()
-
+    summary.generate_plots()
 
 if __name__ == "__main__":
     # Initialize the parser
@@ -56,34 +45,45 @@ if __name__ == "__main__":
         help='List of team names to generate sheets for'
     )
 
+    # Add --year option
+    parser.add_argument(
+        '--year',
+        type=int,  # Ensure year is an integer
+        default=2024,  # Set default year to 2024
+        help='Specify the year for which the player stats should be generated (default: 2024)'
+    )
+
     # Parse the command-line arguments
     args = parser.parse_args()
 
+    players = []
+    teams = None
+
+    # Get players from --players argument
     if args.players:
         players = args.players
 
-    teams = None
+    # Get teams from --teams argument
     if args.teams:
         teams = args.teams
     elif not args.players:
         print("No players or teams provided.")
         # Optionally, set default players or teams here if needed
         players = ['Tarik Skubal', 'Riley Greene']
-
         print(f"Using default players: {players}")
 
+    # If teams are provided, get active roster for each team
     if teams:
         for team in teams:
-            players = Roster.get_active_roster(team_name = team)
+            players += Roster.get_active_roster(team_name=team, year=args.year)
+
+    # Use the specified year (or the default year 2024)
+    year = args.year
+    print(f"Year: {year}")
 
     print(f"Player names: {players}")
     print(f"Team names: {teams}")
 
-    # Generate pitcher summary sheets
+    # Generate player summary sheets for each player with the given year
     for player in players:
-        generate_player_sheet(player)
-
-
-
-    
-
+        generate_player_sheet(player, year)

@@ -69,7 +69,7 @@ class PitcherSummarySheet(SummarySheet):
         # Adjust the spacing between subplots
         plt.tight_layout()
         
-        file_path = f'output/{self.season}/{self.player.team.get_short_name()}/'
+        file_path = f'output/{self.season}/{self.club_name}/'
         Utils.ensure_directory_exists(file_path)
         plt.savefig(f'{file_path}pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
         plt.close()
