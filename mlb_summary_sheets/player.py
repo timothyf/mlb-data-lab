@@ -25,6 +25,10 @@ class Player:
             print(f"Creating player: {player_name}")
             # Lookup player data using player name
             player_data = PlayerLookup.lookup_player(player_name)
+            
+            if player_data is None:
+                print (f"Could not find player data for: {player_name}")
+                return None
             mlbam_id = player_data.get('key_mlbam')
 
             # Check if mlbam_id is a list and get the first element
@@ -60,7 +64,11 @@ class Player:
     def create_team(self, mlb_player_info):
         self.team.team_id = mlb_player_info.get('currentTeam', {}).get('id')
         self.team.name = mlb_player_info.get('currentTeam', {}).get('name')
-        self.team.abbrev = mlb_teams[self.team.team_id].get('abbrev')
+        # Safely get the team abbreviation if the team_id exists in the mlb_teams dictionary
+        team_data = mlb_teams.get(self.team.team_id, {})
+
+        # Safely get the 'abbrev' from the team data, or use a default value (e.g., None or "")
+        self.team.abbrev = team_data.get('abbrev', None)
 
 
     def get_headshot(self):

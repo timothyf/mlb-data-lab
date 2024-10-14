@@ -1,8 +1,13 @@
 import json
 import numpy as np
+import os
 
 
 class Utils:
+
+    @staticmethod
+    def ensure_directory_exists(file_path):
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
     @staticmethod
     def dump_json(json_str):

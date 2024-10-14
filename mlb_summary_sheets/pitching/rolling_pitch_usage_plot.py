@@ -64,6 +64,9 @@ class RollingPitchUsagePlot:
                         ax=ax, linewidth=3)
                 max_roll.append(np.max(complete_pitch_data[complete_pitch_data['pitch_type'] == i]['release_speed'].rolling(window).sum() / window))
 
+        if len(max_roll) == 0:
+            return
+
         # Adjust x-axis limits to start from the window size
         ax.set_xlim(window, len(game_list))
 

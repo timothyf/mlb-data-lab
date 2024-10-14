@@ -12,6 +12,7 @@ from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
 from mlb_summary_sheets.constants import swing_code, whiff_code
 from mlb_summary_sheets.config import DATA_DIR
 from mlb_summary_sheets.summary_sheet import SummarySheet
+from mlb_summary_sheets.utils import Utils
 
 
 class PitcherSummarySheet(SummarySheet):
@@ -23,7 +24,7 @@ class PitcherSummarySheet(SummarySheet):
         self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
         self.columns_count = 8
         self.rows_count = 10
-        self.height_ratios = [2, 20, 9, 9, 16, 0.25, 36, 36, 2, 10]
+        self.height_ratios = [2, 20, 9, 9, 18, 0.25, 36, 36, 2, 10]
         self.width_rations = [1, 18, 18, 18, 18, 18, 18, 1]
 
         self.setup_plots()
@@ -67,8 +68,10 @@ class PitcherSummarySheet(SummarySheet):
 
         # Adjust the spacing between subplots
         plt.tight_layout()
-
-        plt.savefig(f'output/pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
+        
+        file_path = f'output/{self.season}/{self.player.team.get_short_name()}/'
+        Utils.ensure_directory_exists(file_path)
+        plt.savefig(f'{file_path}pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
         plt.close()
 
 

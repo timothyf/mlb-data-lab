@@ -12,6 +12,9 @@ class BattingSprayChart:
 
 
     def plot(self, ax, statcast_data, title):
+        if statcast_data.empty:
+            print("No Statcast data available for the player.")
+            return
         # Fetch data for a specific player and time period
         data = statcast_data.copy()
 

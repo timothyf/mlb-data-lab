@@ -29,9 +29,13 @@ class PitchVelocityDistributionPlot:
 
         # Get the count of each pitch type and sort them in descending order
         sorted_value_counts = pitch_data['pitch_type'].value_counts().sort_values(ascending=False)
-
-        # Get the list of pitch types ordered from most to least frequent
         items_in_order = sorted_value_counts.index.tolist()
+
+        # Check if items_in_order is empty
+        if len(items_in_order) == 0:
+            print("Warning: No pitch types found in the data.")
+            # Handle the empty case, either by skipping the plot or showing a message
+            return  # Or any other way to exit gracefully
 
         # Turn off the axis and set the title for the main plot
         ax.axis('off')

@@ -10,8 +10,15 @@ class Team:
         self.name = None
 
     def get_logo(self):
+        if self.abbrev not in team_logo_urls:
+            return None
         return DataFetcher.fetch_logo_img(team_logo_urls[self.abbrev])
     
+    def get_short_name(self):
+        team_name_parts = self.name.split()  
+        team_name_suffix = team_name_parts[-1]
+        return team_name_suffix
+
     @staticmethod
     def create_from_mlb(team_id: int, team_name: str):
         team_data = MlbStatsClient.fetch_team(team_id)

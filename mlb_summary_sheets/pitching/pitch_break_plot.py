@@ -18,8 +18,14 @@ class PitchBreakPlot:
         # Create a dictionary mapping pitch types to their colors
         dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
 
+        # Return immediately if 'p_throws' is missing or empty
+        if 'p_throws' not in pitch_data.columns or pitch_data['p_throws'].empty:
+            print("No pitch data available for 'p_throws'.")
+            return
+
         # Check if the pitcher throws with the right hand
         if pitch_data['p_throws'].values[0] == 'R':
+
             sns.scatterplot(ax=ax,
                             x=pitch_data['pfx_x']*-1,
                             y=pitch_data['pfx_z'],

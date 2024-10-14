@@ -111,8 +111,25 @@ class PybaseballClient:
         splits_stats_list = StatsConfig().stat_lists['pitching']['splits']
 
         try:
-            # Fetching the splits data
             data = pyb.get_splits(playerid=player_bbref, year=season, pitching_splits=True)
+
+            # Unpack the data into two DataFrames
+            df1, df2 = data
+
+            # Extract the year from the 'Split' level values using a regular expression to match the year
+            split_years = df1.index.get_level_values('Split').str.extract(r'(\d{4})')[0]
+
+            # Remove NaN values (entries that don't have a year)
+            split_years = split_years.dropna()
+
+            # Convert to integer after dropping NaN values
+            split_years = split_years.astype(int)
+
+            # Check if the requested season is present in the extracted years
+            if season not in split_years.values:
+                print(f"Warning: No splits data available for {season}.")
+                return None
+
         except IndexError as e:
             print(f"IndexError: {e}")
             print(f"Failed to fetch data for player {player_bbref} in season {season}")
@@ -120,25 +137,14 @@ class PybaseballClient:
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             return pd.DataFrame()  # Return an empty DataFrame or handle it appropriately
-        
-        # # Now you can check if the data is empty
-        # if data.empty:
-        #     raise ValueError(f"No data found for player {player_bbref} in season {season}")
 
-        if isinstance(data, tuple):
-                # Try to unpack the tuple into separate variables
-                first_element, second_element = data
-                print(first_element.columns)  # This might be your DataFrame or another object
-                print(second_element.columns)  # This might be metadata or another DataFrame
-                data = first_element  # Assign the DataFrame to data
-
-        #print(data.columns)
+        data = df1
         
         # Convert to DataFrame if it's not already one
         if not isinstance(data, pd.DataFrame):
             data = pd.DataFrame(data)
 
-        # Extract data for 'vs LHP' and 'vs RHP' splits
+        # Extract data for 'vs LHB' and 'vs RHB' splits
         splits_data = {}
         
         for split in ['vs LHB', 'vs RHB', 'Ahead', 'Behind']:
@@ -160,7 +166,14 @@ class PybaseballClient:
             # Store filtered data in splits_data dictionary
             splits_data[split] = filtered_split_data
 
-        # Combine both splits into a single DataFrame or return as a dictionary
-        combined_data = pd.concat([splits_data['vs LHB'], splits_data['vs RHB'], splits_data['Ahead'], splits_data['Behind']], keys=['vs LHP', 'vs RHP', 'Ahead', 'Behind'], axis=0)
+        # Filter out any empty DataFrames (including those with only NaN values) from the splits_data dictionary
+        valid_splits = {key: df for key, df in splits_data.items() if not df.dropna(how='all').empty}
+
+        # Only concatenate if there are valid DataFrames left
+        if valid_splits:
+            combined_data = pd.concat(valid_splits.values(), keys=valid_splits.keys(), axis=0)
+        else:
+            combined_data = pd.DataFrame()  # Return an empty DataFrame if no valid splits exist
+
 
         return combined_data

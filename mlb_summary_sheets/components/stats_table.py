@@ -16,10 +16,7 @@ class StatsTable:
         return ''.join(e for e in text if e.isalnum() or e.isspace() or e in ['-', '_', '.', ',', '/'])
 
     def create_table(self, ax: plt.Axes, title: str = None, is_splits=False):
-        if is_splits:
-            fontsize = 14
-        else:
-            fontsize = 18  # Set a consistent font size for the table
+        fontsize = 14 if is_splits else 18  # Set font size based on whether it's split data
 
         # Ensure the column can hold strings (object dtype)
         data = self.data.astype('object')
@@ -28,41 +25,70 @@ class StatsTable:
         valid_columns = [col for col in self.stat_list if col in data.columns]
         data = data.reindex(columns=valid_columns)
 
-        # Reset the index to ensure 0 exists
-        data.reset_index(drop=True, inplace=True)
-
         if data.empty:
             print("Warning: Data is empty.")
+            return
 
         # Prepare for multiple rows (vs LHP and vs RHP)
         cell_text = []  # This will store all rows of data
 
         # Check if we're dealing with splits data
         if is_splits:
-            split_names = data.index.get_level_values(0).unique() if isinstance(data.index, pd.MultiIndex) else ['vs LHP', 'vs RHP', 'Ahead', 'Behind']
+            if isinstance(data.index, pd.MultiIndex):
+                # Get the split names from the first level of the MultiIndex
+                split_names = data.index.get_level_values(0).unique()
+            else:
+                print("The index is not a MultiIndex.")
 
+        # Only reset the index if it's not splits
+        if not is_splits:
+            # Reset the index to ensure 0 exists for non-split data
+            data.reset_index(drop=True, inplace=True)
+
+        # Modify column headers based on whether we're displaying splits
+        if is_splits:
+            col_labels = ['Split'] + valid_columns
+        else:
+            col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
+
+        # Ensure that each row in cell_text has the same number of elements as col_labels
+        # Check for alignment of cell_text rows with col_labels
         # Loop through each row in the data to format the values
         for index, row in data.iterrows():
             formatted_values = []
 
             # If this is splits data, add the split name as the first column value
             if is_splits:
-                split_name = split_names[index] if index < len(split_names) else "Unknown Split"
+                # Ensure index is either a tuple or an integer and handle accordingly
+                if isinstance(index, tuple):
+                    split_index = index[0]  # Use the first value of the tuple for the split name
+                else:
+                    split_index = index
+
+                # Check if the split_index exists in split_names (membership check instead of indexing)
+                split_name = split_index if split_index in split_names else "Unknown Split"
+
+                # If split_name is a tuple (e.g., from MultiIndex), join its elements into a string
+                if isinstance(split_name, tuple):
+                    split_name = " - ".join(map(str, split_name))
+
                 formatted_values.append(split_name)
 
             # Format the rest of the values
-            for x in data.columns:
-                if x in row and pd.notna(row[x]) and row[x] != '---':
-                    if 'format' in self.stats_display_config[x]:
-                        formatted_value = Utils.format_stat(value=row[x], format_spec=self.stats_display_config[x]['format'])
-                    else:
-                        formatted_value = Utils.format_stat(value=row[x], format_spec=None)
+            for col in data.columns:
+                if col in row and pd.notna(row[col]) and row[col] != '---':
+                    formatted_value = Utils.format_stat(row[col], self.stats_display_config[col]['format']) if 'format' in self.stats_display_config[col] else row[col]
                 else:
                     formatted_value = '---'
                 formatted_values.append(formatted_value)
 
-            # Add the formatted row to cell_text
-            cell_text.append(formatted_values)
+            # Add the formatted row to cell_text, ensuring it matches the number of col_labels
+            if len(formatted_values) == len(col_labels):
+                cell_text.append(formatted_values)
+            else:
+                print(f"Skipping row {index} due to mismatch in length.")
+
+
 
         # Modify column headers based on whether we're displaying splits
         if is_splits:
@@ -71,7 +97,6 @@ class StatsTable:
             #col_labels = valid_columns
             # Assuming valid_columns contains the column keys like 'G', 'gamesPlayed', etc.
             col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
-
 
         # Create table with aligned data and column headers
         table_fg = ax.table(cellText=cell_text, colLabels=col_labels, cellLoc='center', bbox=[0.00, 0.0, 1, 1])
@@ -96,6 +121,7 @@ class StatsTable:
 
         ax.set_title(title, fontsize=18, pad=10, fontweight='bold')
         ax.axis('off')
+
 
     def to_html_js(self, title: str = None, is_splits=False):
         """Convert the stats table to an HTML table with optional JavaScript"""

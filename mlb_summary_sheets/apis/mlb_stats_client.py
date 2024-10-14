@@ -25,6 +25,8 @@ class MlbStatsClient:
         stats = statsapi.get('people', {'personIds': player_id, 'season': year, 
                                         'hydrate': f'stats(group=[hitting,pitching],type=season,season={year})'}
                             )['people'][0]
+        if 'stats' not in stats:
+            return None
         return stats['stats'][0]['splits']
 
 

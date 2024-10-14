@@ -9,7 +9,8 @@ class Plotting:
     def plot_image(ax: plt.Axes, img: Image, origin='upper'):
         ax.set_xlim(0, 1.3)
         ax.set_ylim(0, 1)
-        ax.imshow(img, extent=[0, 1, 0, 1], origin='upper')
+        if img is not None:
+         ax.imshow(img, extent=[0, 1, 0, 1], origin='upper')
         ax.axis('off')
 
     @staticmethod

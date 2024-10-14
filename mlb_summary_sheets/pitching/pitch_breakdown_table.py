@@ -75,6 +75,24 @@ class PitchBreakdownTable:
         pitch_summary = pitch_summary.sort_values(by='pitch_usage', ascending=False)
         color_list = pitch_summary['color'].tolist()
 
+        pitch_count = pitch_data['pitch_type'].count()
+        swing_count = pitch_data['swing'].sum()
+        out_zone_count = pitch_data['out_zone'].sum()
+        if pitch_count > 0:
+            delta_run_exp_per_100 = (pitch_data['delta_run_exp'].sum() / pitch_count) * -100
+            in_zone_rate = pitch_data['in_zone'].sum() / pitch_count
+        else:
+            delta_run_exp_per_100 = 0  
+            in_zone_rate = 0
+        if swing_count > 0:
+            whiff_rate = pitch_data['whiff'].sum() / swing_count
+        else:
+            whiff_rate = 0
+        if out_zone_count > 0:
+            chase_rate = pitch_data['chase'].sum() / out_zone_count
+        else:
+            chase_rate = 0
+
         aggregated_pitch_totals = pd.DataFrame(data={
                     'pitch_type': 'All',
                     'pitch_description': 'All',  # Description for the summary row
@@ -87,10 +105,10 @@ class PitchBreakdownTable:
                     'release_pos_x': np.nan,  # Placeholder for horizontal release position
                     'release_pos_z': np.nan,  # Placeholder for vertical release position
                     'release_extension': pitch_data['release_extension'].mean(),  # Placeholder for release extension
-                    'delta_run_exp_per_100': pitch_data['delta_run_exp'].sum() / pitch_data['pitch_type'].count() * -100,  # Delta run expectancy per 100 pitches
-                    'whiff_rate': pitch_data['whiff'].sum() / pitch_data['swing'].sum(),  # Whiff rate
-                    'in_zone_rate': pitch_data['in_zone'].sum() / pitch_data['pitch_type'].count(),  # In-zone rate
-                    'chase_rate': pitch_data['chase'].sum() / pitch_data['out_zone'].sum(),  # Chase rate
+                    'delta_run_exp_per_100': delta_run_exp_per_100,  # Delta run expectancy per 100 pitches
+                    'whiff_rate': whiff_rate,  # Whiff rate
+                    'in_zone_rate': in_zone_rate,  # In-zone rate
+                    'chase_rate': chase_rate,  # Chase rate
                     'xwoba': pitch_data['estimated_woba_using_speedangle'].mean()  # Average expected wOBA
                 }, index=[0])
 
@@ -185,7 +203,14 @@ class PitchBreakdownTable:
     
     def format_pitch_stats(self, pitch_stats: pd.DataFrame):
         # Create a DataFrame for the summary row with aggregated statistics for all pitches
-        formatted_pitch_stats = pitch_stats[pitch_summary_columns].fillna('—')
+        # Fill missing values with '—' and then infer the correct data types for object columns
+        # Enable future behavior to suppress the warning
+        pd.set_option('future.no_silent_downcasting', True)
+
+        # Fill missing values and ensure future behavior is handled
+        formatted_pitch_stats = pitch_stats[pitch_summary_columns].fillna('—').infer_objects(copy=False)
+
+
 
         # Apply the formats to the DataFrame
         # Iterate over each column in pitch_stats_dict

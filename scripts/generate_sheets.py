@@ -22,6 +22,9 @@ warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 def generate_player_sheet(player_name: str, year: int=2024):
     player = Player.create_from_mlb(player_name=player_name)
+    if player is None:
+        print(f"Player {player_name} not found.")
+        return
     if player.player_info.primary_position == 'P':
         summary = PitcherSummarySheet(player, year)
     else:
