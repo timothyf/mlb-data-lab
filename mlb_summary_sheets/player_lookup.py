@@ -48,6 +48,14 @@ class PlayerLookup:
                 print(f"Player not found with first name: {first_name}, last name: {last_name}. Trying with first name {first_name}, last name: {new_last_name}")
                 player_df = pyb.playerid_lookup(new_last_name, first_name)
 
+                if player_df.empty:
+                    if player_name == 'Willie Hernandez':
+                        player_id = 115822
+                    elif player_name == 'Barbaro Garbey':
+                        player_id = 114579
+                    elif player_name == 'Aurelio Lopez':
+                        player_id = 117916
+
         if player_id:
             # Lookup the player by ID if provided
             player_df = pyb.playerid_reverse_lookup([player_id], key_type='mlbam')

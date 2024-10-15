@@ -2,6 +2,8 @@ import pybaseball as pyb
 import pandas as pd
 from mlb_summary_sheets.config import StatsConfig
 import debugpy
+from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
+import os
 
 
 class PybaseballClient: 
@@ -10,6 +12,44 @@ class PybaseballClient:
     def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):
         statcast_data = pyb.statcast_batter(start_date, end_date, player_id)  
         return statcast_data
+
+    @staticmethod
+    def save_statcast_batter_data(player_id: int, year: int, file_path: str = None):
+        season_info = MlbStatsClient.get_season_info(year)
+        start_date = season_info['regularSeasonStartDate']
+        end_date = season_info['regularSeasonEndDate']
+        statcast_data = pyb.statcast_batter(start_date, end_date, player_id)
+        if statcast_data is not None and not statcast_data.empty:
+            if file_path is None:
+                file_path = f'output/statcast_data_{player_id}_{start_date}_{end_date}.csv'
+
+            # Ensure that the directory exists
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+            statcast_data.to_csv(file_path, index=False)
+            print(f"Statcast data saved to {file_path}")
+        else:
+            print("No valid statcast data found to save.")
+        return
+    
+    @staticmethod
+    def save_statcast_pitcher_data(player_id: int, year: int, file_path: str = None):
+        season_info = MlbStatsClient.get_season_info(year)
+        start_date = season_info['regularSeasonStartDate']
+        end_date = season_info['regularSeasonEndDate']
+        statcast_data = pyb.statcast_pitcher(start_date, end_date, player_id)
+        if statcast_data is not None and not statcast_data.empty:
+            if file_path is None:
+                file_path = f'output/statcast_data_{player_id}_{start_date}_{end_date}.csv'
+
+            # Ensure that the directory exists
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+            statcast_data.to_csv(file_path, index=False)
+            print(f"Statcast data saved to {file_path}")
+        else:
+            print("No valid statcast data found to save.")
+        return
     
     @staticmethod
     def fetch_statcast_pitcher_data(pitcher_id: int, start_date: str, end_date: str):

@@ -11,11 +11,30 @@ class BattingSprayChart:
         self.events = events
 
 
+    def check_for_valid_data(self, data):
+        # Check if the data is empty
+        if data.empty:
+            print("No valid data available for plotting.")
+            return False
+        
+        # Check if both 'hc_x' and 'hc_y' columns exist in the data
+        if not {'hc_x', 'hc_y'}.issubset(data.columns):
+            print("Required columns 'hc_x' and 'hc_y' are missing.")
+            return False
+        
+        # Check if any rows have valid values in 'hc_x' and 'hc_y' columns
+        if data[['hc_x', 'hc_y']].dropna(how='any').empty:
+            print("No valid rows with 'hc_x' and 'hc_y' available for plotting.")
+            return False
+        
+        return True
+
+
+
     def plot(self, ax, statcast_data, title):
-        if statcast_data.empty:
-            print("No Statcast data available for the player.")
+        if self.check_for_valid_data(statcast_data) == False:
             return
-        # Fetch data for a specific player and time period
+
         data = statcast_data.copy()
 
         # Filter for events passed in the constructor

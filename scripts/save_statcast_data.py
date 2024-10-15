@@ -1,52 +1,60 @@
-# python generate_sheets.py --players 'Tarik Skubal' 'Kerry Carpenter' --year 2024
-
 import sys
 import os
+import argparse
 
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_summary_sheets import Player
-from mlb_summary_sheets.pitching.pitcher_summary_sheet import PitcherSummarySheet
-from mlb_summary_sheets.batting.batter_summary_sheet import BatterSummarySheet
+
+from mlb_summary_sheets.player import Player
+from mlb_summary_sheets.config import DATA_DIR
+from mlb_summary_sheets.utils import Utils
 from mlb_summary_sheets.roster import Roster
-import warnings
-from bs4 import MarkupResemblesLocatorWarning
-import argparse
 
 # Suppress MarkupResemblesLocatorWarning
-warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
+#warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
-players_not_found = []
 
-def generate_player_sheet(player_name: str, year: int=2024):
-    player = Player.create_from_mlb(player_name=player_name)
+def save_statcast_data(player_name: str, year: int=2024):
+    player = Player.create_from_mlb(player_name = player_name)
     if player is None:
         print(f"Player {player_name} not found.")
-        players_not_found.append(player_name)
         return
-    if player.player_info.primary_position == 'P':
-        summary = PitcherSummarySheet(player, year)
-    else:
-        summary = BatterSummarySheet(player, year)
-    summary.generate_plots()
+    player.save_statcast_data(year)
 
+
+# import debugpy
+
+# # 5678 is the default attach port in the VS Code debug configurations. Unless a host and port are specified, host defaults to 127.0.0.1
+# debugpy.listen(5678)
+# print("Waiting for debugger attach")
+# debugpy.wait_for_client()
+
+# Example Usage
+# if __name__ == "__main__":
+#     pitchers = ['Tarik Skubal']
+#     for pitcher in pitchers:
+#         save_statcast_data(pitcher)
+
+#     batters = ['Kerry Carpenter', 'Riley Greene']
+#     for batter in batters:
+#         save_statcast_data(batter)
 
 if __name__ == "__main__":
     # Initialize the parser
-    parser = argparse.ArgumentParser(description="Generate player sheets.")
+    parser = argparse.ArgumentParser(description="Save statscast data.")
 
     # Add --players and --teams options
     parser.add_argument(
         '--players',
         nargs='+',  # Allows multiple player names to be passed
-        help='List of player names to generate sheets for'
+        help='List of player names to save data for'
     )
 
     parser.add_argument(
         '--teams',
         nargs='+',  # Allows multiple team names to be passed
-        help='List of team names to generate sheets for'
+        help='List of team names to save data for'
     )
 
     # Add --year option
@@ -54,7 +62,7 @@ if __name__ == "__main__":
         '--year',
         type=int,  # Ensure year is an integer
         default=2024,  # Set default year to 2024
-        help='Specify the year for which the player stats should be generated (default: 2024)'
+        help='Specify the year for which the player stats should be saved (default: 2024)'
     )
 
     # Parse the command-line arguments
@@ -90,7 +98,13 @@ if __name__ == "__main__":
 
     # Generate player summary sheets for each player with the given year
     for player in players:
-        generate_player_sheet(player, year)
+        save_statcast_data(player, year)
 
-    for player in players_not_found:
-        print(f"Player {player} not found.")
+    # for player in players_not_found:
+    #     print(f"Player {player} not found.")
+
+
+
+
+    
+

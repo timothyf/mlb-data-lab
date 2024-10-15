@@ -30,44 +30,94 @@ class StatsDisplay:
         if self.stat_type == 'batting':
             if self.standard_stat_data is None:
                 return
-            
+
             df = self._flatten_batting_stats()
 
             if df is None or df.empty:
                 print("No valid data available for plotting.")
                 return
 
+            # Check for missing columns
             missing_columns = [col for col in self.standard_stats if col not in df.columns]
             if missing_columns:
                 print(f"Warning: The following columns are missing from the DataFrame: {missing_columns}")
-                # You can decide whether to raise an error, fill missing columns with default values, or skip processing
-                # For example, you could skip missing columns:
+                
+                # Handle missing columns: either skip them or create them with default values
                 available_columns = [col for col in self.standard_stats if col in df.columns]
                 if not available_columns:
                     print("No valid columns available for plotting.")
                     return
 
                 # Only keep available columns
-                df = df[available_columns].reset_index(drop=True)           
+                df = df[available_columns].reset_index(drop=True)  
+            else:
+                # Keep all standard stats if none are missing
+                df = df[self.standard_stats].reset_index(drop=True)
 
-            df = df[self.standard_stats].reset_index(drop=True)
             df_player = df
+        
         # Handle pitching stats
         else:
             if self.stats is None:
                 return
+            
             df = self.stats[self.stats['xMLBAMID'] == self.player.mlbam_id]
 
             if df.empty:
                 print("No valid data found for player.")
                 return      
-            
-         # Filter and prepare for plotting
+
+        # Filter and prepare for plotting
         df_player = self._filter_columns(df)
-        
+
         # Display the stats table
         stats_table = StatsTable(df_player, self.standard_stats, self.stat_type)
         stats_table.create_table(ax, f"Standard {self.stat_type.capitalize()}")
+
+
+    # # def display_standard_stats(self, ax: plt.Axes):
+    #     # Handle batting stats
+    #     if self.stat_type == 'batting':
+    #         if self.standard_stat_data is None:
+    #             return
+            
+    #         df = self._flatten_batting_stats()
+
+    #         if df is None or df.empty:
+    #             print("No valid data available for plotting.")
+    #             return
+
+    #         missing_columns = [col for col in self.standard_stats if col not in df.columns]
+    #         if missing_columns:
+    #             print(f"Warning: The following columns are missing from the DataFrame: {missing_columns}")
+    #             # You can decide whether to raise an error, fill missing columns with default values, or skip processing
+    #             # For example, you could skip missing columns:
+    #             available_columns = [col for col in self.standard_stats if col in df.columns]
+    #             if not available_columns:
+    #                 print("No valid columns available for plotting.")
+    #                 return
+
+    #             # Only keep available columns
+    #             df = df[available_columns].reset_index(drop=True)           
+
+    #         df = df[self.standard_stats].reset_index(drop=True)
+    #         df_player = df
+    #     # Handle pitching stats
+    #     else:
+    #         if self.stats is None:
+    #             return
+    #         df = self.stats[self.stats['xMLBAMID'] == self.player.mlbam_id]
+
+    #         if df.empty:
+    #             print("No valid data found for player.")
+    #             return      
+            
+    #      # Filter and prepare for plotting
+    #     df_player = self._filter_columns(df)
+        
+    #     # Display the stats table
+    #     stats_table = StatsTable(df_player, self.standard_stats, self.stat_type)
+    #     stats_table.create_table(ax, f"Standard {self.stat_type.capitalize()}")
 
 
     def display_advanced_stats(self, ax: plt.Axes):

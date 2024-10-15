@@ -9,6 +9,7 @@ from mlb_summary_sheets.utils import Utils
 from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
 from mlb_summary_sheets.player_info import PlayerInfo
 from mlb_summary_sheets.constants import mlb_teams
+from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
 
 class Player:
 
@@ -75,6 +76,19 @@ class Player:
         headshot = DataFetcher.fetch_player_headshot(self.mlbam_id)
         img = Image.open(BytesIO(headshot))
         return img
+    
+    def save_statcast_data(self, year: int = 2024):
+        if self.player_info.primary_position == 'P':
+            file_path = f'output/{year}/statcast_data/pitching/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
+            PybaseballClient.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
+        else:
+            file_path = f'output/{year}/statcast_data//batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
+            PybaseballClient.save_statcast_batter_data(self.mlbam_id, year, file_path)
+        # statcast_data = MlbStatsClient.fetch_statcast_data(self.mlbam_id, year)
+        # if statcast_data is not None:
+        #     Utils.save_csv(statcast_data, f"{self.player_bio.full_name}_statcast_{year}.csv")
+        # else:
+        #     print("No Statcast data available for saving.")
     
     
     def to_json(self):

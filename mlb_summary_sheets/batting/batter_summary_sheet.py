@@ -45,8 +45,20 @@ class BatterSummarySheet(SummarySheet):
         stats_display.display_advanced_stats(self.ax_advanced_stats)
         stats_display.display_splits_stats(self.ax_splits_stats)
 
-        BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events']).plot(self.ax_chart1, self.statcast_data, "Batted Balls")
-        BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events']).plot(self.ax_chart2, self.statcast_data, "Hits")
+        spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events'])
+        if spray_chart.check_for_valid_data(self.statcast_data):
+            spray_chart.plot(self.ax_chart1, self.statcast_data, "Batted Balls")
+        else:
+            print("No valid data available for plotting batted ball events.")
+            self.ax_chart1.remove()  # Remove the subplot if no valid data is found
+
+
+        spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events'])
+        if spray_chart.check_for_valid_data(self.statcast_data):
+            spray_chart.plot(self.ax_chart2, self.statcast_data, "Hits")
+        else:
+            print("No valid data available for plotting hit events.")
+            self.ax_chart2.remove()  # Remove the subplot if no valid data is found
 
         plt.tight_layout()
         file_path = f'output/{self.season}/{self.club_name}/'
