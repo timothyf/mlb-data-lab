@@ -1,3 +1,3 @@
 # startup.py
-from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from typing import List
-from mlb_summary_sheets.utils import Utils
-from mlb_summary_sheets.config import StatsDisplayConfig
+from mlb_stats.utils import Utils
+from mlb_stats.config import StatsDisplayConfig
 
 
 class StatsTable:

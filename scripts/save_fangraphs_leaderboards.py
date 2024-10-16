@@ -6,8 +6,8 @@ import json
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_summary_sheets.apis.fangraphs_client import FangraphsClient
-from mlb_summary_sheets.config import DATA_DIR
+from mlb_stats.apis.fangraphs_client import FangraphsClient
+from mlb_stats.config import DATA_DIR
 
 # Constants
 SEASON = 2024  # Replace with the desired season

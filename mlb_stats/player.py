@@ -1,15 +1,15 @@
 from io import BytesIO
 from PIL import Image
 
-from mlb_summary_sheets.team import Team
-from mlb_summary_sheets.player_bio import PlayerBio
-from mlb_summary_sheets.apis.data_fetcher import DataFetcher
-from mlb_summary_sheets.player_lookup import PlayerLookup
-from mlb_summary_sheets.utils import Utils
-from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
-from mlb_summary_sheets.player_info import PlayerInfo
-from mlb_summary_sheets.constants import mlb_teams
-from mlb_summary_sheets.apis.pybaseball_client import PybaseballClient
+from mlb_stats.team import Team
+from mlb_stats.player_bio import PlayerBio
+from mlb_stats.apis.data_fetcher import DataFetcher
+from mlb_stats.player_lookup import PlayerLookup
+from mlb_stats.utils import Utils
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
+from mlb_stats.player_info import PlayerInfo
+from mlb_stats.constants import mlb_teams
+from mlb_stats.apis.pybaseball_client import PybaseballClient
 
 class Player:
 

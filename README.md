@@ -26,7 +26,7 @@ To get started with the project, follow these steps:
 
 ```bash
 git clone https://github.com/your-username/mlb_summary_sheets.git
-cd mlb_summary_sheets
+cd mlb_stats
 ```
 
 2. Set up a Python virtual environment (optional but recommended):

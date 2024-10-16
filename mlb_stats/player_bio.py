@@ -1,5 +1,5 @@
 import json
-from mlb_summary_sheets.utils import Utils
+from mlb_stats.utils import Utils
 
 
 class PlayerBio:

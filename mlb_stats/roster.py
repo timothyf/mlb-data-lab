@@ -1,6 +1,6 @@
-from mlb_summary_sheets.team import Team
-from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
-from mlb_summary_sheets.apis.fangraphs_client import FangraphsClient
+from mlb_stats.team import Team
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
+from mlb_stats.apis.fangraphs_client import FangraphsClient
 
 class Roster:
     def __init__(self):
@@ -43,5 +43,3 @@ class Roster:
 
         # Extract only the first element (full name) from each tuple and strip whitespace
         #return [name[0].strip() for name in player_names]
-
-# Compare this snippet from mlb_summary_sheets/team.py:

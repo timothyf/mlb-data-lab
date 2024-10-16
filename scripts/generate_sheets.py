@@ -6,10 +6,10 @@ import os
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_summary_sheets import Player
-from mlb_summary_sheets.pitching.pitcher_summary_sheet import PitcherSummarySheet
-from mlb_summary_sheets.batting.batter_summary_sheet import BatterSummarySheet
-from mlb_summary_sheets.roster import Roster
+from mlb_stats import Player
+from mlb_stats.pitching.pitcher_summary_sheet import PitcherSummarySheet
+from mlb_stats.batting.batter_summary_sheet import BatterSummarySheet
+from mlb_stats.roster import Roster
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse

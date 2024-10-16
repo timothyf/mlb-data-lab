@@ -1,7 +1,7 @@
 import requests
 import statsapi
 
-from mlb_summary_sheets.constants import STATS_API_BASE_URL, MLB_STATIC_BASE_URL
+from mlb_stats.constants import STATS_API_BASE_URL, MLB_STATIC_BASE_URL
 
 
 class MlbStatsClient: 

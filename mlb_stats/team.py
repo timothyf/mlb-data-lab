@@ -1,6 +1,6 @@
-from mlb_summary_sheets.apis.data_fetcher import DataFetcher
-from mlb_summary_sheets.constants import team_logo_urls
-from mlb_summary_sheets.apis.mlb_stats_client import MlbStatsClient
+from mlb_stats.apis.data_fetcher import DataFetcher
+from mlb_stats.constants import team_logo_urls
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 
 class Team:
 

@@ -5,9 +5,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-from mlb_summary_sheets.player import Player
-from mlb_summary_sheets.config import DATA_DIR
-from mlb_summary_sheets.utils import Utils
+from mlb_stats.player import Player
+from mlb_stats.config import DATA_DIR
+from mlb_stats.utils import Utils
 
 # Suppress MarkupResemblesLocatorWarning
 #warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)

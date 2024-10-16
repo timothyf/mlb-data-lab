@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.lines as mlines
 import mplcursors
-from mlb_summary_sheets.constants import statcast_events
-from mlb_summary_sheets.constants import event_styles
+from mlb_stats.constants import statcast_events
+from mlb_stats.constants import event_styles
 
 
 class BattingSprayChart:

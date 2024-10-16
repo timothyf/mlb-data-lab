@@ -1,4 +1,4 @@
-from mlb_summary_sheets.constants import FANGRAPHS_BASE_URL
+from mlb_stats.constants import FANGRAPHS_BASE_URL
 import pandas as pd
 import requests
 import re
