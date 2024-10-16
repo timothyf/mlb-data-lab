@@ -87,6 +87,16 @@ class MlbStatsClient:
             team_id = MlbStatsClient.get_team_id(team_name)
         active_roster = statsapi.roster(team_id, rosterType='active', season=year)
         return active_roster
+    
+    def fetch_team_roster(team_id: int, season: int):
+        # Fetch the team roster for the given season
+        roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
+        
+        # Extract player names from the roster data
+        players = roster_data['roster']
+        player_names = [player['person']['fullName'] for player in players]
+        
+        return player_names
 
     @staticmethod
     def get_team_id(team_name):

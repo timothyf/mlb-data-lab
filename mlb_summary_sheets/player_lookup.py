@@ -32,29 +32,18 @@ class PlayerLookup:
             name_parts = player_name.split()
 
             first_name = name_parts[0]
-            
-            # # The last name is everything after the first part
-            # last_name = " ".join(name_parts[1:])  # Join the remaining parts as the last name
             # The last part is the last name (ignore middle initials)
             last_name = name_parts[-1]
-            if last_name == 'Jr.' or last_name == 'Sr.':  # Check for Jr. or Sr. suffix
+
+            if last_name in ['Jr.', 'Sr.']:  # Check for Jr. or Sr. suffix
                 last_name = name_parts[-2]
 
-            # Lookup the player by name
+            # Try looking up the player by name
             player_df = pyb.playerid_lookup(last_name, first_name)
 
+            # If player not found, handle special cases
             if player_df.empty:
-                new_last_name = " ".join(name_parts[1:])  # Join the remaining parts as the last name
-                print(f"Player not found with first name: {first_name}, last name: {last_name}. Trying with first name {first_name}, last name: {new_last_name}")
-                player_df = pyb.playerid_lookup(new_last_name, first_name)
-
-                if player_df.empty:
-                    if player_name == 'Willie Hernandez':
-                        player_id = 115822
-                    elif player_name == 'Barbaro Garbey':
-                        player_id = 114579
-                    elif player_name == 'Aurelio Lopez':
-                        player_id = 117916
+                player_df, player_id = PlayerLookup.handle_special_cases(name_parts, first_name, last_name, player_name)
 
         if player_id:
             # Lookup the player by ID if provided
@@ -68,7 +57,42 @@ class PlayerLookup:
         else:
             return None
 
+    @staticmethod
+    def handle_special_cases(name_parts, first_name, last_name, player_name):
+        # Initialize player_df and player_id
+        player_df = pd.DataFrame()
+        player_id = None
 
-            # # If fuzzy matching is required
-            # fuzzy_results = pd.DataFrame(pyb.playerid_lookup(last_name, first_name, fuzzy=True))
-            # return fuzzy_results
+        new_last_name = " ".join(name_parts[1:])  # Join the remaining parts as the last name
+        print(f"Player not found with first name: {first_name}, last name: {last_name}. Trying with first name {first_name}, last name: {new_last_name}")
+        player_df = pyb.playerid_lookup(new_last_name, first_name)
+
+        if player_df.empty:
+            if first_name == 'Matthew':
+                first_name = 'Matt'
+                print(f"Trying with first name {first_name}, last name: {new_last_name}")
+                player_df = pyb.playerid_lookup(new_last_name, first_name)
+            elif first_name == 'Victor':
+                first_name = 'Víctor'
+                print(f"Trying with first name {first_name}, last name: {last_name}")
+                player_df = pyb.playerid_lookup(last_name, first_name)
+            elif last_name == 'Teheran':
+                last_name = 'Teherán'
+                print(f"Trying with first name {first_name}, last name: {last_name}")
+                player_df = pyb.playerid_lookup(last_name, first_name)
+            elif last_name == 'Rodriguez':
+                last_name = 'rodríguez'
+                print(f"Trying with first name {first_name}, last name: {last_name}")
+                player_df = pyb.playerid_lookup(last_name, first_name)
+            elif first_name == 'C.J.':
+                first_name = 'c. j.'
+                print(f"Trying with first name {first_name}, last name: {last_name}")
+                player_df = pyb.playerid_lookup(last_name, first_name)
+            elif player_name == 'Willie Hernandez':
+                player_id = 115822
+            elif player_name == 'Barbaro Garbey':
+                player_id = 114579
+            elif player_name == 'Aurelio Lopez':
+                player_id = 117916
+
+        return player_df, player_id

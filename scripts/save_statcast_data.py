@@ -14,12 +14,15 @@ from mlb_summary_sheets.roster import Roster
 # Suppress MarkupResemblesLocatorWarning
 #warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
+players_not_found = []
 
 def save_statcast_data(player_name: str, year: int=2024):
     player = Player.create_from_mlb(player_name = player_name)
     if player is None:
         print(f"Player {player_name} not found.")
+        players_not_found.append(player_name)
         return
+    
     player.save_statcast_data(year)
 
 
@@ -100,8 +103,10 @@ if __name__ == "__main__":
     for player in players:
         save_statcast_data(player, year)
 
-    # for player in players_not_found:
-    #     print(f"Player {player} not found.")
+    for player in players_not_found:
+        print(f"Player {player} not found.")
+
+
 
 
 

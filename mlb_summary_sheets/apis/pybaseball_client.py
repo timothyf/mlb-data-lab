@@ -7,6 +7,7 @@ import os
 
 
 class PybaseballClient: 
+    
 
     @staticmethod
     def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):
