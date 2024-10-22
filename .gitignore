@@ -3,5 +3,6 @@ __pycache__
 output/*
 output-OLD/*
 test.py 
+.vscode/*
 
 
