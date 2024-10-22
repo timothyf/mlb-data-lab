@@ -1,12 +1,4 @@
-<style>
-    .sheet_images {
-        width: 100%;
-        display: flex;
-    }
-    img {
-        width: 300px;
-    }
-</style>
+
 
 # MLB Stats
 
@@ -15,11 +7,19 @@
 This project uses data sourced from MLB and Fangraphs.
 
 ## Sample Summary Sheets
-<div id="sheet_images">
+<div style="display: flex; flex-direction: row;">
+<div class="sheet_images" style="width:300px; padding:20px">
+
   ![alt text](docs/images/batter_summary_riley_greene.png)
+
+</div>
+<div class="sheet_images" style="width:300px;padding:20px">
 
   ![alt text](docs/images/pitcher_summary_tarik_skubal.png)
 </div>
+
+</div>
+
 
 ## Project Structure
 
