@@ -54,7 +54,7 @@ pip install -r requirements.txt
 ## Usage
 
 ### Generating Player Summary Sheets
-Run the project by executing the main script in the `scripts` directory:
+There are several scripts in the `scripts` directory for some basic functionality:
 ```bash
 python scripts/generate_sheets.py [options]
 
@@ -78,7 +78,7 @@ python scripts/save_statcast_data.py [options]
 python scripts/generate_sheets.py --players 'Riley Greene'
 ```
 Output:<br/>
-mlb_stats/output/2024/Tigers/batter_summary_riley_greene.png<br/><br/>
+`mlb_stats/output/2024/Tigers/`batter_summary_riley_greene.png<br/><br/>
 <img src="docs/images/batter_summary_riley_greene.png?sanitize=true" alt="Riley Greene Batter Sheet" width="300" />
 
 <br/>
