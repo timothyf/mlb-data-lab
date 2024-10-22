@@ -11,7 +11,7 @@ This project uses data sourced from MLB and Fangraphs.
 
 <h1 align="center" style="padding:100px">
 <img src="docs/images/batter_summary_riley_greene.png?sanitize=true" alt="Riley Greene Batter Sheet" width="300" />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="docs/images/pitcher_summary_tarik_skubal.png?sanitize=true" alt="Tarik Skubal Pitcher Sheet" width="300"/>
 </h1>
 
