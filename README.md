@@ -7,15 +7,19 @@
 This project uses data sourced from MLB and Fangraphs.
 
 ## Sample Summary Sheets
+
 <div style="display: flex; flex-direction: row;">
+  
 <div class="sheet_images" style="width:300px; padding:20px">
 
   ![alt text](docs/images/batter_summary_riley_greene.png)
 
 </div>
+
 <div class="sheet_images" style="width:300px;padding:20px">
 
   ![alt text](docs/images/pitcher_summary_tarik_skubal.png)
+  
 </div>
 
 </div>
