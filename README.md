@@ -4,7 +4,12 @@
 
 This project uses data sourced from MLB and Fangraphs.
 
-  
+## Sample Summary Sheets
+
+  ![alt text](docs/images/batter_summary_riley_greene.png)
+
+  ![alt text](docs/images/pitcher_summary_tarik_skubal.png)
+
 
 ## Project Structure
 
