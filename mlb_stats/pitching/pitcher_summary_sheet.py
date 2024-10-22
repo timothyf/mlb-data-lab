@@ -12,7 +12,6 @@ from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.constants import swing_code, whiff_code
 from mlb_stats.config import DATA_DIR
 from mlb_stats.summary_sheet import SummarySheet
-from mlb_stats.utils import Utils
 
 
 class PitcherSummarySheet(SummarySheet):
@@ -68,10 +67,7 @@ class PitcherSummarySheet(SummarySheet):
 
         # Adjust the spacing between subplots
         plt.tight_layout()
-        
-        file_path = f'output/{self.season}/{self.club_name}/'
-        Utils.ensure_directory_exists(file_path)
-        plt.savefig(f'{file_path}pitcher_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
+        self.save_sheet("pitcher")
         plt.close()
 
 

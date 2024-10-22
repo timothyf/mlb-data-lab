@@ -6,7 +6,13 @@ import os
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # Now you can correctly build paths relative to the project root
-DATA_DIR = os.path.join(BASE_DIR, 'mlb_summary_sheets', 'data')
+DATA_DIR = os.path.join(BASE_DIR, 'mlb_stats', 'data')
+
+# Statcast Data output directory
+STATCAST_DATA_DIR = os.path.join(BASE_DIR, 'output')
+
+# Player sheets output directory
+PLAYER_SHEETS_DIR = os.path.join(BASE_DIR, 'output')
 
 FOOTER_TEXT = {
     1: {

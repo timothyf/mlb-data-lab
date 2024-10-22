@@ -6,7 +6,6 @@ from mlb_stats.batting.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
 from mlb_stats.summary_sheet import SummarySheet
 from mlb_stats.apis.pybaseball_client import PybaseballClient
-from mlb_stats.utils import Utils
 
 
 class BatterSummarySheet(SummarySheet):
@@ -61,7 +60,5 @@ class BatterSummarySheet(SummarySheet):
             self.ax_chart2.remove()  # Remove the subplot if no valid data is found
 
         plt.tight_layout()
-        file_path = f'output/{self.season}/{self.club_name}/'
-        Utils.ensure_directory_exists(file_path)
-        plt.savefig(f'{file_path}batter_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
+        self.save_sheet("batter")
         plt.close()

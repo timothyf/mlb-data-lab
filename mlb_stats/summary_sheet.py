@@ -6,6 +6,8 @@ from mlb_stats.plotting import Plotting
 from mlb_stats.config import FOOTER_TEXT
 from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 from mlb_stats.team import Team
+from mlb_stats.config  import BASE_DIR
+from mlb_stats.utils import Utils
 
 
 class SummarySheet:
@@ -63,3 +65,7 @@ class SummarySheet:
         self.ax_left.axis('off')
         self.ax_right.axis('off')
 
+    def save_sheet(self, batter_or_pitcher):
+        file_path = f'{BASE_DIR}/output/{self.season}/{self.club_name}/'
+        Utils.ensure_directory_exists(file_path)
+        plt.savefig(f'{file_path}{batter_or_pitcher}_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')

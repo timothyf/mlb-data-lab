@@ -10,6 +10,8 @@ from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 from mlb_stats.player_info import PlayerInfo
 from mlb_stats.constants import mlb_teams
 from mlb_stats.apis.pybaseball_client import PybaseballClient
+from mlb_stats.config import STATCAST_DATA_DIR
+
 
 class Player:
 
@@ -79,10 +81,10 @@ class Player:
     
     def save_statcast_data(self, year: int = 2024):
         if self.player_info.primary_position == 'P':
-            file_path = f'output/{year}/statcast_data/pitching/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
+            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/pitching/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
             PybaseballClient.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
         else:
-            file_path = f'output/{year}/statcast_data//batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
+            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
             PybaseballClient.save_statcast_batter_data(self.mlbam_id, year, file_path)
         # statcast_data = MlbStatsClient.fetch_statcast_data(self.mlbam_id, year)
         # if statcast_data is not None:
