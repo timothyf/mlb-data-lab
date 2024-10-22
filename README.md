@@ -1,3 +1,13 @@
+<style>
+    .sheet_images {
+        width: 100%;
+        display: flex;
+    }
+    img {
+        width: 300px;
+    }
+</style>
+
 # MLB Stats
 
 `MLB Stats` is a Python-based project that reads MLB statistics from a remote API, processes the data, and generates summary sheets for MLB players and teams. This project leverages the `pybaseball` module and other Python libraries to fetch, analyze, and format data for use in reports, dashboards, or other applications.
@@ -5,11 +15,11 @@
 This project uses data sourced from MLB and Fangraphs.
 
 ## Sample Summary Sheets
-
+<div id="sheet_images">
   ![alt text](docs/images/batter_summary_riley_greene.png)
 
   ![alt text](docs/images/pitcher_summary_tarik_skubal.png)
-
+</div>
 
 ## Project Structure
 
