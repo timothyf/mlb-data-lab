@@ -4,5 +4,7 @@ output/*
 output-OLD/*
 test.py 
 .vscode/*
+startup.py
+
 
 
