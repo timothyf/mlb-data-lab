@@ -8,21 +8,12 @@ This project uses data sourced from MLB and Fangraphs.
 
 ## Sample Summary Sheets
 
-<div style="display: flex; flex-direction: row;">
-  
-<div class="sheet_images" style="width:300px; padding:20px">
 
-  ![alt text](docs/images/batter_summary_riley_greene.png)
-
-</div>
-
-<div class="sheet_images" style="width:300px;padding:20px">
-
-  ![alt text](docs/images/pitcher_summary_tarik_skubal.png)
-  
-</div>
-
-</div>
+<h1 align="center" style="padding:100px">
+<img src="docs/images/batter_summary_riley_greene.png?sanitize=true" alt="Riley Greene Batter Sheet" width="400" style="padding:50px;" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="docs/images/pitcher_summary_tarik_skubal.png?sanitize=true" alt="Tarik Skubal Pitcher Sheet" width="400"/>
+</h1>
 
 
 ## Project Structure
