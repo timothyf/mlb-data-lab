@@ -126,6 +126,7 @@ python scripts/generate_sheets.py [options]
 Options:
     --players [1 or more player names]
     --teams [1 or more team names]
+    --year [specify a 4-digit year]
 ```
 
 #### Saving Statcast Data
@@ -135,6 +136,7 @@ python scripts/save_statcast_data.py [options]
 
     --players [1 or more player names]
     --teams [1 or more team names]
+    --year [specify a 4-digit year]
 ```
 
 ## Examples
@@ -145,6 +147,11 @@ python scripts/generate_sheets.py --players 'Riley Greene'
 Output:<br/>
 `mlb_stats/output/2024/Tigers/`batter_summary_riley_greene.png<br/><br/>
 <img src="docs/images/batter_summary_riley_greene.png?sanitize=true" alt="Riley Greene Batter Sheet" width="300" />
+
+#### Generate a player sheets for all of the 2024 Detroit Tigers
+```bash
+python scripts/generate_sheets.py --teams 'Detroit Tigers' --year 2024
+````
 
 <br/>
 
