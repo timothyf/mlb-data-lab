@@ -38,13 +38,48 @@ Stats shown in the summary sheets include the following:
 
 ## Project Structure
 
-  
+The `mlb_stats` project is organized as follows:
 
-The project directory is structured as follows:
+```
+mlb_stats/
+├── README.md              # Project documentation
+├── setup.py               # Setup file for packaging and installation
+├── requirements.txt       # Dependencies for the project
+├── mlb_stats/
+│   ├── __init__.py        # Initialize the package
+│   ├── apis/
+│   │   ├── __init__.py
+│   │   ├── stats_api.py   # API client for fetching MLB stats
+│   │   ├── fangraphs_client.py # API client for Fangraphs data
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── data_cleaning.py # Helper functions for data cleaning
+│   ├── config/
+│   │   ├── __init__.py
+│   │   ├── settings.py    # Configuration settings
+│   ├── components/
+│   │   ├── __init__.py
+│   │   ├── stats_table.py # Class for generating stats tables
+│   ├── players/
+│   │   ├── __init__.py
+│   │   ├── player.py      # Player class definition
+│   ├── plots/
+│   │   ├── pitch_plot.py  # Plotting functions for pitch data
+├── tests/
+│   ├── test_apis.py       # Unit tests for API clients
+│   ├── test_players.py    # Unit tests for player class
+│   ├── test_utils.py      # Unit tests for utility functions
+```
 
-Coming Soon
-
-  
+### Description of Key Directories:
+- **mlb_stats/**: Core application logic and components.
+  - **apis/**: API clients for retrieving stats from external services like MLB and Fangraphs.
+  - **utils/**: Utility functions for data processing and manipulation.
+  - **config/**: Configuration files and settings for the application.
+  - **components/**: Components for generating visualizations, tables, and other outputs.
+  - **players/**: Classes and methods related to player information and operations.
+  - **plots/**: Functions for creating visualizations using matplotlib and seaborn.
+- **tests/**: Unit tests for verifying the functionality of various components and modules.  
   
 
 ## Installation
