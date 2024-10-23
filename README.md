@@ -23,11 +23,13 @@ Stats shown in the summary sheets include the following:
 <table>
 <thead>
   <th colspan=2>Batters</th>
+  <th></th>
   <th>Pitchers</th>
 </thead>
 <tr>
   <td>BB%</td>
   <td>UBR</td>
+  <td>&nbsp;</td>
   <td>K%</td>
 </tr>
   
