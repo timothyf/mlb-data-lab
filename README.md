@@ -2,7 +2,7 @@
 
 # MLB Stats
 
-`MLB Stats` is a Python-based application designed to fetch, process, and generate comprehensive summary sheets for MLB players and teams using data from remote APIs. By leveraging the [`pybaseball`](https://github.com/jldbc/pybaseball) module and other powerful Python libraries, the project facilitates the collection, analysis, and formatting of data for use in reports, dashboards, and other analytical tools.
+`MLB Stats` is a Python-based application designed to fetch, process, and generate comprehensive summary sheets for MLB players and teams using data from remote APIs. By leveraging the [`pybaseball`](https://github.com/jldbc/pybaseball) module, [`MLB-StatsAPI`](https://github.com/toddrob99/MLB-StatsAPI) module, and other Python libraries, the project facilitates the collection, analysis, and formatting of data for use in reports, dashboards, and other analytical tools.
 
 The project sources data from MLB and Fangraphs, ensuring accurate and up-to-date statistics. Future updates will expand the application's features and functionality, allowing it to serve both as a standalone tool and as a library for integration into other projects.
 
