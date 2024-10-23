@@ -118,7 +118,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Generating Player Summary Sheets
+#### Generating Player Summary Sheets
 There are several scripts in the `scripts` directory for some basic functionality:
 ```bash
 python scripts/generate_sheets.py [options]
@@ -128,7 +128,7 @@ Options:
     --teams [1 or more team names]
 ```
 
-### Saving Statcast Data
+#### Saving Statcast Data
 Run the project by executing the main script in the `scripts` directory:
 ```bash
 python scripts/save_statcast_data.py [options]
