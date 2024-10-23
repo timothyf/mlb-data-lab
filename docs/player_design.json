@@ -1,0 +1,47 @@
+{
+    "mlbam_id": 669373,
+    "bbref_id": "skubata01",
+    "team_info": {
+        "team_id": 116,
+        "team_name": "Detroit Tigers"
+    },
+    "bio": {
+        "full_name": "Tarik Skubal",
+        "bats_hand": "R",
+        "throws_hand": "L",
+        "age": 27,
+        "height": "6' 3\"",
+        "weight": 240,
+        "position": "P",
+        "primary_number": "29",
+        "birth_date": "1996-11-20",
+        "birth_city": "Hayward",
+        "birth_state_province": "CA",
+        "birth_country": "USA",
+        "gender": "M",
+        "pronunciation": "Tare-ick sku-ble",
+        "draft_year": 2018,
+        "mlb_debut_date": "2020-08-18"
+    },
+    "player_info": {
+        "id": 669373,
+        "first_name": "Tarik",
+        "last_name": "Skubal",
+        "link": "/api/v1/people/669373",
+        "active": true,
+        "primary_position": {
+            "code": "1",
+            "name": "Pitcher",
+            "type": "Pitcher",
+            "abbreviation": "P"
+        },
+        "use_name": "Tarik",
+        "use_last_name": "Skubal",
+        "middle_name": "Daniel",
+        "boxscore_name": "Skubal",
+        "strike_zone": {
+            "top": 3.49,
+            "bottom": 1.601
+        }
+    }
+}
