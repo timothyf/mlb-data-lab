@@ -1,0 +1,15 @@
+# Core dependencies
+pandas==2.2.3             # For data manipulation and analysis
+numpy==2.1.1              # For numerical operations
+matplotlib==3.9.2         # For plotting and visualizations
+seaborn==0.13.2           # For statistical data visualization
+mplcursors==0.5.3         # For interactive data exploration
+
+# API and web scraping
+pybaseball==2.2.7         # For fetching baseball data from MLB and Fangraphs
+MLB-StatsAPI==1.7.2       # For fetching baseball data from MLB
+requests==2.32.3          # For making HTTP requests to APIs
+
+# Optional libraries for data validation or debugging
+python-dotenv==1.0.0      # For managing environment variables (if needed)
+pytest==7.4.0             # For testing
