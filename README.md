@@ -159,6 +159,11 @@ python scripts/generate_sheets.py --teams 'Detroit Tigers' --year 2024
 
 ## Inspiration
 
-This project was inspired by the pitching summary project from Thomas Nestico. Here is a link to an article describing his project:
+This project was inspired by my time working in the R&D department of the Washington Nationals, and the pitching summary project from Thomas Nestico. Here is a link to an article describing his project:
 
 https://medium.com/@thomasjamesnestico/creating-the-perfect-pitching-summary-7b8a981ef0c5
+
+
+## Copyright Notice
+
+This package and its author are not affiliated with MLB or any MLB team. This API wrapper interfaces with MLB's Stats API. Use of MLB data is subject to the notice posted at http://gdx.mlb.com/components/copyright.txt.
