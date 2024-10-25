@@ -27,62 +27,62 @@ In addition to the baseball stats you would expect, the summary sheets also incl
   <th colspan=3>Pitchers</th>
 </thead>
 <tr>
-  <td>BB%</td>
-  <td>UBR</td>
+  <td class="batter-col">BB%</td>
+  <td class="batter-col">UBR</td>
   <td>&nbsp;</td>
-  <td>K/9</td>
-  <td>Opponent Avg</td>
-  <td>Swing %</td>
+  <td class="pitcher-col">K/9</td>
+  <td class="pitcher-col">Opponent Avg</td>
+  <td class="pitcher-col">Swing %</td>
 </tr>
 <tr>
-  <td>K%</td>
-  <td>XBR</td>
+  <td class="batter-col">K%</td>
+  <td class="batter-col">XBR</td>
   <td>&nbsp;</td>
-  <td>BB/9</td>
-  <td>WHIP</td>
-  <td>Splits</td>
+  <td class="pitcher-col">BB/9</td>
+  <td class="pitcher-col">WHIP</td>
+  <td class="pitcher-col">Splits</td>
 </tr>
 <tr>
-  <td>OBP</td>
-  <td>wRC</td>
+  <td class="batter-col">OBP</td>
+  <td class="batter-col">wRC</td>
   <td>&nbsp;</td>
-  <td>K/BB</td>
-  <td>BABIP</td>
+  <td class="pitcher-col">K/BB</td>
+  <td class="pitcher-col">BABIP</td>
 </tr>
 <tr>
-  <td>SLG</td>
-  <td>wRAA</td>
+  <td class="batter-col">SLG</td>
+  <td class="batter-col">wRAA</td>
   <td>&nbsp;</td>
-  <td>H/9</td>
-  <td>LOB%</td>
+  <td class="pitcher-col">H/9</td>
+  <td class="pitcher-col">LOB%</td>
 </tr>
 <tr>
-  <td>OPS</td>
-  <td>wOBA</td>
+  <td class="batter-col">OPS</td>
+  <td class="batter-col">wOBA</td>
   <td>&nbsp;</td>
-  <td>HR/9</td>
-  <td>ERA-</td>
+  <td class="pitcher-col">HR/9</td>
+  <td class="pitcher-col">ERA-</td>
 </tr>
 <tr>
-  <td>ISO</td>
-  <td>wRC+</td>
+  <td class="batter-col">ISO</td>
+  <td class="batter-col">wRC+</td>
   <td>&nbsp;</td>
-  <td>K%</td>
-  <td>FIP-</td>
+  <td class="pitcher-col">K%</td>
+  <td class="pitcher-col">FIP-</td>
 </tr>
 <tr>
-  <td>Spd</td>
-  <td>WAR</td>
+  <td class="batter-col">Spd</td>
+  <td class="batter-col">WAR</td>
   <td>&nbsp;</td>
-  <td>BB%</td>
-  <td>FIP</td>
+  <td class="pitcher-col">BB%</td>
+  <td class="pitcher-col">FIP</td>
 </tr>
 <tr>
-  <td>BABIP</td>
-  <td>Splits</td>
+  <td class="batter-col">BABIP</td>
+  <td class="batter-col">Splits</td>
   <td>&nbsp;</td>
-  <td>K-BB%</td>
-  <td>RS/9</td>
+  <td class="pitcher-col">K-BB%</td>
+  <td class="pitcher-col">RS/9</td>
 </tr>
 
   
@@ -228,3 +228,15 @@ https://medium.com/@thomasjamesnestico/creating-the-perfect-pitching-summary-7b8
 ## Copyright Notice
 
 This package and its author are not affiliated with MLB or any MLB team. This API wrapper interfaces with MLB's Stats API. Use of MLB data is subject to the notice posted at http://gdx.mlb.com/components/copyright.txt.
+
+
+<style>
+table td.batter-col {
+    background-color: lightblue;
+    color: black;
+}
+table td.pitcher-col {
+    background-color: lightgreen;
+    color: black;
+}
+</style>
