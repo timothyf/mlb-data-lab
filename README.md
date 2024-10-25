@@ -32,6 +32,48 @@ Stats shown in the summary sheets include the following:
   <td>&nbsp;</td>
   <td>K%</td>
 </tr>
+<tr>
+  <td>K%</td>
+  <td>XBR</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>OBP</td>
+  <td>wRC</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>SLG</td>
+  <td>wRAA</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>OPS</td>
+  <td>wOBA</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>ISO</td>
+  <td>wRC+</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>Spd</td>
+  <td>WAR</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
+<tr>
+  <td>BABIP</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>K%</td>
+</tr>
   
 </table>
 
