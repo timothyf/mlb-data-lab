@@ -1,6 +1,6 @@
 from PIL import Image
 import matplotlib.pyplot as plt
-from mlb_stats.player import Player
+from mlb_stats.player.player import Player
 
 
 class Plotting:

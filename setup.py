@@ -45,7 +45,7 @@ setup(
     python_requires=">=3.8",  # Specify the minimum Python version required
     entry_points={
         "console_scripts": [
-            "generate-sheets=mlb_stats.scripts.generate_sheets:main",
+            "generate-player-summary=mlb_stats.scripts.generate_player_summary:main",
             "save-statcast-data=mlb_stats.scripts.save_statcast_data:main",
         ],
     },

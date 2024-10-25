@@ -3,7 +3,7 @@ import pandas as pd
 from mlb_stats.config import StatsConfig
 from mlb_stats.apis.fangraphs_client import FangraphsClient
 from mlb_stats.components.stats_table import StatsTable
-from mlb_stats.player import Player
+from mlb_stats.player.player import Player
 from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 

@@ -4,12 +4,12 @@ import matplotlib.gridspec as gridspec
 
 from pybaseball import statcast_batter
 
-from mlb_stats.player import Player
-from mlb_stats.team import Team
+from mlb_stats.player.player import Player
+from mlb_stats.team.team import Team
 from mlb_stats.stats.stats_display import BattingStats
 from mlb_stats.batting.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
-from mlb_stats.plotting import Plotting
+from mlb_stats.data_viz.plotting import Plotting
 
 
 class TeamBattingSheet:

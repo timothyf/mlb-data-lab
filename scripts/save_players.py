@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-from mlb_stats.player import Player
+from mlb_stats.player.player import Player
 from mlb_stats.config import DATA_DIR
 from mlb_stats.utils import Utils
 

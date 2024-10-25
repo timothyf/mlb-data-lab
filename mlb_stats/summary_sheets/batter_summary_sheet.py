@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 
-from mlb_stats.player import Player
+from mlb_stats.player.player import Player
 from mlb_stats.stats.stats_display import StatsDisplay
-from mlb_stats.batting.batting_spray_chart import BattingSprayChart
+from mlb_stats.data_viz.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
-from mlb_stats.summary_sheet import SummarySheet
+from mlb_stats.summary_sheets.summary_sheet import SummarySheet
 from mlb_stats.apis.pybaseball_client import PybaseballClient
 
 

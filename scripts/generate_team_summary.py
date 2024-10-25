@@ -1,4 +1,4 @@
-# python generate_sheets.py --players 'Tarik Skubal' 'Kerry Carpenter' --year 2024
+# python generate_team_summary.py --teams 'Detroit Tigers' --year 2024
 
 import sys
 import os
@@ -6,10 +6,10 @@ import os
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_stats import Player
-from mlb_stats.pitching.pitcher_summary_sheet import PitcherSummarySheet
-from mlb_stats.batting.batter_summary_sheet import BatterSummarySheet
-from mlb_stats.roster import Roster
+from mlb_stats import Team
+from mlb_stats.summary_sheets.pitcher_summary_sheet import PitcherSummarySheet
+from mlb_stats.summary_sheets.batter_summary_sheet import BatterSummarySheet 
+from mlb_stats.team.roster import Roster
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse

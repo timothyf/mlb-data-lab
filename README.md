@@ -51,31 +51,37 @@ mlb_stats/
 │   ├── apis/
 │   │   ├── stats_api.py   # API client for fetching MLB stats
 │   │   ├── fangraphs_client.py # API client for Fangraphs data
-│   ├── batting/
-│   │   ├── 
 │   ├── components/
 │   │   ├── stats_table.py # Class for generating stats tables
 │   ├── data/
 │   │   ├── 
-│   ├── pitching/
-│   │   ├── 
+│   ├── data_viz/
+│   │   ├── batting_spray_chart.py
+│   │   ├── pitch_break_plot.py
+│   │   ├── pitch_breakdown_table.py
+│   │   ├── pitch_velocity_distribution_plot.py
+│   │   ├── rolling_pitch_usage_plot.py
+│   │   ├── plotting.py
+│   ├── player/
+│   │   ├── player.py
+│   │   ├── player_bio.py
+│   │   ├── player_info.py
+│   │   ├── player_lookup.py
 │   ├── stats/
 │   │   ├── 
+│   ├── summary_sheets/
+│   │   ├── batter_summary_sheet.py
+│   │   ├── pitcher_summary_sheet.py
+│   │   ├── summary_sheet.py
+│   │   ├── team_summary_sheet.py
 │   ├── team/
-│   │   ├── 
+│   │   ├── roster.py
+│   │   ├── team.py
 │   ├── config.py
 │   ├── constants.py
-│   ├── player_bio.py
-│   ├── player_info.py
-│   ├── player_lookup.py
-│   ├── player.py
-│   ├── plotting.py
-│   ├── roster.py
-│   ├── summary_sheet.py
-│   ├── team.py
 │   ├── utils.py
 ├── scripts/
-│   ├── generate_sheets.py
+│   ├── generate_player_summary.py
 │   ├── save_statcast_data.py
 ├── tests/
 │   ├── 
@@ -85,11 +91,13 @@ mlb_stats/
 ### Description of Key Directories:
 - **mlb_stats/**: Core application logic and components.
   - **apis/**: API clients for retrieving stats from external services like MLB and Fangraphs.
-  - **batting/**: 
   - **components/**: 
   - **data/**: 
-  - **pitching/**: 
+  - **data_viz/**:
+  - **player/**:
   - **stats/**: 
+  - **summary_sheets/**:
+  - **team/**:
 - **scripts/**: Scripts for generating player summary sheets and saving statcast data.
 - **tests/**: Unit tests for verifying the functionality of various components and modules.  
   
@@ -123,7 +131,7 @@ pip install -r requirements.txt
 #### Generating Player Summary Sheets
 There are several scripts in the `scripts` directory for some basic functionality:
 ```bash
-python scripts/generate_sheets.py [options]
+python scripts/generate_player_summary.py [options]
 
 Options:
     --players [1 or more player names]
@@ -144,7 +152,7 @@ python scripts/save_statcast_data.py [options]
 ## Examples
 #### Generate a player sheet for Riley Greene
 ```bash
-python scripts/generate_sheets.py --players 'Riley Greene'
+python scripts/generate_player_summary.py --players 'Riley Greene'
 ```
 Output:<br/>
 `mlb_stats/output/2024/Tigers/`batter_summary_riley_greene.png<br/><br/>
@@ -152,7 +160,7 @@ Output:<br/>
 
 #### Generate a player sheets for all of the 2024 Detroit Tigers
 ```bash
-python scripts/generate_sheets.py --teams 'Detroit Tigers' --year 2024
+python scripts/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
 ````
 
 <br/>

@@ -1,7 +1,7 @@
 import requests
 import statsapi
 
-from mlb_stats.constants import STATS_API_BASE_URL, MLB_STATIC_BASE_URL
+from mlb_stats.constants import STATS_API_BASE_URL
 
 
 class MlbStatsClient: 
@@ -14,6 +14,8 @@ class MlbStatsClient:
         data = requests.get(url).json()
         return data['people'][0]
     
+    # Sample
+    #   https://statsapi.mlb.com/api/v1/teams/116
     @staticmethod
     def fetch_team(team_id: int):
         url = f"{STATS_API_BASE_URL}teams/{team_id}"
@@ -88,8 +90,8 @@ class MlbStatsClient:
         active_roster = statsapi.roster(team_id, rosterType='active', season=year)
         return active_roster
     
+    @staticmethod
     def fetch_team_roster(team_id: int, season: int):
-        # Fetch the team roster for the given season
         roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
         
         # Extract player names from the roster data
@@ -123,7 +125,8 @@ class MlbStatsClient:
             print(f"No player found for name: {player_name}")
             return None
         
-
+    # Sample
+    #   https://statsapi.mlb.com/api/v1/seasons/2024?sportId=1
     @staticmethod
     def get_season_info(year):
         return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   

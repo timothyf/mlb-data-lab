@@ -1,4 +1,4 @@
-from mlb_stats.team import Team
+from mlb_stats.team.team import Team
 from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 from mlb_stats.apis.fangraphs_client import FangraphsClient
 
