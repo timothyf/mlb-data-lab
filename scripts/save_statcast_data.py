@@ -90,7 +90,7 @@ if __name__ == "__main__":
     # If teams are provided, get active roster for each team
     if teams:
         for team in teams:
-            players += Roster.get_active_roster(team_name=team, year=args.year)
+            players += Roster.get_season_roster(team_name=team, year=args.year)
 
     # Use the specified year (or the default year 2024)
     year = args.year

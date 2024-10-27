@@ -15,8 +15,9 @@ class Roster:
             raise ValueError("players should be a list")
 
 
+    # Gets all players who played for a team in a given season
     @staticmethod
-    def get_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
+    def get_season_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         roster = []
         if team_id:
             roster = FangraphsClient.fetch_team_players(team_id=team_id, season=year)
