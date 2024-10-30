@@ -1,36 +1,26 @@
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.gridspec as gridspec
-
-from pybaseball import statcast_batter
 
 from mlb_stats.player.player import Player
-from mlb_stats.team.team import Team
-from mlb_stats.stats.stats_display import BattingStats
-from mlb_stats.batting.batting_spray_chart import BattingSprayChart
+from mlb_stats.stats.stats_display import StatsDisplay
+from mlb_stats.data_viz.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
-from mlb_stats.data_viz.plotting import Plotting
+from mlb_stats.summary_sheets.summary_sheet import SummarySheet
+from mlb_stats.apis.pybaseball_client import PybaseballClient
 
 
-class TeamBattingSheet:
+class TeamBattingSheet(SummarySheet):
 
-    def __init__(self, team: Team, season: int):
-        self.team = Team
-        self.season = season
+    def __init__(self, player: Player, season: int):
+        super().__init__(player, season)
 
-        self.start_date = f'{self.season}-03-28'
-        self.end_date = f'{self.season}-10-01'
-        self.statcast_data = statcast_batter(self.start_date, self.end_date, self.player.mlbam_id)  
+        #self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
 
-        # Set the resolution of the figures to 300 DPI
-        mpl.rcParams['figure.dpi'] = 300
+        self.columns_count = 8
+        self.rows_count = 8
+        self.height_ratios = [2, 20, 5, 5, 16, 46, 1, 8]
+        self.width_rations = [1, 18, 18, 18, 18, 18, 18, 1]
 
-        self.fig = plt.figure(figsize=(20, 25))
-
-        # Create a gridspec layout with 8 columns and 6 rows
-        self.gs = gridspec.GridSpec(8, 8,
-                    height_ratios=[2, 20, 5, 5, 16, 46, 1, 8],
-                    width_ratios=[1, 18, 18, 18, 18, 18, 18, 1])
+        self.setup_plots()
 
         # Define the positions of each subplot in the grid
         self.ax_headshot = self.fig.add_subplot(self.gs[1,1:3])
@@ -42,37 +32,34 @@ class TeamBattingSheet:
         self.ax_chart1 = self.fig.add_subplot(self.gs[5,1:4])
         self.ax_chart2 = self.fig.add_subplot(self.gs[5,4:7])
 
-        self.ax_footer = self.fig.add_subplot(self.gs[-1,1:7])
-        self.ax_header = self.fig.add_subplot(self.gs[0,1:7])
-        self.ax_left = self.fig.add_subplot(self.gs[:,0])
-        self.ax_right = self.fig.add_subplot(self.gs[:,-1])
+        self.add_header_and_footer_subplots()
+        self.hide_axis()
 
-        # Hide axes for footer, header, left, and right
-        self.ax_footer.axis('off')
-        self.ax_header.axis('off')
-        self.ax_left.axis('off')
-        self.ax_right.axis('off')
-        
 
     def generate_plots(self):
-        Plotting.plot_image(self.ax_headshot, self.player.get_headshot())
-        Plotting.plot_bio(self.ax_bio, self.player, 'Season Batting Summary', self.season)
-        Plotting.plot_image(self.ax_logo, self.player.team.get_logo())
+        pass
+        # super().generate_plots()
 
-        batting_stats = BattingStats(player=self.player, season=self.season)
-        batting_stats.display_standard_stats(self.ax_standard_stats)
-        batting_stats.display_advanced_stats(self.ax_advanced_stats)
-        batting_stats.display_splits_stats(self.ax_splits_stats)
+        # stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='batting')
+        # stats_display.display_standard_stats(self.ax_standard_stats)
+        # stats_display.display_advanced_stats(self.ax_advanced_stats)
+        # stats_display.display_splits_stats(self.ax_splits_stats)
 
-        BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events']).plot(self.ax_chart1, self.statcast_data, "Batted Balls")
-        BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events']).plot(self.ax_chart2, self.statcast_data, "Hits")
+        # spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events'])
+        # if spray_chart.check_for_valid_data(self.statcast_data):
+        #     spray_chart.plot(self.ax_chart1, self.statcast_data, "Batted Balls")
+        # else:
+        #     print("No valid data available for plotting batted ball events.")
+        #     self.ax_chart1.remove()  # Remove the subplot if no valid data is found
 
-        # Add footer text
-        self.ax_footer.text(0, 1, 'Code by: Timothy Fisher', ha='left', va='top', fontsize=24)
-        self.ax_footer.text(0.5, 1, 'Color Coding Compares to League Average By Pitch', ha='center', va='top', fontsize=16)
-        self.ax_footer.text(1, 1, 'Data: MLB, Fangraphs\nImages: MLB, ESPN', ha='right', va='top', fontsize=24)
 
-        plt.tight_layout()
-        plt.savefig(f'output/batter_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')
-        plt.close()
+        # spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events'])
+        # if spray_chart.check_for_valid_data(self.statcast_data):
+        #     spray_chart.plot(self.ax_chart2, self.statcast_data, "Hits")
+        # else:
+        #     print("No valid data available for plotting hit events.")
+        #     self.ax_chart2.remove()  # Remove the subplot if no valid data is found
 
+        # plt.tight_layout()
+        # self.save_sheet("batter")
+        # plt.close()

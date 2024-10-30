@@ -11,15 +11,9 @@ from mlb_stats.utils import Utils
 
 
 class SummarySheet:
-    def __init__(self, player, season=2024):
-        self.player = player
+    def __init__(self, season=2024):
         self.season = season
-        team_info = MlbStatsClient.fetch_player_team(player.mlbam_id, season)
-        self.team_abbrev = team_info.get('abbreviation')
-        self.club_name = team_info.get('clubName')
-
         season_info = MlbStatsClient.get_season_info(season)
-
         self.start_date = season_info['regularSeasonStartDate']
         self.end_date = season_info['regularSeasonEndDate']
 
@@ -32,6 +26,8 @@ class SummarySheet:
             self.player_type = "Pitcher"
         elif self.__class__.__name__ == "BatterSummarySheet":
             self.player_type = "Batter"
+        else:
+            self.player_type = None
 
     def setup_plots(self):
         self.gs = gridspec.GridSpec(self.rows_count, self.columns_count,
@@ -45,7 +41,7 @@ class SummarySheet:
         else:
             Plotting.plot_bio(self.ax_bio, self.player, 'Season Batting Summary', self.season)
 
-        Plotting.plot_image(self.ax_logo, Team.get_team_logo(self.team_abbrev))
+        Plotting.plot_image(self.ax_logo, Team.get_team_logo(self.player.current_team.abbrev))
 
         # Add footer text
         self.ax_footer.text(0, 1, FOOTER_TEXT[1]['text'], ha='left', va='top', fontsize=FOOTER_TEXT[1]['fontsize'])
@@ -66,6 +62,6 @@ class SummarySheet:
         self.ax_right.axis('off')
 
     def save_sheet(self, batter_or_pitcher):
-        file_path = f'{BASE_DIR}/output/{self.season}/{self.club_name}/'
+        file_path = f'{BASE_DIR}/output/{self.season}/{self.player.current_team.club_name}/'
         Utils.ensure_directory_exists(file_path)
         plt.savefig(f'{file_path}{batter_or_pitcher}_summary_{self.player.player_bio.full_name.lower().replace(" ", "_")}.png')

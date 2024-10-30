@@ -5,10 +5,8 @@ from mlb_stats.team.team import Team
 from mlb_stats.player.player_bio import PlayerBio
 from mlb_stats.apis.data_fetcher import DataFetcher
 from mlb_stats.player.player_lookup import PlayerLookup
-from mlb_stats.utils import Utils
 from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 from mlb_stats.player.player_info import PlayerInfo
-from mlb_stats.constants import mlb_teams
 from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.config import STATCAST_DATA_DIR
 
@@ -21,6 +19,9 @@ class Player:
         self.player_info = PlayerInfo()
         self.player_bio = PlayerBio() 
         self.current_team = Team()
+        self.player_standard_stats = None
+        self.player_advanced_stats = None
+        
 
     @staticmethod
     def create_from_mlb(mlbam_id: int = None, player_name: str = None): 
@@ -60,19 +61,12 @@ class Player:
         mlb_player_info = MlbStatsClient.fetch_player_info(mlbam_id)
         player.player_info.set_from_mlb_info(mlb_player_info)
         player.player_bio.set_from_mlb_info(mlb_player_info)
-        player.create_team(mlb_player_info)
+        player.set_team(mlb_player_info)
         return player
 
-
-    def create_team(self, mlb_player_info):
-        self.current_team.team_id = mlb_player_info.get('currentTeam', {}).get('id')
-        self.current_team.name = mlb_player_info.get('currentTeam', {}).get('name')
-        # Safely get the team abbreviation if the team_id exists in the mlb_teams dictionary
-        team_data = mlb_teams.get(self.current_team.team_id, {})
-
-        # Safely get the 'abbrev' from the team data, or use a default value (e.g., None or "")
-        self.current_team.abbrev = team_data.get('abbrev', None)
-
+    def set_team(self, mlb_player_info):
+        team_id = mlb_player_info.get('currentTeam', {}).get('id')
+        self.current_team = Team.create_from_mlb(team_id=team_id)
 
     def get_headshot(self):
         headshot = DataFetcher.fetch_player_headshot(self.mlbam_id)

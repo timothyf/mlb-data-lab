@@ -6,10 +6,8 @@ import os
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_stats import Team
-from mlb_stats.summary_sheets.pitcher_summary_sheet import PitcherSummarySheet
-from mlb_stats.summary_sheets.batter_summary_sheet import BatterSummarySheet 
-from mlb_stats.team.roster import Roster
+from mlb_stats.team.team import Team
+from mlb_stats.summary_sheets.team_batting_sheet import TeamBattingSheet
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse
@@ -19,29 +17,19 @@ warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 players_not_found = []
 
-def generate_player_sheet(player_name: str, year: int=2024):
-    player = Player.create_from_mlb(player_name=player_name)
-    if player is None:
-        print(f"Player {player_name} not found.")
-        players_not_found.append(player_name)
+def generate_team_sheet(team_name: str, year: int=2024):
+    team = Team.create_from_mlb(team_name=team_name)
+    if team is None:
+        print(f"Team {team} not found.")
         return
-    if player.player_info.primary_position == 'P':
-        summary = PitcherSummarySheet(player, year)
-    else:
-        summary = BatterSummarySheet(player, year)
+
+    summary = TeamBattingSheet(team, year)
     summary.generate_plots()
 
 
 if __name__ == "__main__":
     # Initialize the parser
-    parser = argparse.ArgumentParser(description="Generate player sheets.")
-
-    # Add --players and --teams options
-    parser.add_argument(
-        '--players',
-        nargs='+',  # Allows multiple player names to be passed
-        help='List of player names to generate sheets for'
-    )
+    parser = argparse.ArgumentParser(description="Generate team sheets.")
 
     parser.add_argument(
         '--teams',
@@ -60,37 +48,23 @@ if __name__ == "__main__":
     # Parse the command-line arguments
     args = parser.parse_args()
 
-    players = []
     teams = None
-
-    # Get players from --players argument
-    if args.players:
-        players = args.players
 
     # Get teams from --teams argument
     if args.teams:
         teams = args.teams
-    elif not args.players:
-        print("No players or teams provided.")
-        # Optionally, set default players or teams here if needed
-        players = ['Tarik Skubal', 'Riley Greene']
-        print(f"Using default players: {players}")
-
-    # If teams are provided, get active roster for each team
-    if teams:
-        for team in teams:
-            players += Roster.get_season_roster(team_name=team, year=args.year)
+    else:
+        print("No teams provided.")
+        teams = ['Detroit Tigers']
+        print(f"Using default team: {teams}")
 
     # Use the specified year (or the default year 2024)
     year = args.year
     print(f"Year: {year}")
-
-    print(f"Player names: {players}")
     print(f"Team names: {teams}")
 
     # Generate player summary sheets for each player with the given year
-    for player in players:
-        generate_player_sheet(player, year)
+    for team in teams:
+        generate_team_sheet(team, year)
 
-    for player in players_not_found:
-        print(f"Player {player} not found.")
+

@@ -1,5 +1,6 @@
 import requests
 import statsapi
+import json
 
 from mlb_stats.constants import STATS_API_BASE_URL
 
@@ -25,7 +26,11 @@ class MlbStatsClient:
     # Sample
     #   https://statsapi.mlb.com/api/v1/people?personIds=669373&season=2024&hydrate=stats(group=[hitting,pitching],type=season,season=2024)
     #   https://statsapi.mlb.com/api/v1/people?personIds=114752&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
-    #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
+    #   https://statsapi.mlb.com/api/v1/people?personIds=111509
+    #           &season=1984
+    #           &hydrate=stats(group=[hitting],
+    #           type=season,
+    #           season=1984)
     @staticmethod
     def fetch_player_stats(player_id: int, year: int):
         stats = statsapi.get('people', {'personIds': player_id, 'season': year, 
@@ -34,6 +39,52 @@ class MlbStatsClient:
         if 'stats' not in stats:
             return None
         return stats['stats'][0]['splits']
+    
+    # Sample
+    # https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,
+    #       stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),
+    #       leagueListId=mlb_hist,
+    #       season=2024)
+    #   https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),leagueListId=mlb_hist,season=2024)
+    @staticmethod
+    def fetch_player_stats_by_season(player_id: int, year: int):
+        url = f"https://statsapi.mlb.com/api/v1/people/{player_id}?hydrate=team,stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),leagueListId=mlb_hist,season={year})"
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            # Parse JSON data from response
+            data = response.json()
+            
+            # Initialize the structure for combined data
+            combined_data = {
+                "player_id": player_id,
+                "season_stats": {}
+            }
+            
+            # Process each person in the data
+            for person in data.get('people', []):
+                # Filter by matching player_id only
+                if person['id'] == player_id:
+                    for stat_group in person['stats']:
+                        if stat_group['type']['displayName'] in ['season', 'seasonAdvanced']:
+                            for split in stat_group['splits']:
+                                # Check for season total stats (without team info)
+                                if 'team' not in split and split['season'] == str(year):
+                                    season_stats = combined_data["season_stats"].setdefault("season", {})
+                                    season_stats.update(split['stat'])
+
+                                # Check for team-specific stats
+                                elif 'team' in split and split['season'] == str(year):
+                                    team_name = split['team']['teamName'].lower()
+                                    team_entry = combined_data["season_stats"].setdefault(team_name, {})
+                                    team_entry.update(split['stat'])
+
+            return combined_data
+        else:
+            print(f"Failed to retrieve data. Status code: {response.status_code}")
+
+
+
     
 
     # Sample

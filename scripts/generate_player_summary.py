@@ -10,6 +10,7 @@ from mlb_stats.player.player import Player
 from mlb_stats.summary_sheets.pitcher_summary_sheet import PitcherSummarySheet
 from mlb_stats.summary_sheets.batter_summary_sheet import BatterSummarySheet
 from mlb_stats.team.roster import Roster
+from mlb_stats.team.team import Team
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse
@@ -91,6 +92,11 @@ if __name__ == "__main__":
     # Generate player summary sheets for each player with the given year
     for player in players:
         generate_player_sheet(player, year)
+
+    if teams:
+        for team in teams:
+            team = Team.create_from_mlb(team_name=team)
+            team.save_season_roster(year)
 
     for player in players_not_found:
         print(f"Player {player} not found.")

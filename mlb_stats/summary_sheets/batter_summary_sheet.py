@@ -6,12 +6,23 @@ from mlb_stats.data_viz.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
 from mlb_stats.summary_sheets.summary_sheet import SummarySheet
 from mlb_stats.apis.pybaseball_client import PybaseballClient
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
+from mlb_stats.apis.fangraphs_client import FangraphsClient
 
 
 class BatterSummarySheet(SummarySheet):
 
     def __init__(self, player: Player, season: int):
-        super().__init__(player, season)
+        super().__init__(season)
+        self.player = player
+        stats = MlbStatsClient.fetch_player_stats_by_season(player.mlbam_id, season)
+        if stats:
+            self.player.player_standard_stats = stats.get('season_stats', {})
+        else:
+            self.player.player_standard_stats = None
+
+        self.player.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type='batting')
+
 
         self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
 
@@ -42,7 +53,7 @@ class BatterSummarySheet(SummarySheet):
         stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='batting')
         stats_display.display_standard_stats(self.ax_standard_stats)
         stats_display.display_advanced_stats(self.ax_advanced_stats)
-        stats_display.display_splits_stats(self.ax_splits_stats)
+        stats_display.plot_splits_stats(self.ax_splits_stats)
 
         spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events'])
         if spray_chart.check_for_valid_data(self.statcast_data):

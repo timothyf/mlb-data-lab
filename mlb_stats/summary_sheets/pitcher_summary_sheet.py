@@ -12,12 +12,23 @@ from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.constants import swing_code, whiff_code
 from mlb_stats.config import DATA_DIR
 from mlb_stats.summary_sheets.summary_sheet import SummarySheet
+from mlb_stats.apis.fangraphs_client import FangraphsClient
+from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 
 
 class PitcherSummarySheet(SummarySheet):
 
     def __init__(self, player: Player, season: int):
-        super().__init__(player, season)
+        super().__init__(season)
+        self.player = player
+        stats = MlbStatsClient.fetch_player_stats_by_season(player.mlbam_id, season)
+        if stats:
+            self.player.player_standard_stats = stats.get('season_stats', {})
+        else:
+            self.player.player_standard_stats = None
+        
+        self.player.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type='pitching')
+
 
         self.statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, self.start_date, self.end_date)
         self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
@@ -50,7 +61,7 @@ class PitcherSummarySheet(SummarySheet):
         stats_display = StatsDisplay(player=self.player, season=self.season, stat_type='pitching')
         stats_display.display_standard_stats(self.ax_standard_stats)
         stats_display.display_advanced_stats(self.ax_advanced_stats)
-        stats_display.display_splits_stats(self.ax_splits_stats)
+        stats_display.plot_splits_stats(self.ax_splits_stats)
 
         pitching_data = self.prepare_pitching_data(self.statcast_pitching_data)
 
