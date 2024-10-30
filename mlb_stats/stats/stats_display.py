@@ -4,7 +4,6 @@ import pandas as pd
 
 # Application-specific imports
 from mlb_stats.config import StatsConfig
-from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.components.stats_table import StatsTable
 from mlb_stats.player.player import Player
 
@@ -14,7 +13,6 @@ class StatsDisplay:
         self.player = player
         self.stat_type = stat_type
         self.season_stats = StatsConfig().stat_lists[stat_type]
-        self.splits_stats = self._fetch_splits_stats(season)
 
 
     def display_standard_stats(self, ax: plt.Axes):
@@ -30,19 +28,20 @@ class StatsDisplay:
         if self.player.player_advanced_stats is None:
             print("No stats data available.")
             return
-
         player_stats_df = self.player.player_advanced_stats[self.player.player_advanced_stats['xMLBAMID'] == self.player.mlbam_id]
         player_stats_df = self._filter_columns(StatsConfig().stat_lists[self.stat_type]['advanced'], player_stats_df)
         if player_stats_df.empty:
             print(f"No advanced stats available for player {self.player.mlbam_id}.")
             return
-        
         self._plot_stats_table(player_stats_df, StatsConfig().stat_lists[self.stat_type]['advanced'], ax, 'Advanced', False)
 
 
     def plot_splits_stats(self, ax: plt.Axes):
-        if self.splits_stats is not None:
-            self._plot_stats_table(self.splits_stats, self.season_stats['splits'], ax, 'Splits', is_splits=True)
+        if self.player.player_splits_stats is None:
+            print("No splits stats data available.")
+            return
+        
+        self._plot_stats_table(self.player.player_splits_stats, self.season_stats['splits'], ax, 'Splits', is_splits=True)
 
 
     def _plot_stat_data(self, data, stat_type: str, ax: plt.Axes, title: str):
@@ -99,9 +98,3 @@ class StatsDisplay:
             first_key = next(iter(self.player.player_standard_stats))
             return self.player.player_standard_stats[first_key]
         
-    def _fetch_splits_stats(self, season):
-        """Fetches the splits stats based on `stat_type`."""
-        if self.stat_type == 'batting':
-            return PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.player.bbref_id, season=season)
-        else:
-            return PybaseballClient.fetch_pitching_splits_leaderboards(player_bbref=self.player.bbref_id, season=season)

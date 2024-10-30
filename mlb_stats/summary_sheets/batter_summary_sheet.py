@@ -15,17 +15,8 @@ class BatterSummarySheet(SummarySheet):
     def __init__(self, player: Player, season: int):
         super().__init__(season)
         self.player = player
-        stats = MlbStatsClient.fetch_player_stats_by_season(player.mlbam_id, season)
-        if stats:
-            self.player.player_standard_stats = stats.get('season_stats', {})
-        else:
-            self.player.player_standard_stats = None
-
-        self.player.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type='batting')
-
-
+        self.player.set_player_stats(season)
         self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
-
         self.columns_count = 8
         self.rows_count = 8
         self.height_ratios = [2, 20, 5, 5, 16, 46, 1, 8]

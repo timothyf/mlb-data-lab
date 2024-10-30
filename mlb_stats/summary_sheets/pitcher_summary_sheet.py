@@ -21,15 +21,7 @@ class PitcherSummarySheet(SummarySheet):
     def __init__(self, player: Player, season: int):
         super().__init__(season)
         self.player = player
-        stats = MlbStatsClient.fetch_player_stats_by_season(player.mlbam_id, season)
-        if stats:
-            self.player.player_standard_stats = stats.get('season_stats', {})
-        else:
-            self.player.player_standard_stats = None
-        
-        self.player.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=self.season, stat_type='pitching')
-
-
+        self.player.set_player_stats(season)
         self.statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, self.start_date, self.end_date)
         self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
         self.columns_count = 8
