@@ -16,7 +16,7 @@ class BatterSummarySheet(SummarySheet):
         super().__init__(season)
         self.player = player
         self.player.set_player_stats(season)
-        self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
+        self.player.set_statcast_data(self.start_date, self.end_date)
         self.columns_count = 8
         self.rows_count = 8
         self.height_ratios = [2, 20, 5, 5, 16, 46, 1, 8]
@@ -47,16 +47,16 @@ class BatterSummarySheet(SummarySheet):
         stats_display.plot_splits_stats(self.ax_splits_stats)
 
         spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['batted_ball_events'])
-        if spray_chart.check_for_valid_data(self.statcast_data):
-            spray_chart.plot(self.ax_chart1, self.statcast_data, "Batted Balls")
+        if spray_chart.check_for_valid_data(self.player.statcast_data):
+            spray_chart.plot(self.ax_chart1, self.player.statcast_data, "Batted Balls")
         else:
             print("No valid data available for plotting batted ball events.")
             self.ax_chart1.remove()  # Remove the subplot if no valid data is found
 
 
         spray_chart = BattingSprayChart(self.player.mlbam_id, statcast_events['hit_events'])
-        if spray_chart.check_for_valid_data(self.statcast_data):
-            spray_chart.plot(self.ax_chart2, self.statcast_data, "Hits")
+        if spray_chart.check_for_valid_data(self.player.statcast_data):
+            spray_chart.plot(self.ax_chart2, self.player.statcast_data, "Hits")
         else:
             print("No valid data available for plotting hit events.")
             self.ax_chart2.remove()  # Remove the subplot if no valid data is found

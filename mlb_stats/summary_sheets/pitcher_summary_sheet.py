@@ -22,7 +22,7 @@ class PitcherSummarySheet(SummarySheet):
         super().__init__(season)
         self.player = player
         self.player.set_player_stats(season)
-        self.statcast_pitching_data = PybaseballClient.fetch_statcast_pitcher_data(self.player.mlbam_id, self.start_date, self.end_date)
+        self.player.set_statcast_data(self.start_date, self.end_date)
         self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
         self.columns_count = 8
         self.rows_count = 10
@@ -55,15 +55,15 @@ class PitcherSummarySheet(SummarySheet):
         stats_display.display_advanced_stats(self.ax_advanced_stats)
         stats_display.plot_splits_stats(self.ax_splits_stats)
 
-        pitching_data = self.prepare_pitching_data(self.statcast_pitching_data)
+        pitching_data = self.prepare_pitching_data(self.player.statcast_data)
 
-        PitchVelocityDistributionPlot(self.player).plot(pitch_data=self.statcast_pitching_data, ax=self.ax_pitch_velocity,
+        PitchVelocityDistributionPlot(self.player).plot(pitch_data=self.player.statcast_data, ax=self.ax_pitch_velocity,
                     gs=self.gs,
                     gs_x=[6, 7],
                     gs_y=[1, 3],
                     fig=self.fig,
                     leage_pitching_avgs=self.league_pitch_averages)
-        RollingPitchUsagePlot(self.player).plot(pitch_data=self.statcast_pitching_data, ax=self.ax_pitch_usage, window=5)
+        RollingPitchUsagePlot(self.player).plot(pitch_data=self.player.statcast_data, ax=self.ax_pitch_usage, window=5)
         PitchBreakPlot(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_break)
         PitchBreakdownTable(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_breakdown, 
                                               fontsize=16, league_pitch_avgs=self.league_pitch_averages)

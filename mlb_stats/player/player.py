@@ -23,6 +23,7 @@ class Player:
         self.player_standard_stats = None
         self.player_advanced_stats = None
         self.player_splits_stats = None
+        self.statcast_data = None
         
 
     def set_player_stats(self, season):
@@ -34,6 +35,13 @@ class Player:
             self.player_standard_stats = PybaseballClient.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
             self.player_advanced_stats = self.player_standard_stats
             self.player_splits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+
+
+    def set_statcast_data(self, start_date, end_date):
+        if self.player_info.primary_position == 'P':
+            self.statcast_data = PybaseballClient.fetch_statcast_pitcher_data(self.mlbam_id, start_date, end_date)
+        else:
+            self.statcast_data = PybaseballClient.fetch_statcast_batter_data(self.mlbam_id, start_date, end_date)
 
 
     @staticmethod
