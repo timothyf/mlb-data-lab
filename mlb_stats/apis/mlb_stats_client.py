@@ -73,15 +73,36 @@ class MlbStatsClient:
                                     season_stats = combined_data["season_stats"].setdefault("season", {})
                                     season_stats.update(split['stat'])
 
+                                    # Calculate BB% if walks and plate appearances are available
+                                    if 'baseOnBalls' in season_stats and 'plateAppearances' in season_stats:
+                                        bb_percent = (season_stats['baseOnBalls'] / season_stats['plateAppearances']) * 100
+                                        season_stats['BB%'] = round(bb_percent, 2)
+
+                                    # Calculate K% if strikeouts and plate appearances are available
+                                    if 'strikeOuts' in season_stats and 'plateAppearances' in season_stats:
+                                        k_percent = (season_stats['strikeOuts'] / season_stats['plateAppearances']) * 100
+                                        season_stats['K%'] = round(k_percent, 2)
+
                                 # Check for team-specific stats
                                 elif 'team' in split and split['season'] == str(year):
                                     team_name = split['team']['teamName'].lower()
                                     team_entry = combined_data["season_stats"].setdefault(team_name, {})
                                     team_entry.update(split['stat'])
 
+                                    # Calculate BB% for team stats if available
+                                    if 'baseOnBalls' in team_entry and 'plateAppearances' in team_entry:
+                                        bb_percent = (team_entry['baseOnBalls'] / team_entry['plateAppearances']) * 100
+                                        team_entry['BB%'] = round(bb_percent, 2)
+
+                                    # Calculate K% if strikeouts and plate appearances are available
+                                    if 'strikeOuts' in team_entry and 'plateAppearances' in team_entry:
+                                        k_percent = (team_entry['strikeOuts'] / team_entry['plateAppearances']) * 100
+                                        team_entry['K%'] = round(k_percent, 2)
+
             return combined_data
         else:
             print(f"Failed to retrieve data. Status code: {response.status_code}")
+
 
 
 

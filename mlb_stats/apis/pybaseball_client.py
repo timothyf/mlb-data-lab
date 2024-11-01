@@ -10,9 +10,40 @@ class PybaseballClient:
     
 
     @staticmethod
+    def fetch_fangraphs_batter_data(player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
+        data = pyb.batting_stats(start_season=start_year, end_season=end_year, team=team_fangraphs_id, qual=1)
+        try:
+            player_stats = data[data['Name'] == player_name]
+            
+            if player_stats.empty:
+                print(f"Player '{player_name}' not found.")
+                return None
+            else:
+                return player_stats.to_dict(orient='records')[0]
+        except KeyError:
+            print("The data does not contain the expected columns.")
+            return None
+
+    @staticmethod
+    def fetch_fangraphs_pitcher_data(player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
+        data = pyb.pitching_stats(start_season=start_year, end_season=end_year, team=team_fangraphs_id, qual=1)
+        try:
+            player_stats = data[data['Name'] == player_name]
+            
+            if player_stats.empty:
+                print(f"Player '{player_name}' not found.")
+                return None
+            else:
+                return player_stats.to_dict(orient='records')[0]
+        except KeyError:
+            print("The data does not contain the expected columns.")
+            return None
+
+    @staticmethod
     def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):
         statcast_data = pyb.statcast_batter(start_date, end_date, player_id)  
         return statcast_data
+    
 
     @staticmethod
     def save_statcast_batter_data(player_id: int, year: int, file_path: str = None):
@@ -99,6 +130,7 @@ class PybaseballClient:
         # Define the columns you want to keep for batting splits
         splits_stats_list = StatsConfig().stat_lists['batting']['splits']
 
+        print(f"Fetching batting splits data for player {player_bbref} in season {season}...")
         # Fetching the splits data
         data = pyb.get_splits(playerid=player_bbref, year=season)
 

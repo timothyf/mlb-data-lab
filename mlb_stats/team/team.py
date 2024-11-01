@@ -1,3 +1,4 @@
+import os
 from mlb_stats.apis.data_fetcher import DataFetcher
 from mlb_stats.constants import team_logo_urls
 from mlb_stats.apis.mlb_stats_client import MlbStatsClient
@@ -5,12 +6,15 @@ from mlb_stats.team.roster import Roster
 from mlb_stats.apis.fangraphs_client import FangraphsClient
 from mlb_stats.config import BASE_DIR
 from mlb_stats.utils import Utils
+from mlb_stats.data.fangraphs_teams import FangraphsTeams
+from mlb_stats.config import DATA_DIR
 
 class Team:
 
     def __init__(self):
         self.team_id = None # MLBAM team ID
         self.mlbam_id = None # MLBAM team ID
+        self.fangraphs_id = None # Fangraphs team ID
         self.abbrev = None #mlb_teams[team_id]['abbrev']
         self.name = None # full team name, i.e. Detroit Tigers
         self.location = None # i.e. Detroit, New York, etc.
@@ -35,6 +39,14 @@ class Team:
         with open(file_path, "w") as file:
             for line in self.season_roster.players:
                 file.write(line + "\n")
+
+    def set_fangraphs_id(self):
+        teams = FangraphsTeams(os.path.join(DATA_DIR, 'fangraphs_teams.csv'))
+        team = teams.get_by_teamID(self.abbrev)
+        if team is None:
+            return
+        team = team[-1]
+        self.fangraphs_id = team['teamIDfg']
     
     @staticmethod
     def get_team_logo(abbrev: str):
@@ -56,6 +68,7 @@ class Team:
         team.club_name = team_data.get('clubName')
         team.location = team_data.get('locationName')
         team.set_season_roster(season)
+        team.set_fangraphs_id()
         return team
 
     @staticmethod

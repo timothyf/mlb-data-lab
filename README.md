@@ -36,7 +36,7 @@ In addition to the baseball stats you would expect, the summary sheets also incl
 </tr>
 <tr>
   <td class="batter-col">K%</td>
-  <td class="batter-col">XBR</td>
+  <td class="batter-col">wRC</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">BB/9</td>
   <td class="pitcher-col">WHIP</td>
@@ -44,42 +44,42 @@ In addition to the baseball stats you would expect, the summary sheets also incl
 </tr>
 <tr>
   <td class="batter-col">OBP</td>
-  <td class="batter-col">wRC</td>
+  <td class="batter-col">wRAA</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">K/BB</td>
   <td class="pitcher-col">BABIP</td>
 </tr>
 <tr>
   <td class="batter-col">SLG</td>
-  <td class="batter-col">wRAA</td>
+  <td class="batter-col">wOBA</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">H/9</td>
   <td class="pitcher-col">LOB%</td>
 </tr>
 <tr>
   <td class="batter-col">OPS</td>
-  <td class="batter-col">wOBA</td>
+  <td class="batter-col">wRC+</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">HR/9</td>
   <td class="pitcher-col">ERA-</td>
 </tr>
 <tr>
   <td class="batter-col">ISO</td>
-  <td class="batter-col">wRC+</td>
+  <td class="batter-col">WAR</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">K%</td>
   <td class="pitcher-col">FIP-</td>
 </tr>
 <tr>
   <td class="batter-col">Spd</td>
-  <td class="batter-col">WAR</td>
+  <td class="batter-col">Splits</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">BB%</td>
   <td class="pitcher-col">FIP</td>
 </tr>
 <tr>
   <td class="batter-col">BABIP</td>
-  <td class="batter-col">Splits</td>
+  <td class="batter-col">&nbsp;</td>
   <td>&nbsp;</td>
   <td class="pitcher-col">K-BB%</td>
   <td class="pitcher-col">RS/9</td>

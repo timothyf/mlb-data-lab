@@ -1,0 +1,23 @@
+[
+    {"yearID":1876,"lgID":"NL","teamID":"BSN","franchID":"ATL","teamIDfg":16,"teamIDBR":"BSN","teamIDretro":"BSN"},
+    {"yearID":1876,"lgID":"NL","teamID":"CHN","franchID":"CHC","teamIDfg":17,"teamIDBR":"CHC","teamIDretro":"CHN"},
+    {"yearID":1876,"lgID":"NL","teamID":"CN1","franchID":"CNR","teamIDfg":1028,"teamIDBR":"CIN","teamIDretro":"CN1"},
+    {"yearID":1876,"lgID":"NL","teamID":"HAR","franchID":"HAR","teamIDfg":1033,"teamIDBR":"HAR","teamIDretro":"HAR"},
+    {"yearID":1876,"lgID":"NL","teamID":"LS1","franchID":"LGR","teamIDfg":1043,"teamIDBR":"LOU","teamIDretro":"LS1"},
+    {"yearID":1876,"lgID":"NL","teamID":"NY3","franchID":"NYU","teamIDfg":1053,"teamIDBR":"NYU","teamIDretro":"NY3"},
+    {"yearID":1876,"lgID":"NL","teamID":"PHN","franchID":"ATH","teamIDfg":1002,"teamIDBR":"ATH","teamIDretro":"PHN"},
+    {"yearID":1876,"lgID":"NL","teamID":"SL3","franchID":"SBS","teamIDfg":1070,"teamIDBR":"STL","teamIDretro":"SL3"},
+    {"yearID":1877,"lgID":"NL","teamID":"BSN","franchID":"ATL","teamIDfg":16,"teamIDBR":"BSN","teamIDretro":"BSN"},
+    {"yearID":1877,"lgID":"NL","teamID":"CHN","franchID":"CHC","teamIDfg":17,"teamIDBR":"CHC","teamIDretro":"CHN"},
+    {"yearID":1877,"lgID":"NL","teamID":"CN1","franchID":"CNR","teamIDfg":1028,"teamIDBR":"CIN","teamIDretro":"CN1"},
+    {"yearID":1877,"lgID":"NL","teamID":"HAR","franchID":"HAR","teamIDfg":1033,"teamIDBR":"HAR","teamIDretro":"HAR"},
+    {"yearID":1877,"lgID":"NL","teamID":"LS1","franchID":"LGR","teamIDfg":1043,"teamIDBR":"LOU","teamIDretro":"LS1"},
+    {"yearID":1877,"lgID":"NL","teamID":"SL3","franchID":"SBS","teamIDfg":1070,"teamIDBR":"STL","teamIDretro":"SL3"},
+    {"yearID":1878,"lgID":"NL","teamID":"BSN","franchID":"ATL","teamIDfg":16,"teamIDBR":"BSN","teamIDretro":"BSN"},
+    {"yearID":1878,"lgID":"NL","teamID":"CHN","franchID":"CHC","teamIDfg":17,"teamIDBR":"CHC","teamIDretro":"CHN"},
+    {"yearID":1878,"lgID":"NL","teamID":"CN1","franchID":"CNR","teamIDfg":1028,"teamIDBR":"CIN","teamIDretro":"CN1"},
+    {"yearID":1878,"lgID":"NL","teamID":"IN1","franchID":"IBL","teamIDfg":1035,"teamIDBR":"IND","teamIDretro":"IN1"},
+    {"yearID":1878,"lgID":"NL","teamID":"ML2","franchID":"MLG","teamIDfg":1048,"teamIDBR":"MLG","teamIDretro":"ML2"},
+    {"yearID":1878,"lgID":"NL","teamID":"PRO","franchID":"PRO","teamIDfg":1064,"teamIDBR":"PRO","teamIDretro":"PRO"}
+]
+ 

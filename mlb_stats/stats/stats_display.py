@@ -16,24 +16,39 @@ class StatsDisplay:
 
 
     def display_standard_stats(self, ax: plt.Axes):
-        self._plot_stat_data(
-            data=self.player.player_standard_stats,
-            stat_type='standard',
-            ax=ax,
-            title='Standard'
-        )
+        data=self.player.player_standard_stats
+        stat_type='standard'
+        title='Standard'
+
+        if data is None:
+            print(f"No {stat_type} stats data available.")
+            return
+
+        stats_df = pd.DataFrame([data])
+        filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
+        if filtered_data is None or filtered_data.empty:
+            print(f"No valid {stat_type} stats available for plotting.")
+            return
+
+        self._plot_stats_table(filtered_data, self.season_stats[stat_type], ax, title, is_splits=False)
  
 
     def display_advanced_stats(self, ax: plt.Axes):
-        if self.player.player_advanced_stats is None:
-            print("No stats data available.")
+        data = self.player.player_advanced_stats
+        stat_type='advanced'
+        title='Advanced'
+
+        if data is None:
+            print(f"No {stat_type} stats data available.")
             return
-        player_stats_df = self.player.player_advanced_stats[self.player.player_advanced_stats['xMLBAMID'] == self.player.mlbam_id]
-        player_stats_df = self._filter_columns(StatsConfig().stat_lists[self.stat_type]['advanced'], player_stats_df)
-        if player_stats_df.empty:
-            print(f"No advanced stats available for player {self.player.mlbam_id}.")
+
+        stats_df = pd.DataFrame([data])
+        filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
+        if filtered_data is None or filtered_data.empty:
+            print(f"No valid {stat_type} stats available for plotting.")
             return
-        self._plot_stats_table(player_stats_df, StatsConfig().stat_lists[self.stat_type]['advanced'], ax, 'Advanced', False)
+
+        self._plot_stats_table(filtered_data, self.season_stats[stat_type], ax, title, is_splits=False)
 
 
     def plot_splits_stats(self, ax: plt.Axes):

@@ -9,7 +9,7 @@ from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 from mlb_stats.player.player_info import PlayerInfo
 from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.config import STATCAST_DATA_DIR
-from mlb_stats.apis.fangraphs_client import FangraphsClient
+from mlb_stats.apis.pybaseball_client import PybaseballClient
 
 
 class Player:
@@ -26,19 +26,14 @@ class Player:
         
 
     def set_player_stats(self, season):
-        stats = MlbStatsClient.fetch_player_stats_by_season(self.mlbam_id, season)
-        if stats:
-            self.player_standard_stats = stats.get('season_stats', {})
-        else:
-            self.player_standard_stats = None
-        
         if self.player_info.primary_position == 'P':
-            self.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=season, stat_type='pitching')
+            self.player_standard_stats = PybaseballClient.fetch_fangraphs_pitcher_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
+            self.player_advanced_stats = self.player_standard_stats
             self.player_splits_stats = PybaseballClient.fetch_pitching_splits_leaderboards(player_bbref=self.bbref_id, season=season)
         else:
-            self.player_advanced_stats = FangraphsClient.fetch_leaderboards(season=season, stat_type='batting')
+            self.player_standard_stats = PybaseballClient.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
+            self.player_advanced_stats = self.player_standard_stats
             self.player_splits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
-
 
 
     @staticmethod
