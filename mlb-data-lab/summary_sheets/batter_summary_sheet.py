@@ -5,9 +5,6 @@ from mlb_stats.stats.stats_display import StatsDisplay
 from mlb_stats.data_viz.batting_spray_chart import BattingSprayChart
 from mlb_stats.constants import statcast_events
 from mlb_stats.summary_sheets.summary_sheet import SummarySheet
-from mlb_stats.apis.pybaseball_client import PybaseballClient
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
-from mlb_stats.apis.fangraphs_client import FangraphsClient
 
 
 class BatterSummarySheet(SummarySheet):

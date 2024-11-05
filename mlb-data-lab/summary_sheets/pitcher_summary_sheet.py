@@ -8,12 +8,9 @@ from mlb_stats.data_viz.pitch_velocity_distribution_plot import PitchVelocityDis
 from mlb_stats.data_viz.rolling_pitch_usage_plot import RollingPitchUsagePlot
 from mlb_stats.data_viz.pitch_break_plot import PitchBreakPlot
 from mlb_stats.data_viz.pitch_breakdown_table import PitchBreakdownTable
-from mlb_stats.apis.pybaseball_client import PybaseballClient
 from mlb_stats.constants import swing_code, whiff_code
 from mlb_stats.config import DATA_DIR
 from mlb_stats.summary_sheets.summary_sheet import SummarySheet
-from mlb_stats.apis.fangraphs_client import FangraphsClient
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
 
 
 class PitcherSummarySheet(SummarySheet):
