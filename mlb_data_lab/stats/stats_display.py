@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Application-specific imports
-from mlb_stats.config import StatsConfig
-from mlb_stats.components.stats_table import StatsTable
-from mlb_stats.player.player import Player
+from mlb_data_lab.config import StatsConfig
+from mlb_data_lab.components.stats_table import StatsTable
+from mlb_data_lab.player.player import Player
 
 
 class StatsDisplay:

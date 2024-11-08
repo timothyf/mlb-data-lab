@@ -2,7 +2,7 @@ import requests
 import statsapi
 import json
 
-from mlb_stats.constants import STATS_API_BASE_URL
+from mlb_data_lab.constants import STATS_API_BASE_URL
 
 
 class MlbStatsClient: 

@@ -2,15 +2,15 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from mlb_stats.player.player import Player
-from mlb_stats.stats.stats_display import StatsDisplay
-from mlb_stats.data_viz.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
-from mlb_stats.data_viz.rolling_pitch_usage_plot import RollingPitchUsagePlot
-from mlb_stats.data_viz.pitch_break_plot import PitchBreakPlot
-from mlb_stats.data_viz.pitch_breakdown_table import PitchBreakdownTable
-from mlb_stats.constants import swing_code, whiff_code
-from mlb_stats.config import DATA_DIR
-from mlb_stats.summary_sheets.summary_sheet import SummarySheet
+from mlb_data_lab.player.player import Player
+from mlb_data_lab.stats.stats_display import StatsDisplay
+from mlb_data_lab.data_viz.pitch_velocity_distribution_plot import PitchVelocityDistributionPlot
+from mlb_data_lab.data_viz.rolling_pitch_usage_plot import RollingPitchUsagePlot
+from mlb_data_lab.data_viz.pitch_break_plot import PitchBreakPlot
+from mlb_data_lab.data_viz.pitch_breakdown_table import PitchBreakdownTable
+from mlb_data_lab.constants import swing_code, whiff_code
+from mlb_data_lab.config import DATA_DIR
+from mlb_data_lab.summary_sheets.summary_sheet import SummarySheet
 
 
 class PitcherSummarySheet(SummarySheet):

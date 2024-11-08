@@ -2,12 +2,12 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from mlb_stats.data_viz.plotting import Plotting
-from mlb_stats.config import FOOTER_TEXT
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
-from mlb_stats.team.team import Team
-from mlb_stats.config  import BASE_DIR
-from mlb_stats.utils import Utils
+from mlb_data_lab.data_viz.plotting import Plotting
+from mlb_data_lab.config import FOOTER_TEXT
+from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.team.team import Team
+from mlb_data_lab.config  import BASE_DIR
+from mlb_data_lab.utils import Utils
 
 
 class SummarySheet:

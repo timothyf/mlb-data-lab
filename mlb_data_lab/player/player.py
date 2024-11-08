@@ -1,15 +1,15 @@
 from io import BytesIO
 from PIL import Image
 
-from mlb_stats.team.team import Team
-from mlb_stats.player.player_bio import PlayerBio
-from mlb_stats.apis.data_fetcher import DataFetcher
-from mlb_stats.player.player_lookup import PlayerLookup
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
-from mlb_stats.player.player_info import PlayerInfo
-from mlb_stats.apis.pybaseball_client import PybaseballClient
-from mlb_stats.config import STATCAST_DATA_DIR
-from mlb_stats.apis.pybaseball_client import PybaseballClient
+from mlb_data_lab.team.team import Team
+from mlb_data_lab.player.player_bio import PlayerBio
+from mlb_data_lab.apis.data_fetcher import DataFetcher
+from mlb_data_lab.player.player_lookup import PlayerLookup
+from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.player.player_info import PlayerInfo
+from mlb_data_lab.apis.pybaseball_client import PybaseballClient
+from mlb_data_lab.config import STATCAST_DATA_DIR
+from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 
 
 class Player:

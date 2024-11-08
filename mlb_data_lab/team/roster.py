@@ -1,5 +1,5 @@
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
-from mlb_stats.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.apis.fangraphs_client import FangraphsClient
 
 class Roster:
     def __init__(self):

@@ -3,10 +3,10 @@ import matplotlib.ticker as mtick
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from mlb_stats.constants import pitch_colors
+from mlb_data_lab.constants import pitch_colors
 import math
 import numpy as np
-from mlb_stats.config import FontConfig
+from mlb_data_lab.config import FontConfig
 
 
 

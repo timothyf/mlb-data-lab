@@ -1,13 +1,13 @@
 import os
-from mlb_stats.apis.data_fetcher import DataFetcher
-from mlb_stats.constants import team_logo_urls
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
-from mlb_stats.team.roster import Roster
-from mlb_stats.apis.fangraphs_client import FangraphsClient
-from mlb_stats.config import BASE_DIR
-from mlb_stats.utils import Utils
-from mlb_stats.data.fangraphs_teams import FangraphsTeams
-from mlb_stats.config import DATA_DIR
+from mlb_data_lab.apis.data_fetcher import DataFetcher
+from mlb_data_lab.constants import team_logo_urls
+from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.team.roster import Roster
+from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.config import BASE_DIR
+from mlb_data_lab.utils import Utils
+from mlb_data_lab.data.fangraphs_teams import FangraphsTeams
+from mlb_data_lab.config import DATA_DIR
 
 class Team:
 

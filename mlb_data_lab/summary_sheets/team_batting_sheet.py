@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 
-from mlb_stats.player.player import Player
-from mlb_stats.stats.stats_display import StatsDisplay
-from mlb_stats.data_viz.batting_spray_chart import BattingSprayChart
-from mlb_stats.constants import statcast_events
-from mlb_stats.summary_sheets.summary_sheet import SummarySheet
-from mlb_stats.apis.pybaseball_client import PybaseballClient
+from mlb_data_lab.player.player import Player
+from mlb_data_lab.stats.stats_display import StatsDisplay
+from mlb_data_lab.data_viz.batting_spray_chart import BattingSprayChart
+from mlb_data_lab.constants import statcast_events
+from mlb_data_lab.summary_sheets.summary_sheet import SummarySheet
+from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 
 
 class TeamBattingSheet(SummarySheet):

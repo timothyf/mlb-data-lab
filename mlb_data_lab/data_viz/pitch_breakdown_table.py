@@ -9,8 +9,8 @@ import pandas as pd
 from matplotlib import colors as mcolors
 
 # Local application-specific imports
-from mlb_stats.config import DATA_DIR
-from mlb_stats.constants import (
+from mlb_data_lab.config import DATA_DIR
+from mlb_data_lab.constants import (
     pitch_colors, 
     pitch_stats_dict, 
     color_stats, 

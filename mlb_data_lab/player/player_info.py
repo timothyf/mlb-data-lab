@@ -1,5 +1,5 @@
 import json
-from mlb_stats.utils import Utils
+from mlb_data_lab.utils import Utils
 
 
 class PlayerInfo:

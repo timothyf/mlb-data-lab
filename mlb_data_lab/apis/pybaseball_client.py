@@ -1,8 +1,8 @@
 import pybaseball as pyb
 import pandas as pd
-from mlb_stats.config import StatsConfig
+from mlb_data_lab.config import StatsConfig
 import debugpy
-from mlb_stats.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 import os
 
 
