@@ -38,6 +38,23 @@ class PybaseballClient:
         except KeyError:
             print("The data does not contain the expected columns.")
             return None
+        
+    @staticmethod
+    def fetch_team_batting_stats(team_abbrev: str, start_year: int, end_year: int):
+        data = pyb.team_batting(start_year, end_year, 'al')   
+        stats = data.query(f"Team == '{team_abbrev}'")     
+        return stats
+    
+    @staticmethod
+    def fetch_team_pitching_stats(team_abbrev: str, start_year: int, end_year: int):
+        data = pyb.team_pitching(start_year, end_year, 'al')   
+        stats = data.query(f"Team == '{team_abbrev}'")     
+        return stats
+    
+    @staticmethod
+    def fetch_team_schedule_and_record(team_abbrev: str, season: int):
+        data = pyb.schedule_and_record(season, team_abbrev)
+        return data
 
     @staticmethod
     def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):

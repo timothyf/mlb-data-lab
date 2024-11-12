@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from mlb_data_lab.team.team import Team
 from mlb_data_lab.summary_sheets.team_batting_sheet import TeamBattingSheet
+from mlb_data_lab.summary_sheets.team_pitching_sheet import TeamPitchingSheet
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
 import argparse
@@ -15,7 +16,6 @@ import argparse
 # Suppress MarkupResemblesLocatorWarning
 warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
-players_not_found = []
 
 def generate_team_sheet(team_name: str, year: int=2024):
     team = Team.create_from_mlb(team_name=team_name)
@@ -23,7 +23,12 @@ def generate_team_sheet(team_name: str, year: int=2024):
         print(f"Team {team} not found.")
         return
 
+    # Generate team batting sheet
     summary = TeamBattingSheet(team, year)
+    summary.generate_plots()
+
+    # Generate team pitching sheet
+    summary = TeamPitchingSheet(team, year)
     summary.generate_plots()
 
 
@@ -42,7 +47,7 @@ if __name__ == "__main__":
         '--year',
         type=int,  # Ensure year is an integer
         default=2024,  # Set default year to 2024
-        help='Specify the year for which the player stats should be generated (default: 2024)'
+        help='Specify the year for which the team stats should be generated (default: 2024)'
     )
 
     # Parse the command-line arguments
@@ -63,7 +68,6 @@ if __name__ == "__main__":
     print(f"Year: {year}")
     print(f"Team names: {teams}")
 
-    # Generate player summary sheets for each player with the given year
     for team in teams:
         generate_team_sheet(team, year)
 
