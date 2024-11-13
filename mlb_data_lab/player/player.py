@@ -3,7 +3,6 @@ from PIL import Image
 
 from mlb_data_lab.team.team import Team
 from mlb_data_lab.player.player_bio import PlayerBio
-from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.player.player_lookup import PlayerLookup
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player_info import PlayerInfo
@@ -90,7 +89,7 @@ class Player:
         self.current_team = Team.create_from_mlb(team_id=team_id)
 
     def get_headshot(self):
-        headshot = DataFetcher.fetch_player_headshot(self.mlbam_id)
+        headshot = Player.data_client.fetch_player_headshot(self.mlbam_id)
         img = Image.open(BytesIO(headshot))
         return img
     

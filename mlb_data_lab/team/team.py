@@ -1,5 +1,4 @@
 import os
-from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.constants import team_logo_urls
 from mlb_data_lab.team.roster import Roster
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
@@ -33,7 +32,7 @@ class Team:
     def get_logo(self):
         if self.abbrev not in team_logo_urls:
             return None
-        return DataFetcher.fetch_logo_img(team_logo_urls[self.abbrev])
+        return Team.data_client.fetch_logo_img(team_logo_urls[self.abbrev])
     
     def set_season_roster(self, season):
         self.season_roster = Roster()
@@ -68,7 +67,7 @@ class Team:
     def get_team_logo(abbrev: str):
         if abbrev not in team_logo_urls:
             return None
-        return DataFetcher.fetch_logo_img(team_logo_urls[abbrev])
+        return Team.data_client.fetch_logo_img(team_logo_urls[abbrev])
 
     @staticmethod
     def create_from_mlb(team_id: int = None, team_name: str = None, season: int = 2024):

@@ -10,7 +10,6 @@ class UnifiedDataClient:
 
     def __init__(self):
         pass
-    
 
     ################
     # Batting Stats
@@ -83,6 +82,9 @@ class UnifiedDataClient:
     
     def get_team_id(self, team_name: str):
         return MlbStatsClient.get_team_id(team_name)
+
+    def fetch_logo_img(self, logo_url: str):
+        return DataFetcher.fetch_logo_img(logo_url)
     
     #######################
     # Player Info
@@ -113,6 +115,10 @@ class UnifiedDataClient:
     
     def get_player_mlbam_id(self, player_id: int):
         return MlbStatsClient.get_player_mlbam_id(player_id)
+    
+    def fetch_player_headshot(self, player_id: int):
+        return DataFetcher.fetch_player_headshot(player_id)
+    
     
 
 
