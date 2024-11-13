@@ -55,6 +55,14 @@ class PybaseballClient:
     def fetch_team_schedule_and_record(team_abbrev: str, season: int):
         data = pyb.schedule_and_record(season, team_abbrev)
         return data
+    
+    @staticmethod
+    def lookup_player(last_name: str, first_name: str, fuzzy: bool = False):
+        return pyb.playerid_lookup(last_name, first_name, fuzzy=fuzzy)
+    
+    @staticmethod
+    def lookup_player_by_id(player_id: int):
+        return pyb.playerid_reverse_lookup([player_id], key_type='mlbam')
 
     @staticmethod
     def fetch_statcast_batter_data(player_id: int, start_date: str, end_date: str):

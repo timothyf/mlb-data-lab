@@ -6,13 +6,14 @@ from mlb_data_lab.player.player_bio import PlayerBio
 from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.player.player_lookup import PlayerLookup
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player_info import PlayerInfo
-from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 from mlb_data_lab.config import STATCAST_DATA_DIR
-from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 
 
 class Player:
+
+    data_client = UnifiedDataClient()
 
     def __init__(self, mlbam_id: int):
         self.mlbam_id = mlbam_id
@@ -28,20 +29,20 @@ class Player:
 
     def set_player_stats(self, season):
         if self.player_info.primary_position == 'P':
-            self.player_standard_stats = PybaseballClient.fetch_fangraphs_pitcher_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
+            self.player_standard_stats = Player.data_client.fetch_fangraphs_pitcher_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
             self.player_advanced_stats = self.player_standard_stats
-            self.player_splits_stats = PybaseballClient.fetch_pitching_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+            self.player_splits_stats = Player.data_client.fetch_pitching_splits_leaderboards(player_bbref=self.bbref_id, season=season)
         else:
-            self.player_standard_stats = PybaseballClient.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
+            self.player_standard_stats = Player.data_client.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
             self.player_advanced_stats = self.player_standard_stats
-            self.player_splits_stats = PybaseballClient.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+            self.player_splits_stats = Player.data_client.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
 
 
     def set_statcast_data(self, start_date, end_date):
         if self.player_info.primary_position == 'P':
-            self.statcast_data = PybaseballClient.fetch_statcast_pitcher_data(self.mlbam_id, start_date, end_date)
+            self.statcast_data = Player.data_client.fetch_statcast_pitcher_data(self.mlbam_id, start_date, end_date)
         else:
-            self.statcast_data = PybaseballClient.fetch_statcast_batter_data(self.mlbam_id, start_date, end_date)
+            self.statcast_data = Player.data_client.fetch_statcast_batter_data(self.mlbam_id, start_date, end_date)
 
 
     @staticmethod
@@ -66,7 +67,7 @@ class Player:
 
         elif mlbam_id:
             # Lookup player data using mlbam_id (if player_name is not provided)
-            player_data = PlayerLookup.lookup_player_by_mlbam(mlbam_id)
+            player_data = PlayerLookup.lookup_player_by_id(mlbam_id)
             player_name = player_data.get('full_name')  # Safely get the player's full name
             bbref_id = player_data.get('key_bbref')
             if not player_name:
@@ -97,10 +98,10 @@ class Player:
     def save_statcast_data(self, year: int = 2024):
         if self.player_info.primary_position == 'P':
             file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/pitching/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
-            PybaseballClient.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
+            Player.data_client.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
         else:
             file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
-            PybaseballClient.save_statcast_batter_data(self.mlbam_id, year, file_path)
+            Player.data_client.save_statcast_batter_data(self.mlbam_id, year, file_path)
         # statcast_data = MlbStatsClient.fetch_statcast_data(self.mlbam_id, year)
         # if statcast_data is not None:
         #     Utils.save_csv(statcast_data, f"{self.player_bio.full_name}_statcast_{year}.csv")

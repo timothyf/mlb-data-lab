@@ -1,14 +1,16 @@
 import pandas as pd
-import pybaseball as pyb
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 
 class PlayerLookup:
+
+    data_client = UnifiedDataClient()
 
     # This method uses the pybaseball library to lookup a player's MLBAM ID
     @staticmethod
     def lookup_player_id(pitcher_name: str):
         first_name, last_name = pitcher_name.split()
-        player_id_df = pyb.playerid_lookup(last_name, first_name)
+        player_id_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
         if not player_id_df.empty:
             key_mlbam_value = player_id_df.iloc[0]['key_mlbam']
             if isinstance(key_mlbam_value, list):
@@ -17,7 +19,7 @@ class PlayerLookup:
         else:
             print(f"Player not found: {pitcher_name}")
             # If fuzzy matching is required
-            fuzzy_results = pd.DataFrame(pyb.playerid_lookup(last_name, first_name, fuzzy=True))
+            fuzzy_results = pd.DataFrame(PlayerLookup.data_client.lookup_player(last_name, first_name, fuzzy=True))
             return fuzzy_results
         
     # This method uses the pybaseball library to lookup a player's information
@@ -39,7 +41,7 @@ class PlayerLookup:
                 last_name = name_parts[-2]
 
             # Try looking up the player by name
-            player_df = pyb.playerid_lookup(last_name, first_name)
+            player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
 
             # If player not found, handle special cases
             if player_df.empty:
@@ -47,7 +49,7 @@ class PlayerLookup:
 
         if player_id:
             # Lookup the player by ID if provided
-            player_df = pyb.playerid_reverse_lookup([player_id], key_type='mlbam')
+            player_df = PlayerLookup.data_client.lookup_player_by_id(player_id)
 
         # Return the first matching row or None if empty
         if not player_df.empty:
@@ -65,29 +67,29 @@ class PlayerLookup:
 
         new_last_name = " ".join(name_parts[1:])  # Join the remaining parts as the last name
         print(f"Player not found with first name: {first_name}, last name: {last_name}. Trying with first name {first_name}, last name: {new_last_name}")
-        player_df = pyb.playerid_lookup(new_last_name, first_name)
+        player_df = PlayerLookup.data_client.lookup_player(new_last_name, first_name)
 
         if player_df.empty:
             if first_name == 'Matthew':
                 first_name = 'Matt'
                 print(f"Trying with first name {first_name}, last name: {new_last_name}")
-                player_df = pyb.playerid_lookup(new_last_name, first_name)
+                player_df = PlayerLookup.data_client.lookup_player(new_last_name, first_name)
             elif first_name == 'Victor':
                 first_name = 'Víctor'
                 print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = pyb.playerid_lookup(last_name, first_name)
+                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
             elif last_name == 'Teheran':
                 last_name = 'Teherán'
                 print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = pyb.playerid_lookup(last_name, first_name)
+                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
             elif last_name == 'Rodriguez':
                 last_name = 'rodríguez'
                 print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = pyb.playerid_lookup(last_name, first_name)
+                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
             elif first_name == 'C.J.':
                 first_name = 'c. j.'
                 print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = pyb.playerid_lookup(last_name, first_name)
+                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
             elif player_name == 'Willie Hernandez':
                 player_id = 115822
             elif player_name == 'Barbaro Garbey':
