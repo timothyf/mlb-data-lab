@@ -5,18 +5,20 @@ from mlb_data_lab.stats.stats_display import StatsDisplay
 from mlb_data_lab.data_viz.batting_spray_chart import BattingSprayChart
 from mlb_data_lab.constants import statcast_events
 from mlb_data_lab.summary_sheets.summary_sheet import SummarySheet
-from mlb_data_lab.apis.pybaseball_client import PybaseballClient
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.team.team import Team
 
 
 class TeamBattingSheet(SummarySheet):
+
+    data_client = UnifiedDataClient()
 
     def __init__(self, team: Team, season: int):
         super().__init__(season)
 
         self.team = team
 
-        #self.statcast_data = PybaseballClient.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
+        #self.statcast_data = TeamBattingSheet.data_client.fetch_statcast_batter_data(player.mlbam_id, self.start_date, self.end_date)
 
         self.columns_count = 8
         self.rows_count = 8

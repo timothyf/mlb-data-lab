@@ -1,10 +1,10 @@
 import os
 from mlb_data_lab.apis.data_fetcher import DataFetcher
-from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 from mlb_data_lab.constants import team_logo_urls
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.team.roster import Roster
 from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.config import BASE_DIR
 from mlb_data_lab.utils import Utils
 from mlb_data_lab.data.fangraphs_teams import FangraphsTeams
@@ -15,6 +15,8 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, message="A value is trying to be set on a copy of a DataFrame or Series through chained assignment")
 
 class Team:
+
+    data_client = UnifiedDataClient()
 
     def __init__(self):
         self.team_id = None # MLBAM team ID
@@ -44,10 +46,10 @@ class Team:
         self.season_stats.populate(self)
 
     def populate_season_batting_stats(self, season):
-        self.season_batting_stats = PybaseballClient.fetch_team_batting_stats(self.abbrev, season, season)
+        self.season_batting_stats = Team.data_client.fetch_team_batting_stats(self.abbrev, season, season)
 
     def populate_season_pitching_stats(self, season):
-        self.season_pitching_stats = PybaseballClient.fetch_team_pitching_stats(self.abbrev, season, season)
+        self.season_pitching_stats = Team.data_client.fetch_team_pitching_stats(self.abbrev, season, season)
 
     def save_season_roster(self, season):
         file_path = f'{BASE_DIR}/output/{season}/{self.club_name}/season_roster.txt'
