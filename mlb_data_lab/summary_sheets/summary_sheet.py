@@ -4,16 +4,19 @@ import matplotlib.gridspec as gridspec
 
 from mlb_data_lab.data_viz.plotting import Plotting
 from mlb_data_lab.config import FOOTER_TEXT
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.team.team import Team
 from mlb_data_lab.config  import BASE_DIR
 from mlb_data_lab.utils import Utils
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 
 class SummarySheet:
+
+    data_client = UnifiedDataClient()
+
     def __init__(self, season=2024):
         self.season = season
-        season_info = MlbStatsClient.get_season_info(season)
+        season_info = SummarySheet.data_client.get_season_info(season)
         self.start_date = season_info['regularSeasonStartDate']
         self.end_date = season_info['regularSeasonEndDate']
 

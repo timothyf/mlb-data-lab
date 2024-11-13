@@ -1,7 +1,6 @@
 import os
 from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.constants import team_logo_urls
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.team.roster import Roster
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.config import BASE_DIR
@@ -74,8 +73,8 @@ class Team:
     @staticmethod
     def create_from_mlb(team_id: int = None, team_name: str = None, season: int = 2024):
         if team_id is None and team_name:
-            team_id = MlbStatsClient.get_team_id(team_name)
-        team_data = MlbStatsClient.fetch_team(team_id)
+            team_id = Team.data_client.get_team_id(team_name)
+        team_data = Team.data_client.fetch_team(team_id)
         team = Team()
         team.team_id = team_id
         team.mlbam_id = team_data.get('id')

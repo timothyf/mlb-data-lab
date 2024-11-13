@@ -5,7 +5,6 @@ from mlb_data_lab.team.team import Team
 from mlb_data_lab.player.player_bio import PlayerBio
 from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.player.player_lookup import PlayerLookup
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player_info import PlayerInfo
 from mlb_data_lab.config import STATCAST_DATA_DIR
@@ -80,7 +79,7 @@ class Player:
         # Create a new player instance and populate details
         player = Player(mlbam_id)
         player.bbref_id = bbref_id
-        mlb_player_info = MlbStatsClient.fetch_player_info(mlbam_id)
+        mlb_player_info = Player.data_client.fetch_player_info(mlbam_id)
         player.player_info.set_from_mlb_info(mlb_player_info)
         player.player_bio.set_from_mlb_info(mlb_player_info)
         player.set_team(mlb_player_info)
@@ -102,7 +101,7 @@ class Player:
         else:
             file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
             Player.data_client.save_statcast_batter_data(self.mlbam_id, year, file_path)
-        # statcast_data = MlbStatsClient.fetch_statcast_data(self.mlbam_id, year)
+        # statcast_data = Player.data_client.fetch_statcast_data(self.mlbam_id, year)
         # if statcast_data is not None:
         #     Utils.save_csv(statcast_data, f"{self.player_bio.full_name}_statcast_{year}.csv")
         # else:

@@ -61,12 +61,32 @@ class UnifiedDataClient:
         return FangraphsClient.fetch_pitching_leaderboards_as_json(season)
 
     #######################
-    # Team and Player Info
+    # Team Info
     #######################
-
     def fetch_team_schedule_and_record(self, team_abbrev: str, season: int):
         return PybaseballClient.fetch_team_schedule_and_record(team_abbrev, season)
 
+    def fetch_team_players(self, team_id: int, season: int):
+        return FangraphsClient.fetch_team_players(team_id, season)
+    
+    def fetch_active_roster(self, team_id: int = None, team_name: str = None, year: int = 2024):
+        return MlbStatsClient.fetch_active_roster(team_id, team_name, year)
+    
+    def fetch_team(self, team_id: int):
+        return MlbStatsClient.fetch_team(team_id)
+    
+    def fetch_team_roster(self, team_id: int, year: int = 2024):
+        return MlbStatsClient.fetch_team_roster(team_id, year)
+    
+    def get_season_info(self, year: int):
+        return MlbStatsClient.get_season_info(year)
+    
+    def get_team_id(self, team_name: str):
+        return MlbStatsClient.get_team_id(team_name)
+    
+    #######################
+    # Player Info
+    #######################
     def lookup_player(self, last_name: str, first_name: str, fuzzy: bool = False):
         return PybaseballClient.lookup_player(last_name, first_name, fuzzy)
 
@@ -76,10 +96,23 @@ class UnifiedDataClient:
     def playerid_reverse_lookup(player_id, key_type='mlbam'):
         return PybaseballClient.playerid_reverse_lookup([player_id], key_type='mlbam')
     
-    def fetch_team_players(self, team_id: int, season: int):
-        return FangraphsClient.fetch_team_players(team_id, season)
-    
     def fetch_leaderboards(self, season: int, stat_type: str) -> pd.DataFrame:
         return FangraphsClient.fetch_leaderboards(season, stat_type)
+    
+    def fetch_player_info(self, player_id: int):
+        return MlbStatsClient.fetch_player_info(player_id)
+    
+    def fetch_player_stats(self, player_id: int, year: int):
+        return MlbStatsClient.fetch_player_stats(player_id, year)
+    
+    def fetch_player_stats_by_season(self, player_id: int, year: int):
+        return MlbStatsClient.fetch_player_stats_by_season(player_id, year)
+    
+    def fetch_player_team_stats(self, player_id: int, year: int):
+        return MlbStatsClient.fetch_player_team_stats(player_id, year)
+    
+    def get_player_mlbam_id(self, player_id: int):
+        return MlbStatsClient.get_player_mlbam_id(player_id)
+    
 
 

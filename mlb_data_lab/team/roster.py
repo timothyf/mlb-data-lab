@@ -1,4 +1,3 @@
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 class Roster:
@@ -24,13 +23,13 @@ class Roster:
         if team_id:
             roster = Roster.data_client.fetch_team_players(team_id=team_id, season=year)
         elif team_name:
-            team_id = MlbStatsClient.get_team_id(team_name)
+            team_id = Roster.data_client.get_team_id(team_name)
             roster = Roster.data_client.fetch_team_players(team_id=team_id, season=year)
 
         # if team_id:
-        #     roster = MlbStatsClient.fetch_active_roster(team_id=team_id, year=year)
+        #     roster = Roster.data_client.fetch_active_roster(team_id=team_id, year=year)
         # elif team_name:
-        #     roster = MlbStatsClient.fetch_active_roster(team_name=team_name, year=year)
+        #     roster = Roster.data_client.fetch_active_roster(team_name=team_name, year=year)
 
        # print(f"Roster: {roster}")
 
