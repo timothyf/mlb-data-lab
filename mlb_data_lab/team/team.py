@@ -3,7 +3,6 @@ from mlb_data_lab.apis.data_fetcher import DataFetcher
 from mlb_data_lab.constants import team_logo_urls
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.team.roster import Roster
-from mlb_data_lab.apis.fangraphs_client import FangraphsClient
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.config import BASE_DIR
 from mlb_data_lab.utils import Utils
@@ -39,7 +38,7 @@ class Team:
     
     def set_season_roster(self, season):
         self.season_roster = Roster()
-        self.season_roster.players = FangraphsClient.fetch_team_players(team_id=self.mlbam_id, season=season)
+        self.season_roster.players = Team.data_client.fetch_team_players(team_id=self.mlbam_id, season=season)
 
     def populate_season_stats(self, season):
         self.season_stats = TeamSeasonStats(season)

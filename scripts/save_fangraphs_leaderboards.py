@@ -6,13 +6,15 @@ import json
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.config import DATA_DIR
 
 # Constants
 SEASON = 2024  # Replace with the desired season
 BATTING_FILE_PATH = f"{DATA_DIR}/fangraphs_leaderboards/batting_leaderboard.json"
 PITCHING_FILE_PATH = f"{DATA_DIR}/fangraphs_leaderboards/pitching_leaderboard.json"
+
+data_client = UnifiedDataClient()
 
 # Ensure the directory exists
 def ensure_directory_exists(file_path):
@@ -33,11 +35,11 @@ def fetch_and_save_leaderboards(season):
 
     try:
         # Fetch and save batting leaderboard data
-        batting_data = FangraphsClient.fetch_batting_leaderboards_as_json(season)
+        batting_data = data_client.fetch_batting_leaderboards_as_json(season)
         save_data_to_json(BATTING_FILE_PATH, batting_data)
 
         # Fetch and save pitching leaderboard data
-        pitching_data = FangraphsClient.fetch_pitching_leaderboards_as_json(season)
+        pitching_data = data_client.fetch_pitching_leaderboards_as_json(season)
         save_data_to_json(PITCHING_FILE_PATH, pitching_data)
     except Exception as e:
         print(f"Error fetching leaderboard data for season {season}: {e}")

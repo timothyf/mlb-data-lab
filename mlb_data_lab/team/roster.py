@@ -1,7 +1,10 @@
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
-from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 class Roster:
+
+    data_client = UnifiedDataClient()
+
     def __init__(self):
         # Initialize self.players as an empty list
         self.players = []
@@ -19,10 +22,10 @@ class Roster:
     def get_season_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         roster = []
         if team_id:
-            roster = FangraphsClient.fetch_team_players(team_id=team_id, season=year)
+            roster = Roster.data_client.fetch_team_players(team_id=team_id, season=year)
         elif team_name:
             team_id = MlbStatsClient.get_team_id(team_name)
-            roster = FangraphsClient.fetch_team_players(team_id=team_id, season=year)
+            roster = Roster.data_client.fetch_team_players(team_id=team_id, season=year)
 
         # if team_id:
         #     roster = MlbStatsClient.fetch_active_roster(team_id=team_id, year=year)

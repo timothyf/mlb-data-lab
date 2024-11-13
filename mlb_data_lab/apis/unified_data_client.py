@@ -10,6 +10,7 @@ class UnifiedDataClient:
 
     def __init__(self):
         pass
+    
 
     ################
     # Batting Stats
@@ -28,6 +29,12 @@ class UnifiedDataClient:
 
     def save_statcast_batter_data(self, player_id: int, year: int, file_path: str = None):
         return PybaseballClient.save_statcast_batter_data(player_id, year, file_path)
+    
+    def fetch_batting_leaderboards(self, season: int) -> pd.DataFrame:
+        return FangraphsClient.fetch_batting_leaderboards(season)
+    
+    def fetch_batting_leaderboards_as_json(self, season: int):
+        return FangraphsClient.fetch_batting_leaderboards_as_json(season)
 
     ################
     # Pitching Stats
@@ -46,6 +53,12 @@ class UnifiedDataClient:
 
     def save_statcast_pitcher_data(self, player_id: int, year: int, file_path: str = None):
         return PybaseballClient.save_statcast_pitcher_data(player_id, year, file_path)
+    
+    def fetch_pitching_leaderboards(self, season: int) -> pd.DataFrame:
+        return FangraphsClient.fetch_pitching_leaderboards(season)
+    
+    def fetch_pitching_leaderboards_as_json(self, season: int):
+        return FangraphsClient.fetch_pitching_leaderboards_as_json(season)
 
     #######################
     # Team and Player Info
@@ -62,5 +75,11 @@ class UnifiedDataClient:
     
     def playerid_reverse_lookup(player_id, key_type='mlbam'):
         return PybaseballClient.playerid_reverse_lookup([player_id], key_type='mlbam')
+    
+    def fetch_team_players(self, team_id: int, season: int):
+        return FangraphsClient.fetch_team_players(team_id, season)
+    
+    def fetch_leaderboards(self, season: int, stat_type: str) -> pd.DataFrame:
+        return FangraphsClient.fetch_leaderboards(season, stat_type)
 
 
