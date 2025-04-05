@@ -11,6 +11,7 @@ from mlb_data_lab.data_viz.pitch_breakdown_table import PitchBreakdownTable
 from mlb_data_lab.constants import swing_code, whiff_code
 from mlb_data_lab.config import DATA_DIR
 from mlb_data_lab.summary_sheets.summary_sheet import SummarySheet
+from mlb_data_lab.apis.local_data_client import LocalDataClient
 
 
 class PitcherSummarySheet(SummarySheet):
@@ -20,7 +21,7 @@ class PitcherSummarySheet(SummarySheet):
         self.player = player
         self.player.set_player_stats(season)
         self.player.set_statcast_data(self.start_date, self.end_date)
-        self.league_pitch_averages = pd.read_csv(os.path.join(DATA_DIR, 'statcast_2024_league_pitching.csv'))
+        self.league_pitch_averages = self.local_data_client.get_statcast_league_pitching(season)
         self.columns_count = 8
         self.rows_count = 10
         self.height_ratios = [2, 20, 9, 9, 18, 0.25, 36, 36, 2, 10]

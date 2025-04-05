@@ -24,6 +24,33 @@ class MlbStatsClient:
         return data.get('teams', {})[0]
     
     # Sample
+    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
+    #                                         &hydrate=stats(group=[hitting],
+    #                                                  type=[statSplits],
+    #                                                  sitCodes=[vr,vl],
+    #                                                  season=2018)
+    #
+    @staticmethod
+    def fetch_batter_stat_splits(player_id: int, year: int):
+        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl],season={year})"
+        data = requests.get(url).json()
+        return data['people'][0]['stats'][0]['splits']
+    
+    # Sample
+    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
+    #                                         &hydrate=stats(group=[pitching],
+    #                                                  type=[statSplits],
+    #                                                  sitCodes=[vr,vl],
+    #                                                  season=2018)
+    #
+    @staticmethod
+    def fetch_pitcher_stat_splits(player_id: int, year: int):
+        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season={year})"
+        data = requests.get(url).json()
+        return data['people'][0]['stats'][0]['splits']
+    
+    
+    # Sample
     #   https://statsapi.mlb.com/api/v1/people?personIds=669373&season=2024&hydrate=stats(group=[hitting,pitching],type=season,season=2024)
     #   https://statsapi.mlb.com/api/v1/people?personIds=114752&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
     #   https://statsapi.mlb.com/api/v1/people?personIds=111509

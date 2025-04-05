@@ -98,7 +98,9 @@ The `mlb-data-lab` project is organized as follows:
 mlb_stats/
 ├── README.md              # Project documentation
 ├── setup.py               # Setup file for packaging and installation
+├── setup_db.sql           # SQL to initialize database
 ├── requirements.txt       # Dependencies for the project
+├── output/                # Directory to save downloaded data to
 ├── mlb_stats/
 │   ├── apis/
 │   │   ├── stats_api.py   # API client for fetching MLB stats
@@ -134,6 +136,9 @@ mlb_stats/
 │   ├── utils.py
 ├── scripts/
 │   ├── generate_player_summary.py
+│   ├── generate_team_summary.py
+│   ├── save_fangraphs_leaderboards.py
+│   ├── save_players.py
 │   ├── save_statcast_data.py
 ├── tests/
 │   ├── 
@@ -216,6 +221,29 @@ python scripts/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
 ````
 
 <br/>
+
+## Database Setup
+
+To set up the PostgreSQL database for MLB Data Lab, follow these steps:
+
+1. **Install PostgreSQL:**  
+   Download and install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/).
+
+2. **Create the Database:**  
+   Open your terminal and run:
+   ```bash
+   createdb mlb_data_lab_db
+3. **Initialize the Schema:**
+   Ensure you have the create_schema.sql file in your project directory, then run:
+   ```bash
+    psql -d mlb_data_lab_db -f create_schema.sql
+4. **Verify the Setup:**
+   Connect to your database and list the tables:
+   ```bash
+   psql -d mlb_data_lab_db
+   \dt
+You should see the following tables: games, players, umpires, plate_appearances.
+
 
 ## Inspiration
 

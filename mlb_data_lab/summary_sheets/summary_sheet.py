@@ -8,11 +8,13 @@ from mlb_data_lab.team.team import Team
 from mlb_data_lab.config  import BASE_DIR
 from mlb_data_lab.utils import Utils
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
+from mlb_data_lab.apis.local_data_client import LocalDataClient
 
 
 class SummarySheet:
 
     data_client = UnifiedDataClient()
+    local_data_client = LocalDataClient()
 
     def __init__(self, season=2024):
         self.season = season

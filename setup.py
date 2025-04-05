@@ -46,6 +46,8 @@ setup(
     entry_points={
         "console_scripts": [
             "generate-player-summary=mlb_stats.scripts.generate_player_summary:main",
+            "generate-team-summary=mlb_stats.scripts.generate_team_summary:main",
+            "save_fangraphs_leaderboards=mlb_stats.scripts.save_fangraphs_leadersboards:main",
             "save-statcast-data=mlb_stats.scripts.save_statcast_data:main",
         ],
     },

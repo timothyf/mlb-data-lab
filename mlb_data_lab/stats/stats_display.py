@@ -4,7 +4,7 @@ import pandas as pd
 
 # Application-specific imports
 from mlb_data_lab.config import StatsConfig
-from mlb_data_lab.components.stats_table import StatsTable
+from mlb_data_lab.data_viz.stats_table import StatsTable
 from mlb_data_lab.player.player import Player
 
 

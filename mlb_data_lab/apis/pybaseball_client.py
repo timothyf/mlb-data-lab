@@ -62,6 +62,7 @@ class PybaseballClient:
     
     @staticmethod
     def lookup_player_by_id(player_id: int):
+        print(f"Looking up player by ID: {player_id}")
         return pyb.playerid_reverse_lookup([player_id], key_type='mlbam')
 
     @staticmethod
@@ -152,22 +153,27 @@ class PybaseballClient:
         
     @staticmethod
     def fetch_batting_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:
-        # Define the columns you want to keep for batting splits
         splits_stats_list = StatsConfig().stat_lists['batting']['splits']
-
         print(f"Fetching batting splits data for player {player_bbref} in season {season}...")
-        # Fetching the splits data
-        data = pyb.get_splits(playerid=player_bbref, year=season)
-
+        
+        try:
+            data = pyb.get_splits(playerid=player_bbref, year=season)
+        except IndexError as e:
+            print("IndexError caught in get_splits:", e)
+            # Return an empty DataFrame if no splits data is available
+            return pd.DataFrame()
+        
         # Convert to DataFrame if not already one
         if not isinstance(data, pd.DataFrame):
             data = pd.DataFrame(data)
-
+        
         # Process splits data
         split_labels = ['vs LHP', 'vs RHP', 'Ahead', 'Behind']
         combined_data = process_splits(data, splits_stats_list, split_labels, player_bbref, season)
-
+        
         return combined_data
+
+
     
     @staticmethod
     def fetch_pitching_splits_leaderboards(player_bbref: str, season: int) -> pd.DataFrame:

@@ -29,12 +29,13 @@ class Player:
         if self.player_info.primary_position == 'P':
             self.player_standard_stats = Player.data_client.fetch_fangraphs_pitcher_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
             self.player_advanced_stats = self.player_standard_stats
-            self.player_splits_stats = Player.data_client.fetch_pitching_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+            #self.player_splits_stats = Player.data_client.fetch_pitching_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+            self.player_splits_stats = Player.data_client.fetch_pitching_splits(self.mlbam_id, season=season)
         else:
             self.player_standard_stats = Player.data_client.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
             self.player_advanced_stats = self.player_standard_stats
-            self.player_splits_stats = Player.data_client.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
-
+            #self.player_splits_stats = Player.data_client.fetch_batting_splits_leaderboards(player_bbref=self.bbref_id, season=season)
+            self.player_splits_stats = Player.data_client.fetch_batting_splits(self.mlbam_id, season=season)
 
     def set_statcast_data(self, start_date, end_date):
         if self.player_info.primary_position == 'P':
@@ -65,8 +66,9 @@ class Player:
 
         elif mlbam_id:
             # Lookup player data using mlbam_id (if player_name is not provided)
-            player_data = PlayerLookup.lookup_player_by_id(mlbam_id)
-            player_name = player_data.get('full_name')  # Safely get the player's full name
+            player_data = PlayerLookup.lookup_player(player_id = mlbam_id)
+            print(f"Creating player: {player_data}")
+            player_name = f"{player_data.get('name_first', '').capitalize()} {player_data.get('name_last', '').capitalize()}"
             bbref_id = player_data.get('key_bbref')
             if not player_name:
                 raise ValueError(f"Could not find player name for MLBAM ID: {mlbam_id}")

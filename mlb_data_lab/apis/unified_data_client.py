@@ -1,6 +1,6 @@
 import pandas as pd
 
-from mlb_data_lab.apis.data_fetcher import DataFetcher
+from mlb_data_lab.apis.web_client import WebClient
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 from mlb_data_lab.apis.fangraphs_client import FangraphsClient
@@ -14,6 +14,9 @@ class UnifiedDataClient:
     ################
     # Batting Stats
     ################
+    def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
+        return MlbStatsClient.fetch_batter_stat_splits(player_id, season)
+
     def fetch_batting_splits_leaderboards(self, player_bbref: str, season: int) -> pd.DataFrame:
         return PybaseballClient.fetch_batting_splits_leaderboards(player_bbref, season)
 
@@ -38,6 +41,9 @@ class UnifiedDataClient:
     ################
     # Pitching Stats
     ################
+    def fetch_pitching_splits(self, player_id: int, season: int) -> pd.DataFrame:
+        return MlbStatsClient.fetch_pitcher_stat_splits(player_id, season)
+    
     def fetch_fangraphs_pitcher_data(self, player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
         return PybaseballClient.fetch_fangraphs_pitcher_data(player_name, team_fangraphs_id, start_year, end_year)
 
@@ -84,7 +90,7 @@ class UnifiedDataClient:
         return MlbStatsClient.get_team_id(team_name)
 
     def fetch_logo_img(self, logo_url: str):
-        return DataFetcher.fetch_logo_img(logo_url)
+        return WebClient.fetch_logo_img(logo_url)
     
     #######################
     # Player Info
@@ -117,7 +123,7 @@ class UnifiedDataClient:
         return MlbStatsClient.get_player_mlbam_id(player_id)
     
     def fetch_player_headshot(self, player_id: int):
-        return DataFetcher.fetch_player_headshot(player_id)
+        return WebClient.fetch_player_headshot(player_id)
     
     
 
