@@ -66,6 +66,6 @@ def test_set_player_stats_integration():
     elif isinstance(player.player_splits_stats, pd.DataFrame):
         assert not player.player_splits_stats.empty, "Splits stats DataFrame is empty"
         # Optionally, check for some common expected columns (e.g., AB, H, AVG)
-        common_columns = ['AB', 'H', 'AVG', 'RBI']
+        common_columns = ["gamesPlayed", "groundOuts", "airOuts", "doubles", "triples", "homeRuns", "strikeOuts"]
         missing_cols = [col for col in common_columns if col not in player.player_splits_stats.columns]
         assert not missing_cols, f"Missing expected columns in splits stats: {missing_cols}"

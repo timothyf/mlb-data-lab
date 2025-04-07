@@ -240,7 +240,7 @@ def process_splits(data):
     split_names = []
     for entry in data:
         # Use the split description as the split name.
-        split_name = entry.get('split', {}).get('description', 'Unknown Split')
+        split_name = entry.get('split', {}).get('code', 'Unknown Split')
         stat_rows.append(entry.get('stat', {}))
         split_names.append(split_name)
 
@@ -255,5 +255,4 @@ def process_splits(data):
     )
 
     df_stats.index = multi_index
-    print(f"DataFrame with MultiIndex:\n{df_stats}")
     return df_stats

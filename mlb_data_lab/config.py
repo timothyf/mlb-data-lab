@@ -54,9 +54,8 @@ class StatsConfig:
             'advanced': ['BB%', 'K%', 'AVG', 'OBP', 'SLG', 'OPS', 'ISO', 'Spd', 'BABIP', 'UBR', 'wRC', 'wRAA', 'wOBA', 'wRC+', 'WAR'],
             'splits': ["gamesPlayed", "groundOuts", "airOuts", "doubles", "triples", "homeRuns", "strikeOuts", 
                        "baseOnBalls", "intentionalWalks", "hits", "hitByPitch", "avg", "atBats", "obp", "slg", "ops", 
-                       "groundIntoDoublePlay", "groundIntoTriplePlay", "numberOfPitches", "plateAppearances", 
-                       "totalBases", "rbi", "leftOnBase", "sacBunts", "sacFlies", "babip", "groundOutsToAirouts", 
-                       "catchersInterference", "atBatsPerHomeRun"]
+                       "groundIntoDoublePlay", "numberOfPitches", "plateAppearances", 
+                       "totalBases", "rbi", "leftOnBase", "sacBunts", "sacFlies", "babip"]
         },
         'pitching': {
             'standard': ['W', 'L', 'ERA', 'G', 'GS', 'CG', 'ShO', 'SV', 'HLD', 'BS', 'IP', 'TBF', 'H', 'R', 'ER', 'HR', 'BB', 'IBB', 'HBP', 'WP', 'BK', 'SO'],

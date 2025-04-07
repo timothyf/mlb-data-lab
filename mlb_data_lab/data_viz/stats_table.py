@@ -24,8 +24,6 @@ class StatsTable:
 
         # # Ensure only valid columns are reindexed
         valid_columns = [col for col in self.stat_list if col in data.columns]
-        print(f"Valid columns: {valid_columns}")
-        # data = data.reindex(columns=valid_columns)
 
         if data.empty:
             print("Warning: Data is empty.")
@@ -38,8 +36,8 @@ class StatsTable:
         if is_splits:
             if isinstance(data.index, pd.MultiIndex):
                 # Get the split names from the first level of the MultiIndex
-                split_names = data.index.get_level_values(0).unique()
-                print(f"Split names: {split_names}")
+                #split_names = data.index.get_level_values(0).unique()
+                split_names = data.index.get_level_values('Split')
             else:
                 print("The index is not a MultiIndex.")
 
@@ -54,7 +52,6 @@ class StatsTable:
         if is_splits:
             col_labels = ['Split'] + col_labels
 
-        print(f"Column labels: {col_labels}")
         # Ensure that each row in cell_text has the same number of elements as col_labels
         # Check for alignment of cell_text rows with col_labels
         # Loop through each row in the data to format the values
@@ -79,9 +76,9 @@ class StatsTable:
                 formatted_values.append(split_name)
 
             # Format the rest of the values
-            for col in data.columns:
+            for col in valid_columns: #data.columns:
+                # Check if the column exists in the row and is not NaN or '---'
                 if col in row and pd.notna(row[col]) and row[col] != '---':
-                    print(f"Formatting value for column {col}: {row[col]}")
                     formatted_value = Utils.format_stat(row[col], self.stats_display_config[col]['format']) if 'format' in self.stats_display_config[col] else row[col]
                 else:
                     formatted_value = '---'
@@ -93,11 +90,6 @@ class StatsTable:
             else:
                 print(f"Skipping row {index} due to mismatch in length.")
 
-
-
-
-        print(f"Column labels: {col_labels}")
-        print(f"Cell text: {cell_text}")
         # Create table with aligned data and column headers
         table_fg = ax.table(cellText=cell_text, colLabels=col_labels, cellLoc='center', bbox=[0.00, 0.0, 1, 1])
 

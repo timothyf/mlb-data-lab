@@ -2,6 +2,7 @@
 
 import pytest
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+import pandas as pd
 
 @pytest.mark.integration
 def test_fetch_player_stats_integration():
@@ -53,29 +54,6 @@ def test_fetch_player_stats_integration():
 def test_fetch_batter_stat_splits_integration():
     """
     Integration test for MlbStatsClient.fetch_player_stat_splits using sample data for Riley Greene.
-    
-    Expected sample for hitting splits (from the provided sample JSON):
-    
-    Two splits for season "2024" should be returned:
-      - First split (split code "vl") with:
-          gamesPlayed: 84,
-          team: id=116, name="Detroit Tigers", teamName="Tigers",
-          player: id=682985, fullName="Riley Greene", firstName="Riley", lastName="Greene",
-          league: id=103, name="American League",
-          sport: id=1, name="Major League Baseball", abbreviation="MLB",
-          gameType: "R",
-          split: code "vl", description "vs Left", sortOrder 73,
-          position: code "7", name="Outfielder", type="Outfielder", abbreviation="LF"
-      
-      - Second split (split code "vr") with:
-          gamesPlayed: 131,
-          team: same as above,
-          player: same as above,
-          league: same as above,
-          sport: same as above,
-          gameType: "R",
-          split: code "vr", description "vs Right", sortOrder 74,
-          position: same as above.
     """
     # Use Riley Greene's player id and season 2024.
     player_id = 682985
@@ -85,139 +63,54 @@ def test_fetch_batter_stat_splits_integration():
 
     # Basic assertions.
     assert splits is not None, "Expected non-None stat splits for player stats."
-    assert isinstance(splits, list), "Expected stat splits to be returned as a list."
+    assert isinstance(splits, pd.DataFrame), "Expected result to be a pandas DataFrame"
     assert len(splits) == 2, f"Expected 2 hitting splits, got {len(splits)} splits."
 
     # Define expected keys for every split.
     expected_keys = [
-        'season', 'stat', 'team', 'player',
-        'league', 'sport', 'gameType', 'split', 'position'
+        'gamesPlayed'
     ]
 
     # Expected values for the "vl" split.
     expected_first = {
-        "season": "2024",
-        "stat": {
-            "gamesPlayed": 84
-        },
-        "team": {
-            "id": 116,
-            "name": "Detroit Tigers",
-            "teamName": "Tigers"
-        },
-        "player": {
-            "id": 682985,
-            "fullName": "Riley Greene",
-            "firstName": "Riley",
-            "lastName": "Greene"
-        },
-        "league": {
-            "id": 103,
-            "name": "American League"
-        },
-        "sport": {
-            "id": 1,
-            "name": "Major League Baseball",
-            "abbreviation": "MLB"
-        },
-        "gameType": "R",
-        "split": {
-            "code": "vl",
-            "description": "vs Left",
-            "sortOrder": 73
-        },
-        "position": {
-            "code": "7",
-            "name": "Outfielder",
-            "type": "Outfielder",
-            "abbreviation": "LF"
-        }
+        "gamesPlayed": 84
     }
 
     # Expected values for the "vr" split.
     expected_second = {
-        "season": "2024",
-        "stat": {
-            "gamesPlayed": 131
-        },
-        "team": {
-            "id": 116,
-            "name": "Detroit Tigers",
-            "teamName": "Tigers"
-        },
-        "player": {
-            "id": 682985,
-            "fullName": "Riley Greene",
-            "firstName": "Riley",
-            "lastName": "Greene"
-        },
-        "league": {
-            "id": 103,
-            "name": "American League"
-        },
-        "sport": {
-            "id": 1,
-            "name": "Major League Baseball",
-            "abbreviation": "MLB"
-        },
-        "gameType": "R",
-        "split": {
-            "code": "vr",
-            "description": "vs Right",
-            "sortOrder": 74
-        },
-        "position": {
-            "code": "7",
-            "name": "Outfielder",
-            "type": "Outfielder",
-            "abbreviation": "LF"
-        }
-    }
-
+         "gamesPlayed": 131
+     }
+    
     def check_split(split, expected):
-        # Verify that all expected keys exist.
+        # Convert the namedtuple row to a dictionary.
+        split_dict = split._asdict()
+        # Remove the 'Index' key since it comes from the MultiIndex.
+        split_dict.pop('Index', None)
+        # For each expected key, check that it exists and its value matches.
         for key in expected_keys:
-            assert key in split, f"Expected key '{key}' in split: {split}"
+            assert key in split_dict, f"Expected key '{key}' in split row: {split_dict}"
+            #assert split_dict[key] == exp_value, f"Expected key '{key}' to have value {exp_value}, got {split_dict[key]}"
 
-        # Compare simple string fields.
-        assert split["season"] == expected["season"], f"Expected season {expected['season']}, got {split['season']}"
-        assert split["gameType"] == expected["gameType"], f"Expected gameType {expected['gameType']}, got {split['gameType']}"
+        # Explicitly check for the value of 'gamesPlayed'
+        for key in expected:
+            expected_value = expected[key]
+            actual_value = split_dict.get(key)
+            assert actual_value == expected_value, f"Expected gamesPlayed to be {expected_value}, got {actual_value}"
 
-        # Check team fields.
-        for k, v in expected["team"].items():
-            assert split["team"].get(k) == v, f"Expected team {k}={v}, got {split['team'].get(k)}"
-        
-        # Check player fields.
-        for k, v in expected["player"].items():
-            assert split["player"].get(k) == v, f"Expected player {k}={v}, got {split['player'].get(k)}"
-        
-        # Check league.
-        for k, v in expected["league"].items():
-            assert split["league"].get(k) == v, f"Expected league {k}={v}, got {split['league'].get(k)}"
-        
-        # Check sport.
-        for k, v in expected["sport"].items():
-            assert split["sport"].get(k) == v, f"Expected sport {k}={v}, got {split['sport'].get(k)}"
-        
-        # Check split details.
-        for k, v in expected["split"].items():
-            assert split["split"].get(k) == v, f"Expected split info {k}={v}, got {split['split'].get(k)}"
-        
-        # Check position.
-        for k, v in expected["position"].items():
-            assert split["position"].get(k) == v, f"Expected position {k}={v}, got {split['position'].get(k)}"
-        
-        # Check stat; here we only check 'gamesPlayed'.
-        for k, v in expected["stat"].items():
-            assert split["stat"].get(k) == v, f"Expected stat {k}={v}, got {split['stat'].get(k)}"
+
+    split_names = splits.index.get_level_values('Split')
+    # Check that the split names are as expected.
+    assert len(split_names) == 2, f"Expected 2 splits, got {len(split_names)}"
+    assert "vl" in split_names, f"Expected 'vs Left' split, got {split_names}"
+    assert "vr" in split_names, f"Expected 'vs Right' split, got {split_names}"
 
     # Iterate over the splits and verify expected values.
-    for split in splits:
-        code = split.get("split", {}).get("code")
-        if code == "vl":
+    for i, split in enumerate(splits.itertuples()):
+        if i == 0:
             check_split(split, expected_first)
-        elif code == "vr":
+        elif i == 1:
             check_split(split, expected_second)
         else:
-            pytest.fail(f"Unexpected split code: {code}")
+            pytest.fail(f"Unexpected split index: {i}")
+
 
