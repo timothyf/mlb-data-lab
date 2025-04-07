@@ -1,0 +1,168 @@
+[
+    {
+    "season": "2025",
+    "stat": {
+    "gamesPlayed": 2,
+    "groundOuts": 3,
+    "airOuts": 4,
+    "doubles": 0,
+    "triples": 0,
+    "homeRuns": 0,
+    "strikeOuts": 1,
+    "baseOnBalls": 0,
+    "intentionalWalks": 0,
+    "hits": 2,
+    "hitByPitch": 0,
+    "avg": ".200",
+    "atBats": 10,
+    "obp": ".200",
+    "slg": ".200",
+    "ops": ".400",
+    "groundIntoDoublePlay": 0,
+    "numberOfPitches": 37,
+    "inningsPitched": "2.2",
+    "outsPitched": 8,
+    "whip": "0.75",
+    "battersFaced": 10,
+    "outs": 8,
+    "gamesPitched": 2,
+    "balls": 10,
+    "strikes": 27,
+    "strikePercentage": ".730",
+    "hitBatsmen": 0,
+    "balks": 0,
+    "wildPitches": 0,
+    "totalBases": 2,
+    "groundOutsToAirouts": "0.75",
+    "rbi": 0,
+    "pitchesPerInning": "13.88",
+    "strikeoutWalkRatio": "-.--",
+    "strikeoutsPer9Inn": "3.38",
+    "walksPer9Inn": "0.00",
+    "hitsPer9Inn": "6.75",
+    "homeRunsPer9": "0.00",
+    "catchersInterference": 0,
+    "sacBunts": 0,
+    "sacFlies": 0
+    },
+    "team": {
+    "id": 116,
+    "name": "Detroit Tigers",
+    "link": "/api/v1/teams/116",
+    "teamName": "Tigers"
+    },
+    "player": {
+    "id": 669373,
+    "fullName": "Tarik Skubal",
+    "link": "/api/v1/people/669373",
+    "firstName": "Tarik",
+    "lastName": "Skubal"
+    },
+    "league": {
+    "id": 103,
+    "name": "American League",
+    "link": "/api/v1/league/103"
+    },
+    "sport": {
+    "id": 1,
+    "link": "/api/v1/sports/1",
+    "name": "Major League Baseball",
+    "abbreviation": "MLB"
+    },
+    "gameType": "R",
+    "split": {
+    "code": "vl",
+    "description": "vs Left",
+    "sortOrder": 73
+    },
+    "position": {
+    "code": "1",
+    "name": "Pitcher",
+    "type": "Pitcher",
+    "abbreviation": "P"
+    }
+    },
+    {
+    "season": "2025",
+    "stat": {
+    "gamesPlayed": 2,
+    "groundOuts": 8,
+    "airOuts": 6,
+    "doubles": 2,
+    "triples": 0,
+    "homeRuns": 3,
+    "strikeOuts": 9,
+    "baseOnBalls": 4,
+    "intentionalWalks": 0,
+    "hits": 10,
+    "hitByPitch": 0,
+    "avg": ".303",
+    "atBats": 33,
+    "obp": ".378",
+    "slg": ".636",
+    "ops": "1.014",
+    "groundIntoDoublePlay": 0,
+    "numberOfPitches": 136,
+    "inningsPitched": "7.2",
+    "outsPitched": 23,
+    "whip": "1.83",
+    "battersFaced": 37,
+    "outs": 23,
+    "gamesPitched": 2,
+    "balls": 43,
+    "strikes": 93,
+    "strikePercentage": ".680",
+    "hitBatsmen": 0,
+    "balks": 0,
+    "wildPitches": 0,
+    "totalBases": 21,
+    "groundOutsToAirouts": "1.33",
+    "rbi": 7,
+    "pitchesPerInning": "17.74",
+    "strikeoutWalkRatio": "2.25",
+    "strikeoutsPer9Inn": "10.57",
+    "walksPer9Inn": "4.70",
+    "hitsPer9Inn": "11.74",
+    "homeRunsPer9": "3.52",
+    "catchersInterference": 0,
+    "sacBunts": 0,
+    "sacFlies": 0
+    },
+    "team": {
+    "id": 116,
+    "name": "Detroit Tigers",
+    "link": "/api/v1/teams/116",
+    "teamName": "Tigers"
+    },
+    "player": {
+    "id": 669373,
+    "fullName": "Tarik Skubal",
+    "link": "/api/v1/people/669373",
+    "firstName": "Tarik",
+    "lastName": "Skubal"
+    },
+    "league": {
+    "id": 103,
+    "name": "American League",
+    "link": "/api/v1/league/103"
+    },
+    "sport": {
+    "id": 1,
+    "link": "/api/v1/sports/1",
+    "name": "Major League Baseball",
+    "abbreviation": "MLB"
+    },
+    "gameType": "R",
+    "split": {
+    "code": "vr",
+    "description": "vs Right",
+    "sortOrder": 74
+    },
+    "position": {
+    "code": "1",
+    "name": "Pitcher",
+    "type": "Pitcher",
+    "abbreviation": "P"
+    }
+    }
+    ]

@@ -52,8 +52,11 @@ class StatsConfig:
             'standard': ['G', 'PA', 'AB', 'H', '2B', '3B', 'HR', 'R', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SF', 'SH', 'GDP', 'SB', 'CS', 'AVG'],
             #'standard': ['G', 'PA', 'AB', 'H', '1B', '2B', '3B', 'HR', 'R', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SF', 'SH', 'GDP', 'SB', 'CS', 'AVG'],
             'advanced': ['BB%', 'K%', 'AVG', 'OBP', 'SLG', 'OPS', 'ISO', 'Spd', 'BABIP', 'UBR', 'wRC', 'wRAA', 'wOBA', 'wRC+', 'WAR'],
-            'splits': ['G', 'PA', 'AB', 'R', 'H', '1B', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'AVG', 'OBP', 
-                       'SLG', 'OPS', 'BAbip', 'tOPS+', 'sOPS+']
+            'splits': ["gamesPlayed", "groundOuts", "airOuts", "doubles", "triples", "homeRuns", "strikeOuts", 
+                       "baseOnBalls", "intentionalWalks", "hits", "hitByPitch", "avg", "atBats", "obp", "slg", "ops", 
+                       "groundIntoDoublePlay", "groundIntoTriplePlay", "numberOfPitches", "plateAppearances", 
+                       "totalBases", "rbi", "leftOnBase", "sacBunts", "sacFlies", "babip", "groundOutsToAirouts", 
+                       "catchersInterference", "atBatsPerHomeRun"]
         },
         'pitching': {
             'standard': ['W', 'L', 'ERA', 'G', 'GS', 'CG', 'ShO', 'SV', 'HLD', 'BS', 'IP', 'TBF', 'H', 'R', 'ER', 'HR', 'BB', 'IBB', 'HBP', 'WP', 'BK', 'SO'],
@@ -62,7 +65,6 @@ class StatsConfig:
                        'HBP', 'SH', 'SF', 'IBB', 'ROE', 'BAbip', 'tOPS+', 'sOPS+']
         },
     }
-
 
 
 @dataclass
@@ -142,6 +144,10 @@ class StatsDisplayConfig:
         'babip': {'table_header': r'$\bf{BABIP}$'},
         'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
         'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
+        'groundOuts': {'table_header': r'$\bf{GO}$', 'format': '.0f'},
+        'airOuts': {'table_header': r'$\bf{AO}$', 'format': '.0f'},
+        'groundIntoTriplePlay': {'table_header': r'$\bf{GITP}$', 'format': '.0f'},
+        'numberOfPitches': {'table_header': r'$\bf{P}$', 'format': '.0f'}
     }
 
     batting = {
@@ -214,6 +220,15 @@ class StatsDisplayConfig:
         'BAbip': {'table_header': r'$\bf{BAbip}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'tOPS+': {'table_header': r'$\bf{tOPS+}$', 'format': '.0f'},
         'sOPS+': {'table_header': r'$\bf{sOPS+}$', 'format': '.0f'},
+        'groundOuts': {'table_header': r'$\bf{GO}$', 'format': '.0f'},
+        'airOuts': {'table_header': r'$\bf{AO}$', 'format': '.0f'},
+        'groundIntoTriplePlay': {'table_header': r'$\bf{GITP}$', 'format': '.0f'},
+        'numberOfPitches': {'table_header': r'$\bf{P}$', 'format': '.0f'},
+        'totalBases': {'table_header': r'$\bf{TB}$', 'format': '.0f'},
+        'leftOnBase': {'table_header': r'$\bf{LOB}$', 'format': '.0f'},
+        'groundOutsToAirouts': {'table_header': r'$\bf{GO/AO}$'},
+        'catchersInterference': {'table_header': r'$\bf{CI}$', 'format': '.0f'},
+        'atBatsPerHomeRun': {'table_header': r'$\bf{AB/HR}$'},
     }
 
 

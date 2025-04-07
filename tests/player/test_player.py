@@ -17,13 +17,15 @@ class DummyUnifiedDataClient:
     def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return {"dummy": "batter_splits"}
     def fetch_fangraphs_pitcher_data(self, player_name, team_fangraphs_id, start_year, end_year):
+        # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "pitcher_stats"}
     def fetch_fangraphs_batter_data(self, player_name, team_fangraphs_id, start_year, end_year):
+        # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "batter_stats"}
     def fetch_pitching_splits_leaderboards(self, player_bbref, season):
-        return {"dummy": "pitching_splits"}
+        return {"dummy": "pitcher_splits"}
     def fetch_batting_splits_leaderboards(self, player_bbref, season):
-        return {"dummy": "batting_splits"}
+        return {"dummy": "batter_splits"}
     def fetch_statcast_pitcher_data(self, mlbam_id, start_date, end_date):
         return {"dummy": "statcast_pitcher"}
     def fetch_statcast_batter_data(self, mlbam_id, start_date, end_date):
@@ -31,8 +33,6 @@ class DummyUnifiedDataClient:
     def fetch_player_info(self, mlbam_id):
         return {"id": mlbam_id, "currentTeam": {"id": 100}}
     def fetch_player_headshot(self, mlbam_id):
-        from io import BytesIO
-        from PIL import Image
         img = Image.new("RGB", (10, 10), color="red")
         buf = BytesIO()
         img.save(buf, format="PNG")
@@ -90,14 +90,16 @@ def setup_player(monkeypatch):
     monkeypatch.setattr("mlb_data_lab.player.player.PlayerBio", DummyPlayerBio)
     monkeypatch.setattr("mlb_data_lab.player.player.Team", DummyTeam)
     monkeypatch.setattr("mlb_data_lab.player.player.PlayerLookup", DummyPlayerLookup)
+    # Use monkeypatch.setattr to set the class attribute so it is automatically undone.
     monkeypatch.setattr(Player, "data_client", DummyUnifiedDataClient())
 
 
+# --- Tests for Player Methods using fixture data for stats ---
 
-# --- Tests for Player Methods ---
-
-def test_set_player_stats_pitcher():
-    # Test set_player_stats for a pitcher.
+def test_set_player_stats_pitcher(monkeypatch, sample_batter_standard_stats, sample_batter_advanced_stats, sample_pitcher_stat_splits):
+    """
+    Test set_player_stats for a pitcher using fixture data for standard/advanced stats.
+    """
     player = Player(mlbam_id=123)
     player.player_info = DummyPlayerInfo()
     player.player_info.primary_position = "P"  # pitcher
@@ -106,28 +108,53 @@ def test_set_player_stats_pitcher():
     player.current_team = DummyTeam.create_from_mlb(100)
     player.bbref_id = "dummy_bbref"
     
+    # Override the data client methods to return fixture data.
+    monkeypatch.setattr(DummyUnifiedDataClient, "fetch_fangraphs_pitcher_data", 
+                        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_standard_stats)
+    # Advanced stats are set equal to standard stats.
+    monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_splits", 
+                        lambda self, player_bbref, season: sample_pitcher_stat_splits)
+    
     player.set_player_stats(2020)
     
-    assert player.player_standard_stats == {"dummy": "pitcher_stats"}
-    assert player.player_advanced_stats == {"dummy": "pitcher_stats"}
-    assert player.player_splits_stats == {"dummy": "pitcher_splits"}
+    assert player.player_standard_stats == sample_batter_standard_stats
+    # Since advanced stats are set equal to standard stats:
+    assert player.player_advanced_stats == sample_batter_standard_stats
+    assert player.player_splits_stats == sample_pitcher_stat_splits
 
-def test_set_player_stats_batter():
-    # Test set_player_stats for a batter.
+def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, sample_batter_advanced_stats, sample_batter_stat_splits):
+    """
+    Test set_player_stats for a batter using fixture data for standard/advanced stats
+    and sample batter stat splits.
+    """
     player = Player(mlbam_id=124)
     player.player_info = DummyPlayerInfo()
-    player.player_info.primary_position = "C"  # not a pitcher
+    player.player_info.primary_position = "C"  # non-pitcher
     player.player_bio = DummyPlayerBio()
     player.player_bio.full_name = "Batter Dummy"
     player.current_team = DummyTeam.create_from_mlb(101)
     player.bbref_id = "dummy_bbref"
     
+    # Override the data client methods to return fixture data.
+    monkeypatch.setattr(
+        DummyUnifiedDataClient, 
+        "fetch_fangraphs_batter_data", 
+        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_standard_stats
+    )
+    monkeypatch.setattr(
+        DummyUnifiedDataClient, 
+        "fetch_batting_splits", 
+        lambda self, player_bbref, season: sample_batter_stat_splits
+    )
+    
     player.set_player_stats(2020)
     
-    assert player.player_standard_stats == {"dummy": "batter_stats"}
-    assert player.player_advanced_stats == {"dummy": "batter_stats"}
-    assert player.player_splits_stats == {"dummy": "batter_splits"}
+    assert player.player_standard_stats == sample_batter_standard_stats
+    assert player.player_advanced_stats == sample_batter_standard_stats
+    assert player.player_splits_stats == sample_batter_stat_splits
 
+
+# The remaining tests remain unchanged.
 def test_set_statcast_data_pitcher():
     # Test set_statcast_data for a pitcher.
     player = Player(mlbam_id=123)
@@ -148,8 +175,8 @@ def test_get_headshot():
     # Test that get_headshot returns a PIL Image.
     player = Player(mlbam_id=123)
     img = player.get_headshot()
+    from PIL import Image
     assert isinstance(img, Image.Image)
-
 
 def test_save_statcast_data_pitcher(tmp_path, monkeypatch):
     # Test saving statcast data for a pitcher.
@@ -159,18 +186,11 @@ def test_save_statcast_data_pitcher(tmp_path, monkeypatch):
     player.player_bio = DummyPlayerBio()
     player.player_bio.full_name = "Pitcher Dummy"
     player.current_team = DummyTeam.create_from_mlb(100)
-
     year = 2024
-    # Patch STATCAST_DATA_DIR in the Player module to point to our temporary directory.
     monkeypatch.setattr("mlb_data_lab.player.player.STATCAST_DATA_DIR", str(tmp_path))
-
-    # Call the method.
     player.save_statcast_data(year)
-
-    # Build the expected file path.
     expected_file = tmp_path / f'{year}/statcast_data/{player.current_team.abbrev}/pitching/statcast_data_{player.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
     assert expected_file.exists(), f"Expected file {expected_file} does not exist."
-
 
 def test_save_statcast_data_batter(tmp_path, monkeypatch):
     # Test saving statcast data for a batter.
@@ -180,26 +200,18 @@ def test_save_statcast_data_batter(tmp_path, monkeypatch):
     player.player_bio = DummyPlayerBio()
     player.player_bio.full_name = "Batter Dummy"
     player.current_team = DummyTeam.create_from_mlb(101)
-    
     year = 2024
-    # Patch STATCAST_DATA_DIR in the Player module to point to our temporary directory.
     monkeypatch.setattr("mlb_data_lab.player.player.STATCAST_DATA_DIR", str(tmp_path))
-    
     player.save_statcast_data(year)
-    
     expected_file = tmp_path / f'{year}/statcast_data/{player.current_team.abbrev}/batting/statcast_data_{player.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
     assert expected_file.exists()
-
 
 def test_create_from_mlb():
     # Test the create_from_mlb static method using player_name.
     player = Player.create_from_mlb(player_name="Dummy Player")
-    # The dummy lookup returns mlbam_id 123 and key_bbref "dummy_bbref"
     assert player.mlbam_id == 123
     assert player.bbref_id == "dummy_bbref"
-    # Verify that player_info and player_bio have been populated.
     assert hasattr(player.player_info, "primary_position")
-    # Verify team is set via set_team
     assert player.current_team.name == "Dummy Team"
 
 def test_to_json():
@@ -211,11 +223,8 @@ def test_to_json():
     player.player_bio = DummyPlayerBio()
     player.player_info = DummyPlayerInfo()
     player.player_bio.full_name = "Dummy Player"
-    
-    # Override to_json for player_bio and player_info.
     player.player_bio.to_json = lambda: {"bio": "dummy"}
     player.player_info.to_json = lambda: {"info": "dummy"}
-    
     result = player.to_json()
     assert result["mlbam_id"] == 123
     assert result["bbref_id"] == "dummy_bbref"

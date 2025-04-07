@@ -25,6 +25,7 @@ class StatsDisplay:
             return
 
         stats_df = pd.DataFrame([data])
+        print(f"Stats DataFrame: {stats_df}")
         filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
         if filtered_data is None or filtered_data.empty:
             print(f"No valid {stat_type} stats available for plotting.")
@@ -59,25 +60,27 @@ class StatsDisplay:
         self._plot_stats_table(self.player.player_splits_stats, self.season_stats['splits'], ax, 'Splits', is_splits=True)
 
 
-    def _plot_stat_data(self, data, stat_type: str, ax: plt.Axes, title: str):
-        if data is None:
-            print(f"No {stat_type} stats data available.")
-            return
+    # def _plot_stat_data(self, data, stat_type: str, ax: plt.Axes, title: str):
+    #     if data is None:
+    #         print(f"No {stat_type} stats data available.")
+    #         return
 
-        filtered_data = self._get_filtered_data(data, stat_type)
-        if filtered_data is None or filtered_data.empty:
-            print(f"No valid {stat_type} stats available for plotting.")
-            return
+    #     filtered_data = self._get_filtered_data(data, stat_type)
+    #     if filtered_data is None or filtered_data.empty:
+    #         print(f"No valid {stat_type} stats available for plotting.")
+    #         return
 
-        self._plot_stats_table(filtered_data, self.season_stats[stat_type], ax, title, is_splits=False)
+    #     self._plot_stats_table(filtered_data, self.season_stats, ax, title, is_splits=False)
 
 
-    def _get_filtered_data(self, data, stat_type):
-        """Retrieves and filters data based on `stat_type`."""
-        season_data = data.get('season') or next(iter(data.values()))
-        stats_df = pd.DataFrame([season_data])
+    # def _get_filtered_data(self, data, stat_type):
+    #     """Retrieves and filters data based on `stat_type`."""
+    #     season_data = data.get('season') or next(iter(data.values()))
+    #     stats_df = pd.DataFrame([season_data])
 
-        return self._filter_columns(self.season_stats[stat_type], stats_df)
+    #     #return self._filter_columns(self.season_stats[stat_type], stats_df)
+    #     return self._filter_columns(self.season_stats, stats_df)
+
     
 
     def _plot_stats_table(self, stats, stat_fields, ax, title=None, is_splits=False):
@@ -85,25 +88,27 @@ class StatsDisplay:
         stats_table.create_table(ax, f"{title} {self.stat_type.capitalize()}", is_splits)
 
     
-    def _filter_columns(self, stat_fields, stats_df):
+    def _filter_columns(self, stat_fields, dataframe):
         """
         Filters the DataFrame to keep only the available columns from stat_fields.
         Handles missing columns gracefully.
         """
-        missing_columns = [col for col in stat_fields if col not in stats_df.columns]
+        print(f"Filtering columns: {stat_fields}")
+        missing_columns = [col for col in stat_fields if col not in dataframe.columns]
         
         if missing_columns:
             print(f"Warning: The following columns are missing from the DataFrame: {missing_columns}")
-            available_columns = [col for col in stat_fields if col in stats_df.columns]
+            available_columns = [col for col in stat_fields if col in dataframe.columns]
 
             if not available_columns:
                 return None  # No valid columns available
             
-            stats_df = stats_df[available_columns]
+            newDataframe = dataframe[available_columns]
         else:
-            stats_df = stats_df[stat_fields]
+            newDataframe = dataframe[stat_fields]
 
-        return stats_df.reset_index(drop=True)
+        print(f"Filtered DataFrame: {newDataframe}")
+        return newDataframe.reset_index(drop=True)
 
     def _get_season_stats(self):
         if 'season' in self.player.player_standard_stats:

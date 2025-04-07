@@ -1,6 +1,7 @@
 import requests
 import statsapi
 import json
+import pandas as pd
 
 from mlb_data_lab.constants import STATS_API_BASE_URL
 
@@ -34,7 +35,7 @@ class MlbStatsClient:
     def fetch_batter_stat_splits(player_id: int, year: int):
         url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl],season={year})"
         data = requests.get(url).json()
-        return data['people'][0]['stats'][0]['splits']
+        return process_splits(data['people'][0]['stats'][0]['splits'])
     
     # Sample
     #  https://statsapi.mlb.com/api/v1/people?personIds=519203
@@ -229,3 +230,30 @@ class MlbStatsClient:
     @staticmethod
     def get_season_info(year):
         return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   
+    
+
+def process_splits(data):
+    # --- Code to reformat the splits data into a MultiIndex DataFrame ---
+
+    # First, extract the stat dictionaries and corresponding split names.
+    stat_rows = []
+    split_names = []
+    for entry in data:
+        # Use the split description as the split name.
+        split_name = entry.get('split', {}).get('description', 'Unknown Split')
+        stat_rows.append(entry.get('stat', {}))
+        split_names.append(split_name)
+
+    # Create a DataFrame from the stat rows.
+    df_stats = pd.DataFrame(stat_rows)
+
+    # Create a MultiIndex for the DataFrame.
+    # Here, the first level is the split name and the second level is a running integer.
+    multi_index = pd.MultiIndex.from_tuples(
+        [(split_names[i], i) for i in range(len(split_names))],
+        names=['Split', 'Row']
+    )
+
+    df_stats.index = multi_index
+    print(f"DataFrame with MultiIndex:\n{df_stats}")
+    return df_stats

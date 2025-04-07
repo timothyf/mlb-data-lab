@@ -16,14 +16,16 @@ class StatsTable:
         return ''.join(e for e in text if e.isalnum() or e.isspace() or e in ['-', '_', '.', ',', '/'])
 
     def create_table(self, ax: plt.Axes, title: str = None, is_splits=False):
+        data = self.data
         fontsize = 14 if is_splits else 18  # Set font size based on whether it's split data
 
         # Ensure the column can hold strings (object dtype)
-        data = self.data.astype('object')
+        # data = self.data.astype('object')
 
-        # Ensure only valid columns are reindexed
+        # # Ensure only valid columns are reindexed
         valid_columns = [col for col in self.stat_list if col in data.columns]
-        data = data.reindex(columns=valid_columns)
+        print(f"Valid columns: {valid_columns}")
+        # data = data.reindex(columns=valid_columns)
 
         if data.empty:
             print("Warning: Data is empty.")
@@ -37,6 +39,7 @@ class StatsTable:
             if isinstance(data.index, pd.MultiIndex):
                 # Get the split names from the first level of the MultiIndex
                 split_names = data.index.get_level_values(0).unique()
+                print(f"Split names: {split_names}")
             else:
                 print("The index is not a MultiIndex.")
 
@@ -46,11 +49,12 @@ class StatsTable:
             data.reset_index(drop=True, inplace=True)
 
         # Modify column headers based on whether we're displaying splits
-        if is_splits:
-            col_labels = ['Split'] + valid_columns
-        else:
-            col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
+        col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
 
+        if is_splits:
+            col_labels = ['Split'] + col_labels
+
+        print(f"Column labels: {col_labels}")
         # Ensure that each row in cell_text has the same number of elements as col_labels
         # Check for alignment of cell_text rows with col_labels
         # Loop through each row in the data to format the values
@@ -77,6 +81,7 @@ class StatsTable:
             # Format the rest of the values
             for col in data.columns:
                 if col in row and pd.notna(row[col]) and row[col] != '---':
+                    print(f"Formatting value for column {col}: {row[col]}")
                     formatted_value = Utils.format_stat(row[col], self.stats_display_config[col]['format']) if 'format' in self.stats_display_config[col] else row[col]
                 else:
                     formatted_value = '---'
@@ -90,14 +95,9 @@ class StatsTable:
 
 
 
-        # Modify column headers based on whether we're displaying splits
-        if is_splits:
-            col_labels = ['Split'] + valid_columns
-        else:
-            #col_labels = valid_columns
-            # Assuming valid_columns contains the column keys like 'G', 'gamesPlayed', etc.
-            col_labels = [self.stats_display_config[col]['table_header'] for col in valid_columns if col in self.stats_display_config]
 
+        print(f"Column labels: {col_labels}")
+        print(f"Cell text: {cell_text}")
         # Create table with aligned data and column headers
         table_fg = ax.table(cellText=cell_text, colLabels=col_labels, cellLoc='center', bbox=[0.00, 0.0, 1, 1])
 
