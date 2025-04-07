@@ -199,7 +199,7 @@ class StatsDisplayConfig:
         'wOBA': {'table_header': r'$\bf{wOBA}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'wRC+': {'table_header': r'$\bf{wRC+}$', 'format': '.0f'},
         'WAR': {'table_header': r'$\bf{WAR}$', 'format': '.1f'},
-        'BB%': {'table_header': r'$\bf{BB\%}$'},
+        'BB%': {'table_header': r'$\bf{BB\%}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'walksPerPlateAppearance': {'table_header': r'$\bf{BB\ /\;PA}$'},
         'K%': {'table_header': r'$\bf{K\%}$'},
         'BB/K': {'table_header': r'$\bf{BB/K}$', 'format': '.2f'},

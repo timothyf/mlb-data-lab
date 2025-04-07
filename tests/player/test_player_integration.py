@@ -30,28 +30,23 @@ def test_set_player_stats_integration():
     player.set_player_stats(season)
     
     # Verify that the player's stats properties have been populated.
-    assert player.player_standard_stats is not None, "Standard stats not set"
-    assert player.player_advanced_stats is not None, "Advanced stats not set"
+    assert player.player_stats is not None, "Standard stats not set"
     assert player.player_splits_stats is not None, "Splits stats not set"
     
     # Additional checks on standard stats.
-    print(f"Standard stats type: {type(player.player_standard_stats)}")
-    if isinstance(player.player_standard_stats, dict):
-        assert bool(player.player_standard_stats), "Standard stats dict is empty"
-        stats_df = pd.DataFrame([player.player_standard_stats])
-        assert not stats_df.empty, "Standard stats DataFrame is empty"
+    print(f"Player stats type: {type(player.player_stats)}")
+    if isinstance(player.player_stats, dict):
+        assert bool(player.player_stats), "Player stats dict is empty"
+        stats_df = pd.DataFrame([player.player_stats])
+        assert not stats_df.empty, "Player stats DataFrame is empty"
         common_columns = ['AB', 'H', 'AVG', 'RBI']
         missing_cols = [col for col in common_columns if col not in stats_df.columns]
-        assert not missing_cols, f"Missing expected columns in standard stats: {missing_cols}"
-    elif isinstance(player.player_standard_stats, list):
-        assert len(player.player_standard_stats) > 0, "Standard stats list is empty"
-    elif isinstance(player.player_standard_stats, pd.DataFrame):
-        assert not player.player_standard_stats.empty, "Standard stats DataFrame is empty"
-    
-    # Verify that advanced stats match standard stats per our implementation.
-    print(f"Advanced stats type: {type(player.player_advanced_stats)}")
-    assert player.player_advanced_stats == player.player_standard_stats, "Advanced stats differ from standard stats"
-    
+        assert not missing_cols, f"Missing expected columns in player stats: {missing_cols}"
+    elif isinstance(player.player_stats, list):
+        assert len(player.player_stats) > 0, "Player stats list is empty"
+    elif isinstance(player.player_stats, pd.DataFrame):
+        assert not player.player_stats.empty, "Player stats DataFrame is empty"
+        
     # Additional checks on splits stats.
     print(f"Splits stats type: {type(player.player_splits_stats)}")
     if isinstance(player.player_splits_stats, dict):

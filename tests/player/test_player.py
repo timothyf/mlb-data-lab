@@ -117,9 +117,7 @@ def test_set_player_stats_pitcher(monkeypatch, sample_batter_standard_stats, sam
     
     player.set_player_stats(2020)
     
-    assert player.player_standard_stats == sample_batter_standard_stats
-    # Since advanced stats are set equal to standard stats:
-    assert player.player_advanced_stats == sample_batter_standard_stats
+    assert player.player_stats == sample_batter_standard_stats
     assert player.player_splits_stats == sample_pitcher_stat_splits
 
 def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, sample_batter_advanced_stats, sample_batter_stat_splits):
@@ -149,8 +147,7 @@ def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, samp
     
     player.set_player_stats(2020)
     
-    assert player.player_standard_stats == sample_batter_standard_stats
-    assert player.player_advanced_stats == sample_batter_standard_stats
+    assert player.player_stats == sample_batter_standard_stats
     assert player.player_splits_stats == sample_batter_stat_splits
 
 

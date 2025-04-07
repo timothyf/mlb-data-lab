@@ -16,7 +16,7 @@ class StatsDisplay:
 
 
     def display_standard_stats(self, ax: plt.Axes):
-        data=self.player.player_standard_stats
+        data=self.player.player_stats
         stat_type='standard'
         title='Standard'
 
@@ -25,7 +25,6 @@ class StatsDisplay:
             return
 
         stats_df = pd.DataFrame([data])
-        print(f"Stats DataFrame: {stats_df}")
         filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
         if filtered_data is None or filtered_data.empty:
             print(f"No valid {stat_type} stats available for plotting.")
@@ -35,7 +34,7 @@ class StatsDisplay:
  
 
     def display_advanced_stats(self, ax: plt.Axes):
-        data = self.player.player_advanced_stats
+        data = self.player.player_stats
         stat_type='advanced'
         title='Advanced'
 
@@ -93,7 +92,6 @@ class StatsDisplay:
         Filters the DataFrame to keep only the available columns from stat_fields.
         Handles missing columns gracefully.
         """
-        print(f"Filtering columns: {stat_fields}")
         missing_columns = [col for col in stat_fields if col not in dataframe.columns]
         
         if missing_columns:
@@ -107,14 +105,6 @@ class StatsDisplay:
         else:
             newDataframe = dataframe[stat_fields]
 
-        print(f"Filtered DataFrame: {newDataframe}")
         return newDataframe.reset_index(drop=True)
 
-    def _get_season_stats(self):
-        if 'season' in self.player.player_standard_stats:
-            return self.player.player_standard_stats['season']
-        else:
-            # If 'season' key is not present, get the first entry
-            first_key = next(iter(self.player.player_standard_stats))
-            return self.player.player_standard_stats[first_key]
         

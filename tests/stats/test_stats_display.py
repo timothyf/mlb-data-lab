@@ -9,13 +9,11 @@ from mlb_data_lab.config import StatsConfig
 
 
 
-
 # --- Dummy Player Data ---
 @pytest.fixture
 def dummy_player(sample_batter_standard_stats, sample_batter_advanced_stats, sample_batter_stat_splits):
     player = Player(123)
-    player.player_standard_stats = sample_batter_standard_stats
-    player.player_advanced_stats = sample_batter_advanced_stats
+    player.player_stats = sample_batter_standard_stats
     player.player_splits_stats = sample_batter_stat_splits
     return player
 
