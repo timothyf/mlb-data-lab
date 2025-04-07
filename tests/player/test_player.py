@@ -96,7 +96,7 @@ def setup_player(monkeypatch):
 
 # --- Tests for Player Methods using fixture data for stats ---
 
-def test_set_player_stats_pitcher(monkeypatch, sample_batter_standard_stats, sample_batter_advanced_stats, sample_pitcher_stat_splits):
+def test_set_player_stats_pitcher(monkeypatch, sample_pitcher_stats, sample_pitcher_stat_splits):
     """
     Test set_player_stats for a pitcher using fixture data for standard/advanced stats.
     """
@@ -110,17 +110,18 @@ def test_set_player_stats_pitcher(monkeypatch, sample_batter_standard_stats, sam
     
     # Override the data client methods to return fixture data.
     monkeypatch.setattr(DummyUnifiedDataClient, "fetch_fangraphs_pitcher_data", 
-                        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_standard_stats)
+                        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_pitcher_stats)
     # Advanced stats are set equal to standard stats.
     monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_splits", 
                         lambda self, player_bbref, season: sample_pitcher_stat_splits)
     
     player.set_player_stats(2020)
     
-    assert player.player_stats == sample_batter_standard_stats
+    assert player.player_stats == sample_pitcher_stats
     assert player.player_splits_stats == sample_pitcher_stat_splits
 
-def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, sample_batter_advanced_stats, sample_batter_stat_splits):
+
+def test_set_player_stats_batter(monkeypatch, sample_batter_stats, sample_batter_stat_splits):
     """
     Test set_player_stats for a batter using fixture data for standard/advanced stats
     and sample batter stat splits.
@@ -137,7 +138,7 @@ def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, samp
     monkeypatch.setattr(
         DummyUnifiedDataClient, 
         "fetch_fangraphs_batter_data", 
-        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_standard_stats
+        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_stats
     )
     monkeypatch.setattr(
         DummyUnifiedDataClient, 
@@ -147,7 +148,7 @@ def test_set_player_stats_batter(monkeypatch, sample_batter_standard_stats, samp
     
     player.set_player_stats(2020)
     
-    assert player.player_stats == sample_batter_standard_stats
+    assert player.player_stats == sample_batter_stats
     assert player.player_splits_stats == sample_batter_stat_splits
 
 

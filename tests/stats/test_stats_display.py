@@ -11,9 +11,9 @@ from mlb_data_lab.config import StatsConfig
 
 # --- Dummy Player Data ---
 @pytest.fixture
-def dummy_player(sample_batter_standard_stats, sample_batter_advanced_stats, sample_batter_stat_splits):
+def dummy_player(sample_batter_stats, sample_batter_stat_splits):
     player = Player(123)
-    player.player_stats = sample_batter_standard_stats
+    player.player_stats = sample_batter_stats
     player.player_splits_stats = sample_batter_stat_splits
     return player
 
@@ -69,7 +69,7 @@ def test_filter_columns_none_available(capfd):
 
 # --- Tests for Display Methods ---
 
-def test_display_standard_stats(dummy_player, capture_plot, sample_batter_standard_stats):
+def test_display_standard_stats(dummy_player, capture_plot, sample_batter_stats):
     fig, ax = plt.subplots()
     sd = StatsDisplay(dummy_player, 2023, 'batting')
     sd.display_standard_stats(ax)
@@ -79,7 +79,7 @@ def test_display_standard_stats(dummy_player, capture_plot, sample_batter_standa
     expected_fields = ['AB', 'H', 'AVG', 'RBI']
     
     # Filter the fixture data to only include the expected fields.
-    expected_filtered = {k: v for k, v in sample_batter_standard_stats.items() if k in expected_fields}
+    expected_filtered = {k: v for k, v in sample_batter_stats.items() if k in expected_fields}
     
     # Convert the actual stats to a DataFrame if needed.
     if isinstance(call['stats'], pd.DataFrame):
@@ -99,7 +99,7 @@ def test_display_standard_stats(dummy_player, capture_plot, sample_batter_standa
     plt.close(fig)
 
 
-def test_display_advanced_stats(dummy_player, capture_plot, sample_batter_advanced_stats):
+def test_display_advanced_stats(dummy_player, capture_plot, sample_batter_stats):
     fig, ax = plt.subplots()
     sd = StatsDisplay(dummy_player, 2023, 'batting')
     sd.display_advanced_stats(ax)
@@ -109,7 +109,7 @@ def test_display_advanced_stats(dummy_player, capture_plot, sample_batter_advanc
     expected_fields = ['OBP', 'SLG', 'OPS']
     
     # Filter the fixture data to include only expected fields.
-    expected_filtered = {k: v for k, v in sample_batter_advanced_stats.items() if k in expected_fields}
+    expected_filtered = {k: v for k, v in sample_batter_stats.items() if k in expected_fields}
     
     # Convert the actual stats to a DataFrame.
     if isinstance(call['stats'], pd.DataFrame):

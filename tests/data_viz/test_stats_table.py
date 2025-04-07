@@ -13,15 +13,15 @@ from mlb_data_lab.apis.mlb_stats_client import process_splits
 # --- Fixtures to create StatsTable instances for each data type ---
 
 @pytest.fixture
-def stats_table_standard(sample_batter_standard_stats):
+def stats_table_standard(sample_batter_stats):
     stats_list = StatsConfig().stat_lists['batting']['standard']
-    stats_df = pd.DataFrame([sample_batter_standard_stats])
+    stats_df = pd.DataFrame([sample_batter_stats])
     return StatsTable(stats_df, stats_list, stat_type='batting')
 
 @pytest.fixture
-def stats_table_advanced(sample_batter_advanced_stats):
+def stats_table_advanced(sample_batter_stats):
     stats_list = StatsConfig().stat_lists['batting']['advanced']
-    df = pd.DataFrame([sample_batter_advanced_stats])
+    df = pd.DataFrame([sample_batter_stats])
     return StatsTable(df, stats_list, stat_type='batting')
 
 @pytest.fixture
@@ -81,19 +81,3 @@ def test_create_table_splits(stats_table_splits):
     assert "Split" in header_texts, "Missing 'Split' header in splits table"
     plt.close(fig)
 
-# def test_to_html_js_standard(stats_table_standard):
-#     html_output = stats_table_standard.to_html_js(title="HTML Table", is_splits=False)
-#     assert "<table" in html_output
-#     assert "<caption>" in html_output
-#     assert "<script>" in html_output
-#     # Check that at least one of the expected headers appears in the HTML.
-#     config = StatsDisplayConfig().batting
-#     expected_header = config['AB']['table_header']
-#     assert expected_header in html_output or "AB" in html_output
-
-# def test_to_html_js_splits(stats_table_splits):
-#     html_output = stats_table_splits.to_html_js(title="Splits HTML Table", is_splits=True)
-#     assert "<table" in html_output
-#     assert "<caption>" in html_output
-#     assert "<script>" in html_output
-#     assert "Split" in html_output
