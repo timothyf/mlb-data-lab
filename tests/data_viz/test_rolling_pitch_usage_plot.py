@@ -42,7 +42,7 @@ def test_get_color_mapping(plot_object):
     """Test that get_color_mapping returns a valid dictionary with expected keys."""
     color_mapping = plot_object.get_color_mapping()
     # We assume pitch_colors was imported in the module.
-    from mlb_data_lab.constants import pitch_colors
+    from mlb_data_lab.config import pitch_colors
     assert isinstance(color_mapping, dict)
     for key in pitch_colors:
         assert key in color_mapping

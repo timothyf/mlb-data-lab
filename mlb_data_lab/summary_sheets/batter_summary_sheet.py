@@ -12,8 +12,8 @@ class BatterSummarySheet(SummarySheet):
     def __init__(self, player: Player, season: int):
         super().__init__(season)
         self.player = player
-        self.player.set_player_stats(season)
-        self.player.set_statcast_data(self.start_date, self.end_date)
+        self.player.load_stats_for_season(season)
+        self.player.load_statcast_data(self.start_date, self.end_date)
         self.columns_count = 8
         self.rows_count = 8
         self.height_ratios = [2, 20, 5, 5, 16, 46, 1, 8]

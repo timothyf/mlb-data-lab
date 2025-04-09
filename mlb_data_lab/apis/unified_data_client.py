@@ -14,6 +14,9 @@ class UnifiedDataClient:
     ################
     # Batting Stats
     ################
+    def fetch_batting_stats(self, player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
+        return PybaseballClient.fetch_fangraphs_batter_data(player_name, team_fangraphs_id, start_year, end_year)
+
     def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return MlbStatsClient.fetch_batter_stat_splits(player_id, season)
 
@@ -41,6 +44,9 @@ class UnifiedDataClient:
     ################
     # Pitching Stats
     ################
+    def fetch_pitching_stats(self, player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
+        return PybaseballClient.fetch_fangraphs_pitcher_data(player_name, team_fangraphs_id, start_year, end_year)
+
     def fetch_pitching_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return MlbStatsClient.fetch_pitcher_stat_splits(player_id, season)
     

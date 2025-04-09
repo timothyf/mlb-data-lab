@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from mlb_data_lab.constants import pitch_colors
-from mlb_data_lab.config import FontConfig
+from mlb_data_lab.config import FontConfig, pitch_colors
 
 
 class PitchVelocityDistributionPlot:

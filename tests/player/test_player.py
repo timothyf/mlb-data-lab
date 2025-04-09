@@ -16,10 +16,10 @@ class DummyUnifiedDataClient:
         return {"dummy": "pitcher_splits"}
     def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return {"dummy": "batter_splits"}
-    def fetch_fangraphs_pitcher_data(self, player_name, team_fangraphs_id, start_year, end_year):
+    def fetch_pitching_stats(self, player_name, team_fangraphs_id, start_year, end_year):
         # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "pitcher_stats"}
-    def fetch_fangraphs_batter_data(self, player_name, team_fangraphs_id, start_year, end_year):
+    def fetch_batting_stats(self, player_name, team_fangraphs_id, start_year, end_year):
         # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "batter_stats"}
     def fetch_pitching_splits_leaderboards(self, player_bbref, season):
@@ -91,12 +91,11 @@ def setup_player(monkeypatch):
     monkeypatch.setattr("mlb_data_lab.player.player.Team", DummyTeam)
     monkeypatch.setattr("mlb_data_lab.player.player.PlayerLookup", DummyPlayerLookup)
     # Use monkeypatch.setattr to set the class attribute so it is automatically undone.
-    monkeypatch.setattr(Player, "data_client", DummyUnifiedDataClient())
-
+\
 
 # --- Tests for Player Methods using fixture data for stats ---
 
-def test_set_player_stats_pitcher(monkeypatch, sample_pitcher_stats, sample_pitcher_stat_splits):
+def test_load_stats_for_season_pitcher(monkeypatch, sample_pitcher_stats, sample_pitcher_stat_splits):
     """
     Test set_player_stats for a pitcher using fixture data for standard/advanced stats.
     """
@@ -109,19 +108,19 @@ def test_set_player_stats_pitcher(monkeypatch, sample_pitcher_stats, sample_pitc
     player.bbref_id = "dummy_bbref"
     
     # Override the data client methods to return fixture data.
-    monkeypatch.setattr(DummyUnifiedDataClient, "fetch_fangraphs_pitcher_data", 
+    monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_stats", 
                         lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_pitcher_stats)
     # Advanced stats are set equal to standard stats.
     monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_splits", 
                         lambda self, player_bbref, season: sample_pitcher_stat_splits)
     
-    player.set_player_stats(2020)
+    player.load_stats_for_season(2020)
     
     assert player.player_stats == sample_pitcher_stats
     assert player.player_splits_stats == sample_pitcher_stat_splits
 
 
-def test_set_player_stats_batter(monkeypatch, sample_batter_stats, sample_batter_stat_splits):
+def test_load_stats_for_season_batter(monkeypatch, sample_batter_stats, sample_batter_stat_splits):
     """
     Test set_player_stats for a batter using fixture data for standard/advanced stats
     and sample batter stat splits.
@@ -137,7 +136,7 @@ def test_set_player_stats_batter(monkeypatch, sample_batter_stats, sample_batter
     # Override the data client methods to return fixture data.
     monkeypatch.setattr(
         DummyUnifiedDataClient, 
-        "fetch_fangraphs_batter_data", 
+        "fetch_batting_stats", 
         lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_stats
     )
     monkeypatch.setattr(
@@ -146,27 +145,27 @@ def test_set_player_stats_batter(monkeypatch, sample_batter_stats, sample_batter
         lambda self, player_bbref, season: sample_batter_stat_splits
     )
     
-    player.set_player_stats(2020)
+    player.load_stats_for_season(2020)
     
     assert player.player_stats == sample_batter_stats
     assert player.player_splits_stats == sample_batter_stat_splits
 
 
 # The remaining tests remain unchanged.
-def test_set_statcast_data_pitcher():
+def test_load_statcast_data_pitcher():
     # Test set_statcast_data for a pitcher.
     player = Player(mlbam_id=123)
     player.player_info = DummyPlayerInfo()
     player.player_info.primary_position = "P"
-    player.set_statcast_data("2020-04-01", "2020-09-30")
+    player.load_statcast_data("2020-04-01", "2020-09-30")
     assert player.statcast_data == {"dummy": "statcast_pitcher"}
 
-def test_set_statcast_data_batter():
+def test_load_statcast_data_batter():
     # Test set_statcast_data for a batter.
     player = Player(mlbam_id=124)
     player.player_info = DummyPlayerInfo()
     player.player_info.primary_position = "C"
-    player.set_statcast_data("2020-04-01", "2020-09-30")
+    player.load_statcast_data("2020-04-01", "2020-09-30")
     assert player.statcast_data == {"dummy": "statcast_batter"}
 
 def test_get_headshot():

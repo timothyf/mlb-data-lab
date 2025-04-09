@@ -1,5 +1,11 @@
+# player.py
+
+import logging
 from io import BytesIO
+from typing import Optional, Dict, Any
+
 from PIL import Image
+import math
 
 from mlb_data_lab.team.team import Team
 from mlb_data_lab.player.player_bio import PlayerBio
@@ -8,123 +14,133 @@ from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player_info import PlayerInfo
 from mlb_data_lab.config import STATCAST_DATA_DIR
 
+logger = logging.getLogger(__name__)
+
 
 class Player:
-
-    data_client = UnifiedDataClient()
-
-    def __init__(self, mlbam_id: int):
-        self.mlbam_id = mlbam_id
-        self.bbref_id = None
-        self.player_info = PlayerInfo()
-        self.player_bio = PlayerBio() 
-        self.current_team = Team()
-        self.player_stats = None
-        self.player_splits_stats = None
-        self.statcast_data = None
+    def __init__(self, mlbam_id: int, data_client: Optional[UnifiedDataClient] = None):
+        """
+        Initializes a Player instance.
         
+        :param mlbam_id: MLB Advanced Media ID
+        :param data_client: UnifiedDataClient instance; if not provided, a default one is used.
+        """
+        self.mlbam_id = mlbam_id
+        self.bbref_id: Optional[str] = None
+        self.player_info: PlayerInfo = PlayerInfo()
+        self.player_bio: PlayerBio = PlayerBio() 
+        self.current_team: Team = Team()
+        self.player_stats: Optional[Any] = None
+        self.player_splits_stats: Optional[Any] = None
+        self.statcast_data: Optional[Any] = None
+        self.data_client: UnifiedDataClient = data_client if data_client else UnifiedDataClient()
 
-    def set_player_stats(self, season):
+    def load_stats_for_season(self, season: int) -> None:
+        """
+        Fetches and sets the player's season statistics.
+        """
         if self.player_info.primary_position == 'P':
-            self.player_stats = Player.data_client.fetch_fangraphs_pitcher_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
-            self.player_splits_stats = Player.data_client.fetch_pitching_splits(self.mlbam_id, season=season)
+            self.player_stats = self.data_client.fetch_pitching_stats(
+                player_name=self.player_bio.full_name,
+                team_fangraphs_id=self.current_team.fangraphs_id,
+                start_year=season, end_year=season)
+            self.player_splits_stats = self.data_client.fetch_pitching_splits(self.mlbam_id, season=season)
         else:
-            self.player_stats = Player.data_client.fetch_fangraphs_batter_data(player_name=self.player_bio.full_name, team_fangraphs_id=self.current_team.fangraphs_id, start_year=season, end_year=season)
-            self.player_splits_stats = Player.data_client.fetch_batting_splits(self.mlbam_id, season=season)
+            self.player_stats = self.data_client.fetch_batting_stats(
+                player_name=self.player_bio.full_name,
+                team_fangraphs_id=self.current_team.fangraphs_id,
+                start_year=season, end_year=season)
+            self.player_splits_stats = self.data_client.fetch_batting_splits(self.mlbam_id, season=season)
 
-    def set_statcast_data(self, start_date, end_date):
+    def load_statcast_data(self, start_date: str, end_date: str) -> None:
+        """
+        Fetches and sets the player's Statcast data.
+        """
         if self.player_info.primary_position == 'P':
-            self.statcast_data = Player.data_client.fetch_statcast_pitcher_data(self.mlbam_id, start_date, end_date)
+            self.statcast_data = self.data_client.fetch_statcast_pitcher_data(self.mlbam_id, start_date, end_date)
         else:
-            self.statcast_data = Player.data_client.fetch_statcast_batter_data(self.mlbam_id, start_date, end_date)
+            self.statcast_data = self.data_client.fetch_statcast_batter_data(self.mlbam_id, start_date, end_date)
 
-
-    @staticmethod
-    def create_from_mlb(mlbam_id: int = None, player_name: str = None): 
+    @classmethod
+    def create_from_mlb(cls, *, mlbam_id: Optional[int] = None, player_name: Optional[str] = None,
+                        data_client: Optional[UnifiedDataClient] = None) -> Optional["Player"]:
+        """
+        Factory method to create a Player instance using MLBAM ID or player_name.
+        """
         if player_name:
-            print(f"Creating player: {player_name}")
-            # Lookup player data using player name
+            logger.info(f"Creating player: {player_name}")
             player_data = PlayerLookup.lookup_player(player_name)
-            
             if player_data is None:
-                print (f"Could not find player data for: {player_name}")
+                logger.error(f"Could not find player data for: {player_name}")
                 return None
             mlbam_id = player_data.get('key_mlbam')
-
-            # Check if mlbam_id is a list and get the first element
+            # If mlbam_id is a list, consider taking the first element.
             if isinstance(mlbam_id, list):
-                print(f"mlbam_id lists: {mlbam_id}")
-                #mlbam_id = mlbam_id[0]
+                logger.debug(f"mlbam_id list received: {mlbam_id}")
+                mlbam_id = mlbam_id[0]
             bbref_id = player_data.get('key_bbref')
             if not mlbam_id:
                 raise ValueError(f"Could not find MLBAM ID for player: {player_name}")
 
         elif mlbam_id:
-            # Lookup player data using mlbam_id (if player_name is not provided)
-            player_data = PlayerLookup.lookup_player(player_id = mlbam_id)
-            print(f"Creating player: {player_data}")
-            player_name = f"{player_data.get('name_first', '').capitalize()} {player_data.get('name_last', '').capitalize()}"
+            player_data = PlayerLookup.lookup_player(player_id=mlbam_id)
+            logger.info(f"Creating player: {player_data}")
+            first = player_data.get('name_first', '').capitalize()
+            last = player_data.get('name_last', '').capitalize()
+            player_name = f"{first} {last}"
             bbref_id = player_data.get('key_bbref')
             if not player_name:
                 raise ValueError(f"Could not find player name for MLBAM ID: {mlbam_id}")
-
         else:
-            # If neither mlbam_id nor player_name is provided, raise an error
             raise ValueError("At least one of 'mlbam_id' or 'player_name' must be provided.")
 
-        # Create a new player instance and populate details
-        player = Player(mlbam_id)
+        player = cls(mlbam_id, data_client=data_client)
         player.bbref_id = bbref_id
-        mlb_player_info = Player.data_client.fetch_player_info(mlbam_id)
+        mlb_player_info = player.data_client.fetch_player_info(mlbam_id)
         player.player_info.set_from_mlb_info(mlb_player_info)
         player.player_bio.set_from_mlb_info(mlb_player_info)
         player.set_team(mlb_player_info)
         return player
 
-    def set_team(self, mlb_player_info):
+    def set_team(self, mlb_player_info: Dict[str, Any]) -> None:
+        """
+        Sets the current team based on MLB player info.
+        """
         team_id = mlb_player_info.get('currentTeam', {}).get('id')
-        self.current_team = Team.create_from_mlb(team_id=team_id)
+        if team_id:
+            self.current_team = Team.create_from_mlb(team_id=team_id)
+        else:
+            logger.warning("No current team information available.")
 
-    def get_headshot(self):
-        headshot = Player.data_client.fetch_player_headshot(self.mlbam_id)
+    def get_headshot(self) -> Image.Image:
+        """
+        Returns the headshot image of the player.
+        """
+        headshot = self.data_client.fetch_player_headshot(self.mlbam_id)
         img = Image.open(BytesIO(headshot))
         return img
     
-    def save_statcast_data(self, year: int = 2024):
+    def save_statcast_data(self, year: int = 2024) -> None:
+        """
+        Saves the player's statcast data to a CSV file based on their position.
+        """
+        name_slug = self.player_bio.full_name.lower().replace(" ", "_")
         if self.player_info.primary_position == 'P':
-            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/pitching/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
-            Player.data_client.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
+            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/pitching/statcast_data_{name_slug}_{year}.csv'
+            self.data_client.save_statcast_pitcher_data(self.mlbam_id, year, file_path)
         else:
-            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/batting/statcast_data_{self.player_bio.full_name.lower().replace(" ", "_")}_{year}.csv'
-            Player.data_client.save_statcast_batter_data(self.mlbam_id, year, file_path)
-        # statcast_data = Player.data_client.fetch_statcast_data(self.mlbam_id, year)
-        # if statcast_data is not None:
-        #     Utils.save_csv(statcast_data, f"{self.player_bio.full_name}_statcast_{year}.csv")
-        # else:
-        #     print("No Statcast data available for saving.")
+            file_path = f'{STATCAST_DATA_DIR}/{year}/statcast_data/{self.current_team.abbrev}/batting/statcast_data_{name_slug}_{year}.csv'
+            self.data_client.save_statcast_batter_data(self.mlbam_id, year, file_path)
+        logger.info(f"Statcast data saved to {file_path}")
     
-    
-    def to_json(self):
-        """Exports player data to a JSON format"""
-        player_data = {
+    def to_json(self) -> Dict[str, Any]:
+        """
+        Exports player data to a JSON-friendly dictionary.
+        """
+        return {
             "mlbam_id": self.mlbam_id,
             "bbref_id": self.bbref_id,
             "team_name": self.current_team.name,  
             "player_bio": self.player_bio.to_json(),
             "player_info": self.player_info.to_json(),
         }
-        return player_data
-
-    
-
-
-
-        
-
-
-
-
-
-
-
-        

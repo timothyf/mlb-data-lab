@@ -1,10 +1,44 @@
-from mlb_data_lab.constants import FANGRAPHS_BASE_URL
+from mlb_data_lab.config import FANGRAPHS_BASE_URL
 import pandas as pd
 import requests
 import re
 
 
 class FangraphsClient:
+
+    # Example URL for fetching pitching stats for a specific player in a specific season:
+    # https://www.fangraphs.com/api/leaders/major-league/data
+    # Query Parameters:
+    # - pos=all: Position filter (all positions)
+    # - stats=pit: Stats type (pitching)
+    # - lg=all: League filter (all leagues)
+    # - qual=0: Qualification filter (no minimum qualifications)
+    # - season=2025: Season year
+    # - startdate=2025-03-01: Start date of the season
+    # - enddate=2025-11-01: End date of the season
+    # - month=33: Month filter (entire season) 
+    # - players=22267: Player ID
+
+    # Past Seasons
+    # set month=0
+    # https://www.fangraphs.com/api/leaders/major-league/data?pos=all&stats=pit&lg=all&qual=0&season=2024&startdate=2024-03-01&enddate=2024-11-01&month=0&players=22267
+
+    # Current Season
+    # set month=33
+    # https://www.fangraphs.com/api/leaders/major-league/data?pos=all&stats=pit&lg=all&qual=0&season=2025&startdate=2025-03-01&enddate=2025-11-01&month=33&players=22267
+    @staticmethod
+    def fetch_player_stats(player_id:int, season:int, stat_type:str):
+        month = 0 if season < 2025 else 33
+        if stat_type == 'pitching':
+            stat='pit'
+        elif stat_type == 'batting':
+            stat='bat'
+        else:
+            raise ValueError("Invalid stat_type. Must be 'pitching' or 'batting'")
+        url = f"{FANGRAPHS_BASE_URL}?pos=all&stats={stat}&lg=all&qual=0&season={season}&startdate=2025-03-01&enddate=2025-11-01&month={month}&players={player_id}"
+        data = requests.get(url).json()
+        df = pd.DataFrame(data=data['data'])
+        return df
 
     @staticmethod
     def fetch_leaderboards(season:int, stat_type:str):

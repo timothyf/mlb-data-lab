@@ -3,7 +3,7 @@ import statsapi
 import json
 import pandas as pd
 
-from mlb_data_lab.constants import STATS_API_BASE_URL
+from mlb_data_lab.config import STATS_API_BASE_URL
 
 
 class MlbStatsClient: 

@@ -9,14 +9,12 @@ import pandas as pd
 from matplotlib import colors as mcolors
 
 # Local application-specific imports
-from mlb_data_lab.config import DATA_DIR
+from mlb_data_lab.config import StatsDisplayConfig
+from mlb_data_lab.config import pitch_summary_columns, pitch_colors
 from mlb_data_lab.constants import (
-    pitch_colors, 
-    pitch_stats_dict, 
     color_stats, 
     cmap_sum, 
     cmap_sum_r, 
-    pitch_summary_columns
 )
 
 
@@ -137,7 +135,7 @@ class PitchBreakdownTable:
         pitch_stat_table.scale(1, 0.5)
 
         # Correctly format the new column names using LaTeX formatting
-        new_column_names = ['$\\bf{Pitch\\ Name}$'] + [pitch_stats_dict[x]['table_header'] if x in pitch_stats_dict else '---' for x in pitch_summary_columns[1:]]
+        new_column_names = ['$\\bf{Pitch\\ Name}$'] + [StatsDisplayConfig.pitch_stats[x]['table_header'] if x in StatsDisplayConfig.pitch_stats else '---' for x in pitch_summary_columns[1:]]
 
         # Update the table headers with the new column names
         for i, col_name in enumerate(new_column_names):
@@ -214,7 +212,7 @@ class PitchBreakdownTable:
 
         # Apply the formats to the DataFrame
         # Iterate over each column in pitch_stats_dict
-        for column, props in pitch_stats_dict.items():
+        for column, props in StatsDisplayConfig.pitch_stats.items():
             # Check if the column exists in df_plot
             if column in formatted_pitch_stats.columns:
                 # Apply the specified format to the column values

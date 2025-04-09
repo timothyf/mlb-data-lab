@@ -1,8 +1,5 @@
 import matplotlib
 
-STATS_API_BASE_URL = "https://statsapi.mlb.com/api/v1/"
-FANGRAPHS_BASE_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
-MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"
 
 color_stats = ['velocity', 'release_extension', 'delta_run_exp_per_100', 
                'whiff_rate', 'in_zone_rate', 'chase_rate', 'xwoba']
@@ -53,54 +50,6 @@ event_styles = {
 cmap_sum = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#648FFF','#FFFFFF','#FFB000'])
 cmap_sum_r = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#FFB000','#FFFFFF','#648FFF'])
 
-pitch_summary_columns = [ 'pitch_description',
-            'pitch',
-            'pitch_usage',
-            'release_speed',
-            'pfx_z',
-            'pfx_x',
-            'release_spin_rate',
-            'release_pos_x',
-            'release_pos_z',
-            'release_extension',
-            'delta_run_exp_per_100',
-            'whiff_rate',
-           # 'in_zone_rate',
-           # 'chase_rate',
-            'xwoba',
-            ]
-
-### PITCH COLORS ###
-pitch_colors = {
-    ## Fastballs ##
-    'FF': {'color': '#FF007D', 'name': '4-Seam Fastball'},
-    'FA': {'color': '#FF007D', 'name': 'Fastball'},
-    'SI': {'color': '#98165D', 'name': 'Sinker'},
-    'FC': {'color': '#BE5FA0', 'name': 'Cutter'},
-
-    ## Offspeed ##
-    'CH': {'color': '#F79E70', 'name': 'Changeup'},
-    'FS': {'color': '#FE6100', 'name': 'Splitter'},
-    'SC': {'color': '#F08223', 'name': 'Screwball'},
-    'FO': {'color': '#FFB000', 'name': 'Forkball'},
-
-    ## Sliders ##
-    'SL': {'color': '#67E18D', 'name': 'Slider'},
-    'ST': {'color': '#1BB999', 'name': 'Sweeper'},
-    'SV': {'color': '#376748', 'name': 'Slurve'},
-
-    ## Curveballs ##
-    'KC': {'color': '#311D8B', 'name': 'Knuckle Curve'},
-    'CU': {'color': '#3025CE', 'name': 'Curveball'},
-    'CS': {'color': '#274BFC', 'name': 'Slow Curve'},
-    'EP': {'color': '#648FFF', 'name': 'Eephus'},
-
-    ## Others ##
-    'KN': {'color': '#867A08', 'name': 'Knuckleball'},
-    'PO': {'color': '#472C30', 'name': 'Pitch Out'},
-    'UN': {'color': '#9C8975', 'name': 'Unknown'},
-}
-
 
 # Define the codes for different types of swings and whiffs
 swing_code = ['foul_bunt','foul','hit_into_play','swinging_strike', 'foul_tip',
@@ -108,22 +57,6 @@ swing_code = ['foul_bunt','foul','hit_into_play','swinging_strike', 'foul_tip',
             
 whiff_code = ['swinging_strike', 'foul_tip', 'swinging_strike_blocked']
 
-pitch_stats_dict = {
-    'pitch': {'table_header': '$\\bf{Count}$', 'format': '.0f'},
-    'release_speed': {'table_header': '$\\bf{Velocity}$', 'format': '.1f'},
-    'pfx_z': {'table_header': '$\\bf{iVB}$', 'format': '.1f'},
-    'pfx_x': {'table_header': '$\\bf{HB}$', 'format': '.1f'},
-    'release_spin_rate': {'table_header': '$\\bf{Spin}$', 'format': '.0f'},
-    'release_pos_x': {'table_header': '$\\bf{hRel}$', 'format': '.1f'},
-    'release_pos_z': {'table_header': '$\\bf{vRel}$', 'format': '.1f'},
-    'release_extension': {'table_header': '$\\bf{Ext.}$', 'format': '.1f'},
-    'xwoba': {'table_header': '$\\bf{xwOBA}$', 'format': '.3f'},
-    'pitch_usage': {'table_header': '$\\bf{Pitch\\%}$', 'format': '.1%'},
-    'whiff_rate': {'table_header': '$\\bf{Whiff\\%}$', 'format': '.1%'},
-    'in_zone_rate': {'table_header': '$\\bf{Zone\\%}$', 'format': '.1%'},
-    'chase_rate': {'table_header': '$\\bf{Chase\\%}$', 'format': '.1%'},
-    'delta_run_exp_per_100': {'table_header': '$\\bf{RV\\//100}$', 'format': '.1f'}
-    }
 
 team_logo_urls = {
     'ARI': 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/scoreboard/ari.png&h=500&w=500',

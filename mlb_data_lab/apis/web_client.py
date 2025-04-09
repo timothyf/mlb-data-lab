@@ -1,6 +1,6 @@
 import pybaseball as pyb
 import requests
-from mlb_data_lab.constants import STATS_API_BASE_URL, MLB_STATIC_BASE_URL
+from mlb_data_lab.config import MLB_STATIC_BASE_URL
 from PIL import Image
 from io import BytesIO
 

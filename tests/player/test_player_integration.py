@@ -27,7 +27,7 @@ def test_set_player_stats_integration():
     assert player.bbref_id is not None, "Player bbref_id not set"
     
     # Call set_player_stats which should fetch and populate stats based on the player's position.
-    player.set_player_stats(season)
+    player.load_stats_for_season(season)
     
     # Verify that the player's stats properties have been populated.
     assert player.player_stats is not None, "Standard stats not set"
