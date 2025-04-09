@@ -4,7 +4,7 @@ STATS_API_BASE_URL = "https://statsapi.mlb.com/api/v1/"
 FANGRAPHS_BASE_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
 MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"
 
-color_stats = ['release_speed', 'release_extension', 'delta_run_exp_per_100', 
+color_stats = ['velocity', 'release_extension', 'delta_run_exp_per_100', 
                'whiff_rate', 'in_zone_rate', 'chase_rate', 'xwoba']
 
 statcast_events = {
@@ -65,8 +65,8 @@ pitch_summary_columns = [ 'pitch_description',
             'release_extension',
             'delta_run_exp_per_100',
             'whiff_rate',
-            'in_zone_rate',
-            'chase_rate',
+           # 'in_zone_rate',
+           # 'chase_rate',
             'xwoba',
             ]
 

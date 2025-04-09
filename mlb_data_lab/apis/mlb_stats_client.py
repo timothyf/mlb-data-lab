@@ -33,7 +33,7 @@ class MlbStatsClient:
     #
     @staticmethod
     def fetch_batter_stat_splits(player_id: int, year: int):
-        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl],season={year})"
+        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
         data = requests.get(url).json()
         return process_splits(data['people'][0]['stats'][0]['splits'])
     
@@ -48,7 +48,7 @@ class MlbStatsClient:
     def fetch_pitcher_stat_splits(player_id: int, year: int):
         url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season={year})"
         data = requests.get(url).json()
-        return data['people'][0]['stats'][0]['splits']
+        return process_splits(data['people'][0]['stats'][0]['splits'])
     
     
     # Sample

@@ -22,7 +22,7 @@ class PitchVelocityDistributionPlot:
                     gs_x: list,
                     gs_y: list,
                     fig: plt.Figure,
-                    leage_pitching_avgs: pd.DataFrame):
+                    league_pitching_avgs: pd.DataFrame):
 
         # Create a dictionary mapping pitch types to their colors
         dict_color = dict(zip(pitch_colors.keys(), [pitch_colors[key]['color'] for key in pitch_colors]))
@@ -73,7 +73,7 @@ class PitchVelocityDistributionPlot:
                                 linestyle='--')
 
             # Plot the mean release speed for the statcast group data
-            df_average = leage_pitching_avgs[leage_pitching_avgs['pitch_type'] == i]['release_speed']
+            df_average = league_pitching_avgs[league_pitching_avgs['pitch_type'] == i]['velocity']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
                                 color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]],

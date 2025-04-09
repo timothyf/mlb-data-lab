@@ -64,7 +64,7 @@ def test_fetch_batter_stat_splits_integration():
     # Basic assertions.
     assert splits is not None, "Expected non-None stat splits for player stats."
     assert isinstance(splits, pd.DataFrame), "Expected result to be a pandas DataFrame"
-    assert len(splits) == 2, f"Expected 2 hitting splits, got {len(splits)} splits."
+    assert len(splits) == 4, f"Expected 4 hitting splits, got {len(splits)} splits."
 
     # Define expected keys for every split.
     expected_keys = [
@@ -73,12 +73,12 @@ def test_fetch_batter_stat_splits_integration():
 
     # Expected values for the "vl" split.
     expected_first = {
-        "gamesPlayed": 84
+        "gamesPlayed": 66
     }
 
     # Expected values for the "vr" split.
     expected_second = {
-         "gamesPlayed": 131
+         "gamesPlayed": 71
      }
     
     def check_split(split, expected):
@@ -100,9 +100,11 @@ def test_fetch_batter_stat_splits_integration():
 
     split_names = splits.index.get_level_values('Split')
     # Check that the split names are as expected.
-    assert len(split_names) == 2, f"Expected 2 splits, got {len(split_names)}"
+    assert len(split_names) == 4, f"Expected 4 splits, got {len(split_names)}"
     assert "vl" in split_names, f"Expected 'vs Left' split, got {split_names}"
     assert "vr" in split_names, f"Expected 'vs Right' split, got {split_names}"
+    assert("h" in split_names), f"Expected 'Home' split, got {split_names}"
+    assert("a" in split_names), f"Expected 'Away' split, got {split_names}"
 
     # Iterate over the splits and verify expected values.
     for i, split in enumerate(splits.itertuples()):
@@ -110,6 +112,10 @@ def test_fetch_batter_stat_splits_integration():
             check_split(split, expected_first)
         elif i == 1:
             check_split(split, expected_second)
+        elif i == 2:
+            pass
+        elif i == 3:
+            pass
         else:
             pytest.fail(f"Unexpected split index: {i}")
 

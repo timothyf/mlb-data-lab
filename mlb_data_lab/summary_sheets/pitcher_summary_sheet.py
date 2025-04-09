@@ -60,8 +60,12 @@ class PitcherSummarySheet(SummarySheet):
                     gs_x=[6, 7],
                     gs_y=[1, 3],
                     fig=self.fig,
-                    leage_pitching_avgs=self.league_pitch_averages)
-        RollingPitchUsagePlot(self.player).plot(pitch_data=self.player.statcast_data, ax=self.ax_pitch_usage, window=5)
+                    league_pitching_avgs=self.league_pitch_averages)
+        rolling_pitch_usage_window = 5
+        if self.player.player_stats['G'] < 5:
+            rolling_pitch_usage_window = 1
+
+        RollingPitchUsagePlot(self.player).plot(pitch_data=self.player.statcast_data, ax=self.ax_pitch_usage, window=rolling_pitch_usage_window)
         PitchBreakPlot(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_break)
         PitchBreakdownTable(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_breakdown, 
                                               fontsize=16, league_pitch_avgs=self.league_pitch_averages)
