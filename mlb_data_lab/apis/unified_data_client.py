@@ -1,24 +1,60 @@
 import pandas as pd
+from typing import Optional
 
 from mlb_data_lab.apis.web_client import WebClient
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from mlb_data_lab.apis.chadwick_register import ChadwickRegister, PlayerSearchClient
+from mlb_data_lab.utils import Utils
 
 
 class UnifiedDataClient:
 
     def __init__(self):
-        pass
+        register = ChadwickRegister()
+        register.load(save=False)
+        self.search_client = PlayerSearchClient(register)
 
     ################
     # Batting Stats
     ################
-    def fetch_batting_stats(self, player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
-        return PybaseballClient.fetch_fangraphs_batter_data(player_name, team_fangraphs_id, start_year, end_year)
 
+    """
+    Fetch batting stats for a player.
+    
+    Parameters:
+        player_name (Optional[str]): Name of the player.
+        team_fangraphs_id (Optional[str]): Fangraphs team ID.
+        start_year (Optional[int]): The first season in the range.
+        end_year (Optional[int]): The last season in the range.
+        mlbam_id (Optional[int]): The MLBAM ID for the player.
+        season (Optional[int]): A single season for which to fetch data.
+        
+    Returns:
+        pd.DataFrame: The batting stats data.
+    """
+    def fetch_batting_stats(self, mlbam_id: int, season: int, fangraphs_team_id: int = None) -> pd.DataFrame: 
+        #lookup player fangraphs id
+        # player_data = self.lookup_player_by_id(mlbam_id).get('key_fangraphs')
+        # player_fangraphs_id = player_data[0]
+        player_fangraphs_id = Utils.get_fangraphs_id(mlbam_id = mlbam_id, search_client=self.search_client)
+        if player_fangraphs_id == -1:
+            if mlbam_id==690916:
+                player_fangraphs_id = 30160
+            elif mlbam_id==695578:
+                player_fangraphs_id = 29518
+            elif mlbam_id==702616:
+                player_fangraphs_id = 31781
+            else:
+                raise ValueError(f"Invalid Fangraphs ID for player {mlbam_id}.")
+        return FangraphsClient.fetch_player_stats(player_fangraphs_id=player_fangraphs_id, season=season, fangraphs_team_id=fangraphs_team_id, stat_type='batting')
+    
     def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return MlbStatsClient.fetch_batter_stat_splits(player_id, season)
+    
+    # def fetch_batting_splits_by_team(self, player_id: int, team_id: int, season: int) -> pd.DataFrame:
+    #     return MlbStatsClient.fetch_batter_stat_splits(player_id, season)
 
     def fetch_batting_splits_leaderboards(self, player_bbref: str, season: int) -> pd.DataFrame:
         return PybaseballClient.fetch_batting_splits_leaderboards(player_bbref, season)
@@ -44,8 +80,20 @@ class UnifiedDataClient:
     ################
     # Pitching Stats
     ################
-    def fetch_pitching_stats(self, player_name: str, team_fangraphs_id: str, start_year: int, end_year: int):
-        return PybaseballClient.fetch_fangraphs_pitcher_data(player_name, team_fangraphs_id, start_year, end_year)
+    def fetch_pitching_stats(self, mlbam_id: int, season: int, fangraphs_team_id: int = None) -> pd.DataFrame: 
+        #lookup player fangraphs id
+        player_data = self.lookup_player_by_id(mlbam_id).get('key_fangraphs')
+        player_fangraphs_id = player_data[0]
+        if player_fangraphs_id == -1:
+            if mlbam_id==690916:
+                player_fangraphs_id = 30160
+            elif mlbam_id==695578:
+                player_fangraphs_id = 29518
+            elif mlbam_id==702616:
+                player_fangraphs_id = 31781
+            else:
+                raise ValueError(f"Invalid Fangraphs ID for player {mlbam_id}.")
+        return FangraphsClient.fetch_player_stats(player_fangraphs_id=player_fangraphs_id, season=season, fangraphs_team_id=fangraphs_team_id, stat_type='pitching')
 
     def fetch_pitching_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return MlbStatsClient.fetch_pitcher_stat_splits(player_id, season)
@@ -102,13 +150,13 @@ class UnifiedDataClient:
     # Player Info
     #######################
     def lookup_player(self, last_name: str, first_name: str, fuzzy: bool = False):
-        return PybaseballClient.lookup_player(last_name, first_name, fuzzy)
+        return self.search_client.playerid_lookup(last_name, first_name, ignore_accents=True, fuzzy=fuzzy)
 
     def lookup_player_by_id(self, player_id: int):
-        return PybaseballClient.lookup_player_by_id(player_id)
+        return self.search_client.playerid_reverse_lookup([player_id], key_type='mlbam')
     
-    def playerid_reverse_lookup(player_id, key_type='mlbam'):
-        return PybaseballClient.playerid_reverse_lookup([player_id], key_type='mlbam')
+    def playerid_reverse_lookup(self, player_id, key_type='mlbam'):
+        return self.search_client.playerid_reverse_lookup([player_id], key_type='mlbam')
     
     def fetch_leaderboards(self, season: int, stat_type: str) -> pd.DataFrame:
         return FangraphsClient.fetch_leaderboards(season, stat_type)

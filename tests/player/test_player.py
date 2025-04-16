@@ -16,10 +16,10 @@ class DummyUnifiedDataClient:
         return {"dummy": "pitcher_splits"}
     def fetch_batting_splits(self, player_id: int, season: int) -> pd.DataFrame:
         return {"dummy": "batter_splits"}
-    def fetch_pitching_stats(self, player_name, team_fangraphs_id, start_year, end_year):
+    def fetch_pitching_stats(self, mlbam_id: int, season: int) -> pd.DataFrame:
         # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "pitcher_stats"}
-    def fetch_batting_stats(self, player_name, team_fangraphs_id, start_year, end_year):
+    def fetch_batting_stats(self, mlbam_id: int, season: int) -> pd.DataFrame:
         # Default dummy value; will be overridden in tests using monkeypatch.
         return {"dummy": "batter_stats"}
     def fetch_pitching_splits_leaderboards(self, player_bbref, season):
@@ -109,7 +109,7 @@ def test_load_stats_for_season_pitcher(monkeypatch, sample_pitcher_stats, sample
     
     # Override the data client methods to return fixture data.
     monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_stats", 
-                        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_pitcher_stats)
+                        lambda self, mlbam_id, season: sample_pitcher_stats)
     # Advanced stats are set equal to standard stats.
     monkeypatch.setattr(DummyUnifiedDataClient, "fetch_pitching_splits", 
                         lambda self, player_bbref, season: sample_pitcher_stat_splits)
@@ -137,7 +137,7 @@ def test_load_stats_for_season_batter(monkeypatch, sample_batter_stats, sample_b
     monkeypatch.setattr(
         DummyUnifiedDataClient, 
         "fetch_batting_stats", 
-        lambda self, player_name, team_fangraphs_id, start_year, end_year: sample_batter_stats
+        lambda self, mlbam_id, season: sample_batter_stats
     )
     monkeypatch.setattr(
         DummyUnifiedDataClient, 

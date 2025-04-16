@@ -24,7 +24,7 @@ class StatsDisplay:
             print(f"No {stat_type} stats data available.")
             return
 
-        stats_df = pd.DataFrame([data])
+        stats_df = data #pd.DataFrame([data])
         filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
         if filtered_data is None or filtered_data.empty:
             print(f"No valid {stat_type} stats available for plotting.")
@@ -42,7 +42,7 @@ class StatsDisplay:
             print(f"No {stat_type} stats data available.")
             return
 
-        stats_df = pd.DataFrame([data])
+        stats_df = data #pd.DataFrame([data])
         filtered_data = self._filter_columns(self.season_stats[stat_type], stats_df)
         if filtered_data is None or filtered_data.empty:
             print(f"No valid {stat_type} stats available for plotting.")

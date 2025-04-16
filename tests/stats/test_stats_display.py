@@ -12,8 +12,8 @@ from mlb_data_lab.config import StatsConfig
 # --- Dummy Player Data ---
 @pytest.fixture
 def dummy_player(sample_batter_stats, sample_batter_stat_splits):
-    player = Player(123)
-    player.player_stats = sample_batter_stats
+    player = Player(mlbam_id = 123)
+    player.player_stats = pd.DataFrame(sample_batter_stats)
     player.player_splits_stats = sample_batter_stat_splits
     return player
 
@@ -78,8 +78,9 @@ def test_display_standard_stats(dummy_player, capture_plot, sample_batter_stats)
     assert "Standard" in call['title']
     expected_fields = ['AB', 'H', 'AVG', 'RBI']
     
+    stats_df = pd.DataFrame(sample_batter_stats)
     # Filter the fixture data to only include the expected fields.
-    expected_filtered = {k: v for k, v in sample_batter_stats.items() if k in expected_fields}
+    expected_filtered = {k: v for k, v in stats_df.items() if k in expected_fields}
     
     # Convert the actual stats to a DataFrame if needed.
     if isinstance(call['stats'], pd.DataFrame):
@@ -94,7 +95,7 @@ def test_display_standard_stats(dummy_player, capture_plot, sample_batter_stats)
     for field in expected_fields:
         actual_value = actual_df.at[0, field]
         expected_value = expected_filtered[field]
-        assert actual_value == expected_value, f"Field {field} mismatch: expected {expected_value}, got {actual_value}"
+        assert actual_value == expected_value.iloc[0], f"Field {field} mismatch: expected {expected_value}, got {actual_value}"
     
     plt.close(fig)
 
@@ -108,8 +109,9 @@ def test_display_advanced_stats(dummy_player, capture_plot, sample_batter_stats)
     assert "Advanced" in call['title']
     expected_fields = ['OBP', 'SLG', 'OPS']
     
+    stats_df = pd.DataFrame(sample_batter_stats)
     # Filter the fixture data to include only expected fields.
-    expected_filtered = {k: v for k, v in sample_batter_stats.items() if k in expected_fields}
+    expected_filtered = {k: v for k, v in stats_df.items() if k in expected_fields}
     
     # Convert the actual stats to a DataFrame.
     if isinstance(call['stats'], pd.DataFrame):
@@ -124,7 +126,7 @@ def test_display_advanced_stats(dummy_player, capture_plot, sample_batter_stats)
     for field in expected_fields:
         actual_value = actual_df.at[0, field]
         expected_value = expected_filtered.get(field)
-        assert actual_value == expected_value, f"Mismatch for field '{field}': expected {expected_value}, got {actual_value}"
+        assert actual_value == expected_value.iloc[0], f"Mismatch for field '{field}': expected {expected_value}, got {actual_value}"
     
     plt.close(fig)
 

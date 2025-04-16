@@ -62,7 +62,7 @@ class PybaseballClient:
     
     @staticmethod
     def lookup_player_by_id(player_id: int):
-        print(f"Looking up player by ID: {player_id}")
+        #print(f"Looking up player by ID: {player_id}")
         return pyb.playerid_reverse_lookup([player_id], key_type='mlbam')
 
     @staticmethod

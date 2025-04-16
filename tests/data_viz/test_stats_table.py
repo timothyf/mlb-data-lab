@@ -15,20 +15,19 @@ from mlb_data_lab.apis.mlb_stats_client import process_splits
 @pytest.fixture
 def stats_table_standard(sample_batter_stats):
     stats_list = StatsConfig().stat_lists['batting']['standard']
-    stats_df = pd.DataFrame([sample_batter_stats])
+    stats_df = pd.DataFrame(sample_batter_stats)
     return StatsTable(stats_df, stats_list, stat_type='batting')
 
 @pytest.fixture
 def stats_table_advanced(sample_batter_stats):
     stats_list = StatsConfig().stat_lists['batting']['advanced']
-    df = pd.DataFrame([sample_batter_stats])
-    return StatsTable(df, stats_list, stat_type='batting')
+    stats_df = pd.DataFrame(sample_batter_stats)
+    return StatsTable(stats_df, stats_list, stat_type='batting')
 
 @pytest.fixture
 def stats_table_splits(sample_batter_stat_splits):
     data = process_splits(sample_batter_stat_splits)
     stats_list = StatsConfig().stat_lists['batting']['splits']
-    #df = pd.DataFrame([data])
     return StatsTable(data, stats_list, stat_type='batting')
 
 

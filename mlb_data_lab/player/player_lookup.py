@@ -1,100 +1,155 @@
 import pandas as pd
+import logging
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
+from mlb_data_lab.special_name_mappings import SpecialNameMappings
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 class PlayerLookup:
+    def __init__(self, data_client: UnifiedDataClient = None):
+        """
+        Initialize the PlayerLookup instance.
+        Optionally pass a UnifiedDataClient instance; if not provided, one is created.
+        Also preprocesses special name mappings for quick lookup.
+        """
+        self.data_client = data_client if data_client else UnifiedDataClient()
+        # Preprocess special mappings into dictionaries (keys in lowercase)
+        self.first_name_map = {
+            mapping['original'].lower(): mapping.get('resolved')
+            for mapping in SpecialNameMappings if mapping['type'] == 'first_name'
+        }
+        self.last_name_map = {
+            mapping['original'].lower(): mapping.get('resolved')
+            for mapping in SpecialNameMappings if mapping['type'] == 'last_name'
+        }
+        self.player_name_map = {
+            mapping['original'].lower(): mapping.get('player_id')
+            for mapping in SpecialNameMappings if mapping['type'] == 'player_name'
+        }
 
-    data_client = UnifiedDataClient()
+    def parse_full_name(self, player_name: str) -> (str, str):
+        """
+        Parse a full player name into first name and last name.
+        Handles suffixes like Jr., Sr., II, III, or IV.
+        Raises ValueError if the name cannot be parsed.
+        """
+        parts = player_name.split()
+        if len(parts) < 2:
+            raise ValueError(f"Player name '{player_name}' does not contain enough parts.")
+        first_name = parts[0]
+        # If the last token is a known suffix and there are at least 3 parts, use the second-to-last token as last name.
+        if parts[-1] in ['Jr.', 'Sr.', 'II', 'III', 'IV'] and len(parts) >= 3:
+            last_name = parts[-2]
+        else:
+            last_name = parts[-1]
+        return first_name, last_name
 
-    # This method uses the pybaseball library to lookup a player's MLBAM ID
-    @staticmethod
-    def lookup_player_id(pitcher_name: str):
-        first_name, last_name = pitcher_name.split()
-        player_id_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
+    def lookup_player_id(self, pitcher_name: str):
+        """
+        Lookup a player's MLBAM ID using their pitcher name.
+        If multiple entries are returned, a warning is logged.
+        If not found, returns the fuzzy search result.
+        """
+        try:
+            first_name, last_name = self.parse_full_name(pitcher_name)
+        except ValueError as e:
+            logger.error(f"Error parsing name '{pitcher_name}': {e}")
+            return None
+
+        player_id_df = self.data_client.lookup_player(last_name, first_name)
         if not player_id_df.empty:
             key_mlbam_value = player_id_df.iloc[0]['key_mlbam']
             if isinstance(key_mlbam_value, list):
-                print(f"Multiple names found for: {pitcher_name}")
+                logger.warning(f"Multiple names found for: {pitcher_name}")
             return key_mlbam_value
         else:
-            print(f"Player not found: {pitcher_name}")
-            # If fuzzy matching is required
-            fuzzy_results = pd.DataFrame(PlayerLookup.data_client.lookup_player(last_name, first_name, fuzzy=True))
+            logger.info(f"Player not found: {pitcher_name}. Trying fuzzy matching...")
+            fuzzy_results = pd.DataFrame(self.data_client.lookup_player(last_name, first_name, fuzzy=True))
             return fuzzy_results
-        
-    # This method uses the pybaseball library to lookup a player's information
-    # information returned includes: 
-    #        name_last, name_first, key_mlbam, key_retro, key_bbref, key_fangraphs, mlb_played_first, mlb_played_last
-    @staticmethod
-    def lookup_player(player_name: str = "", player_id: int = None):
-        player_df = pd.DataFrame()  # Initialize as an empty DataFrame
 
+    def lookup_player(self, player_name: str = "", player_id: int = None):
+        """
+        Lookup player information either by player name or using an MLBAM ID.
+        Returns a Series representing the first row of data if found, otherwise None.
+        """
+        player_df = pd.DataFrame()
         if player_name:
-            # Split the name into parts based on spaces
-            name_parts = player_name.split()
+            try:
+                first_name, last_name = self.parse_full_name(player_name)
+            except ValueError as e:
+                logger.error(f"Error parsing player name '{player_name}': {e}")
+                return None
 
-            first_name = name_parts[0]
-            # The last part is the last name (ignore middle initials)
-            last_name = name_parts[-1]
+            try:
+                player_df = self.data_client.lookup_player(last_name, first_name)
+            except Exception as e:
+                logger.error(f"Error looking up player {player_name}: {e}")
+                return None
 
-            if last_name in ['Jr.', 'Sr.']:  # Check for Jr. or Sr. suffix
-                last_name = name_parts[-2]
-
-            # Try looking up the player by name
-            player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
-
-            # If player not found, handle special cases
+            # If no results, try to resolve through special name mappings.
             if player_df.empty:
-                player_df, player_id = PlayerLookup.handle_special_cases(name_parts, first_name, last_name, player_name)
+                player_df, special_id = self.handle_special_cases(first_name, last_name, player_name)
+                if special_id is not None:
+                    player_id = special_id
 
         if player_id:
-            # Lookup the player by ID if provided
-            player_df = PlayerLookup.data_client.lookup_player_by_id(player_id)
+            player_df = self.data_client.lookup_player_by_id(player_id)
 
-        # Return the first matching row or None if empty
         if not player_df.empty:
-            print(f"Player found: {player_df.iloc[0]['name_last']}, {player_df.iloc[0]['name_first']}")
-            print(f"MLBAM ID: {player_df.iloc[0]['key_mlbam']}")
+            # Optionally log a successful lookup.
+            #logger.info(f"Player found: {player_df.iloc[0]['name_first']} {player_df.iloc[0]['name_last']}, MLBAM ID: {player_df.iloc[0]['key_mlbam']}")
             return player_df.iloc[0]
         else:
+            logger.info(f"No data found for player: {player_name}")
             return None
 
-    @staticmethod
-    def handle_special_cases(name_parts, first_name, last_name, player_name):
-        # Initialize player_df and player_id
+    def handle_special_cases(self, first_name: str, last_name: str, player_name: str) -> (pd.DataFrame, int):
+        """
+        Attempts to resolve name issues using preprocessed special name mappings.
+        Returns a tuple (player_df, player_id). If a player ID is found, that should be used for further lookup.
+        """
         player_df = pd.DataFrame()
         player_id = None
 
-        new_last_name = " ".join(name_parts[1:])  # Join the remaining parts as the last name
-        print(f"Player not found with first name: {first_name}, last name: {last_name}. Trying with first name {first_name}, last name: {new_last_name}")
-        player_df = PlayerLookup.data_client.lookup_player(new_last_name, first_name)
+        # As an initial attempt, try constructing a new last name by joining all parts after the first.
+        name_parts = player_name.split()
+        if len(name_parts) > 2:
+            new_last_name = " ".join(name_parts[1:])
+            try:
+                player_df = self.data_client.lookup_player(new_last_name, first_name)
+                if not player_df.empty:
+                    return player_df, player_id
+            except Exception as e:
+                logger.error(f"Error during lookup with new_last_name '{new_last_name}': {e}")
 
-        if player_df.empty:
-            if first_name == 'Matthew':
-                first_name = 'Matt'
-                print(f"Trying with first name {first_name}, last name: {new_last_name}")
-                player_df = PlayerLookup.data_client.lookup_player(new_last_name, first_name)
-            elif first_name == 'Victor':
-                first_name = 'Víctor'
-                print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
-            elif last_name == 'Teheran':
-                last_name = 'Teherán'
-                print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
-            elif last_name == 'Rodriguez':
-                last_name = 'rodríguez'
-                print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
-            elif first_name == 'C.J.':
-                first_name = 'c. j.'
-                print(f"Trying with first name {first_name}, last name: {last_name}")
-                player_df = PlayerLookup.data_client.lookup_player(last_name, first_name)
-            elif player_name == 'Willie Hernandez':
-                player_id = 115822
-            elif player_name == 'Barbaro Garbey':
-                player_id = 114579
-            elif player_name == 'Aurelio Lopez':
-                player_id = 117916
+        # Check if a correction exists for the first name.
+        new_first = self.first_name_map.get(first_name.lower())
+        if new_first:
+            try:
+                player_df = self.data_client.lookup_player(last_name, new_first)
+                if not player_df.empty:
+                    logger.info(f"Resolved first name '{first_name}' to '{new_first}' for player '{player_name}'")
+                    return player_df, player_id
+            except Exception as e:
+                logger.error(f"Error during lookup with corrected first name '{new_first}': {e}")
+
+        # Check if a correction exists for the last name.
+        new_last = self.last_name_map.get(last_name.lower())
+        if new_last:
+            try:
+                player_df = self.data_client.lookup_player(new_last, first_name)
+                if not player_df.empty:
+                    logger.info(f"Resolved last name '{last_name}' to '{new_last}' for player '{player_name}'")
+                    return player_df, player_id
+            except Exception as e:
+                logger.error(f"Error during lookup with corrected last name '{new_last}': {e}")
+
+        # If a full player name mapping exists, return the associated player ID.
+        full_id = self.player_name_map.get(player_name.lower())
+        if full_id:
+            logger.info(f"Resolved full player name '{player_name}' to player ID {full_id}")
+            return pd.DataFrame(), full_id
 
         return player_df, player_id

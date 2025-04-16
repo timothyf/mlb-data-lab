@@ -1,6 +1,5 @@
 import requests
 import statsapi
-import json
 import pandas as pd
 
 from mlb_data_lab.config import STATS_API_BASE_URL
@@ -36,6 +35,19 @@ class MlbStatsClient:
         url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
         data = requests.get(url).json()
         return process_splits(data['people'][0]['stats'][0]['splits'])
+    
+    # Sample
+    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
+    #                                         &hydrate=stats(group=[hitting],
+    #                                                  type=[statSplits],
+    #                                                  sitCodes=[vr,vl],
+    #                                                  season=2018)
+    #
+    @staticmethod
+    # def fetch_batter_stat_splits_by_team(player_id: int, team_id: int, year: int):
+    #     url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
+    #     data = requests.get(url).json()
+    #     return process_splits(data['people'][0]['stats'][0]['splits'])
     
     # Sample
     #  https://statsapi.mlb.com/api/v1/people?personIds=519203

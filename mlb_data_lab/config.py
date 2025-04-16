@@ -98,6 +98,19 @@ class FontConfig:
         }
 
 @dataclass
+class LeagueTeams: 
+    items = {
+    'AL': {
+    'BAL', 'BOS', 'CHW', 'CHA', 'CLE', 'DET',
+    'HOU', 'KCR', 'KCA', 'LAA', 'MIN', 'NYY', 'NYA',
+    'OAK', 'SEA', 'TBR', 'TBA', 'TEX', 'TOR' },
+    'NL': {
+    'ARI', 'ATL', 'CHC', 'CHN', 'CIN', 'COL',
+    'LAD', 'LAN', 'MIA', 'MIL', 'NYM', 'NYN', 'PHI',
+    'PIT', 'SDP', 'SDN', 'SFG', 'SFN', 'STL', 'WSN', 'WSH' }
+}
+
+@dataclass
 class StatsConfig:
 
     stat_lists = {
@@ -162,7 +175,7 @@ class StatsDisplayConfig:
         'obp': {'table_header': r'$\bf{OBP}$', 'format': ''},
         'SLG': {'table_header': r'$\bf{SLG}$', 'format': '.3f'},
         'slg': {'table_header': r'$\bf{SLG}$', 'format': ''},
-        'ERA': {'table_header': r'$\bf{ERA}$', 'format': ''},
+        'ERA': {'table_header': r'$\bf{ERA}$', 'format': '.2f'},
         'wOBA': {'table_header': r'$\bf{wOBA}$', 'format': '.3f'},
         'G': {'table_header': r'$\bf{G}$', 'format': '.0f'},
         'GS': {'table_header': r'$\bf{GS}$', 'format': '.0f'},
@@ -239,7 +252,7 @@ class StatsDisplayConfig:
 
     batting = {
         'gamesPlayed': {'table_header': r'$\bf{G}$'},
-        'G': {'table_header': r'$\bf{G}$'},
+        'G': {'table_header': r'$\bf{G}$', 'format': '.0f'}, 
         'GS': {'table_header': r'$\bf{GS}$', 'format': '.0f'}, 
         'PA': {'table_header': r'$\bf{PA}$', 'format': '.0f'},
         'plateAppearances': {'table_header': r'$\bf{PA}$'},

@@ -62,10 +62,9 @@ class PitcherSummarySheet(SummarySheet):
                     fig=self.fig,
                     league_pitching_avgs=self.league_pitch_averages)
         rolling_pitch_usage_window = 5
-        if self.player.player_stats['G'] < 5:
+        if self.player.player_stats['G'].iloc[0] < 5:
             rolling_pitch_usage_window = 1
 
-        print(f"Statcast data: {self.player.statcast_data}")
         RollingPitchUsagePlot(self.player).plot(pitch_data=self.player.statcast_data, ax=self.ax_pitch_usage, window=rolling_pitch_usage_window)
         PitchBreakPlot(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_break)
         PitchBreakdownTable(self.player).plot(pitch_data=pitching_data, ax=self.ax_pitch_breakdown, 

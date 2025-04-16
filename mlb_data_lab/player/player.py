@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class Player:
-    def __init__(self, mlbam_id: int, data_client: Optional[UnifiedDataClient] = None):
+    def __init__(self, mlbam_id: Optional[int] = None, data_client: Optional[UnifiedDataClient] = None):
         """
         Initializes a Player instance.
         
@@ -34,6 +34,7 @@ class Player:
         self.player_splits_stats: Optional[Any] = None
         self.statcast_data: Optional[Any] = None
         self.data_client: UnifiedDataClient = data_client if data_client else UnifiedDataClient()
+        self.lookup_client: PlayerLookup = PlayerLookup(data_client=self.data_client)
 
     def load_stats_for_season(self, season: int) -> None:
         """
@@ -41,15 +42,13 @@ class Player:
         """
         if self.player_info.primary_position == 'P':
             self.player_stats = self.data_client.fetch_pitching_stats(
-                player_name=self.player_bio.full_name,
-                team_fangraphs_id=self.current_team.fangraphs_id,
-                start_year=season, end_year=season)
+                mlbam_id=self.mlbam_id,
+                season=season)
             self.player_splits_stats = self.data_client.fetch_pitching_splits(self.mlbam_id, season=season)
         else:
             self.player_stats = self.data_client.fetch_batting_stats(
-                player_name=self.player_bio.full_name,
-                team_fangraphs_id=self.current_team.fangraphs_id,
-                start_year=season, end_year=season)
+                mlbam_id=self.mlbam_id,
+                season=season)
             self.player_splits_stats = self.data_client.fetch_batting_splits(self.mlbam_id, season=season)
 
     def load_statcast_data(self, start_date: str, end_date: str) -> None:
@@ -67,9 +66,11 @@ class Player:
         """
         Factory method to create a Player instance using MLBAM ID or player_name.
         """
+        player = cls(data_client=data_client)
+
         if player_name:
-            logger.info(f"Creating player: {player_name}")
-            player_data = PlayerLookup.lookup_player(player_name)
+            #logger.info(f"Creating player: {player_name}")
+            player_data = player.lookup_client.lookup_player(player_name)
             if player_data is None:
                 logger.error(f"Could not find player data for: {player_name}")
                 return None
@@ -83,8 +84,8 @@ class Player:
                 raise ValueError(f"Could not find MLBAM ID for player: {player_name}")
 
         elif mlbam_id:
-            player_data = PlayerLookup.lookup_player(player_id=mlbam_id)
-            logger.info(f"Creating player: {player_data}")
+            player_data = player.lookup_client.lookup_player(player_id=mlbam_id)
+            #logger.info(f"Creating player: {player_data}")
             first = player_data.get('name_first', '').capitalize()
             last = player_data.get('name_last', '').capitalize()
             player_name = f"{first} {last}"
@@ -94,7 +95,7 @@ class Player:
         else:
             raise ValueError("At least one of 'mlbam_id' or 'player_name' must be provided.")
 
-        player = cls(mlbam_id, data_client=data_client)
+        player.mlbam_id = mlbam_id #cls(mlbam_id, data_client=data_client)
         player.bbref_id = bbref_id
         mlb_player_info = player.data_client.fetch_player_info(mlbam_id)
         player.player_info.set_from_mlb_info(mlb_player_info)
