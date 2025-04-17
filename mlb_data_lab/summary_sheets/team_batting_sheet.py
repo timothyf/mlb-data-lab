@@ -13,8 +13,10 @@ class TeamBattingSheet(SummarySheet):
 
     data_client = UnifiedDataClient()
 
-    def __init__(self, team: Team, season: int):
+    def __init__(self, team: Team, season: int, data_client: UnifiedDataClient = None):
         super().__init__(season)
+
+        self.data_client = data_client if data_client else UnifiedDataClient()
 
         self.team = team
 

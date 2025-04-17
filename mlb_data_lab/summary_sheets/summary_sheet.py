@@ -13,12 +13,12 @@ from mlb_data_lab.apis.local_data_client import LocalDataClient
 
 class SummarySheet:
 
-    data_client = UnifiedDataClient()
     local_data_client = LocalDataClient()
 
-    def __init__(self, season=2024):
+    def __init__(self, season=2024, data_client: UnifiedDataClient = None):
+        self.data_client = data_client if data_client else UnifiedDataClient()
         self.season = season
-        season_info = SummarySheet.data_client.get_season_info(season)
+        season_info = self.data_client.get_season_info(season)
         self.start_date = season_info['regularSeasonStartDate']
         self.end_date = season_info['regularSeasonEndDate']
 

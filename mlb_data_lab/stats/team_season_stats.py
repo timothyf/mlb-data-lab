@@ -5,9 +5,8 @@ from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 class TeamSeasonStats:
 
-    data_client = UnifiedDataClient()
-
-    def __init__(self, season: int):
+    def __init__(self, season: int, data_client: UnifiedDataClient = None):
+        self.data_client = data_client if data_client else UnifiedDataClient()
         self.season = season
         self.wins = None
         self.losses = None
@@ -23,12 +22,12 @@ class TeamSeasonStats:
 
     def populate(self, team):
         self.fetch_season_record(team)
-        self.batting_stats = TeamSeasonStats.data_client.fetch_team_batting_stats(team.abbrev, self.season, self.season)
-        self.pitching_stats = TeamSeasonStats.data_client.fetch_team_pitching_stats(team.abbrev, self.season, self.season)
+        self.batting_stats = self.data_client.fetch_team_batting_stats(team.abbrev, self.season, self.season)
+        self.pitching_stats = self.data_client.fetch_team_pitching_stats(team.abbrev, self.season, self.season)
 
     
     def fetch_season_record(self, team):
-        season_record = TeamSeasonStats.data_client.fetch_team_schedule_and_record(team.abbrev, self.season)
+        season_record = self.data_client.fetch_team_schedule_and_record(team.abbrev, self.season)
         self.wins = np.where(season_record['W/L']=='W', 1, (np.where(season_record['W/L']=='W-wo', 1, 0))).cumsum()[-1]
         self.losses = np.where(season_record['W/L']=='L', 1, (np.where(season_record['W/L']=='L-wo', 1, 0))).cumsum()[-1]
         self.win_pct = f"{(self.wins / (self.wins + self.losses)).round(3):.3f}".lstrip("0")

@@ -14,7 +14,6 @@ SEASON = 2024  # Replace with the desired season
 BATTING_FILE_PATH = f"{DATA_DIR}/fangraphs_leaderboards/batting_leaderboard.json"
 PITCHING_FILE_PATH = f"{DATA_DIR}/fangraphs_leaderboards/pitching_leaderboard.json"
 
-data_client = UnifiedDataClient()
 
 # Ensure the directory exists
 def ensure_directory_exists(file_path):
@@ -34,6 +33,7 @@ def fetch_and_save_leaderboards(season):
     ensure_directory_exists(BATTING_FILE_PATH)
 
     try:
+        data_client = UnifiedDataClient()
         # Fetch and save batting leaderboard data
         batting_data = data_client.fetch_batting_leaderboards_as_json(season)
         save_data_to_json(BATTING_FILE_PATH, batting_data)
