@@ -1,5 +1,4 @@
 import pandas as pd
-from typing import Optional
 
 from mlb_data_lab.apis.web_client import WebClient
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient

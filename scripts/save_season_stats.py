@@ -35,7 +35,7 @@ if __name__ == "__main__":
         output_dir = 'output/season_stats',
         max_workers = 10,
         retry_attempts = 2,
-        chunk_size = 100,
+        chunk_size = 300,
         league = league
     )
     downloader.download()
