@@ -29,7 +29,7 @@ class Player:
         self.bbref_id: Optional[str] = None
         self.player_info: PlayerInfo = PlayerInfo()
         self.player_bio: PlayerBio = PlayerBio() 
-        self.current_team: Team = Team()
+        self.current_team: Team = Team(data_client=data_client)
         self.player_stats: Optional[Any] = None
         self.player_splits_stats: Optional[Any] = None
         self.statcast_data: Optional[Any] = None
@@ -66,8 +66,7 @@ class Player:
         """
         Factory method to create a Player instance using MLBAM ID or player_name.
         """
-        player = cls(data_client=data_client)
-
+        player = Player(data_client=data_client)
         if player_name:
             #logger.info(f"Creating player: {player_name}")
             player_data = player.lookup_client.lookup_player(player_name)
@@ -109,7 +108,7 @@ class Player:
         """
         team_id = mlb_player_info.get('currentTeam', {}).get('id')
         if team_id:
-            self.current_team = Team.create_from_mlb(team_id=team_id)
+            self.current_team = Team.create_from_mlb(team_id=team_id, data_client=self.data_client)
         else:
             logger.warning("No current team information available.")
 

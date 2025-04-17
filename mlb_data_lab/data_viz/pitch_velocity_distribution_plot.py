@@ -72,7 +72,7 @@ class PitchVelocityDistributionPlot:
                                 linestyle='--')
 
             # Plot the mean release speed for the statcast group data
-            df_average = league_pitching_avgs[league_pitching_avgs['pitch_type'] == i]['velocity']
+            df_average = league_pitching_avgs[league_pitching_avgs['pitch_type'] == i]['release_speed']
             ax_top[ax_number].plot([df_average.mean(), df_average.mean()],
                                 [ax_top[ax_number].get_ylim()[0], ax_top[ax_number].get_ylim()[1]],
                                 color=dict_color[pitch_data[pitch_data['pitch_type'] == i]['pitch_type'].values[0]],

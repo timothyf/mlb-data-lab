@@ -130,7 +130,7 @@ class PlayerLookup:
             try:
                 player_df = self.data_client.lookup_player(last_name, new_first)
                 if not player_df.empty:
-                    logger.info(f"Resolved first name '{first_name}' to '{new_first}' for player '{player_name}'")
+                    #logger.info(f"Resolved first name '{first_name}' to '{new_first}' for player '{player_name}'")
                     return player_df, player_id
             except Exception as e:
                 logger.error(f"Error during lookup with corrected first name '{new_first}': {e}")
@@ -141,7 +141,7 @@ class PlayerLookup:
             try:
                 player_df = self.data_client.lookup_player(new_last, first_name)
                 if not player_df.empty:
-                    logger.info(f"Resolved last name '{last_name}' to '{new_last}' for player '{player_name}'")
+                    #logger.info(f"Resolved last name '{last_name}' to '{new_last}' for player '{player_name}'")
                     return player_df, player_id
             except Exception as e:
                 logger.error(f"Error during lookup with corrected last name '{new_last}': {e}")
@@ -149,7 +149,7 @@ class PlayerLookup:
         # If a full player name mapping exists, return the associated player ID.
         full_id = self.player_name_map.get(player_name.lower())
         if full_id:
-            logger.info(f"Resolved full player name '{player_name}' to player ID {full_id}")
+            #logger.info(f"Resolved full player name '{player_name}' to player ID {full_id}")
             return pd.DataFrame(), full_id
 
         return player_df, player_id

@@ -35,9 +35,6 @@ class UnifiedDataClient:
         pd.DataFrame: The batting stats data.
     """
     def fetch_batting_stats(self, mlbam_id: int, season: int, fangraphs_team_id: int = None) -> pd.DataFrame: 
-        #lookup player fangraphs id
-        # player_data = self.lookup_player_by_id(mlbam_id).get('key_fangraphs')
-        # player_fangraphs_id = player_data[0]
         player_fangraphs_id = Utils.get_fangraphs_id(mlbam_id = mlbam_id, search_client=self.search_client)
         if player_fangraphs_id == -1:
             if mlbam_id==690916:
@@ -81,9 +78,7 @@ class UnifiedDataClient:
     # Pitching Stats
     ################
     def fetch_pitching_stats(self, mlbam_id: int, season: int, fangraphs_team_id: int = None) -> pd.DataFrame: 
-        #lookup player fangraphs id
-        player_data = self.lookup_player_by_id(mlbam_id).get('key_fangraphs')
-        player_fangraphs_id = player_data[0]
+        player_fangraphs_id = Utils.get_fangraphs_id(mlbam_id = mlbam_id, search_client=self.search_client)
         if player_fangraphs_id == -1:
             if mlbam_id==690916:
                 player_fangraphs_id = 30160

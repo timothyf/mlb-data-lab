@@ -52,7 +52,7 @@ class SummarySheet:
                 Plotting.plot_bio(self.ax_bio, self.player, 'Season Pitching Summary', self.season)
             else:
                 Plotting.plot_bio(self.ax_bio, self.player, 'Season Batting Summary', self.season)
-            Plotting.plot_image(self.ax_logo, Team.get_team_logo(self.player.current_team.abbrev))
+            Plotting.plot_image(self.ax_logo, self.player.current_team.get_team_logo(self.player.current_team.abbrev))
         elif hasattr(self, 'team'):
             Plotting.plot_team_info(self.ax_bio, self.team, f'Team {self.sheet_type.capitalize()} Summary', self.season)
             Plotting.plot_image(self.ax_logo, self.team.get_logo())

@@ -248,6 +248,7 @@ class StatsDisplayConfig:
         'homeRunsPer9': {'table_header': r'$\bf{HR\ /\;9}$'},
         'sacBunts': {'table_header': r'$\bf{SH}$', 'format': '.0f'},
         'sacFlies': {'table_header': r'$\bf{SF}$', 'format': '.0f'},
+        'velocity': {'table_header': r'$\bf{Velo}$', 'format': '.1f'}
     }
 
     batting = {
@@ -302,7 +303,7 @@ class StatsDisplayConfig:
         'WAR': {'table_header': r'$\bf{WAR}$', 'format': '.1f'},
         'BB%': {'table_header': r'$\bf{BB\%}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
         'walksPerPlateAppearance': {'table_header': r'$\bf{BB\ /\;PA}$'},
-        'K%': {'table_header': r'$\bf{K\%}$'},
+        'K%': {'table_header': r'$\bf{K\%}$', 'format': 'percent'},
         'BB/K': {'table_header': r'$\bf{BB/K}$', 'format': '.2f'},
         'walksPerStrikeout': {'table_header': r'$\bf{BB/K}$'},
         'ISO': {'table_header': r'$\bf{ISO}$', 'format': lambda x: f'{x:.3f}'.lstrip('0')},
@@ -334,6 +335,7 @@ class StatsDisplayConfig:
     pitch_stats = {
         'pitch': {'table_header': '$\\bf{Count}$', 'format': '.0f'},
         'release_speed': {'table_header': '$\\bf{Velocity}$', 'format': '.1f'},
+        'velocity': {'table_header': '$\\bf{Velocity}$', 'format': '.1f'},
         'pfx_z': {'table_header': '$\\bf{iVB}$', 'format': '.1f'},
         'pfx_x': {'table_header': '$\\bf{HB}$', 'format': '.1f'},
         'release_spin_rate': {'table_header': '$\\bf{Spin}$', 'format': '.0f'},

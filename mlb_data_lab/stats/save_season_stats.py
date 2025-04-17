@@ -1,167 +1,244 @@
 import os
-import pandas as pd
+import logging
 import time
+import json
+from typing import List, Dict, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+import pandas as pd
+from tqdm import tqdm
 
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player import Player
+from mlb_data_lab.config import DATA_DIR
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
-def fetch_stats_for_player(player_name: str, team: dict, season: int, client: UnifiedDataClient):
-    """
-    Given a player's name, team info, and season, create the Player object and
-    fetch the appropriate season stats. Returns a tuple:
-    (stats DataFrame or None, player_name, status string)
-    """
-    try:
-        # Create the Player object using MLB data
-        player = Player.create_from_mlb(player_name=player_name, data_client=client)
-        if not player:
-            print(f"Skipping player: {player_name}")
-            return (None, player_name, "skipped")
-    
-        try:
-            # Check the player's primary position and fetch the appropriate stats
-            if player.player_info.primary_position == 'P':
-                #print(f"Fetching pitching stats for player {player.mlbam_id} - {team['name']}...")
-                stats = client.fetch_pitching_stats(
-                    mlbam_id=player.mlbam_id,
-                    season=season
-                )
-            else:
-                #print(f"Fetching batting stats for player {player.mlbam_id}...")
-                stats = client.fetch_batting_stats(
-                    mlbam_id=player.mlbam_id,
-                    season=season
-                )
-        except ValueError as ve:
-            print(f"ValueError fetching stats for player {player.mlbam_id}: {ve}")
-            return (None, player_name, "valueerror")
-        except Exception as e:
-            print(f"Error fetching stats for player {player.mlbam_id}: {e}")
-            return (None, player_name, "error")
-    
-        if stats is not None and not stats.empty:
-            #print (f"Fetched stats for player {player.mlbam_id}: {stats.head()}")
-            # Print teamname column from stats DataFrame
-            team_abbrev = stats['TeamName'].iloc[0]
-            # if team_abbrev == '- - -':
-            #     print(f"Player {player.mlbam_id} played for multiple teams.")
-
-            # Add player ID and season metadata
-            stats['mlbam_id'] = player.mlbam_id
-            stats['season'] = season
-            return (stats, player_name, "success")
+class SeasonStatsDownloader:
+    def __init__(
+        self,
+        season: int,
+        output_dir: str,
+        league: str = None,
+        max_workers: int = 10,
+        retry_attempts: int = 2,
+        chunk_size: int = 100,
+    ):
+        """
+        :param season:         Year to fetch
+        :param output_dir:     Directory in which to save CSV(s)
+        :param league:       List of MLB team IDs (defaults to all 30)
+        :param max_workers:    Number of threads for concurrent fetches
+        :param retry_attempts: How many times to retry transient fetch errors
+        :param chunk_size:     How many players' stats to buffer before writing to disk
+        """
+        self.season = season
+        self.output_dir = output_dir
+        self.client = UnifiedDataClient()
+        self.league = league.upper() if league else None
+        # …
+        if league:
+            # override default team list with AL or NL teams from JSON
+            self.team_ids = self.get_team_ids_by_league(league)
         else:
-            #print(f"No stats returned for player {player.mlbam_id}.")
-            return (None, player_name, "no stats")
-    except Exception as exc:
-        print(f"Error processing player {player_name}: {exc}")
-        return (None, player_name, "error")
+            self.team_ids = [
+            109,144,110,111,112,145,113,114,115,116,
+            117,118,108,119,146,158,142,121,147,133,
+            143,134,135,137,136,138,139,140,141,120
+         ]
+
+        self.max_workers = max_workers
+        self.retry_attempts = retry_attempts
+        self.chunk_size = chunk_size
+
+        # accumulate each player's status here
+        self.statuses: Dict[str, List[str]] = {
+            "success": [], "skipped": [], "valueerror": [],
+            "error": [], "no_stats": []
+        }
+
+        os.makedirs(self.output_dir, exist_ok=True)
 
 
-def download_and_save_season_stats(season: int, output_dir: str) -> None:
-    """
-    Downloads season-level stats for all players from all MLB teams for a given season,
-    and saves the results to a CSV file. Each row in the resulting CSV corresponds to a
-    player's season totals.
-    
-    Parameters:
-        season (int): The season year for which to fetch player stats.
-        output_dir (str): The directory in which the CSV file should be saved.
-    """
-    client = UnifiedDataClient()
-    
-    # List of MLB team IDs. Adjust this list as needed.
-    mlb_team_ids = [
-        109, 144, 110, 111, 112, 145, 113, 114, 115, 116,
-        117, 118, 108, 119, 146, 158, 142, 121, 147, 133,
-        143, 134, 135, 137, 136, 138, 139, 140, 141, 120
-    ]
-    
-    all_stats = []       # To collect the DataFrames returned per player
-    skipped_players = [] # For players that could not be processed
-    errored_players = [] # For players that encountered an error
-    no_stats_players = [] # For players that returned no stats
-    no_fangraphs_id = [] # For players that do not have a Fangraphs ID
+    def get_team_ids_by_league(self, league: str) -> List[str]:
+        """
+        Reads data/current_teams.json and returns the list of 3‑letter team codes
+        for the given league ('AL' or 'NL') in self.season.
+        """
+        fn = os.path.join(DATA_DIR, "mlb_teams.json")
+        if not os.path.exists(fn):
+            raise FileNotFoundError(f"Could not find team file: {fn}")
 
-    # Create a thread pool executor for concurrent fetching of player stats.
-    futures = []
-   # max_workers = 5  # 378 seconds
-   # max_workers = 10  # 170.52 seconds
-    max_workers = 15  # 147.15 seconds
-   # max_workers = 20  # 147.43 seconds
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Process teams sequentially but fetch each player's stats concurrently.
-        for team_id in mlb_team_ids:
+        with open(fn, "r") as fp:
+            teams = json.load(fp)
+
+        # Filter by league and (optionally) by year:
+        filtered = [
+            t["mlbam_team_id"]
+            for t in teams
+            if t.get("league") == league
+        ]
+
+        if not filtered:
+            raise ValueError(f"No teams found for league={league}")
+
+        return filtered
+
+
+    # def download_by_league(self, league: str) -> None:
+    #     """
+    #     Download & save season stats *only* for teams in the specified league.
+    #     Output will be written to stats_<league>_<season>.csv
+    #     """
+    #     league = league.upper()
+    #     league_ids = self.get_team_ids_by_league(league)
+    #     if not league_ids:
+    #         logger.warning(f"No teams found for league {league}.")
+    #         return
+
+    #     filename = os.path.join(
+    #         self.output_dir,
+    #         f"stats_{league}_{self.season}.csv"
+    #     )
+
+    #     # spin up a fresh downloader configured only for that league
+    #     sub = SeasonStatsDownloader(
+    #         season=self.season,
+    #         output_dir=self.output_dir,
+    #         team_ids=league_ids,
+    #         max_workers=self.max_workers,
+    #         retry_attempts=self.retry_attempts,
+    #         chunk_size=self.chunk_size,
+    #     )
+    #     sub.download(output_file=filename)
+    #     logger.info(f"{league} stats saved to {filename}")
+
+
+    def download(self, *, output_file: Optional[str] = None) -> None:
+        """
+        Main entry point.
+        - If `output_file` is None, writes to stats_<season>.csv
+        - Otherwise writes to the provided path.
+        """
+        if output_file is None:
+            # if league is provided and is "AL" or "NL", append "_al" or "_nl"
+            suffix = f"_{self.league.lower()}" if self.league and self.league.upper() in ("AL", "NL") else ""
+            filename = f"stats_{self.season}{suffix}.csv"
+            output_file = os.path.join(self.output_dir, filename)
+
+        first_chunk = True
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            for team_id in self.team_ids:
+                try:
+                    team = self.client.fetch_team(team_id)
+                    roster = self.client.fetch_team_roster(team_id, self.season)
+                except Exception as e:
+                    logger.error(f"Skipping team {team_id}: {e}")
+                    continue
+
+                futures = {
+                    executor.submit(self._fetch_player_stats, pname, team): pname
+                    for pname in roster
+                }
+
+                buffer: List[pd.DataFrame] = []
+                for future in tqdm(
+                    as_completed(futures),
+                    total=len(futures),
+                    desc=f"Team {team.get('name','?')}"
+                ):
+                    stats = future.result()
+                    if stats is not None:
+                        buffer.append(stats)
+
+                    if len(buffer) >= self.chunk_size:
+                        self._flush_to_disk(buffer, output_file, first_chunk)
+                        first_chunk = False
+                        buffer.clear()
+
+                # flush remainder for this team
+                if buffer:
+                    self._flush_to_disk(buffer, output_file, first_chunk)
+                    first_chunk = False
+
+        self._print_summary(output_file)
+
+
+    def _fetch_player_stats(self, player_name: str, team: dict) -> Optional[pd.DataFrame]:
+        """
+        Fetch a single player's season stats (batting or pitching), with retries.
+        Records status into self.statuses and returns either a DataFrame or None.
+        """
+        for attempt in range(1, self.retry_attempts + 1):
             try:
-                team = client.fetch_team(team_id)
-            except Exception as e:
-                print(f"Error fetching team with ID {team_id}: {e}")
-                continue
+                player = Player.create_from_mlb(
+                    player_name=player_name,
+                    data_client=self.client
+                )
+                if not player:
+                    self.statuses["skipped"].append(player_name)
+                    return None
 
-            try:
-                roster = client.fetch_team_roster(team_id, season)
-            except Exception as e:
-                print(f"Error fetching roster for team {team_id}: {e}")
-                continue
-    
-            # Submit each player's stat-fetching task to the thread pool.
-            for player_name in roster:
-                future = executor.submit(fetch_stats_for_player, player_name, team, season, client)
-                futures.append(future)
-    
-    # Process the futures as they complete.
-    for future in as_completed(futures):
-        stats, player_name, status = future.result()
-        if stats is not None:
-            all_stats.append(stats)
-            if len(all_stats) % 20 == 0:
-                print(f"Fetched stats for {len(all_stats)} players so far...")
-        elif status == "skipped":
-            skipped_players.append(player_name)
-        elif status == "error":
-            errored_players.append(player_name)
-        elif status == "no stats":
-            no_stats_players.append(player_name)
-        elif status == "valueerror":
-            no_fangraphs_id.append(player_name)
-        else:
-            print(f"Unknown status for player {player_name}: {status}")
-    
-    # If stats have been gathered, combine them and save to CSV.
-    if all_stats:
-        season_stats_df = pd.concat(all_stats, ignore_index=True)
-        
-        # Ensure the output directory exists.
-        os.makedirs(output_dir, exist_ok=True)
-        file_path = os.path.join(output_dir, f"stats_{season}.csv")
-        
-        season_stats_df.to_csv(file_path, index=False)
-        print(f"Season {season} stats saved to {file_path}")
-        print(f"Players processed: {len(all_stats)}")
-        print(f"Skipped players count: {len(skipped_players)}")
-        print(f"Errored players count: {len(errored_players)}")
-        print(f"No Fangraphs ID players count: {len(no_fangraphs_id)}")
-        print(f"No stats players count: {len(no_stats_players)}")
-        print(f"\nSkipped players: \n{skipped_players}")
-        print(f"\nErrored players: \n{errored_players}")
-        print(f"\nNo stats players: \n{no_stats_players}")
-        print(f"\nNo Fangraphs ID players: \n{no_fangraphs_id}")
-    else:
-        print("No player stats were fetched for this season.")
+                # decide batting vs. pitching
+                fetch_fn = (
+                    self.client.fetch_pitching_stats
+                    if player.player_info.primary_position == "P"
+                    else self.client.fetch_batting_stats
+                )
+                stats = fetch_fn(mlbam_id=player.mlbam_id, season=self.season)
+                if stats is not None and not stats.empty:
+                    stats["mlbam_id"] = player.mlbam_id
+                    stats["season"]    = self.season
+                    self.statuses["success"].append(player_name)
+                    return stats
+
+                self.statuses["no_stats"].append(player_name)
+                return None
+
+            except ValueError:
+                self.statuses["valueerror"].append(player_name)
+                return None
+
+            except Exception as exc:
+                logger.warning(f"[{player_name}] attempt {attempt} failed: {exc}")
+                if attempt == self.retry_attempts:
+                    self.statuses["error"].append(player_name)
+                    return None
+                time.sleep(0.5)
 
 
-if __name__ == '__main__':
-    # Example usage: Download the 2024 season stats and save to data/season_stats.
-    output_directory = os.path.join("data", "season_stats")
-    start_time = time.perf_counter()
-    download_and_save_season_stats(season=2024, output_dir=output_directory)
-    end_time = time.perf_counter()
-    
-    elapsed_time = end_time - start_time
-    print(f"Total time elapsed: {elapsed_time:.2f} seconds")
+    def _flush_to_disk(self, dfs: List[pd.DataFrame], filename: str, write_header: bool) -> None:
+        # 1) drop any DataFrame that has no rows
+        valid = [df for df in dfs if not df.empty]
+
+        # 2) optionally drop columns that are all NA in each frame
+        cleaned = [df.dropna(axis=1, how="all") for df in valid]
+
+        if not cleaned:
+            # nothing to write
+            return
+
+        combined = pd.concat(cleaned, ignore_index=True)
+        combined.to_csv(
+            filename,
+            mode="w" if write_header else "a",
+            header=write_header,
+            index=False,
+        )
+        logger.info(f"Wrote {len(combined)} rows to {filename}")
 
 
 
-
+    def _print_summary(self, filename: str) -> None:
+        """
+        Log a summary of how many players fell into each status bucket.
+        """
+        total = sum(len(lst) for lst in self.statuses.values())
+        logger.info(f"\n=== Completed Season {self.season} ===")
+        logger.info(f"Output: {filename}")
+        logger.info(f"Players processed: {total}")
+        for status, lst in self.statuses.items():
+            logger.info(f"{status.title():<12}: {len(lst)}")

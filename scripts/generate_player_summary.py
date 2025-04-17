@@ -87,7 +87,8 @@ if __name__ == "__main__":
     print(f"Year: {year}")
 
     print(f"Player names: {players}")
-    print(f"Team names: {teams}")
+    if teams:
+        print(f"Teams: {teams}")
 
     # Generate player summary sheets for each player with the given year
     for player in players:
