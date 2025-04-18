@@ -46,26 +46,26 @@ class PlayerLookup:
             last_name = parts[-1]
         return first_name, last_name
 
-    def lookup_player_id(self, pitcher_name: str):
+    def lookup_player_id(self, player_name: str):
         """
         Lookup a player's MLBAM ID using their pitcher name.
         If multiple entries are returned, a warning is logged.
         If not found, returns the fuzzy search result.
         """
         try:
-            first_name, last_name = self.parse_full_name(pitcher_name)
+            first_name, last_name = self.parse_full_name(player_name)
         except ValueError as e:
-            logger.error(f"Error parsing name '{pitcher_name}': {e}")
+            logger.error(f"Error parsing name '{player_name}': {e}")
             return None
 
         player_id_df = self.data_client.lookup_player(last_name, first_name)
         if not player_id_df.empty:
             key_mlbam_value = player_id_df.iloc[0]['key_mlbam']
             if isinstance(key_mlbam_value, list):
-                logger.warning(f"Multiple names found for: {pitcher_name}")
+                logger.warning(f"Multiple names found for: {player_name}")
             return key_mlbam_value
         else:
-            logger.info(f"Player not found: {pitcher_name}. Trying fuzzy matching...")
+            logger.info(f"Player not found: {player_name}. Trying fuzzy matching...")
             fuzzy_results = pd.DataFrame(self.data_client.lookup_player(last_name, first_name, fuzzy=True))
             return fuzzy_results
 
