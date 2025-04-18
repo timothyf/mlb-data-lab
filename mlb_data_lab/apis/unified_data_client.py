@@ -87,6 +87,7 @@ class UnifiedDataClient:
                 player_fangraphs_id = 31781
             else:
                 raise ValueError(f"Invalid Fangraphs ID for player {mlbam_id}.")
+
         return FangraphsClient.fetch_player_stats(player_fangraphs_id=player_fangraphs_id, season=season, fangraphs_team_id=fangraphs_team_id, stat_type='pitching')
 
     def fetch_pitching_splits(self, player_id: int, season: int) -> pd.DataFrame:

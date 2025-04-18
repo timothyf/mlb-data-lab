@@ -2,6 +2,7 @@ import os
 import logging
 import time
 import json
+from typing import Tuple
 from typing import List, Dict, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -11,6 +12,11 @@ from tqdm import tqdm
 from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.player.player import Player
 from mlb_data_lab.config import DATA_DIR
+from mlb_data_lab.exceptions.custom_exceptions import NoFangraphsIdError
+from mlb_data_lab.exceptions.custom_exceptions import PlayerNotFoundError
+from mlb_data_lab.exceptions.custom_exceptions import PositionMismatchError
+from mlb_data_lab.exceptions.custom_exceptions import NoStatsError
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -65,7 +71,8 @@ class SeasonStatsDownloader:
         # track statuses
         self.statuses: Dict[str, List[str]] = {
             "success": [], "skipped": [], "valueerror": [],
-            "error": [], "no_stats": []
+            "error": [], "no_stats": [], "position_mismatch": [],
+            "not_found": [], "stat_fetch_error": [], "no_fangraphs_id": []
         }
 
         os.makedirs(self.output_dir, exist_ok=True)
@@ -92,9 +99,8 @@ class SeasonStatsDownloader:
         """
         Main entry point: flatten all rosters, spin up one executor.
         """
-        # build output path
+        # Build output filename with any _league or _pitchers/_batters suffixes
         if output_file is None:
-            # build up any suffixes
             suffix_parts = []
             if self.league in ("AL", "NL"):
                 suffix_parts.append(self.league.lower())
@@ -111,101 +117,126 @@ class SeasonStatsDownloader:
 
         first_chunk = True
 
-        # 1) grab every roster
-        teams_and_rosters: List[Tuple[int, List[str]]] = []
+        # 1) grab every roster as a DataFrame
+        teams_and_rosters: List[Tuple[int, pd.DataFrame]] = []
         for team_id in self.team_ids:
             try:
-                roster = self.client.fetch_team_roster(team_id, self.season)
-                teams_and_rosters.append((team_id, roster))
+                roster_df = self.client.fetch_team_roster(team_id, self.season)
+                # roster_df now has columns ['player_name', 'mlbam_id']
+                teams_and_rosters.append((team_id, roster_df))
             except Exception as e:
                 logger.error(f"Skipping team {team_id}: {e}")
 
-        # 2) flatten to (player_name, team) tasks
+        # 2) flatten to a list of (player_name, team_id) tasks
         tasks = [
-            (player_name, team_id)
-            for team_id, roster in teams_and_rosters
-            for player_name in roster
+            (row["mlbam_id"], team_id)
+            for team_id, roster_df in teams_and_rosters
+            for _, row in roster_df.iterrows()
         ]
 
         # 3) fire off threads
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = {
-                executor.submit(self._fetch_player_stats, pname): pname
-                for pname, _ in tasks
+                executor.submit(self._fetch_player_stats, mlbam_id): (mlbam_id, team_id)
+                for mlbam_id, team_id in tasks
             }
 
-            buffer = []
-            for future in tqdm(as_completed(futures),
-                            total=len(futures),
-                            desc=f"Fetching {len(futures)} players"):
+            buffer: List[pd.DataFrame] = []
+            for future in tqdm(
+                as_completed(futures),
+                total=len(futures),
+                desc=f"Fetching {len(futures)} players"
+            ):
                 stats = future.result()
                 if stats is not None:
                     buffer.append(stats)
+
                 if len(buffer) >= self.chunk_size:
                     self._flush_to_disk(buffer, output_file, first_chunk)
                     first_chunk = False
                     buffer.clear()
 
+            # final flush
             if buffer:
                 self._flush_to_disk(buffer, output_file, first_chunk)
 
         self._print_summary(output_file)
 
 
+
     def _fetch_player_stats(
         self,
-        player_name: str
+        mlbam_id: int
     ) -> Optional[pd.DataFrame]:
         """
         Fetch a single player's stats, skip if not matching self.player_type.
         """
         for attempt in range(1, self.retry_attempts + 1):
             try:
-                # look up the player
+                # 1) lookup the player
                 player = Player.create_from_mlb(
-                    player_name=player_name,
+                    mlbam_id=mlbam_id,
                     data_client=self.client
                 )
                 if not player:
-                    self.statuses["skipped"].append(player_name)
-                    return None
+                    raise PlayerNotFoundError(f"No player for id {mlbam_id}")
 
-                # ENFORCE THE NEW FILTER:
+                # 2) enforce the new pitcher/batter filter
                 pos = player.player_info.primary_position
                 if self.player_type == "pitchers" and pos != "P":
-                    self.statuses["skipped"].append(player_name)
-                    return None
+                    raise PositionMismatchError(f"{mlbam_id} is not a pitcher")
                 if self.player_type == "batters" and pos == "P":
-                    self.statuses["skipped"].append(player_name)
-                    return None
+                    raise PositionMismatchError(f"{mlbam_id} is a pitcher, not a batter")
 
-                # pick the right fetch method
+                # 3) fetch the stats
                 fetch_fn = (
                     self.client.fetch_pitching_stats
                     if pos == "P"
                     else self.client.fetch_batting_stats
                 )
-                stats = fetch_fn(mlbam_id=player.mlbam_id, season=self.season)
 
-                if stats is not None and not stats.empty:
-                    stats["mlbam_id"] = player.mlbam_id
-                    stats["season"]   = self.season
-                    self.statuses["success"].append(player_name)
-                    return stats
+                stats = fetch_fn(mlbam_id=mlbam_id, season=self.season)
 
-                self.statuses["no_stats"].append(player_name)
+                # 4) check for no data
+                if stats is None or stats.empty:
+                    raise NoStatsError(f"No stats for {mlbam_id} in {self.season}")
+
+                # 5) success—annotate and return
+                stats["mlbam_id"] = mlbam_id
+                stats["season"]   = self.season
+                self.statuses["success"].append(player.player_bio.full_name)
+                return stats
+
+            except NoFangraphsIdError as e:
+                # Fangraphs ID not found, skip this player
+                self.statuses["no_fangraphs_id"].append(player.player_bio.full_name)
+                return None
+            
+            except PlayerNotFoundError as e:
+                self.statuses["not_found"].append(player.player_bio.full_name)
                 return None
 
-            except ValueError:
-                self.statuses["valueerror"].append(player_name)
+            except PositionMismatchError as e:
+                # maybe count these separately or lump in "skipped"
+                self.statuses["position_mismatch"].append(player.player_bio.full_name)
+                return None
+
+            except NoStatsError as e:
+                self.statuses["no_stats"].append(player.player_bio.full_name)
+                return None
+
+            except ValueError as e:
+                # any ValueError from deep inside create_from_mlb or client
+                self.statuses["valueerror"].append(player.player_bio.full_name)
                 return None
 
             except Exception as exc:
-                logger.warning(f"[{player_name}] attempt {attempt} failed: {exc}")
+                # wrap and retry, or finally give up
+                logger.warning(f"[{mlbam_id}] attempt {attempt} failed: {exc}")
                 if attempt == self.retry_attempts:
-                    self.statuses["error"].append(player_name)
+                    self.statuses["error"].append(mlbam_id)
                     return None
-                time.sleep(0.5)
+                time.sleep(0.5)  # wait a bit before retrying
 
 
     def _flush_to_disk(
@@ -236,3 +267,24 @@ class SeasonStatsDownloader:
         logger.info(f"Players processed: {total}")
         for status, lst in self.statuses.items():
             logger.info(f"{status.title():<12}: {len(lst)}")
+
+        # If any players had no stats, list them out
+        no_stats = self.statuses.get("no_stats", [])
+        if no_stats:
+            logger.info("\nPlayers with no stats returned:")
+            for name in no_stats:
+                logger.info(f"  - {name}")
+
+        # If any players had no stats, list them out
+        valueerror = self.statuses.get("valueerror", [])
+        if valueerror:
+            logger.info("\nPlayers with valueerror returned:")
+            for name in valueerror:
+                logger.info(f"  - {name}")
+
+        # If any players had no stats, list them out
+        no_fangraphs_id = self.statuses.get("no_fangraphs_id", [])
+        if no_fangraphs_id:
+            logger.info("\nPlayers with no_fangraphs_id returned:")
+            for name in no_fangraphs_id:
+                logger.info(f"  - {name}")

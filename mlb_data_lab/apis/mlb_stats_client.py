@@ -203,14 +203,23 @@ class MlbStatsClient:
         return active_roster
     
     @staticmethod
-    def fetch_team_roster(team_id: int, season: int):
+    def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:
+        """
+        Return a DataFrame of the team’s roster for the given season,
+        with columns: 'player_name' and 'mlbam_id'.
+        """
         roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
-        
-        # Extract player names from the roster data
-        players = roster_data['roster']
-        player_names = [player['person']['fullName'] for player in players]
-        
-        return player_names
+        players = roster_data.get('roster', [])
+
+        records = []
+        for p in players:
+            person = p.get('person', {})
+            records.append({
+                'player_name': person.get('fullName'),
+                'mlbam_id':   person.get('id')
+            })
+
+        return pd.DataFrame(records)
 
     @staticmethod
     def get_team_id(team_name):

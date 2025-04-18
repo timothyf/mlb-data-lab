@@ -20,6 +20,12 @@ if __name__ == "__main__":
         default=None,  # Set default year to 2024
         help='Specify the league for which stats should be saved'
     )
+    parser.add_argument(
+        '--player_type',
+        type=str,  # Ensure year is an integer
+        default=None,  # Set default year to 2024
+        help='Specify the batters or pitcher for which stats should be saved'
+    )
 
 
     # Parse the command-line arguments
@@ -36,7 +42,8 @@ if __name__ == "__main__":
         max_workers = 10,
         retry_attempts = 2,
         chunk_size = 300,
-        league = league
+        league = league,
+        player_type=args.player_type
     )
     downloader.download()
 

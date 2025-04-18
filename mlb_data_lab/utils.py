@@ -4,7 +4,8 @@ import pandas as pd
 import os
 from mlb_data_lab.config import DATA_DIR
 from mlb_data_lab.config import BASE_DIR
-from mlb_data_lab.apis.chadwick_register import ChadwickRegister, PlayerSearchClient
+from mlb_data_lab.apis.chadwick_register import PlayerSearchClient
+from mlb_data_lab.exceptions.custom_exceptions import NoFangraphsIdError
 
 
 
@@ -20,13 +21,13 @@ class Utils:
 
         # Check if the result is missing or not valid.
         if player_fangraphs_id in (None, -1, '', 'NA'):
-            try:
+            # try:
                 # Load the fallback mapping file.
                 mapping_file = os.path.join(BASE_DIR, 'player_id_map.csv')
                 mapping = pd.read_csv(mapping_file)
                 # Convert the MLBID column to the proper type if needed:
                 if mapping['MLBID'].dtype != int:
-                    print(f"MLBID column is not of type int. Converting...")
+                    #print(f"MLBID column is not of type int. Converting...")
                     # first filter out value of 'N/A' or 'nan'
                     mapping = mapping[mapping['MLBID'].astype(str) != 'N/A']
                     mapping = mapping[mapping['MLBID'].astype(str) != 'nan']
@@ -46,14 +47,15 @@ class Utils:
                 #mapping['MLBID'] = mapping['MLBID'].astype(int)
                 # Search for the row that matches the given mlbam_id.
                 row = mapping[mapping['MLBID'] == mlbam_id]
-                print(f"Fallback lookup: mlbam_id {mlbam_id} found in mapping file.")
+                #print(f"Fallback lookup: mlbam_id {mlbam_id} found in mapping file.")
                 if not row.empty:
                     # Retrieve the Fangraphs ID from the appropriate column.
                     player_fangraphs_id = row.iloc[0]['IDFANGRAPHS']
                 else:
-                    print(f"Fallback lookup: No mapping found for mlbam_id {mlbam_id}")
-            except Exception as e:
-                print(f"Error loading fallback mapping: {e}")
+                    #print(f"Fallback lookup: No mapping found for mlbam_id {mlbam_id}")
+                    raise NoFangraphsIdError(f"Invalid Fangraphs ID for player {mlbam_id}.")
+            # except Exception as e:
+            #     print(f"Error loading fallback mapping: {e}")
         return player_fangraphs_id
 
 
