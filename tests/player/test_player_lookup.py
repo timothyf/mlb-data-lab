@@ -142,9 +142,7 @@ def test_lookup_player_direct_lookup_exception(monkeypatch, lookup, dummy_client
 
 def test_lookup_player_special_fullname(monkeypatch, lookup, dummy_client):
     # pick a mapping from SpecialNameMappings of type "player_name"
-    mapping = next(m for m in SpecialNameMappings if m["type"] == "player_name")
-    orig = mapping["original"]
-    pid = mapping["player_id"]
+    orig, pid = next(iter(SpecialNameMappings["player_name"].items()))
 
     # first lookup returns empty Frame
     def fake_lp(last, first, fuzzy=False):
@@ -167,9 +165,7 @@ def test_lookup_player_special_fullname(monkeypatch, lookup, dummy_client):
 
 def test_handle_special_cases_first_name(monkeypatch, lookup, dummy_client):
     # find a first_name mapping
-    mapping = next(m for m in SpecialNameMappings if m["type"] == "first_name")
-    orig = mapping["original"]
-    resolved = mapping["resolved"]
+    orig, resolved = next(iter(SpecialNameMappings["first_name"].items()))
 
     # direct new_last_name path: name_parts length==2 so skip
     # next, corrected first_name path should trigger
@@ -192,9 +188,7 @@ def test_handle_special_cases_first_name(monkeypatch, lookup, dummy_client):
 
 def test_handle_special_cases_last_name(monkeypatch, lookup, dummy_client):
     # find a last_name mapping
-    mapping = next(m for m in SpecialNameMappings if m["type"] == "last_name")
-    orig = mapping["original"]
-    resolved = mapping["resolved"]
+    orig, resolved = next(iter(SpecialNameMappings["last_name"].items()))
 
     # first two paths skip or fail, then corrected last_name path
     def fake_lookup(last, first, fuzzy=False):
