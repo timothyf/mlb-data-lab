@@ -9,7 +9,7 @@ test_stats.py
 mlb_stats/sample.json
 ignore/*
 util_scripts/*
-
+*.egg-info
 
 
 
