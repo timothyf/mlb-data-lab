@@ -1,0 +1,6 @@
+pitcher,pitch_type,release_speed,release_spin_rate,swing,whiff
+1,FF,95,2300,10,2
+1,SL,86,2500,5,1
+2,FF,96,2400,8,3
+2,CH,85,2100,4,0
+1,CU,78,2600,2,1
