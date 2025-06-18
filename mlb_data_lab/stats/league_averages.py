@@ -12,8 +12,8 @@ def load_season_stats(season: int) -> pd.DataFrame:
     Load the season-level stats CSV file for a given season.
     (Assumes that the stat file is saved in DATA_DIR/season_stats/ with filename format stats_{season}.csv)
     """
-    file_path = os.path.join(BASE_DIR, "output/season_stats", f"stats_{season}.csv")
-    try:
+    file_path = os.path.join(BASE_DIR, "output/season_stats", f"stats_{season}_batters.csv")
+    try:     
         stats_df = pd.read_csv(file_path)
         return stats_df
     except FileNotFoundError:
@@ -83,7 +83,17 @@ def compute_league_averages(season: int, stats_df: pd.DataFrame, metrics: list =
 def set_league(df):
     team_to_league = {team: league for league, teams in LeagueTeams.items.items() for team in teams}
     df['League'] = df['TeamName'].map(team_to_league)
+    
+    # Identify teams that were not matched
+    unmatched_teams = df[df['League'].isnull()]['TeamName'].unique()
+    
+    if len(unmatched_teams) > 0:
+        print("No league found for the following teams:")
+        for team in unmatched_teams:
+            print(f" - {team}")
+    
     df['League'] = df['League'].where(df['League'].notnull(), None)
+
 
 
 def save_league_averages(season: int, output_dir: str) -> None:
@@ -95,7 +105,7 @@ def save_league_averages(season: int, output_dir: str) -> None:
 
 
 if __name__ == '__main__':
-    for season in range(2022, 2025):
+    for season in range(2024, 2025):
         print(f"Season {season}")
         stats = load_season_stats(season)
         totals = compute_leage_totals(season, stats)
