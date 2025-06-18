@@ -4,6 +4,7 @@ import pytest
 import json
 import requests
 import statsapi
+import pandas as pd
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
 
 # A simple fake response class for monkeypatching requests.get
@@ -128,17 +129,17 @@ def test_fetch_active_roster(monkeypatch):
 def test_fetch_team_roster(monkeypatch):
     fake_roster = {
         "roster": [
-            {"person": {"fullName": "Player A"}},
-            {"person": {"fullName": "Player B"}}
+            {"person": {"fullName": "Player A", "id": 1}},
+            {"person": {"fullName": "Player B", "id": 2}}
         ]
     }
     def fake_statsapi_get(endpoint, params):
         return fake_roster
     monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
-    
+
     result = MlbStatsClient.fetch_team_roster(100, 2024)
-    assert isinstance(result, list)
-    assert result == ["Player A", "Player B"]
+    assert isinstance(result, pd.DataFrame)
+    assert list(result["player_name"]) == ["Player A", "Player B"]
 
 # ---------------------------
 # Test get_team_id

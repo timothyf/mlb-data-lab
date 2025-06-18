@@ -80,3 +80,14 @@ def test_create_table_splits(stats_table_splits):
     assert "Split" in header_texts, "Missing 'Split' header in splits table"
     plt.close(fig)
 
+def test_create_table_splits_non_multiindex():
+    df = pd.DataFrame({"gamesPlayed": [5, 3], "hits": [1, 2]})
+    stats_list = StatsConfig().stat_lists["batting"]["splits"]
+    table = StatsTable(df, stats_list, stat_type="batting")
+    fig, ax = plt.subplots()
+    # Should not raise an error even though the index is not a MultiIndex
+    table.create_table(ax, title="Splits Table", is_splits=True)
+    tables = ax.tables
+    assert len(tables) >= 1, "No table created on Axes for non-MultiIndex data"
+    plt.close(fig)
+

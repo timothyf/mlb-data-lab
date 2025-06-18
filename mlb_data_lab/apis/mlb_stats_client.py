@@ -205,7 +205,7 @@ class MlbStatsClient:
     @staticmethod
     def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:
         """
-        Return a DataFrame of the team’s roster for the given season,
+        Return a DataFrame of the team's roster for the given season,
         with columns: 'player_name' and 'mlbam_id'.
         """
         roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})

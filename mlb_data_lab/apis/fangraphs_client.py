@@ -1,7 +1,6 @@
 from mlb_data_lab.config import FANGRAPHS_BASE_URL
 import pandas as pd
 import requests
-import re
 
 
 
@@ -34,18 +33,30 @@ class FangraphsClient:
     # set month=33
     # https://www.fangraphs.com/api/leaders/major-league/data?pos=all&stats=pit&lg=all&qual=0&season=2025&startdate=2025-03-01&enddate=2025-11-01&month=33&players=22267
     @staticmethod
-    def fetch_player_stats(player_fangraphs_id:int, season:int, fangraphs_team_id:int, stat_type:str):
+    def fetch_player_stats(player_fangraphs_id: int, season: int, fangraphs_team_id: int, stat_type: str):
         month = 0 if season < 2025 else 33
         if stat_type == 'pitching':
-            stat='pit'
+            stat = 'pit'
         elif stat_type == 'batting':
-            stat='bat'
+            stat = 'bat'
         else:
             raise ValueError("Invalid stat_type. Must be 'pitching' or 'batting'")
+
+        start_date = f"{season}-03-01"
+        end_date = f"{season}-11-01"
+
         if fangraphs_team_id is not None:
-            url = f"{FANGRAPHS_BASE_URL}?pos=all&stats={stat}&lg=all&qual=0&season={season}&startdate=2025-03-01&enddate=2025-11-01&month={month}&team={fangraphs_team_id},&players={player_fangraphs_id}"
+            url = (
+                f"{FANGRAPHS_BASE_URL}?pos=all&stats={stat}&lg=all&qual=0"
+                f"&season={season}&startdate={start_date}&enddate={end_date}"
+                f"&month={month}&team={fangraphs_team_id}&players={player_fangraphs_id}"
+            )
         else:
-            url = f"{FANGRAPHS_BASE_URL}?pos=all&stats={stat}&lg=all&qual=0&season={season}&startdate=2025-03-01&enddate=2025-11-01&month={month}&players={player_fangraphs_id}"
+            url = (
+                f"{FANGRAPHS_BASE_URL}?pos=all&stats={stat}&lg=all&qual=0"
+                f"&season={season}&startdate={start_date}&enddate={end_date}"
+                f"&month={month}&players={player_fangraphs_id}"
+            )
         data = requests.get(url).json()
         df = pd.DataFrame(data=data['data'])
         return df
@@ -96,7 +107,12 @@ class FangraphsClient:
 
         # Fetch all batting stats for the team in the given year
         #url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&qual=0&season=2024&season1={season}&startdate=2024-03-01&enddate=2024-11-01&month=0&hand=&team={team_id}&pageitems=30&pagenum=1&ind=0&rost=0&players=0&type=8&postseason=&sortdir=default&sortstat=WAR"
-        url =  f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&qual=0&season={season}&season1={season}&hand=&team=6&pageitems=800&pagenum=1&ind=0&rost=0&players=0&type=8&postseason=&sortdir=default&sortstat=WAR"
+        url = (
+            f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&qual=0"
+            f"&season={season}&season1={season}&hand=&team={team_id}"
+            f"&pageitems=800&pagenum=1&ind=0&rost=0&players=0&type=8"
+            f"&postseason=&sortdir=default&sortstat=WAR"
+        )
 
         batting_stats = requests.get(url).json()['data']
         #print(f"batting_stats = {batting_stats}")
