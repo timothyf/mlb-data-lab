@@ -1,9 +1,17 @@
-
-
 # MLB Data Lab
-`mlb-data-lab` is a Python-based application and library that generates comprehensive advanced stat summary sheets for MLB players, customizable by year, providing in-depth analysis and visualizations. It can also be used as a library module, enabling users to develop their own features and extend functionality for custom applications and data processing needs. By leveraging the [`pybaseball`](https://github.com/jldbc/pybaseball) module, [`MLB-StatsAPI`](https://github.com/toddrob99/MLB-StatsAPI) module, and other Python libraries, the project facilitates the collection, analysis, and formatting of data for use in reports, dashboards, and other analytical tools.
+`mlb-data-lab` is a Python application and library for creating advanced stat
+summary sheets for MLB players. It supports yearly customizations and provides
+visualizations. The project can also be imported as a library so you can extend
+its functionality for custom applications or data processing workflows. It uses
+the [`pybaseball`](https://github.com/jldbc/pybaseball) and
+[`MLB-StatsAPI`](https://github.com/toddrob99/MLB-StatsAPI) libraries along with
+other Python packages to gather and format data for dashboards, reports and
+other analytical tools.
 
-The project sources data from MLB and Fangraphs, ensuring accurate and up-to-date statistics. Future updates will expand the application's features and functionality, allowing it to serve both as a standalone tool and as a library for integration into other projects.
+The project retrieves data from MLB and FanGraphs to ensure accurate,
+up‑to‑date statistics. Future releases will continue to expand the
+application's capabilities so it can serve as both a standalone tool and a
+reusable library.
 
 
 ## Sample Summary Sheets
@@ -92,71 +100,23 @@ In addition to the baseball stats you would expect, the summary sheets also incl
 
 ## Project Structure
 
-The `mlb-data-lab` project is organized as follows:
+The project is organized as follows:
 
+```text
+mlb-data-lab/
+├── README.md
+├── setup.py
+├── requirements.txt
+├── mlb_data_lab/        # Source code
+│   ├── apis/            # API clients for MLB and FanGraphs
+│   ├── data_viz/        # Plotting utilities
+│   ├── player/          # Player models and helpers
+│   ├── summary_sheets/  # Classes that generate summary sheets
+│   ├── team/            # Team utilities
+│   └── ...
+├── scripts/             # Helper scripts for data collection
+└── tests/               # Unit tests
 ```
-mlb_stats/
-├── README.md              # Project documentation
-├── setup.py               # Setup file for packaging and installation
-├── setup_db.sql           # SQL to initialize database
-├── requirements.txt       # Dependencies for the project
-├── output/                # Directory to save downloaded data to
-├── mlb_stats/
-│   ├── apis/
-│   │   ├── stats_api.py   # API client for fetching MLB stats
-│   │   ├── fangraphs_client.py # API client for Fangraphs data
-│   ├── components/
-│   │   ├── stats_table.py # Class for generating stats tables
-│   ├── data/
-│   │   ├── 
-│   ├── data_viz/
-│   │   ├── batting_spray_chart.py
-│   │   ├── pitch_break_plot.py
-│   │   ├── pitch_breakdown_table.py
-│   │   ├── pitch_velocity_distribution_plot.py
-│   │   ├── rolling_pitch_usage_plot.py
-│   │   ├── plotting.py
-│   ├── player/
-│   │   ├── player.py
-│   │   ├── player_bio.py
-│   │   ├── player_info.py
-│   │   ├── player_lookup.py
-│   ├── stats/
-│   │   ├── 
-│   ├── summary_sheets/
-│   │   ├── batter_summary_sheet.py
-│   │   ├── pitcher_summary_sheet.py
-│   │   ├── summary_sheet.py
-│   │   ├── team_summary_sheet.py
-│   ├── team/
-│   │   ├── roster.py
-│   │   ├── team.py
-│   ├── config.py
-│   ├── constants.py
-│   ├── utils.py
-├── scripts/
-│   ├── generate_player_summary.py
-│   ├── generate_team_summary.py
-│   ├── save_fangraphs_leaderboards.py
-│   ├── save_players.py
-│   ├── save_statcast_data.py
-├── tests/
-│   ├── 
-
-```
-
-### Description of Key Directories:
-- **mlb_stats/**: Core application logic and components.
-  - **apis/**: API clients for retrieving stats from external services like MLB and Fangraphs.
-  - **components/**: 
-  - **data/**: 
-  - **data_viz/**:
-  - **player/**:
-  - **stats/**: 
-  - **summary_sheets/**:
-  - **team/**:
-- **scripts/**: Scripts for generating player summary sheets and saving statcast data.
-- **tests/**: Unit tests for verifying the functionality of various components and modules.  
   
 
 ## Installation
@@ -167,8 +127,8 @@ To get started with the project, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/timothyf/mlb_stats.git
-cd mlb_stats
+git clone https://github.com/timothyf/mlb-data-lab.git
+cd mlb-data-lab
 ```
 
 2. Set up a Python virtual environment (optional but recommended):
@@ -212,13 +172,13 @@ python scripts/save_statcast_data.py [options]
 python scripts/generate_player_summary.py --players 'Riley Greene'
 ```
 Output:<br/>
-`mlb_stats/output/2024/Tigers/`batter_summary_riley_greene.png<br/><br/>
+`output/2024/Tigers/batter_summary_riley_greene.png`<br/><br/>
 <img src="docs/images/batter_summary_riley_greene.png?sanitize=true" alt="Riley Greene Batter Sheet" width="300" />
 
-#### Generate a player sheets for all of the 2024 Detroit Tigers
+#### Generate player sheets for all of the 2024 Detroit Tigers
 ```bash
 python scripts/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
-````
+```
 
 <br/>
 
@@ -229,20 +189,23 @@ To set up the PostgreSQL database for MLB Data Lab, follow these steps:
 1. **Install PostgreSQL:**  
    Download and install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/).
 
-2. **Create the Database:**  
+2. **Create the Database:**
    Open your terminal and run:
    ```bash
    createdb mlb_data_lab_db
+   ```
 3. **Initialize the Schema:**
-   Ensure you have the create_schema.sql file in your project directory, then run:
+   Run the provided `setup_db.sql` file to create the tables:
    ```bash
-    psql -d mlb_data_lab_db -f create_schema.sql
+   psql -d mlb_data_lab_db -f setup_db.sql
+   ```
 4. **Verify the Setup:**
    Connect to your database and list the tables:
    ```bash
    psql -d mlb_data_lab_db
    \dt
-You should see the following tables: games, players, umpires, plate_appearances.
+   ```
+   You should see tables such as `games`, `players`, `umpires` and `plate_appearances`.
 
 
 ## Inspiration
