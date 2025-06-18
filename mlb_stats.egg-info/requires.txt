@@ -1,9 +1,0 @@
-pandas==2.2.3
-numpy==2.1.1
-matplotlib==3.9.2
-seaborn==0.13.2
-mplcursors==0.5.3
-pybaseball==2.2.7
-MLB-StatsAPI==1.7.2
-requests==2.32.3
-python-dotenv==1.0.0
