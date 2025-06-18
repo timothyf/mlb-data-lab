@@ -17,16 +17,16 @@ class PlayerLookup:
         self.data_client = data_client if data_client else UnifiedDataClient()
         # Preprocess special mappings into dictionaries (keys in lowercase)
         self.first_name_map = {
-            mapping['original'].lower(): mapping.get('resolved')
-            for mapping in SpecialNameMappings if mapping['type'] == 'first_name'
+            original.lower(): resolved
+            for original, resolved in SpecialNameMappings.get('first_name', {}).items()
         }
         self.last_name_map = {
-            mapping['original'].lower(): mapping.get('resolved')
-            for mapping in SpecialNameMappings if mapping['type'] == 'last_name'
+            original.lower(): resolved
+            for original, resolved in SpecialNameMappings.get('last_name', {}).items()
         }
         self.player_name_map = {
-            mapping['original'].lower(): mapping.get('player_id')
-            for mapping in SpecialNameMappings if mapping['type'] == 'player_name'
+            original.lower(): player_id
+            for original, player_id in SpecialNameMappings.get('player_name', {}).items()
         }
 
     def parse_full_name(self, player_name: str) -> (str, str):
