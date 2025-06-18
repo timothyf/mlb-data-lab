@@ -36,10 +36,11 @@ class StatsTable:
         if is_splits:
             if isinstance(data.index, pd.MultiIndex):
                 # Get the split names from the first level of the MultiIndex
-                #split_names = data.index.get_level_values(0).unique()
                 split_names = data.index.get_level_values('Split')
             else:
                 print("The index is not a MultiIndex.")
+                # Fallback to using the existing index to avoid errors
+                split_names = data.index
 
         # Only reset the index if it's not splits
         if not is_splits:
