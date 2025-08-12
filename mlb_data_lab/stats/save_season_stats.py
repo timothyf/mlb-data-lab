@@ -2,6 +2,8 @@ import os
 import logging
 import time
 import json
+import re
+import csv
 from typing import Tuple
 from typing import List, Dict, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -48,13 +50,11 @@ class SeasonStatsDownloader:
         self.client = UnifiedDataClient()
         self.league = league.upper() if league else None
 
-        # validate player_type
         valid = {None, "pitchers", "batters"}
         if player_type not in valid:
             raise ValueError(f"player_type must be one of {valid}")
         self.player_type = player_type
 
-        # pick teams
         if league:
             self.team_ids = self.get_team_ids_by_league(league)
         else:
@@ -68,7 +68,6 @@ class SeasonStatsDownloader:
         self.retry_attempts = retry_attempts
         self.chunk_size     = chunk_size
 
-        # track statuses
         self.statuses: Dict[str, List[str]] = {
             "success": [], "skipped": [], "valueerror": [],
             "error": [], "no_stats": [], "position_mismatch": [],
@@ -77,6 +76,36 @@ class SeasonStatsDownloader:
 
         os.makedirs(self.output_dir, exist_ok=True)
 
+    # ---------- NEW: text sanitization helpers ----------
+
+    _TAG_RE = re.compile(r"<[^>]*>")
+
+    @staticmethod
+    def _strip_html(val):
+        if isinstance(val, str) and "<" in val and ">" in val:
+            return SeasonStatsDownloader._TAG_RE.sub("", val)
+        return val
+
+    @staticmethod
+    def _sanitize_text_df(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Strip HTML, collapse newlines/tabs to spaces, and trim.
+        Only touches object (string-like) columns.
+        """
+        if df is None or df.empty:
+            return df
+        obj_cols = df.select_dtypes(include="object").columns
+        if not len(obj_cols):
+            return df
+        # Do all replacements in a vectorized way for performance
+        for c in obj_cols:
+            s = df[c].astype(str)
+            s = s.map(SeasonStatsDownloader._strip_html)
+            s = s.str.replace(r"[\r\n\t]+", " ", regex=True).str.strip()
+            df[c] = s
+        return df
+
+    # ----------------------------------------------------
 
     def get_team_ids_by_league(self, league: str) -> List[int]:
         fn = os.path.join(DATA_DIR, "mlb_teams.json")
@@ -94,12 +123,10 @@ class SeasonStatsDownloader:
             raise ValueError(f"No teams found for league={league}")
         return filtered
 
-
     def download(self, *, output_file: Optional[str] = None) -> None:
         """
         Main entry point: flatten all rosters, spin up one executor.
         """
-        # Build output filename with any _league or _pitchers/_batters suffixes
         if output_file is None:
             suffix_parts = []
             if self.league in ("AL", "NL"):
@@ -117,17 +144,14 @@ class SeasonStatsDownloader:
 
         first_chunk = True
 
-        # 1) grab every roster as a DataFrame
         teams_and_rosters: List[Tuple[int, pd.DataFrame]] = []
         for team_id in self.team_ids:
             try:
                 roster_df = self.client.fetch_team_roster(team_id, self.season)
-                # roster_df now has columns ['player_name', 'mlbam_id']
                 teams_and_rosters.append((team_id, roster_df))
             except Exception as e:
                 logger.error(f"Skipping team {team_id}: {e}")
 
-        # 2) flatten to a list of (player_name, team_id) tasks
         tasks = [
             (row["mlbam_id"], team_id)
             for team_id, roster_df in teams_and_rosters
@@ -135,13 +159,13 @@ class SeasonStatsDownloader:
         ]
 
         # 3) fire off threads
+        all_stats: List[pd.DataFrame] = []
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = {
                 executor.submit(self._fetch_player_stats, mlbam_id): (mlbam_id, team_id)
                 for mlbam_id, team_id in tasks
             }
 
-            buffer: List[pd.DataFrame] = []
             for future in tqdm(
                 as_completed(futures),
                 total=len(futures),
@@ -149,19 +173,13 @@ class SeasonStatsDownloader:
             ):
                 stats = future.result()
                 if stats is not None:
-                    buffer.append(stats)
+                    all_stats.append(stats)
 
-                if len(buffer) >= self.chunk_size:
-                    self._flush_to_disk(buffer, output_file, first_chunk)
-                    first_chunk = False
-                    buffer.clear()
-
-            # final flush
-            if buffer:
-                self._flush_to_disk(buffer, output_file, first_chunk)
+        # single write after we have the full schema
+        if all_stats:
+            self._write_all_to_disk(all_stats, output_file)
 
         self._print_summary(output_file)
-
 
 
     def _fetch_player_stats(
@@ -171,73 +189,60 @@ class SeasonStatsDownloader:
         """
         Fetch a single player's stats, skip if not matching self.player_type.
         """
+        # note: keep a safe name for error logging if player lookup fails early
+        safe_name = f"mlbam:{mlbam_id}"
         for attempt in range(1, self.retry_attempts + 1):
             try:
-                # 1) lookup the player
                 player = Player.create_from_mlb(
                     mlbam_id=mlbam_id,
                     data_client=self.client
                 )
                 if not player:
                     raise PlayerNotFoundError(f"No player for id {mlbam_id}")
+                safe_name = getattr(getattr(player, "player_bio", None), "full_name", safe_name)
 
-                # 2) enforce the new pitcher/batter filter
                 pos = player.player_info.primary_position
                 if self.player_type == "pitchers" and pos != "P":
                     raise PositionMismatchError(f"{mlbam_id} is not a pitcher")
                 if self.player_type == "batters" and pos == "P":
                     raise PositionMismatchError(f"{mlbam_id} is a pitcher, not a batter")
 
-                # 3) fetch the stats
                 fetch_fn = (
                     self.client.fetch_pitching_stats
                     if pos == "P"
                     else self.client.fetch_batting_stats
                 )
-
                 stats = fetch_fn(mlbam_id=mlbam_id, season=self.season)
 
-                # 4) check for no data
                 if stats is None or stats.empty:
                     raise NoStatsError(f"No stats for {mlbam_id} in {self.season}")
 
-                # 5) success—annotate and return
                 stats["mlbam_id"] = mlbam_id
                 stats["season"]   = self.season
-                self.statuses["success"].append(player.player_bio.full_name)
+                self.statuses["success"].append(safe_name)
                 return stats
 
-            except NoFangraphsIdError as e:
-                # Fangraphs ID not found, skip this player
-                self.statuses["no_fangraphs_id"].append(player.player_bio.full_name)
+            except NoFangraphsIdError:
+                self.statuses["no_fangraphs_id"].append(safe_name)
                 return None
-            
-            except PlayerNotFoundError as e:
-                self.statuses["not_found"].append(player.player_bio.full_name)
+            except PlayerNotFoundError:
+                self.statuses["not_found"].append(safe_name)
                 return None
-
-            except PositionMismatchError as e:
-                # maybe count these separately or lump in "skipped"
-                self.statuses["position_mismatch"].append(player.player_bio.full_name)
+            except PositionMismatchError:
+                self.statuses["position_mismatch"].append(safe_name)
                 return None
-
-            except NoStatsError as e:
-                self.statuses["no_stats"].append(player.player_bio.full_name)
+            except NoStatsError:
+                self.statuses["no_stats"].append(safe_name)
                 return None
-
-            except ValueError as e:
-                # any ValueError from deep inside create_from_mlb or client
-                self.statuses["valueerror"].append(player.player_bio.full_name)
+            except ValueError:
+                self.statuses["valueerror"].append(safe_name)
                 return None
-
             except Exception as exc:
-                # wrap and retry, or finally give up
                 logger.warning(f"[{mlbam_id}] attempt {attempt} failed: {exc}")
                 if attempt == self.retry_attempts:
                     self.statuses["error"].append(mlbam_id)
                     return None
-                time.sleep(0.5)  # wait a bit before retrying
-
+                time.sleep(0.5)
 
     def _flush_to_disk(
         self,
@@ -251,11 +256,42 @@ class SeasonStatsDownloader:
             return
 
         combined = pd.concat(cleaned, ignore_index=True)
+
+        # --- NEW: sanitize text columns to remove HTML/newlines, keep commas safe ---
+        combined = self._sanitize_text_df(combined)
+
+        # --- IMPORTANT: write with proper quoting so commas inside fields are safe ---
         combined.to_csv(
             filename,
             mode="w" if write_header else "a",
             header=write_header,
             index=False,
+            quoting=csv.QUOTE_MINIMAL,
+            quotechar='"',
+            escapechar='\\',
+            lineterminator='\n',   # <- fix here
+        )
+        logger.debug(f"Wrote {len(combined)} rows to {filename}")
+
+    def _write_all_to_disk(self, dfs: List[pd.DataFrame], filename: str) -> None:
+        # drop all-empty columns per-frame, then concat with union of columns
+        valid   = [df for df in dfs if not df.empty]
+        cleaned = [df.dropna(axis=1, how="all") for df in valid]
+        if not cleaned:
+            return
+
+        # union of columns across pitchers/batters; stable order without sorting
+        combined = pd.concat(cleaned, ignore_index=True, sort=False)
+
+        # sanitize text (strip HTML/newlines) then write with proper quoting
+        combined = self._sanitize_text_df(combined)
+        combined.to_csv(
+            filename,
+            index=False,
+            quoting=csv.QUOTE_MINIMAL,
+            quotechar='"',
+            escapechar='\\',
+            lineterminator='\n',
         )
         logger.debug(f"Wrote {len(combined)} rows to {filename}")
 
@@ -268,21 +304,18 @@ class SeasonStatsDownloader:
         for status, lst in self.statuses.items():
             logger.info(f"{status.title():<12}: {len(lst)}")
 
-        # If any players had no stats, list them out
         no_stats = self.statuses.get("no_stats", [])
         if no_stats:
             logger.info("\nPlayers with no stats returned:")
             for name in no_stats:
                 logger.info(f"  - {name}")
 
-        # If any players had no stats, list them out
         valueerror = self.statuses.get("valueerror", [])
         if valueerror:
             logger.info("\nPlayers with valueerror returned:")
             for name in valueerror:
                 logger.info(f"  - {name}")
 
-        # If any players had no stats, list them out
         no_fangraphs_id = self.statuses.get("no_fangraphs_id", [])
         if no_fangraphs_id:
             logger.info("\nPlayers with no_fangraphs_id returned:")

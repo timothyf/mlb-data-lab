@@ -4,7 +4,10 @@ import os
 
 STATS_API_BASE_URL = "https://statsapi.mlb.com/api/v1/"
 FANGRAPHS_BASE_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
+FANGRAPHS_NEXT_URL = "https://www.fangraphs.com/_next/data/Gtd7iofF2h1X98b-Nerh6/players"
 MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"
+
+# https://tjstatsapps-2025-mlb-pitching-app.hf.space/session/d2492a78e6783686d77e033535d0f94086a09e7c5b5fcc3ff961abc3c39ee809/download/download_all?w=
 
 # Set BASE_DIR to the project root (mlb_stats directory)
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))

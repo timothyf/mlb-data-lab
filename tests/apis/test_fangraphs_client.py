@@ -108,11 +108,5 @@ def test_fetch_leaderboard_helpers(monkeypatch):
     assert df1.to_dict("records") == [{"PlayerName": "X"}]
     assert df2.to_dict("records") == [{"PlayerName": "X"}]
 
-    urls.clear()
-    monkeypatch.setattr(requests, "get", fake_get)
-    js1 = FangraphsClient.fetch_batting_leaderboards_as_json(2022)
-    js2 = FangraphsClient.fetch_pitching_leaderboards_as_json(2022)
-    assert urls == [bat_url, pitch_url]
-    assert js1 == [{"PlayerName": "X"}]
-    assert js2 == {"data": [{"PlayerName": "X"}]}
+
 

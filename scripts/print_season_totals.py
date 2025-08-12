@@ -52,7 +52,7 @@ def set_league(df):
     df['League'] = df['League'].where(df['League'].notnull(), None)
 
 
-df = pd.read_csv("output/season_stats/stats_2024.csv")
+df = pd.read_csv("output/season_stats/stats_2024_batters.csv")
 
 df['Team'] = df['Team'].apply(extract_team_abbrev)
 set_league(df)

@@ -17,13 +17,13 @@ if __name__ == "__main__":
     parser.add_argument(
         '--league',
         type=str,  # Ensure year is an integer
-        default=None,  # Set default year to 2024
+        default=None,  
         help='Specify the league for which stats should be saved'
     )
     parser.add_argument(
         '--player_type',
         type=str,  # Ensure year is an integer
-        default=None,  # Set default year to 2024
+        default='batters',  # Set default player_type to 'batters'
         help='Specify the batters or pitcher for which stats should be saved'
     )
 
