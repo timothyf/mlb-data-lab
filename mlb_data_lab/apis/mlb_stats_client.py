@@ -321,17 +321,20 @@ class MlbStatsClient:
     #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[],type=season,team,season=1984)
     @staticmethod
     def fetch_player_team(player_id: int, year: int):
-        info = statsapi.get('people', {'personIds': player_id, 
-                                            'season': year, 
-                                            'hydrate': f'stats(group=[],type=season,team,season={year})'
-                                })['people'][0]['stats'][0]['splits']
+        url = (
+            f"{STATS_API_BASE_URL}people?"
+            f"personIds={player_id}"
+            f"&season={year}"
+            f"&hydrate=stats(group=[],type=season,team,season={year})"
+        )
+        data = MlbStatsClient._get_json(url)
+        splits = data["people"][0]["stats"][0]["splits"]
 
-        # Iterate over the elements in info to find the 'team' field
-        for element in info:
-            if 'team' in element:
-                return element['team']
-        
-        # Return None or handle case if no 'team' is found in any element
+        for element in splits:
+            team = element.get("team")
+            if team:
+                return team
+
         print(f"No team information found for player {player_id} in season {year}.")
         return None
 
