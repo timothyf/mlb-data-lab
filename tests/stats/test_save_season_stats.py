@@ -37,11 +37,14 @@ class DummyClient:
         self.pitch_df = pd.DataFrame({"wins": [1]})
         self.bat_df = pd.DataFrame({"hits": [5]})
 
-    def fetch_pitching_stats(self, mlbam_id, season):
+    def fetch_pitching_stats(self, mlbam_id, season, fangraphs_team_id=None):
         return self.pitch_df
 
-    def fetch_batting_stats(self, mlbam_id, season):
+    def fetch_batting_stats(self, mlbam_id, season, fangraphs_team_id=None):
         return self.bat_df
+
+    def get_player_teams_for_season(self, player_id, year, group=None, ids_only=False):
+        return [109]
 
 
 class DummyPlayerInfo:
