@@ -37,10 +37,10 @@ class DummyClient:
         self.pitch_df = pd.DataFrame({"wins": [1]})
         self.bat_df = pd.DataFrame({"hits": [5]})
 
-    def fetch_pitching_stats(self, mlbam_id, season):
+    def fetch_pitching_stats(self, mlbam_id, season, fangraphs_team_id=None):
         return self.pitch_df
 
-    def fetch_batting_stats(self, mlbam_id, season):
+    def fetch_batting_stats(self, mlbam_id, season, fangraphs_team_id=None):
         return self.bat_df
 
 
@@ -64,7 +64,7 @@ def test_fetch_player_stats_success(monkeypatch, tmp_path):
     downloader = SeasonStatsDownloader(season=2024, output_dir=str(tmp_path))
     downloader.client = client
     monkeypatch.setattr(save_season_stats.Player, "create_from_mlb", lambda mlbam_id, data_client=None: DummyPlayer("P"))
-    df = downloader._fetch_player_stats(1)
+    df = downloader._fetch_player_stats(1, 109)
     assert isinstance(df, pd.DataFrame)
     assert df["mlbam_id"].iloc[0] == 1
     assert df["season"].iloc[0] == 2024
@@ -76,6 +76,6 @@ def test_fetch_player_stats_position_mismatch(monkeypatch, tmp_path):
     downloader = SeasonStatsDownloader(season=2024, output_dir=str(tmp_path), player_type="batters")
     downloader.client = client
     monkeypatch.setattr(save_season_stats.Player, "create_from_mlb", lambda mlbam_id, data_client=None: DummyPlayer("P"))
-    result = downloader._fetch_player_stats(2)
+    result = downloader._fetch_player_stats(2, 109)
     assert result is None
     assert downloader.statuses["position_mismatch"] == ["Dummy Player"]

@@ -79,6 +79,17 @@ class SeasonStatsDownloader:
             "no_fangraphs_id": [],
         }
 
+        # Mapping from MLBAM team IDs to Fangraphs team IDs so we can
+        # request team‑specific player stats.  This allows us to
+        # differentiate players who played on multiple teams in a season
+        # and fetch only the stats for the relevant team.
+        teams_path = os.path.join(DATA_DIR, "mlb_teams.json")
+        with open(teams_path, "r") as fp:
+            teams_json = json.load(fp)
+        self.team_id_map: Dict[int, int] = {
+            t["mlbam_team_id"]: t.get("fg_team_id") for t in teams_json
+        }
+
         os.makedirs(self.output_dir, exist_ok=True)
 
     # ---------- NEW: text sanitization helpers ----------
@@ -190,7 +201,7 @@ class SeasonStatsDownloader:
         all_stats: List[pd.DataFrame] = []
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = {
-                executor.submit(self._fetch_player_stats, mlbam_id): (mlbam_id, team_id)
+                executor.submit(self._fetch_player_stats, mlbam_id, team_id): (mlbam_id, team_id)
                 for mlbam_id, team_id in tasks
             }
 
@@ -212,10 +223,12 @@ class SeasonStatsDownloader:
 
     def _fetch_player_stats(
         self,
-        mlbam_id: int
+        mlbam_id: int,
+        team_id: int,
     ) -> Optional[pd.DataFrame]:
         """
-        Fetch a single player's stats, skip if not matching self.player_type.
+        Fetch a single player's stats for the specified team.
+        Skip if not matching ``self.player_type``.
         """
         # note: keep a safe name for error logging if player lookup fails early
         safe_name = f"mlbam:{mlbam_id}"
@@ -240,13 +253,19 @@ class SeasonStatsDownloader:
                     if pos == "P"
                     else self.client.fetch_batting_stats
                 )
-                stats = fetch_fn(mlbam_id=mlbam_id, season=self.season)
+                fangraphs_team_id = self.team_id_map.get(team_id)
+                stats = fetch_fn(
+                    mlbam_id=mlbam_id,
+                    season=self.season,
+                    fangraphs_team_id=fangraphs_team_id,
+                )
 
                 if stats is None or stats.empty:
                     raise NoStatsError(f"No stats for {mlbam_id} in {self.season}")
 
                 stats["mlbam_id"] = mlbam_id
-                stats["season"]   = self.season
+                stats["season"] = self.season
+                stats["mlbam_team_id"] = team_id
                 self.statuses["success"].append(safe_name)
                 return stats
 
