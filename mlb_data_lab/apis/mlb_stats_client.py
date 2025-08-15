@@ -369,10 +369,19 @@ class MlbStatsClient:
         #39  SS  Zach McKinstry
     @staticmethod
     def fetch_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
+        """Return the active roster for a team in a given ``year``.
+
+        This version queries the public MLB Stats API directly rather than using
+        the third-party ``statsapi`` package.
+        """
         if not team_id:
             team_id = MlbStatsClient.get_team_id(team_name)
-        active_roster = statsapi.roster(team_id, rosterType='active', season=year)
-        return active_roster
+
+        url = (
+            f"{STATS_API_BASE_URL}teams/{team_id}/roster"
+            f"?season={year}&rosterType=active"
+        )
+        return MlbStatsClient._get_json(url)
     
     @staticmethod
     def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:

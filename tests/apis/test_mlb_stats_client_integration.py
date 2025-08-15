@@ -337,8 +337,9 @@ def test_fetch_active_roster_integration():
     team_id = 116  # Detroit Tigers
     roster = MlbStatsClient.fetch_active_roster(team_id)
     assert roster is not None, "Expected non-None roster data."
-    assert isinstance(roster, str), "Expected roster data to be a string."
-    assert len(roster) == 1062, "Expected roster string length to be 1062."
+    assert isinstance(roster, dict), "Expected roster data to be a dict."
+    assert "roster" in roster, "Expected 'roster' key in response."
+    assert len(roster["roster"]) > 0, "Expected at least one player in roster."
 
 
 @pytest.mark.integration
