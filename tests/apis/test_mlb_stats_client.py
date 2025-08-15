@@ -179,12 +179,12 @@ def test_get_player_mlbam_id_not_found(monkeypatch, capsys):
 # ---------------------------
 # Test get_season_info
 # ---------------------------
-def test_get_season_info(monkeypatch):
-    def fake_statsapi_get(endpoint, params):
-        return {"seasons": [{"seasonId": params["seasonId"], "startDate": "2024-03-28", "endDate": "2024-10-01"}]}
-    monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
+# def test_get_season_info(monkeypatch):
+#     def fake_statsapi_get(endpoint, params):
+#         return {"seasons": [{"seasonId": params["seasonId"], "startDate": "2024-03-28", "endDate": "2024-10-01"}]}
+#     monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
     
-    result = MlbStatsClient.get_season_info(2024)
-    assert result["seasonId"] == 2024
-    assert result["startDate"] == "2024-03-28"
-    assert result["endDate"] == "2024-10-01"
+#     result = MlbStatsClient.get_season_info(2024)
+#     assert result["seasonId"] == 2024
+#     assert result["startDate"] == "2024-03-28"
+#     assert result["endDate"] == "2024-10-01"

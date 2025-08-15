@@ -107,7 +107,7 @@ def test_save_statcast_batter_data(monkeypatch, tmp_path, capsys):
     # Fake season info for a given year
     def fake_get_season_info(year):
         return {'regularSeasonStartDate': '2020-04-01', 'regularSeasonEndDate': '2020-09-30'}
-    monkeypatch.setattr("mlb_data_lab.apis.pybaseball_client.MlbStatsClient.get_season_info", fake_get_season_info)
+    monkeypatch.setattr("mlb_data_lab.apis.mlb_stats_client.MlbStatsClient.get_season_info", fake_get_season_info)
     monkeypatch.setattr("mlb_data_lab.apis.pybaseball_client.pyb.statcast_batter", fake_statcast_batter)
     
     # Use a temporary file path
@@ -120,7 +120,7 @@ def test_save_statcast_batter_data(monkeypatch, tmp_path, capsys):
 def test_save_statcast_pitcher_data(monkeypatch, tmp_path, capsys):
     def fake_get_season_info(year):
         return {'regularSeasonStartDate': '2020-04-01', 'regularSeasonEndDate': '2020-09-30'}
-    monkeypatch.setattr("mlb_data_lab.apis.pybaseball_client.MlbStatsClient.get_season_info", fake_get_season_info)
+    monkeypatch.setattr("mlb_data_lab.apis.mlb_stats_client.MlbStatsClient.get_season_info", fake_get_season_info)
     monkeypatch.setattr("mlb_data_lab.apis.pybaseball_client.pyb.statcast_pitcher", fake_statcast_pitcher)
     
     temp_file = tmp_path / "statcast_pitcher_test.csv"
