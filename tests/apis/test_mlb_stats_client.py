@@ -118,9 +118,18 @@ def test_fetch_player_team(monkeypatch):
 # Test fetch_active_roster
 # ---------------------------
 def test_fetch_active_roster(monkeypatch):
-    fake_roster = {"roster": [{"person": {"fullName": "Player A"}}, {"person": {"fullName": "Player B"}}]}
-    monkeypatch.setattr(statsapi, "roster", lambda team_id, rosterType, season: fake_roster)
-    
+    fake_roster = {
+        "roster": [
+            {"person": {"fullName": "Player A"}},
+            {"person": {"fullName": "Player B"}},
+        ]
+    }
+
+    def fake_get(url):
+        return FakeResponse(fake_roster)
+
+    monkeypatch.setattr(requests, "get", fake_get)
+
     result = MlbStatsClient.fetch_active_roster(team_id=100, year=2024)
     assert isinstance(result, dict)
     assert "roster" in result
