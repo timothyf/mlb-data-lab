@@ -1,103 +1,49 @@
-import requests
-import statsapi
-import pandas as pd
-from typing import Any, Dict, Optional, Literal, List
-from requests.adapters import HTTPAdapter, Retry
+"""Utilities for interacting with the public MLB Stats API."""
+
+from typing import Any, Dict, List, Optional, Literal
 from urllib.parse import urlencode
 
+import pandas as pd
+import requests
+import statsapi
+from requests.adapters import HTTPAdapter, Retry
 
 from mlb_data_lab.config import STATS_API_BASE_URL
 
 
-class MlbStatsClient: 
+class MlbStatsClient:
+    """Thin wrapper around the MLB Stats API."""
 
-    # Sample
-    #   https://statsapi.mlb.com/api/v1/people?personIds=669373&hydrate=currentTeam
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
     @staticmethod
-    def fetch_player_info(player_id: int):
-        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=currentTeam"
-        data = requests.get(url).json()
-        return data['people'][0]
-    
-    # Sample
-    #   https://statsapi.mlb.com/api/v1/teams/116
-    @staticmethod
-    def fetch_team(team_id: int):
-        url = f"{STATS_API_BASE_URL}teams/{team_id}"
-        data = requests.get(url).json()
-        return data.get('teams', {})[0]
-    
-    # Sample
-    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
-    #                                         &hydrate=stats(group=[hitting],
-    #                                                  type=[statSplits],
-    #                                                  sitCodes=[vr,vl],
-    #                                                  season=2018)
-    #
-    # Situation Codes can be found here:
-    #   https://statsapi.mlb.com/api/v1/situationCodes
-    #
-    @staticmethod
-    def fetch_batter_stat_splits(player_id: int, year: int):
-        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
-        data = requests.get(url).json()
-        return process_splits(data['people'][0]['stats'][0]['splits'])
-    
-    # Sample
-    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
-    #                                         &hydrate=stats(group=[hitting],
-    #                                                  type=[statSplits],
-    #                                                  sitCodes=[vr,vl],
-    #                                                  season=2018)
-    #
-    # @staticmethod
-    # def fetch_batter_stat_splits_by_team(player_id: int, team_id: int, year: int):
-    #     url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
-    #     data = requests.get(url).json()
-    #     return process_splits(data['people'][0]['stats'][0]['splits'])
-    
-    # Sample
-    #  https://statsapi.mlb.com/api/v1/people?personIds=519203
-    #                                         &hydrate=stats(group=[pitching],
-    #                                                  type=[statSplits],
-    #                                                  sitCodes=[vr,vl],
-    #                                                  season=2018)
-    #
-    @staticmethod
-    def fetch_pitcher_stat_splits(player_id: int, year: int):
-        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season={year})"
-        data = requests.get(url).json()
-        return process_splits(data['people'][0]['stats'][0]['splits'])
-    
-    
-    # Sample
-    #   https://statsapi.mlb.com/api/v1/people?personIds=669373&season=2024&hydrate=stats(group=[hitting,pitching],type=season,season=2024)
-    #   https://statsapi.mlb.com/api/v1/people?personIds=114752&season=1984&hydrate=stats(group=[hitting],type=season,season=1984)
-    #   https://statsapi.mlb.com/api/v1/people?personIds=111509
-    #           &season=1984
-    #           &hydrate=stats(group=[hitting],
-    #           type=season,
-    #           season=1984)
-    @staticmethod
-    def fetch_player_stats(player_id: int, year: int):
-        stats = statsapi.get('people', {'personIds': player_id, 'season': year, 
-                                        'hydrate': f'stats(group=[hitting,pitching],type=season,season={year})'}
-                            )['people'][0]
-        if 'stats' not in stats:
-            return None
-        return stats['stats'][0]['splits']
-    
-    # Sample
-    # https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,
-    #       stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),
-    #       leagueListId=mlb_hist,
-    #       season=2024)
-    #   https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),leagueListId=mlb_hist,season=2024)
+    def _get_json(url: str, *, session: Optional[Any] = None) -> Dict[str, Any]:
+        """Fetch ``url`` and return the decoded JSON payload."""
+        http = session or requests
+        return http.get(url).json()
 
+    @staticmethod
+    def _process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
+        """Reformat split data into a ``pandas`` ``DataFrame``."""
+        stat_rows: List[Dict[str, Any]] = []
+        split_names: List[str] = []
+        for entry in data:
+            split_name = entry.get("split", {}).get("code", "Unknown Split")
+            stat_rows.append(entry.get("stat", {}))
+            split_names.append(split_name)
+
+        df_stats = pd.DataFrame(stat_rows)
+        multi_index = pd.MultiIndex.from_tuples(
+            [(split_names[i], i) for i in range(len(split_names))],
+            names=["Split", "Row"],
+        )
+        df_stats.index = multi_index
+        return df_stats
 
     @staticmethod
     def _safe_pct(numer: Any, denom: Any) -> Optional[float]:
-        """Return percentage (0–100) rounded to 2 decimals, or None if invalid."""
+        """Return percentage (0–100) rounded to 2 decimals, or ``None`` if invalid."""
         try:
             n = float(numer)
             d = float(denom)
@@ -106,7 +52,6 @@ class MlbStatsClient:
             return round((n / d) * 100.0, 2)
         except (TypeError, ValueError):
             return None
-        
 
     @staticmethod
     def _add_rate_stats(bucket: Dict[str, Any]) -> None:
@@ -118,7 +63,6 @@ class MlbStatsClient:
         if k_pct is not None:
             bucket["K%"] = k_pct
 
-
     @staticmethod
     def _session_with_retries(total: int = 3, backoff: float = 0.3) -> requests.Session:
         s = requests.Session()
@@ -126,12 +70,57 @@ class MlbStatsClient:
             total=total,
             backoff_factor=backoff,
             status_forcelist=(429, 500, 502, 503, 504),
-            allowed_methods=frozenset(["GET"])
+            allowed_methods=frozenset(["GET"]),
         )
         s.mount("https://", HTTPAdapter(max_retries=retries))
         return s
 
+    # ------------------------------------------------------------------
+    # Simple fetchers
+    # ------------------------------------------------------------------
+    @staticmethod
+    def fetch_player_info(player_id: int):
+        url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=currentTeam"
+        data = MlbStatsClient._get_json(url)
+        return data["people"][0]
 
+    @staticmethod
+    def fetch_team(team_id: int):
+        url = f"{STATS_API_BASE_URL}teams/{team_id}"
+        data = MlbStatsClient._get_json(url)
+        return data.get("teams", {})[0]
+
+    @staticmethod
+    def fetch_batter_stat_splits(player_id: int, year: int):
+        url = (
+            f"{STATS_API_BASE_URL}people?personIds={player_id}"
+            f"&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
+        )
+        data = MlbStatsClient._get_json(url)
+        return MlbStatsClient._process_splits(data["people"][0]["stats"][0]["splits"])
+
+    @staticmethod
+    def fetch_pitcher_stat_splits(player_id: int, year: int):
+        url = (
+            f"{STATS_API_BASE_URL}people?personIds={player_id}"
+            f"&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season={year})"
+        )
+        data = MlbStatsClient._get_json(url)
+        return MlbStatsClient._process_splits(data["people"][0]["stats"][0]["splits"])
+
+    @staticmethod
+    def fetch_player_stats(player_id: int, year: int):
+        stats = statsapi.get(
+            "people",
+            {
+                "personIds": player_id,
+                "season": year,
+                "hydrate": f"stats(group=[hitting,pitching],type=season,season={year})",
+            },
+        )["people"][0]
+        if "stats" not in stats:
+            return None
+        return stats["stats"][0]["splits"]
     """
     Fetch season and team-split stats for a player/year using the StatsAPI hydrate
     endpoint.
@@ -441,29 +430,9 @@ class MlbStatsClient:
             The first season record returned by ``statsapi.get``.
         """
         return statsapi.get('season', {'seasonId': year, 'sportId': 1})['seasons'][0]
-    
 
-def process_splits(data):
-    # --- Code to reformat the splits data into a MultiIndex DataFrame ---
 
-    # First, extract the stat dictionaries and corresponding split names.
-    stat_rows = []
-    split_names = []
-    for entry in data:
-        # Use the split description as the split name.
-        split_name = entry.get('split', {}).get('code', 'Unknown Split')
-        stat_rows.append(entry.get('stat', {}))
-        split_names.append(split_name)
+def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
+    """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
+    return MlbStatsClient._process_splits(data)
 
-    # Create a DataFrame from the stat rows.
-    df_stats = pd.DataFrame(stat_rows)
-
-    # Create a MultiIndex for the DataFrame.
-    # Here, the first level is the split name and the second level is a running integer.
-    multi_index = pd.MultiIndex.from_tuples(
-        [(split_names[i], i) for i in range(len(split_names))],
-        names=['Split', 'Row']
-    )
-
-    df_stats.index = multi_index
-    return df_stats
