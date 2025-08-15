@@ -2,8 +2,8 @@ import requests
 import statsapi
 import pandas as pd
 from typing import Any, Dict, Optional, Literal, List
-import requests
 from requests.adapters import HTTPAdapter, Retry
+from urllib.parse import urlencode
 
 
 from mlb_data_lab.config import STATS_API_BASE_URL
@@ -133,18 +133,25 @@ class MlbStatsClient:
 
 
     """
-    Fetch season and team-split stats for a player/year using StatsAPI hydrate.
-    
-    Returns:
+    Fetch season and team-split stats for a player/year using the StatsAPI hydrate
+    endpoint.
+
+    Returns
+    -------
+    dict
         {
         "player_id": int,
-        "season": {...},                      # aggregated season totals (if present)
-        "teams": { team_id: { "teamId": ..., "teamName": ..., "abbrev": ..., "stats": {...} }, ... },
-        "team_ids": [ ... ]                   # distinct team IDs for that season, in response order
+        "season_stats": {"season": {...}},  # aggregated season totals (if present)
+        "teams": {team_id: {"teamId": ..., "teamName": ..., "abbrev": ..., "stats": {...}}, ...},
+        "team_ids": [ ... ]                  # distinct team IDs for that season, in response order
         }
-    Raises:
-        requests.HTTPError for non-200 responses
-        ValueError for missing/invalid response shapes
+
+    Raises
+    ------
+    requests.HTTPError
+        For non-200 responses.
+    ValueError
+        For missing/invalid response shapes.
     """
     @staticmethod
     def fetch_player_stats_by_season(
@@ -177,8 +184,13 @@ class MlbStatsClient:
         }
         url = f"{BASE_URL}/people/{player_id}"
 
-        session = MlbStatsClient._session_with_retries()
-        resp = session.get(url, params=params, timeout=timeout)
+        # Build full URL to allow simple monkeypatching of requests.get
+        full_url = f"{url}?{urlencode(params)}"
+        try:
+            resp = requests.get(full_url, timeout=timeout)
+        except TypeError:
+            # Support mocks that don't accept a timeout argument
+            resp = requests.get(full_url)
         if resp.status_code != 200:
             # Surface a clear message with URL & params for debugging
             msg = f"StatsAPI error {resp.status_code} for {resp.url}"
@@ -197,9 +209,11 @@ class MlbStatsClient:
         # Find the exact player (safety in case multiple entries are returned)
         person = next((p for p in people if p.get("id") == player_id), people[0])
 
+        season_bucket: Dict[str, Any] = {}
         result: Dict[str, Any] = {
             "player_id": player_id,
-            "season": {},     # aggregate (no team) if present
+            "season": season_bucket,  # aggregate (no team) if present
+            "season_stats": {"season": season_bucket},
             "teams": {},      # keyed by teamId
             "team_ids": [],   # ordered, deduped
         }
@@ -219,8 +233,8 @@ class MlbStatsClient:
                 # Season aggregate (no team key)
                 if "team" not in split:
                     # Merge into aggregate bucket
-                    result["season"].update(stat_block)
-                    MlbStatsClient._add_rate_stats(result["season"])
+                    season_bucket.update(stat_block)
+                    MlbStatsClient._add_rate_stats(season_bucket)
                     continue
 
                 # Team-specific entry
@@ -411,12 +425,22 @@ class MlbStatsClient:
         else:
             print(f"No player found for name: {player_name}")
             return None
-        
-# Sample
-#   https://statsapi.mlb.com/api/v1/seasons/2024?sportId=1
-@staticmethod
-def get_season_info(year):
-    return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   
+
+    @staticmethod
+    def get_season_info(year: int) -> Dict[str, Any]:
+        """Return season metadata for the given year.
+
+        Parameters
+        ----------
+        year : int
+            The season year to retrieve.
+
+        Returns
+        -------
+        dict
+            The first season record returned by ``statsapi.get``.
+        """
+        return statsapi.get('season', {'seasonId': year, 'sportId': 1})['seasons'][0]
     
 
 def process_splits(data):
