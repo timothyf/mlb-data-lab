@@ -99,17 +99,20 @@ def test_fetch_player_team(monkeypatch):
         "people": [
             {
                 "stats": [
-                    {"splits": [{"team": {"teamName": "Test Team"}}]}
+                    {"splits": [{"team": {"id": 999, "teamName": "Test Team"}}]}
                 ]
             }
         ]
     }
-    def fake_statsapi_get(endpoint, params):
-        return fake_data
-    monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
-    
+
+    def fake_get(url):
+        return FakeResponse(fake_data)
+
+    monkeypatch.setattr(requests, "get", fake_get)
+
     result = MlbStatsClient.fetch_player_team(12345, 2020)
     assert result["teamName"] == "Test Team"
+    assert result["id"] == 999
 
 # ---------------------------
 # Test fetch_active_roster
