@@ -4,8 +4,7 @@ import time
 import json
 import re
 import csv
-from typing import Tuple
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pandas as pd
@@ -69,9 +68,15 @@ class SeasonStatsDownloader:
         self.chunk_size     = chunk_size
 
         self.statuses: Dict[str, List[str]] = {
-            "success": [], "skipped": [], "valueerror": [],
-            "error": [], "no_stats": [], "position_mismatch": [],
-            "not_found": [], "stat_fetch_error": [], "no_fangraphs_id": []
+            "success": [],
+            "skipped": [],
+            "valueerror": [],
+            "error": [],
+            "no_stats": [],
+            "position_mismatch": [],
+            "not_found": [],
+            "stat_fetch_error": [],
+            "no_fangraphs_id": [],
         }
 
         os.makedirs(self.output_dir, exist_ok=True)
@@ -114,51 +119,74 @@ class SeasonStatsDownloader:
         with open(fn, "r") as fp:
             teams = json.load(fp)
 
-        filtered = [
-            t["mlbam_team_id"]
-            for t in teams
-            if t.get("league") == league
-        ]
+        filtered = [t["mlbam_team_id"] for t in teams if t.get("league") == league]
         if not filtered:
             raise ValueError(f"No teams found for league={league}")
         return filtered
 
-    def download(self, *, output_file: Optional[str] = None) -> None:
-        """
-        Main entry point: flatten all rosters, spin up one executor.
-        """
-        if output_file is None:
-            suffix_parts = []
-            if self.league in ("AL", "NL"):
-                suffix_parts.append(self.league.lower())
-            if self.player_type == "pitchers":
-                suffix_parts.append("pitchers")
-            elif self.player_type == "batters":
-                suffix_parts.append("batters")
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
 
-            suffix = "" if not suffix_parts else "_" + "_".join(suffix_parts)
-            output_file = os.path.join(
-                self.output_dir,
-                f"stats_{self.season}{suffix}.csv"
-            )
+    def _determine_output_file(self, output_file: Optional[str]) -> str:
+        """Return the path where stats should be written."""
+        if output_file:
+            return output_file
 
-        first_chunk = True
+        suffix_parts = []
+        if self.league in ("AL", "NL"):
+            suffix_parts.append(self.league.lower())
+        if self.player_type == "pitchers":
+            suffix_parts.append("pitchers")
+        elif self.player_type == "batters":
+            suffix_parts.append("batters")
 
+        suffix = "" if not suffix_parts else "_" + "_".join(suffix_parts)
+        return os.path.join(self.output_dir, f"stats_{self.season}{suffix}.csv")
+
+    def _gather_rosters(self) -> List[Tuple[int, pd.DataFrame]]:
+        """Fetch the roster for each team."""
         teams_and_rosters: List[Tuple[int, pd.DataFrame]] = []
         for team_id in self.team_ids:
             try:
                 roster_df = self.client.fetch_team_roster(team_id, self.season)
                 teams_and_rosters.append((team_id, roster_df))
-            except Exception as e:
+            except Exception as e:  # pragma: no cover - network errors
                 logger.error(f"Skipping team {team_id}: {e}")
+        return teams_and_rosters
 
-        tasks = [
+    @staticmethod
+    def _build_player_tasks(
+        teams_and_rosters: List[Tuple[int, pd.DataFrame]]
+    ) -> List[Tuple[int, int]]:
+        """Flatten the rosters into a list of (mlbam_id, team_id) tasks."""
+        return [
             (row["mlbam_id"], team_id)
             for team_id, roster_df in teams_and_rosters
             for _, row in roster_df.iterrows()
         ]
 
-        # 3) fire off threads
+    def _combine_and_clean_dfs(
+        self, dfs: List[pd.DataFrame]
+    ) -> Optional[pd.DataFrame]:
+        """Drop empty columns, concatenate, and sanitize text columns."""
+        valid = [df for df in dfs if not df.empty]
+        cleaned = [df.dropna(axis=1, how="all") for df in valid]
+        if not cleaned:
+            return None
+
+        combined = pd.concat(cleaned, ignore_index=True, sort=False)
+        return self._sanitize_text_df(combined)
+
+
+    def download(self, *, output_file: Optional[str] = None) -> None:
+        """Main entry point to download and persist season stats."""
+
+        output_file = self._determine_output_file(output_file)
+
+        teams_and_rosters = self._gather_rosters()
+        tasks = self._build_player_tasks(teams_and_rosters)
+
         all_stats: List[pd.DataFrame] = []
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = {
@@ -169,17 +197,17 @@ class SeasonStatsDownloader:
             for future in tqdm(
                 as_completed(futures),
                 total=len(futures),
-                desc=f"Fetching {len(futures)} players"
+                desc=f"Fetching {len(futures)} players",
             ):
                 stats = future.result()
                 if stats is not None:
                     all_stats.append(stats)
 
-        # single write after we have the full schema
         if all_stats:
             self._write_all_to_disk(all_stats, output_file)
 
         self._print_summary(output_file)
+
 
 
     def _fetch_player_stats(
@@ -245,22 +273,12 @@ class SeasonStatsDownloader:
                 time.sleep(0.5)
 
     def _flush_to_disk(
-        self,
-        dfs: List[pd.DataFrame],
-        filename: str,
-        write_header: bool
+        self, dfs: List[pd.DataFrame], filename: str, write_header: bool
     ) -> None:
-        valid   = [df for df in dfs if not df.empty]
-        cleaned = [df.dropna(axis=1, how="all") for df in valid]
-        if not cleaned:
+        combined = self._combine_and_clean_dfs(dfs)
+        if combined is None:
             return
 
-        combined = pd.concat(cleaned, ignore_index=True)
-
-        # --- NEW: sanitize text columns to remove HTML/newlines, keep commas safe ---
-        combined = self._sanitize_text_df(combined)
-
-        # --- IMPORTANT: write with proper quoting so commas inside fields are safe ---
         combined.to_csv(
             filename,
             mode="w" if write_header else "a",
@@ -269,22 +287,16 @@ class SeasonStatsDownloader:
             quoting=csv.QUOTE_MINIMAL,
             quotechar='"',
             escapechar='\\',
-            lineterminator='\n',   # <- fix here
+            lineterminator='\n',
         )
         logger.debug(f"Wrote {len(combined)} rows to {filename}")
 
     def _write_all_to_disk(self, dfs: List[pd.DataFrame], filename: str) -> None:
         # drop all-empty columns per-frame, then concat with union of columns
-        valid   = [df for df in dfs if not df.empty]
-        cleaned = [df.dropna(axis=1, how="all") for df in valid]
-        if not cleaned:
+        combined = self._combine_and_clean_dfs(dfs)
+        if combined is None:
             return
 
-        # union of columns across pitchers/batters; stable order without sorting
-        combined = pd.concat(cleaned, ignore_index=True, sort=False)
-
-        # sanitize text (strip HTML/newlines) then write with proper quoting
-        combined = self._sanitize_text_df(combined)
         combined.to_csv(
             filename,
             index=False,
