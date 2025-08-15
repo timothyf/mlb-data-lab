@@ -169,13 +169,14 @@ class SeasonStatsDownloader:
     @staticmethod
     def _build_player_tasks(
         teams_and_rosters: List[Tuple[int, pd.DataFrame]]
-    ) -> List[Tuple[int, int]]:
-        """Flatten the rosters into a list of (mlbam_id, team_id) tasks."""
-        return [
-            (row["mlbam_id"], team_id)
-            for team_id, roster_df in teams_and_rosters
+    ) -> List[int]:
+        """Return a de-duplicated list of player IDs from the supplied rosters."""
+        ids = {
+            row["mlbam_id"]
+            for _, roster_df in teams_and_rosters
             for _, row in roster_df.iterrows()
-        ]
+        }
+        return list(ids)
 
     def _combine_and_clean_dfs(
         self, dfs: List[pd.DataFrame]
@@ -201,8 +202,8 @@ class SeasonStatsDownloader:
         all_stats: List[pd.DataFrame] = []
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = {
-                executor.submit(self._fetch_player_stats, mlbam_id, team_id): (mlbam_id, team_id)
-                for mlbam_id, team_id in tasks
+                executor.submit(self._fetch_player_stats, mlbam_id): mlbam_id
+                for mlbam_id in tasks
             }
 
             for future in tqdm(
@@ -224,11 +225,12 @@ class SeasonStatsDownloader:
     def _fetch_player_stats(
         self,
         mlbam_id: int,
-        team_id: int,
     ) -> Optional[pd.DataFrame]:
-        """
-        Fetch a single player's stats for the specified team.
-        Skip if not matching ``self.player_type``.
+        """Fetch a single player's stats split by team.
+
+        The player's team(s) for the season are discovered automatically.
+        Returns a DataFrame containing one row per team, or ``None`` if
+        no stats are available or the player should be skipped.
         """
         # note: keep a safe name for error logging if player lookup fails early
         safe_name = f"mlbam:{mlbam_id}"
@@ -253,21 +255,35 @@ class SeasonStatsDownloader:
                     if pos == "P"
                     else self.client.fetch_batting_stats
                 )
-                fangraphs_team_id = self.team_id_map.get(team_id)
-                stats = fetch_fn(
-                    mlbam_id=mlbam_id,
-                    season=self.season,
-                    fangraphs_team_id=fangraphs_team_id,
-                )
 
-                if stats is None or stats.empty:
+                group = "pitching" if pos == "P" else "batting"
+                team_ids = self.client.get_player_teams_for_season(
+                    mlbam_id, self.season, group=group, ids_only=True
+                )
+                if not team_ids:
+                    team_ids = [None]
+
+                team_dfs: List[pd.DataFrame] = []
+                for team_id in team_ids:
+                    fg_id = self.team_id_map.get(team_id) if team_id is not None else None
+                    stats = fetch_fn(
+                        mlbam_id=mlbam_id,
+                        season=self.season,
+                        fangraphs_team_id=fg_id,
+                    )
+                    if stats is None or stats.empty:
+                        continue
+                    stats["mlbam_id"] = mlbam_id
+                    stats["season"] = self.season
+                    stats["mlbam_team_id"] = team_id
+                    team_dfs.append(stats)
+
+                if not team_dfs:
                     raise NoStatsError(f"No stats for {mlbam_id} in {self.season}")
 
-                stats["mlbam_id"] = mlbam_id
-                stats["season"] = self.season
-                stats["mlbam_team_id"] = team_id
+                combined = pd.concat(team_dfs, ignore_index=True, sort=False)
                 self.statuses["success"].append(safe_name)
-                return stats
+                return combined
 
             except NoFangraphsIdError:
                 self.statuses["no_fangraphs_id"].append(safe_name)
