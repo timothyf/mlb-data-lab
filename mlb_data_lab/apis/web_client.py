@@ -1,4 +1,3 @@
-import pybaseball as pyb
 import requests
 from mlb_data_lab.config import MLB_STATIC_BASE_URL
 from PIL import Image
