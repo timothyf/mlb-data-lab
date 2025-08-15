@@ -167,7 +167,13 @@ class UnifiedDataClient:
     
     def fetch_player_team_stats(self, player_id: int, year: int):
         return MlbStatsClient.fetch_player_team_stats(player_id, year)
-    
+
+    def get_player_teams_for_season(self, player_id: int, year: int, group: str = None, ids_only: bool = False):
+        return MlbStatsClient.get_player_teams_for_season(player_id, year, group=group, ids_only=ids_only)
+
+    def fetch_player_team(self, player_id: int, year: int):
+        return MlbStatsClient.fetch_player_team(player_id, year)
+
     def get_player_mlbam_id(self, player_id: int):
         return MlbStatsClient.get_player_mlbam_id(player_id)
     
