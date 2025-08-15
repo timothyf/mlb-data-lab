@@ -4,7 +4,7 @@ import pytest
 
 from mlb_data_lab.apis import fangraphs_client
 from mlb_data_lab.apis.fangraphs_client import FangraphsClient
-from mlb_data_lab.config import FANGRAPHS_BASE_URL, FANGRAPHS_NEXT_URL
+from mlb_data_lab.config import FANGRAPHS_BASE_URL
 
 class DummyResponse:
     def __init__(self, data):
@@ -110,26 +110,7 @@ def test_fetch_leaderboard_helpers(monkeypatch):
     assert df2.to_dict("records") == [{"PlayerName": "X"}]
 
 
-def test_fetch_next_stats_builds_correct_url(monkeypatch):
-    expected_url = (
-        f"{FANGRAPHS_NEXT_URL}/jack-flaherty/17479/"
-        "stats.json?position=P&playerNameRoute=jack-flaherty&playerId=17479"
-    )
 
-    def fake_get(url):
-        assert url == expected_url
-        return DummyResponse([{ "Season": "2024", "WAR": 3.5 }])
-
-    monkeypatch.setattr(requests, "get", fake_get)
-
-    df = fangraphs_client.fetch_next_stats("Jack Flaherty", 17479, 2024, "pitching")
-
-    assert df.to_dict("records") == [{"Season": "2024", "WAR": 3.5}]
-
-
-def test_fetch_next_stats_invalid_stat_type():
-    with pytest.raises(ValueError):
-        fangraphs_client.fetch_next_stats("Jack Flaherty", 17479, 2024, "defense")
 
 
 

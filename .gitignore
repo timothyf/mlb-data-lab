@@ -10,6 +10,8 @@ mlb_stats/sample.json
 ignore/*
 util_scripts/*
 *.egg-info
+*.egg-info-OLD
+
 
 
 

@@ -22,7 +22,7 @@ setup(
         "seaborn==0.13.2",
         "mplcursors==0.5.3",
         "pybaseball==2.2.7",
-        "MLB-StatsAPI==1.7.2",
+        "MLB-StatsAPI==1.9.0",
         "requests==2.32.3",
         "python-dotenv==1.0.0",
     ],

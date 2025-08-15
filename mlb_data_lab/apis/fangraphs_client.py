@@ -144,24 +144,3 @@ class FangraphsClient:
 #     return re.search(r'>(.*?)<', name_field).group(1)
 
 
-@staticmethod
-# https://www.fangraphs.com/_next/data/Gtd7iofF2h1X98b-Nerh6/players/jack-flaherty/17479/stats.json?position=P&playerNameRoute=jack-flaherty&playerId=17479
-def fetch_next_stats(player_name: str, player_fangraphs_id: int, season: int, stat_type: str):
-    """
-    Fetches player stats using the nextdata endpoint
-    """
-    fangraphs_player_name = player_name.replace(" ", "-").lower()
-    if stat_type == 'pitching':
-        stat = 'pit'
-    elif stat_type == 'batting':
-        stat = 'bat' 
-    else:
-        raise ValueError("Invalid stat_type. Must be 'pitching' or 'batting'")
-
-    url = (
-        f"{FANGRAPHS_NEXT_URL}/{fangraphs_player_name}/{player_fangraphs_id}/stats.json?position=P&playerNameRoute={fangraphs_player_name}&playerId={player_fangraphs_id}"
-    )
-    
-    data = requests.get(url).json()
-    df = pd.DataFrame(data=data['data'])
-    return df

@@ -1,6 +1,10 @@
 import requests
 import statsapi
 import pandas as pd
+from typing import Any, Dict, Optional, Literal, List
+import requests
+from requests.adapters import HTTPAdapter, Retry
+
 
 from mlb_data_lab.config import STATS_API_BASE_URL
 
@@ -30,6 +34,9 @@ class MlbStatsClient:
     #                                                  sitCodes=[vr,vl],
     #                                                  season=2018)
     #
+    # Situation Codes can be found here:
+    #   https://statsapi.mlb.com/api/v1/situationCodes
+    #
     @staticmethod
     def fetch_batter_stat_splits(player_id: int, year: int):
         url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
@@ -43,7 +50,7 @@ class MlbStatsClient:
     #                                                  sitCodes=[vr,vl],
     #                                                  season=2018)
     #
-    @staticmethod
+    # @staticmethod
     # def fetch_batter_stat_splits_by_team(player_id: int, team_id: int, year: int):
     #     url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
     #     data = requests.get(url).json()
@@ -86,68 +93,227 @@ class MlbStatsClient:
     #       leagueListId=mlb_hist,
     #       season=2024)
     #   https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),leagueListId=mlb_hist,season=2024)
+
+
     @staticmethod
-    def fetch_player_stats_by_season(player_id: int, year: int):
-        url = f"https://statsapi.mlb.com/api/v1/people/{player_id}?hydrate=team,stats(type=[season,seasonBasic,seasonAdvanced,availableStats](team(league)),leagueListId=mlb_hist,season={year})"
-        response = requests.get(url)
+    def _safe_pct(numer: Any, denom: Any) -> Optional[float]:
+        """Return percentage (0–100) rounded to 2 decimals, or None if invalid."""
+        try:
+            n = float(numer)
+            d = float(denom)
+            if d == 0:
+                return None
+            return round((n / d) * 100.0, 2)
+        except (TypeError, ValueError):
+            return None
+        
 
-        if response.status_code == 200:
-            # Parse JSON data from response
-            data = response.json()
-            
-            # Initialize the structure for combined data
-            combined_data = {
-                "player_id": player_id,
-                "season_stats": {}
-            }
-            
-            # Process each person in the data
-            for person in data.get('people', []):
-                # Filter by matching player_id only
-                if person['id'] == player_id:
-                    for stat_group in person['stats']:
-                        if stat_group['type']['displayName'] in ['season', 'seasonAdvanced']:
-                            for split in stat_group['splits']:
-                                # Check for season total stats (without team info)
-                                if 'team' not in split and split['season'] == str(year):
-                                    season_stats = combined_data["season_stats"].setdefault("season", {})
-                                    season_stats.update(split['stat'])
-
-                                    # Calculate BB% if walks and plate appearances are available
-                                    if 'baseOnBalls' in season_stats and 'plateAppearances' in season_stats:
-                                        bb_percent = (season_stats['baseOnBalls'] / season_stats['plateAppearances']) * 100
-                                        season_stats['BB%'] = round(bb_percent, 2)
-
-                                    # Calculate K% if strikeouts and plate appearances are available
-                                    if 'strikeOuts' in season_stats and 'plateAppearances' in season_stats:
-                                        k_percent = (season_stats['strikeOuts'] / season_stats['plateAppearances']) * 100
-                                        season_stats['K%'] = round(k_percent, 2)
-
-                                # Check for team-specific stats
-                                elif 'team' in split and split['season'] == str(year):
-                                    team_name = split['team']['teamName'].lower()
-                                    team_entry = combined_data["season_stats"].setdefault(team_name, {})
-                                    team_entry.update(split['stat'])
-
-                                    # Calculate BB% for team stats if available
-                                    if 'baseOnBalls' in team_entry and 'plateAppearances' in team_entry:
-                                        bb_percent = (team_entry['baseOnBalls'] / team_entry['plateAppearances']) * 100
-                                        team_entry['BB%'] = round(bb_percent, 2)
-
-                                    # Calculate K% if strikeouts and plate appearances are available
-                                    if 'strikeOuts' in team_entry and 'plateAppearances' in team_entry:
-                                        k_percent = (team_entry['strikeOuts'] / team_entry['plateAppearances']) * 100
-                                        team_entry['K%'] = round(k_percent, 2)
-
-            return combined_data
-        else:
-            print(f"Failed to retrieve data. Status code: {response.status_code}")
+    @staticmethod
+    def _add_rate_stats(bucket: Dict[str, Any]) -> None:
+        """Compute BB% and K% in-place if possible."""
+        bb_pct = MlbStatsClient._safe_pct(bucket.get("baseOnBalls"), bucket.get("plateAppearances"))
+        if bb_pct is not None:
+            bucket["BB%"] = bb_pct
+        k_pct = MlbStatsClient._safe_pct(bucket.get("strikeOuts"), bucket.get("plateAppearances"))
+        if k_pct is not None:
+            bucket["K%"] = k_pct
 
 
+    @staticmethod
+    def _session_with_retries(total: int = 3, backoff: float = 0.3) -> requests.Session:
+        s = requests.Session()
+        retries = Retry(
+            total=total,
+            backoff_factor=backoff,
+            status_forcelist=(429, 500, 502, 503, 504),
+            allowed_methods=frozenset(["GET"])
+        )
+        s.mount("https://", HTTPAdapter(max_retries=retries))
+        return s
 
+
+    """
+    Fetch season and team-split stats for a player/year using StatsAPI hydrate.
+    
+    Returns:
+        {
+        "player_id": int,
+        "season": {...},                      # aggregated season totals (if present)
+        "teams": { team_id: { "teamId": ..., "teamName": ..., "abbrev": ..., "stats": {...} }, ... },
+        "team_ids": [ ... ]                   # distinct team IDs for that season, in response order
+        }
+    Raises:
+        requests.HTTPError for non-200 responses
+        ValueError for missing/invalid response shapes
+    """
+    @staticmethod
+    def fetch_player_stats_by_season(
+        player_id: int,
+        year: int,
+        *,
+        group: Optional[Literal["batting", "pitching", "fielding"]] = None,
+        timeout: float = 8.0,
+    ) -> Dict[str, Any]:
+
+        BASE_URL = "https://statsapi.mlb.com/api/v1"
+
+        # Build the hydrate expression
+        stat_types = ["season", "seasonAdvanced"]  # add/remove types as needed
+        stat_types_part = ",".join(stat_types)
+
+        # If you want to filter to a specific group, you can also request:
+        # stats(type=[...], group=[pitching])
+        # The API accepts group inside the stats() block; including it reduces payload size.
+        group_part = f",group=[{group}]" if group else ""
+
+        hydrate = (
+            f"team,"
+            f"stats(type=[{stat_types_part}]{group_part}"
+            f"(team(league)),leagueListId=mlb_hist,season={year})"
+        )
+
+        params = {
+            "hydrate": hydrate,
+        }
+        url = f"{BASE_URL}/people/{player_id}"
+
+        session = MlbStatsClient._session_with_retries()
+        resp = session.get(url, params=params, timeout=timeout)
+        if resp.status_code != 200:
+            # Surface a clear message with URL & params for debugging
+            msg = f"StatsAPI error {resp.status_code} for {resp.url}"
+            try:
+                details = resp.json()
+                msg += f" | body: {details}"
+            except Exception:
+                pass
+            resp.raise_for_status()
+
+        payload = resp.json()
+        people = payload.get("people") or []
+        if not people:
+            raise ValueError(f"No 'people' found for player_id={player_id}, year={year}")
+
+        # Find the exact player (safety in case multiple entries are returned)
+        person = next((p for p in people if p.get("id") == player_id), people[0])
+
+        result: Dict[str, Any] = {
+            "player_id": player_id,
+            "season": {},     # aggregate (no team) if present
+            "teams": {},      # keyed by teamId
+            "team_ids": [],   # ordered, deduped
+        }
+
+        for stat_group in person.get("stats") or []:
+            # Only consider our requested types
+            type_name = stat_group.get("type", {}).get("displayName")
+            if type_name not in stat_types:
+                continue
+
+            for split in stat_group.get("splits") or []:
+                if split.get("season") != str(year):
+                    continue
+
+                stat_block = split.get("stat") or {}
+
+                # Season aggregate (no team key)
+                if "team" not in split:
+                    # Merge into aggregate bucket
+                    result["season"].update(stat_block)
+                    MlbStatsClient._add_rate_stats(result["season"])
+                    continue
+
+                # Team-specific entry
+                team = split["team"]
+                team_id = team.get("id")
+                if team_id is None:
+                    # Fallback if id missing (shouldn’t happen, but be defensive)
+                    # Use name as a last resort key
+                    team_id = team.get("abbreviation") or team.get("teamName") or "unknown"
+
+                # Create team record if new
+                if team_id not in result["teams"]:
+                    result["teams"][team_id] = {
+                        "teamId": team.get("id"),
+                        "teamName": team.get("teamName"),
+                        "abbrev": team.get("abbreviation"),
+                        "leagueId": (team.get("league") or {}).get("id"),
+                        "leagueName": (team.get("league") or {}).get("name"),
+                        "stats": {},
+                    }
+                    if team_id not in result["team_ids"]:
+                        result["team_ids"].append(team_id)
+
+                # Merge/overlay stats from this split into the team bucket
+                team_stats = result["teams"][team_id]["stats"]
+                team_stats.update(stat_block)
+                MlbStatsClient._add_rate_stats(team_stats)
+
+        return result
+
+    ## Usage:
+    # # Jack Flaherty, 2024
+    # teams = MlbStatsClient.get_player_teams_for_season(656427, 2024)
+    # # e.g. [{'teamId': 116, 'teamName': 'Detroit Tigers', 'abbrev': 'DET', ...},
+    # #       {'teamId': 119, 'teamName': 'Los Angeles Dodgers', 'abbrev': 'LAD', ...}]
+
+    # ids = MlbStatsClient.get_player_teams_for_season(656427, 2024, ids_only=True)
+    # # e.g. [116, 119]
+    @staticmethod
+    def get_player_teams_for_season(
+        player_id: int,
+        year: int,
+        *,
+        group: Optional[str] = None,
+        ids_only: bool = False,
+    ) -> List[Any]:
+        """
+        Return the distinct teams a player played for in a given season.
+
+        Args:
+            player_id: MLBAM personId
+            year: target season (e.g., 2024)
+            group: optionally limit stats retrieval to 'batting' | 'pitching' | 'fielding'
+                   (keeps payload small; not required for team membership)
+            ids_only: if True, return a list of teamIds (ints); otherwise a list of dicts:
+                      [{teamId, teamName, abbrev, leagueId, leagueName}]
+
+        Returns:
+            [] if no teams found; otherwise a list ordered as returned by the API.
+        """
+        data: Dict[str, Any] = MlbStatsClient.fetch_player_stats_by_season(
+            player_id, year, group=group
+        )
+
+        team_ids = data.get("team_ids") or []
+        teams_map = data.get("teams") or {}
+
+        if ids_only:
+            # Normalize to ints when possible
+            out: List[int] = []
+            for tid in team_ids:
+                entry = teams_map.get(tid, {})
+                team_id = entry.get("teamId", tid)
+                try:
+                    team_id = int(team_id)
+                except (TypeError, ValueError):
+                    pass
+                out.append(team_id)
+            return out
+
+        results: List[Dict[str, Any]] = []
+        for tid in team_ids:
+            entry = teams_map.get(tid, {})
+            results.append({
+                "teamId": entry.get("teamId", tid),
+                "teamName": entry.get("teamName"),
+                "abbrev": entry.get("abbrev"),
+                "leagueId": entry.get("leagueId"),
+                "leagueName": entry.get("leagueName"),
+            })
+        return results
 
     
-
     # Sample
     #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[],type=season,team,season=1984)
     @staticmethod
@@ -246,11 +412,11 @@ class MlbStatsClient:
             print(f"No player found for name: {player_name}")
             return None
         
-    # Sample
-    #   https://statsapi.mlb.com/api/v1/seasons/2024?sportId=1
-    @staticmethod
-    def get_season_info(year):
-        return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   
+# Sample
+#   https://statsapi.mlb.com/api/v1/seasons/2024?sportId=1
+@staticmethod
+def get_season_info(year):
+    return statsapi.get('season',{'seasonId':year,'sportId':1})['seasons'][0]   
     
 
 def process_splits(data):
