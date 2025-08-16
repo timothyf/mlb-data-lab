@@ -20,7 +20,12 @@ def load_season_stats(season: int) -> pd.DataFrame:
         raise FileNotFoundError(f"Stat file not found for season {season}: {file_path}")
 
 
-def compute_leage_totals(season: int, stats_df: pd.DataFrame, metrics: list = None) -> pd.DataFrame:
+def compute_leage_totals(
+    season: int,
+    stats_df: pd.DataFrame,
+    metrics: list = None,
+    team: str | None = None,
+) -> pd.DataFrame:
     if metrics is None:
         metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
 
@@ -29,6 +34,11 @@ def compute_leage_totals(season: int, stats_df: pd.DataFrame, metrics: list = No
 
     # Count each player only once, remove duplicates.
     stats_df = stats_df.drop_duplicates(subset=["xMLBAMID"])
+
+    if team:
+        team_totals = stats_df[stats_df["TeamName"] == team][metrics].sum().round(0).astype(int).to_frame().T
+        team_totals.index = [team]
+        return team_totals
 
     set_league(stats_df)
 
@@ -42,7 +52,12 @@ def compute_leage_totals(season: int, stats_df: pd.DataFrame, metrics: list = No
     return league_totals
 
 
-def compute_league_averages(season: int, stats_df: pd.DataFrame, metrics: list = None) -> pd.DataFrame:
+def compute_league_averages(
+    season: int,
+    stats_df: pd.DataFrame,
+    metrics: list = None,
+    team: str | None = None,
+) -> pd.DataFrame:
     if metrics is None:
         metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
 
@@ -57,6 +72,18 @@ def compute_league_averages(season: int, stats_df: pd.DataFrame, metrics: list =
 
     # # Exlude rows where TeamName == '- - -'
     # stats_df = stats_df[stats_df["TeamName"] != "- - -"]
+
+    if team:
+        team_stats = stats_df[stats_df["TeamName"] == team].copy()
+        for metric in metrics:
+            team_stats[metric] = pd.to_numeric(team_stats[metric], errors='coerce')
+        team_stats = team_stats.dropna(subset=metrics)
+        team_averages = team_stats[metrics].mean().round(2).to_frame().T
+        if "AVG" not in metrics:
+            team_averages["BA"] = (team_averages["H"] / team_averages["AB"]).round(3)
+        team_averages.insert(0, "season", season)
+        team_averages.index = [team]
+        return team_averages
 
     set_league(stats_df)
 
@@ -113,6 +140,12 @@ def save_league_averages(season: int, output_dir: str) -> None:
 
 
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Compute league and team statistics.")
+    parser.add_argument("--team", help="Team abbreviation to compute stats for")
+    args = parser.parse_args()
+
     for season in range(2024, 2025):
         print(f"Season {season}")
         stats = load_season_stats(season)
@@ -122,4 +155,12 @@ if __name__ == '__main__':
         avgs = compute_league_averages(season, stats)
         print(f"AVERAGES")
         print(avgs)
+
+        if args.team:
+            team_totals = compute_leage_totals(season, stats, team=args.team)
+            print(f"{args.team} TOTALS:")
+            print(team_totals)
+            team_avgs = compute_league_averages(season, stats, team=args.team)
+            print(f"{args.team} AVERAGES:")
+            print(team_avgs)
 
