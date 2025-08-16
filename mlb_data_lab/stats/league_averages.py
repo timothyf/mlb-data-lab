@@ -30,21 +30,62 @@ def compute_leage_totals(
         metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
 
     # Exclude rows where position == P (pitchers)
-    stats_df = stats_df[stats_df["Pos"] != "P"]
-
-    # Count each player only once, remove duplicates.
-    stats_df = stats_df.drop_duplicates(subset=["xMLBAMID"])
+    stats_df = stats_df[stats_df["Pos"] != "P"].copy()
 
     if team:
-        team_totals = stats_df[stats_df["TeamName"] == team][metrics].sum().round(0).astype(int).to_frame().T
+        team_totals = (
+            stats_df[stats_df["TeamName"] == team][metrics]
+            .sum()
+            .round(0)
+            .astype(int)
+            .to_frame()
+            .T
+        )
         team_totals.index = [team]
         return team_totals
 
+    # Map teams to leagues before aggregating
     set_league(stats_df)
 
-    al_totals = stats_df[stats_df["League"] == "AL"][metrics].sum().round(0).astype(int).to_frame().T
-    nl_totals = stats_df[stats_df["League"] == "NL"][metrics].sum().round(0).astype(int).to_frame().T
-    mlb_totals = stats_df[metrics].sum().round(0).astype(int).to_frame().T
+    # Drop aggregate rows (e.g. "- - -") that don't map to a league
+    stats_df = stats_df[stats_df["League"].notnull()].copy()
+
+    # Ensure numeric metrics and remove rows with missing data
+    for metric in metrics:
+        stats_df[metric] = pd.to_numeric(stats_df[metric], errors="coerce")
+    stats_df = stats_df.dropna(subset=metrics)
+
+    # Sum player stats within each league to avoid double counting
+    player_league_stats = (
+        stats_df.groupby(["xMLBAMID", "League"], as_index=False)[metrics]
+        .sum()
+    )
+
+    al_totals = (
+        player_league_stats[player_league_stats["League"] == "AL"][metrics]
+        .sum()
+        .round(0)
+        .astype(int)
+        .to_frame()
+        .T
+    )
+    nl_totals = (
+        player_league_stats[player_league_stats["League"] == "NL"][metrics]
+        .sum()
+        .round(0)
+        .astype(int)
+        .to_frame()
+        .T
+    )
+    mlb_totals = (
+        player_league_stats[metrics]
+        .sum()
+        .round(0)
+        .astype(int)
+        .to_frame()
+        .T
+    )
+
     league_totals = (
         pd.concat([al_totals, nl_totals, mlb_totals], keys=["AL", "NL", "MLB"])
         .droplevel(1)
@@ -62,21 +103,18 @@ def compute_league_averages(
         metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
 
     # Exclude rows where position == P (pitchers)
-    stats_df = stats_df[stats_df["Pos"] != "P"]
-
-    # Count each player only once, remove duplicates.
-    stats_df = stats_df.drop_duplicates(subset=["xMLBAMID"])
+    stats_df = stats_df[stats_df["Pos"] != "P"].copy()
 
     # Exclude rows where AB < 502
     # stats_df = stats_df[stats_df["AB"] >= 502]
 
-    # # Exlude rows where TeamName == '- - -'
+    # # Exclude rows where TeamName == '- - -'
     # stats_df = stats_df[stats_df["TeamName"] != "- - -"]
 
     if team:
         team_stats = stats_df[stats_df["TeamName"] == team].copy()
         for metric in metrics:
-            team_stats[metric] = pd.to_numeric(team_stats[metric], errors='coerce')
+            team_stats[metric] = pd.to_numeric(team_stats[metric], errors="coerce")
         team_stats = team_stats.dropna(subset=metrics)
         team_averages = team_stats[metrics].mean().round(2).to_frame().T
         if "AVG" not in metrics:
@@ -87,17 +125,44 @@ def compute_league_averages(
 
     set_league(stats_df)
 
+    # Drop aggregate rows (e.g. "- - -") that don't map to a league
+    stats_df = stats_df[stats_df["League"].notnull()].copy()
+
     # Ensure that the columns we are going to average are numeric. (This is particularly important for BA.)
     for metric in metrics:
-        stats_df[metric] = pd.to_numeric(stats_df[metric], errors='coerce')
+        stats_df[metric] = pd.to_numeric(stats_df[metric], errors="coerce")
 
     # It might be useful to drop rows where the key stats are missing.
     stats_df = stats_df.dropna(subset=metrics)
 
+    # Aggregate player stats by league to avoid double counting
+    player_league_stats = (
+        stats_df.groupby(["xMLBAMID", "League"], as_index=False)[metrics]
+        .sum()
+    )
+
     # Calculate league averages by league
-    al_averages = stats_df[stats_df["League"] == "AL"][metrics].mean().round(2).to_frame().T
-    nl_averages = stats_df[stats_df["League"] == "NL"][metrics].mean().round(2).to_frame().T
-    mlb_averages = stats_df[metrics].mean().round(2).to_frame().T
+    al_averages = (
+        player_league_stats[player_league_stats["League"] == "AL"][metrics]
+        .mean()
+        .round(2)
+        .to_frame()
+        .T
+    )
+    nl_averages = (
+        player_league_stats[player_league_stats["League"] == "NL"][metrics]
+        .mean()
+        .round(2)
+        .to_frame()
+        .T
+    )
+    mlb_averages = (
+        player_league_stats[metrics]
+        .mean()
+        .round(2)
+        .to_frame()
+        .T
+    )
 
     # Combine league averages into a single DataFrame and drop the default
     # integer index added by ``to_frame().T`` to avoid an unnecessary
