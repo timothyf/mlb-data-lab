@@ -6,7 +6,7 @@ from mlb_data_lab.stats.save_season_stats import SeasonStatsDownloader
 
 if __name__ == "__main__":
     # Initialize the parser
-    parser = argparse.ArgumentParser(description="Generate player sheets.")
+    parser = argparse.ArgumentParser(description="Save Season Stats.")
     # Add --year option
     parser.add_argument(
         '--season',
