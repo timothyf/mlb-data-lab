@@ -6,6 +6,7 @@ from mlb_data_lab.config import BASE_DIR
 from mlb_data_lab.config import LeagueTeams
 
 
+DEFAULT_METRICS = ["PA", "AB", "H", "HR", "SO", "RBI", "SB"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in 
 
 def load_season_stats(season: int) -> pd.DataFrame:
     """
@@ -27,7 +28,7 @@ def compute_leage_totals(
     team: str | None = None,
 ) -> pd.DataFrame:
     if metrics is None:
-        metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
+        metrics = DEFAULT_METRICS
 
     # Exclude rows where position == P (pitchers)
     stats_df = stats_df[stats_df["Pos"] != "P"].copy()
@@ -100,7 +101,7 @@ def compute_league_averages(
     team: str | None = None,
 ) -> pd.DataFrame:
     if metrics is None:
-        metrics = ["AB", "H", "HR", "SO", "RBI"]  # HR: home runs, SO: strikeouts, BA: batting average, RBI: runs batted in
+        metrics = DEFAULT_METRICS
 
     # Exclude rows where position == P (pitchers)
     stats_df = stats_df[stats_df["Pos"] != "P"].copy()
