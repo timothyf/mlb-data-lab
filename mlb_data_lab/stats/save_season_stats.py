@@ -271,9 +271,10 @@ class SeasonStatsDownloader:
                         season=self.season,
                         fangraphs_team_id=fg_id,
                     )
-                    # Drop dataframes that have no meaningful values to avoid
-                    # FutureWarning from pandas concat about empty or all-NA inputs
-                    if stats is None or stats.empty or stats.isna().all().all():
+                    # Drop columns with no data and skip entirely empty or all-NA frames
+                    if stats is not None:
+                        stats = stats.dropna(axis=1, how="all")
+                    if stats is None or stats.empty:
                         continue
                     stats["mlbam_id"] = mlbam_id
                     stats["season"] = self.season
