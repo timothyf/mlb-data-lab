@@ -35,7 +35,10 @@ def compute_leage_totals(season: int, stats_df: pd.DataFrame, metrics: list = No
     al_totals = stats_df[stats_df["League"] == "AL"][metrics].sum().round(0).astype(int).to_frame().T
     nl_totals = stats_df[stats_df["League"] == "NL"][metrics].sum().round(0).astype(int).to_frame().T
     mlb_totals = stats_df[metrics].sum().round(0).astype(int).to_frame().T
-    league_totals = pd.concat([al_totals, nl_totals, mlb_totals], keys=["AL", "NL", "MLB"])
+    league_totals = (
+        pd.concat([al_totals, nl_totals, mlb_totals], keys=["AL", "NL", "MLB"])
+        .droplevel(1)
+    )
     return league_totals
 
 
@@ -69,8 +72,13 @@ def compute_league_averages(season: int, stats_df: pd.DataFrame, metrics: list =
     nl_averages = stats_df[stats_df["League"] == "NL"][metrics].mean().round(2).to_frame().T
     mlb_averages = stats_df[metrics].mean().round(2).to_frame().T
 
-    # Combine league averages into a single DataFrame
-    league_averages = pd.concat([al_averages, nl_averages, mlb_averages], keys=["AL", "NL", "MLB"])
+    # Combine league averages into a single DataFrame and drop the default
+    # integer index added by ``to_frame().T`` to avoid an unnecessary
+    # MultiIndex in the result.
+    league_averages = (
+        pd.concat([al_averages, nl_averages, mlb_averages], keys=["AL", "NL", "MLB"])
+        .droplevel(1)
+    )
 
     # Inject batting average (h/AB)
     if "AVG" not in metrics:
