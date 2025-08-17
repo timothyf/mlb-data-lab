@@ -3,6 +3,19 @@ import pandas as pd
 from mlb_data_lab.apis.pybaseball_client import PybaseballClient
 
 # @pytest.mark.integration
+# def test_fetch_team_schedule_and_record_integration():
+#     season = 2024
+#     team_abbrev = "DET"
+#     result = PybaseballClient.fetch_team_schedule_and_record(team_abbrev, season)
+
+#     # For debugging, you can print the result (remove or comment out in production)
+#     print(result)
+
+#     # Verify that the result is a DataFrame and contains data.
+#     assert isinstance(result, pd.DataFrame), "Expected result to be a pandas DataFrame"
+#     assert not result.empty, "Expected DataFrame to contain team schedule and record data"
+
+# @pytest.mark.integration
 # def test_fetch_batting_splits_leaderboards_integration():
 #     """
 #     Integration test for fetch_batting_splits_leaderboards.

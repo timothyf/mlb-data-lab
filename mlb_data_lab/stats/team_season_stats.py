@@ -27,6 +27,7 @@ class TeamSeasonStats:
 
     
     def fetch_season_record(self, team):
+        print(f"TStats: Fetching season record for {team.abbrev} in season {self.season}...")
         season_record = self.data_client.fetch_team_schedule_and_record(team.abbrev, self.season)
         self.wins = np.where(season_record['W/L']=='W', 1, (np.where(season_record['W/L']=='W-wo', 1, 0))).cumsum()[-1]
         self.losses = np.where(season_record['W/L']=='L', 1, (np.where(season_record['W/L']=='L-wo', 1, 0))).cumsum()[-1]

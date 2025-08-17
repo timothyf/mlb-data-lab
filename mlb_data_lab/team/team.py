@@ -1,22 +1,29 @@
+from __future__ import annotations
 import os
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from mlb_data_lab.constants import team_logo_urls
 from mlb_data_lab.team.roster import Roster
-from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 from mlb_data_lab.config import BASE_DIR
 from mlb_data_lab.utils import Utils
 from mlb_data_lab.data.fangraphs_teams import FangraphsTeams
 from mlb_data_lab.config import DATA_DIR
 from mlb_data_lab.stats.team_season_stats import TeamSeasonStats
+if TYPE_CHECKING:
+    # Only for type checkers; doesn't run at runtime, avoids circular import
+    from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, message="A value is trying to be set on a copy of a DataFrame or Series through chained assignment")
 
 class Team:
 
-    def __init__(self, data_client: Optional[UnifiedDataClient] = None):
-        self.data_client: UnifiedDataClient = data_client if data_client else UnifiedDataClient()
+    def __init__(self, data_client: Optional["UnifiedDataClient"] = None):
+        if data_client is None:
+            # Lazy import at runtime to break cycles
+            from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
+            data_client = UnifiedDataClient()
+        self.data_client: "UnifiedDataClient" = data_client
         self.team_id = None # MLBAM team ID
         self.mlbam_id = None # MLBAM team ID
         self.fangraphs_id = None # Fangraphs team ID
@@ -74,8 +81,11 @@ class Team:
     def create_from_mlb(team_id: int = None, team_name: str = None, season: int = 2024, data_client: Optional[UnifiedDataClient] = None):
         if team_id is None and team_name is None:
             raise ValueError("Either team_id or team_name must be provided.")
-        data_client = UnifiedDataClient = data_client if data_client else UnifiedDataClient()
+        if data_client is None:
+            from mlb_data_lab.apis.unified_data_client import UnifiedDataClient as _UnifiedDataClient
+            data_client = _UnifiedDataClient()   # <-- DO NOT reassign the class name
         team = Team(data_client=data_client)
+        #team = Team(data_client=data_client)
         if team_id is None and team_name:
             team_id = data_client.get_team_id(team_name)
         team_data = data_client.fetch_team(team_id)

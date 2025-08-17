@@ -442,6 +442,15 @@ class MlbStatsClient:
             The first season record returned by ``statsapi.get``.
         """
         return statsapi.get('season', {'seasonId': year, 'sportId': 1})['seasons'][0]
+    
+
+@staticmethod
+def get_standings_data(season: int, league_ids: str) -> pd.DataFrame:
+    """Return the standings data for a given season."""
+    """ AL ID = 103, NL ID = 104"""
+    url = f"{STATS_API_BASE_URL}standings?leagueId={league_ids}&season={season}&standingsTypes=regularSeason"
+    data = MlbStatsClient._get_json(url)
+    return data["records"]
 
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:

@@ -52,6 +52,7 @@ class PybaseballClient:
     
     @staticmethod
     def fetch_team_schedule_and_record(team_abbrev: str, season: int):
+        print(f"Fetching schedule and record for {team_abbrev} in season {season}...")
         data = pyb.schedule_and_record(season, team_abbrev)
         return data
     
