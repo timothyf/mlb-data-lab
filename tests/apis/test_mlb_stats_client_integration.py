@@ -2,6 +2,7 @@
 
 import pytest
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from mlb_data_lab.apis import mlb_stats_client
 import pandas as pd
 
 
@@ -340,6 +341,29 @@ def test_fetch_active_roster_integration():
     assert isinstance(roster, dict), "Expected roster data to be a dict."
     assert "roster" in roster, "Expected 'roster' key in response."
     assert len(roster["roster"]) > 0, "Expected at least one player in roster."
+
+
+@pytest.mark.integration
+def test_get_standings_data_integration():
+    """Integration test for mlb_stats_client.get_standings_data."""
+    season = 2024
+    leagues = "103,104"
+
+    records = mlb_stats_client.get_standings_data(season, leagues)
+
+    # Basic structure checks
+    assert isinstance(records, list), "Expected standings records to be a list"
+    assert len(records) > 0, "Expected at least one standings record"
+
+    first_record = records[0]
+    assert "teamRecords" in first_record, "Expected 'teamRecords' key in standings record"
+    assert isinstance(first_record["teamRecords"], list) and first_record["teamRecords"], (
+        "Expected 'teamRecords' to be a non-empty list"
+    )
+
+    first_team = first_record["teamRecords"][0]
+    for key in ["team", "wins", "losses"]:
+        assert key in first_team, f"Expected key '{key}' in team record"
 
 
 @pytest.mark.integration
