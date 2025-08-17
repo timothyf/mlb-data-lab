@@ -99,8 +99,8 @@ class UnifiedDataClient:
     def fetch_team(self, team_id: int):
         return MlbStatsClient.fetch_team(team_id)
 
-    def fetch_team_roster(self, team_id: int, year: int = 2024):
-        return MlbStatsClient.fetch_team_roster(team_id, year)
+    def fetch_full_season_roster(self, team_id: int, year: int = 2024):
+        return MlbStatsClient.fetch_full_season_roster(team_id, year)
 
     def get_season_info(self, year: int):
         return MlbStatsClient.get_season_info(year)
@@ -132,6 +132,12 @@ class UnifiedDataClient:
 
     def get_player_mlbam_id(self, player_id: int):
         return MlbStatsClient.get_player_mlbam_id(player_id)
+    
+    def get_standings_data(self, season: int, league_ids: str) -> pd.DataFrame:
+        return MlbStatsClient.get_standings_data(season, league_ids)
+    
+    def get_team_record_for_season(self, season: int, team_id: int) -> pd.DataFrame:
+        return MlbStatsClient.get_team_record_for_season(season, team_id)
 
     #############################
     # PybaseballClient wrappers

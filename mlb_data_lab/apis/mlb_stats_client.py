@@ -381,26 +381,39 @@ class MlbStatsClient:
             f"{STATS_API_BASE_URL}teams/{team_id}/roster"
             f"?season={year}&rosterType=active"
         )
-        return MlbStatsClient._get_json(url)
+        data = MlbStatsClient._get_json(url)
+        return data["roster"]
     
+
     @staticmethod
-    def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:
-        """
-        Return a DataFrame of the team's roster for the given season,
-        with columns: 'player_name' and 'mlbam_id'.
-        """
-        roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
-        players = roster_data.get('roster', [])
+    def fetch_full_season_roster(team_id: int, year: int = 2024):
+        """Return the full roster for a team in a given ``year``.
 
-        records = []
-        for p in players:
-            person = p.get('person', {})
-            records.append({
-                'player_name': person.get('fullName'),
-                'mlbam_id':   person.get('id')
-            })
+        https://statsapi.mlb.com/api/v1/teams/116/roster?&season=2025&rosterType=fullSeason
+        """
+        url = f"{STATS_API_BASE_URL}teams/{team_id}/roster?season={year}&rosterType=fullSeason"
+        data = MlbStatsClient._get_json(url)
+        return data["roster"]
+    
 
-        return pd.DataFrame(records)
+    # @staticmethod
+    # def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:
+    #     """
+    #     Return a DataFrame of the team's roster for the given season,
+    #     with columns: 'player_name' and 'mlbam_id'.
+    #     """
+    #     roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
+    #     players = roster_data.get('roster', [])
+
+    #     records = []
+    #     for p in players:
+    #         person = p.get('person', {})
+    #         records.append({
+    #             'player_name': person.get('fullName'),
+    #             'mlbam_id':   person.get('id')
+    #         })
+
+    #     return pd.DataFrame(records)
 
     @staticmethod
     def get_team_id(team_name):
@@ -444,14 +457,21 @@ class MlbStatsClient:
         return statsapi.get('season', {'seasonId': year, 'sportId': 1})['seasons'][0]
     
 
-@staticmethod
-def get_standings_data(season: int, league_ids: str) -> pd.DataFrame:
-    """Return the standings data for a given season."""
-    """ AL ID = 103, NL ID = 104"""
-    url = f"{STATS_API_BASE_URL}standings?leagueId={league_ids}&season={season}&standingsTypes=regularSeason"
-    data = MlbStatsClient._get_json(url)
-    return data["records"]
+    @staticmethod
+    def get_standings_data(season: int, league_ids: str) -> pd.DataFrame:
+        """Return the standings data for a given season."""
+        """ AL ID = 103, NL ID = 104"""
+        url = f"{STATS_API_BASE_URL}standings?leagueId={league_ids}&season={season}&standingsTypes=regularSeason"
+        data = MlbStatsClient._get_json(url)
+        return data["records"]
 
+    # https://statsapi.mlb.com/api/v1/teams?&teamId=116&season=2024&hydrate=standings
+    @staticmethod
+    def get_team_record_for_season(season: int, team_id: int) -> pd.DataFrame:
+        """Return the team record for a given season."""
+        url = f"{STATS_API_BASE_URL}teams/?teamId={team_id}&season={season}&hydrate=standings"
+        data = MlbStatsClient._get_json(url)
+        return data["teams"][0]['record']
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""

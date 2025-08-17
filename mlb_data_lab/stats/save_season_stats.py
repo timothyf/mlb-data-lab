@@ -160,7 +160,7 @@ class SeasonStatsDownloader:
         teams_and_rosters: List[Tuple[int, pd.DataFrame]] = []
         for team_id in self.team_ids:
             try:
-                roster_df = self.client.fetch_team_roster(team_id, self.season)
+                roster_df = self.client.fetch_full_season_roster(team_id, self.season)
                 teams_and_rosters.append((team_id, roster_df))
             except Exception as e:  # pragma: no cover - network errors
                 logger.error(f"Skipping team {team_id}: {e}")

@@ -2,7 +2,6 @@
 
 import pytest
 from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
-from mlb_data_lab.apis import mlb_stats_client
 import pandas as pd
 
 
@@ -338,9 +337,8 @@ def test_fetch_active_roster_integration():
     team_id = 116  # Detroit Tigers
     roster = MlbStatsClient.fetch_active_roster(team_id)
     assert roster is not None, "Expected non-None roster data."
-    assert isinstance(roster, dict), "Expected roster data to be a dict."
-    assert "roster" in roster, "Expected 'roster' key in response."
-    assert len(roster["roster"]) > 0, "Expected at least one player in roster."
+    assert isinstance(roster, list), "Expected roster data to be a dict."
+    assert len(roster) > 20, "Expected at least twentry players in roster."
 
 
 @pytest.mark.integration
@@ -349,11 +347,11 @@ def test_get_standings_data_integration():
     season = 2024
     leagues = "103,104"
 
-    records = mlb_stats_client.get_standings_data(season, leagues)
+    records = MlbStatsClient.get_standings_data(season, leagues)
 
     # Basic structure checks
     assert isinstance(records, list), "Expected standings records to be a list"
-    assert len(records) > 0, "Expected at least one standings record"
+    assert len(records) == 6, "Expected 6 standings records, 1 per division"
 
     first_record = records[0]
     assert "teamRecords" in first_record, "Expected 'teamRecords' key in standings record"
@@ -361,13 +359,33 @@ def test_get_standings_data_integration():
         "Expected 'teamRecords' to be a non-empty list"
     )
 
+    assert "division" in first_record, "Expected 'division' key in standings record"
+
     first_team = first_record["teamRecords"][0]
-    for key in ["team", "wins", "losses"]:
+    for key in ["team", "season", "streak", "clinchIndicator", "divisionRank", "leagueRank", 
+                "sportRank", "gamesPlayed", "gamesBack", "wildCardGamesBack", "leagueGamesBack", 
+                "springLeagueGamesBack", "sportGamesBack", "divisionGamesBack", "conferenceGamesBack", 
+                "leagueRecord", "lastUpdated", "records", "runsAllowed", "runsScored", "divisionChamp", 
+                "divisionLeader", "hasWildcard", "clinched", "eliminationNumber", "eliminationNumberSport", 
+                "eliminationNumberLeague", "eliminationNumberDivision", "eliminationNumberConference", 
+                "wildCardEliminationNumber", "magicNumber", "wins", "losses", "runDifferential", 
+                "winningPercentage"]:
         assert key in first_team, f"Expected key '{key}' in team record"
 
 
 @pytest.mark.integration
-def test_fetch_team_roster_integration():
+def test_get_team_record_for_season_integration():
+    """Integration test for MlbStatsClient.get_team_record_for_season."""
+    season = 2024
+    team_id = 116  # Detroit Tigers
+    record = MlbStatsClient.get_team_record_for_season(season, team_id)
+    assert record is not None, "Expected non-None team record."
+    assert int(record['season']) == season, f"Expected season {season}, got {record['season']}"
+
+
+
+@pytest.mark.integration
+def test_fetch_full_season_roster_integration():
     pass
 
 

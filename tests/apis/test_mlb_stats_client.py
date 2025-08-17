@@ -131,27 +131,28 @@ def test_fetch_active_roster(monkeypatch):
     monkeypatch.setattr(requests, "get", fake_get)
 
     result = MlbStatsClient.fetch_active_roster(team_id=100, year=2024)
-    assert isinstance(result, dict)
-    assert "roster" in result
-    assert len(result["roster"]) == 2
+    assert isinstance(result, list)
+    assert result[0]["person"]["fullName"] == "Player A"
 
 # ---------------------------
-# Test fetch_team_roster
+# Test fetch_full_season_roster
 # ---------------------------
-def test_fetch_team_roster(monkeypatch):
+def test_fetch_full_season_roster(monkeypatch):
     fake_roster = {
         "roster": [
-            {"person": {"fullName": "Player A", "id": 1}},
-            {"person": {"fullName": "Player B", "id": 2}}
+            {"person": {"fullName": "Player A"}},
+            {"person": {"fullName": "Player B"}},
         ]
     }
-    def fake_statsapi_get(endpoint, params):
-        return fake_roster
-    monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
+    
+    def fake_get(url):
+        return FakeResponse(fake_roster)
 
-    result = MlbStatsClient.fetch_team_roster(100, 2024)
-    assert isinstance(result, pd.DataFrame)
-    assert list(result["player_name"]) == ["Player A", "Player B"]
+    monkeypatch.setattr(requests, "get", fake_get)
+
+    result = MlbStatsClient.fetch_full_season_roster(100, 2024)
+    assert isinstance(result, list)
+    assert result[0]["person"]["fullName"] == "Player A"
 
 # ---------------------------
 # Test get_team_id
