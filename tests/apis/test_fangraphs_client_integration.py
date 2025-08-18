@@ -4,7 +4,7 @@
 import os
 import pandas as pd
 import pytest
-from mlb_data_lab.apis.fangraphs_client import FangraphsClient
+from baseball_data_lab.apis.fangraphs_client import FangraphsClient
 import re
 
 

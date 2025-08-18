@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick  # for checking tick formatting
 import pytest
 
-from mlb_data_lab.data_viz.rolling_pitch_usage_plot import RollingPitchUsagePlot
+from baseball_data_lab.data_viz.rolling_pitch_usage_plot import RollingPitchUsagePlot
 
 # --- Sample Data and Fixtures --- #
 
@@ -42,7 +42,7 @@ def test_get_color_mapping(plot_object):
     """Test that get_color_mapping returns a valid dictionary with expected keys."""
     color_mapping = plot_object.get_color_mapping()
     # We assume pitch_colors was imported in the module.
-    from mlb_data_lab.config import pitch_colors
+    from baseball_data_lab.config import pitch_colors
     assert isinstance(color_mapping, dict)
     for key in pitch_colors:
         assert key in color_mapping

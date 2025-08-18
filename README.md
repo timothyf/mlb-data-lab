@@ -1,5 +1,5 @@
-# MLB Data Lab
-`mlb-data-lab` is a Python application and library for creating advanced stat
+# Baseball Data Lab
+`baseball-data-lab` is a Python application and library for creating advanced stat
 summary sheets for MLB players. It supports yearly customizations and provides
 visualizations. The project can also be imported as a library so you can extend
 its functionality for custom applications or data processing workflows. It uses
@@ -103,11 +103,11 @@ In addition to the baseball stats you would expect, the summary sheets also incl
 The project is organized as follows:
 
 ```text
-mlb-data-lab/
+baseball-data-lab/
 ├── README.md
 ├── setup.py
 ├── requirements.txt
-├── mlb_data_lab/        # Source code
+├── baseball_data_lab/        # Source code
 │   ├── apis/            # API clients for MLB and FanGraphs
 │   ├── data_viz/        # Plotting utilities
 │   ├── player/          # Player models and helpers
@@ -127,8 +127,8 @@ To get started with the project, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/timothyf/mlb-data-lab.git
-cd mlb-data-lab
+git clone https://github.com/timothyf/baseball-data-lab.git
+cd baseball-data-lab
 ```
 
 2. Set up a Python virtual environment (optional but recommended):
@@ -184,7 +184,7 @@ python scripts/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
 
 ## Database Setup
 
-To set up the PostgreSQL database for MLB Data Lab, follow these steps:
+To set up the PostgreSQL database for Baseball Data Lab, follow these steps:
 
 1. **Install PostgreSQL:**  
    Download and install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/).
@@ -192,17 +192,17 @@ To set up the PostgreSQL database for MLB Data Lab, follow these steps:
 2. **Create the Database:**
    Open your terminal and run:
    ```bash
-   createdb mlb_data_lab_db
+   createdb baseball_data_lab_db
    ```
 3. **Initialize the Schema:**
    Run the provided `setup_db.sql` file to create the tables:
    ```bash
-   psql -d mlb_data_lab_db -f setup_db.sql
+   psql -d baseball_data_lab_db -f setup_db.sql
    ```
 4. **Verify the Setup:**
    Connect to your database and list the tables:
    ```bash
-   psql -d mlb_data_lab_db
+   psql -d baseball_data_lab_db
    \dt
    ```
    You should see tables such as `games`, `players`, `umpires` and `plate_appearances`.

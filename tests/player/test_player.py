@@ -4,8 +4,8 @@ from PIL import Image
 import os
 
 
-import mlb_data_lab.player.player as player_module
-from mlb_data_lab.player.player import Player
+import baseball_data_lab.player.player as player_module
+from baseball_data_lab.player.player import Player
 
 
 class DummyDataClient:

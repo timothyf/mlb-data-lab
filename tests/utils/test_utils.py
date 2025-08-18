@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import numpy as np
 import pytest
-from mlb_data_lab.utils import Utils, DataConverter
+from baseball_data_lab.utils import Utils, DataConverter
 
 
 def test_format_stat_variants():

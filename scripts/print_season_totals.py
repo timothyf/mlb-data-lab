@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import re
 
-from mlb_data_lab.config import LeagueTeams
+from baseball_data_lab.config import LeagueTeams
 
 
 def extract_team_abbrev(html_str):
