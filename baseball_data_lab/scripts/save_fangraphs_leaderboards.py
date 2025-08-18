@@ -1,10 +1,7 @@
-import sys
-import os
+"""CLI to fetch and save Fangraphs leaderboard data."""
+
 import json
-
-
-# Add the project root to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import os
 
 from baseball_data_lab.apis.unified_data_client import UnifiedDataClient
 from baseball_data_lab.config import DATA_DIR
@@ -34,15 +31,19 @@ def fetch_and_save_leaderboards(season):
 
     try:
         data_client = UnifiedDataClient()
-        # Fetch and save batting leaderboard data
         batting_data = data_client.fetch_batting_leaderboards_as_json(season)
         save_data_to_json(BATTING_FILE_PATH, batting_data)
 
-        # Fetch and save pitching leaderboard data
         pitching_data = data_client.fetch_pitching_leaderboards_as_json(season)
         save_data_to_json(PITCHING_FILE_PATH, pitching_data)
     except Exception as e:
         print(f"Error fetching leaderboard data for season {season}: {e}")
 
-if __name__ == "__main__":
+
+def main():
+    """Entry point for the save-fangraphs-leaderboards CLI."""
     fetch_and_save_leaderboards(SEASON)
+
+
+if __name__ == "__main__":
+    main()
