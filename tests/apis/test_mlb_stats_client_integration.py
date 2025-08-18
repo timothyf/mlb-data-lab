@@ -383,6 +383,33 @@ def test_get_team_record_for_season_integration():
     assert int(record['season']) == season, f"Expected season {season}, got {record['season']}"
 
 
+@pytest.mark.integration
+def test_get_schedule_for_date_range_integration():
+    """Integration test for MlbStatsClient.get_schedule_for_date_range."""
+    start_date = "2024-06-01"
+    end_date = "2024-06-02"
+
+    schedule = MlbStatsClient.get_schedule_for_date_range(start_date, end_date)
+
+    # Basic structure checks
+    assert isinstance(schedule, list), "Expected schedule to be a list of dates"
+    assert len(schedule) == 2, f"Expected 2 dates in schedule, got {len(schedule)}"
+    assert schedule[0]["date"] == start_date
+    assert schedule[-1]["date"] == end_date
+
+    for day in schedule:
+        # Each date entry should include a list of games and a matching totalGames count
+        assert "games" in day and isinstance(day["games"], list), "Expected 'games' list in schedule day"
+        assert len(day["games"]) > 0, "Expected at least one game for the date"
+        assert day["totalGames"] == len(day["games"]), "'totalGames' should match number of games"
+
+        # Inspect the first game for expected keys
+        game = day["games"][0]
+        for key in ["gamePk", "gameDate", "teams"]:
+            assert key in game, f"Expected key '{key}' in game entry"
+        assert "home" in game["teams"] and "away" in game["teams"], "Game teams should include home and away"
+
+
 
 @pytest.mark.integration
 def test_fetch_full_season_roster_integration():
