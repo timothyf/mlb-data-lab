@@ -472,6 +472,15 @@ class MlbStatsClient:
         url = f"{STATS_API_BASE_URL}teams/?teamId={team_id}&season={season}&hydrate=standings"
         data = MlbStatsClient._get_json(url)
         return data["teams"][0]['record']
+    
+    # https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2025-08-16&endDate=2025-08-18
+    @staticmethod
+    def get_schedule_for_date_range(start_date: str, end_date: str) -> pd.DataFrame:
+        """Return the schedule for a given date range."""
+        url = f"{STATS_API_BASE_URL}schedule?sportId=1&startDate={start_date}&endDate={end_date}"
+        data = MlbStatsClient._get_json(url)
+        return data["dates"]
+    
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""

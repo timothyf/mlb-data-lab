@@ -1,3 +1,20 @@
 [build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "baseball-data-lab"
+version = "0.1.0"
+description = "Tools for MLB stats fetching and analytics."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [{ name = "Timothy Fisher" }]
+keywords = ["mlb", "baseball", "analytics", "statsapi"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Typing :: Typed",
+]
+ 

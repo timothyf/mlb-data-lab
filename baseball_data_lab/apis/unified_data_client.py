@@ -138,6 +138,9 @@ class UnifiedDataClient:
     
     def get_team_record_for_season(self, season: int, team_id: int) -> pd.DataFrame:
         return MlbStatsClient.get_team_record_for_season(season, team_id)
+    
+    def get_schedule_for_date_range(self, start_date: str, end_date: str) -> pd.DataFrame:
+        return MlbStatsClient.get_schedule_for_date_range(start_date, end_date) 
 
     #############################
     # PybaseballClient wrappers
