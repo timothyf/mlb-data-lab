@@ -114,7 +114,7 @@ baseball-data-lab/
 │   ├── summary_sheets/  # Classes that generate summary sheets
 │   ├── team/            # Team utilities
 │   └── ...
-├── scripts/             # Helper scripts for data collection
+├── examples/           # Example scripts for data collection
 └── tests/               # Unit tests
 ```
   
@@ -146,9 +146,9 @@ pip install -r requirements.txt
 ## Usage
 
 #### Generating Player Summary Sheets
-There are several scripts in the `scripts` directory for some basic functionality:
+There are several scripts in the `examples` directory for some basic functionality:
 ```bash
-python scripts/generate_player_summary.py [options]
+python examples/generate_player_summary.py [options]
 
 Options:
     --players [1 or more player names]
@@ -157,9 +157,9 @@ Options:
 ```
 
 #### Saving Statcast Data
-Run the project by executing the main script in the `scripts` directory:
+Run the project by executing the script in the `examples` directory:
 ```bash
-python scripts/save_statcast_data.py [options]
+python examples/save_statcast_data.py [options]
 
     --players [1 or more player names]
     --teams [1 or more team names]
@@ -169,7 +169,7 @@ python scripts/save_statcast_data.py [options]
 ## Examples
 #### Generate a player sheet for Riley Greene
 ```bash
-python scripts/generate_player_summary.py --players 'Riley Greene'
+python examples/generate_player_summary.py --players 'Riley Greene'
 ```
 Output:<br/>
 `output/2024/Tigers/batter_summary_riley_greene.png`<br/><br/>
@@ -177,7 +177,7 @@ Output:<br/>
 
 #### Generate player sheets for all of the 2024 Detroit Tigers
 ```bash
-python scripts/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
+python examples/generate_player_summary.py --teams 'Detroit Tigers' --year 2024
 ```
 
 <br/>

@@ -43,12 +43,4 @@ setup(
         "Topic :: Utilities",
     ],
     python_requires=">=3.8",  # Specify the minimum Python version required
-    entry_points={
-        "console_scripts": [
-            "generate-player-summary=baseball_data_lab.scripts.generate_player_summary:main",
-            "generate-team-summary=baseball_data_lab.scripts.generate_team_summary:main",
-            "save-fangraphs-leaderboards=baseball_data_lab.scripts.save_fangraphs_leaderboards:main",
-            "save-statcast-data=baseball_data_lab.scripts.save_statcast_data:main",
-        ],
-    },
 )
