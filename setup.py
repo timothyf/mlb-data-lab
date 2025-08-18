@@ -5,14 +5,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="mlb_stats",
+    name="baseball-data-lab",
     version="0.1.0",  # Update version as needed
     author="Timothy Fisher",
     author_email="timothyf@gmail.com",
     description="A Python application for generating advanced stat summary sheets for MLB players and teams.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/timothyf/mlb_stats",  # Replace with your GitHub repository URL
+    url="https://github.com/timothyf/baseball-data-lab",  # Replace with your GitHub repository URL
     packages=find_packages(),  # Automatically find packages in the project
     include_package_data=True,
     install_requires=[
@@ -45,10 +45,10 @@ setup(
     python_requires=">=3.8",  # Specify the minimum Python version required
     entry_points={
         "console_scripts": [
-            "generate-player-summary=mlb_stats.scripts.generate_player_summary:main",
-            "generate-team-summary=mlb_stats.scripts.generate_team_summary:main",
-            "save_fangraphs_leaderboards=mlb_stats.scripts.save_fangraphs_leadersboards:main",
-            "save-statcast-data=mlb_stats.scripts.save_statcast_data:main",
+            "generate-player-summary=baseball-data-lab.scripts.generate_player_summary:main",
+            "generate-team-summary=baseball-data-lab.scripts.generate_team_summary:main",
+            "save_fangraphs_leaderboards=baseball-data-lab.scripts.save_fangraphs_leadersboards:main",
+            "save-statcast-data=baseball-data-lab.scripts.save_statcast_data:main",
         ],
     },
 )
