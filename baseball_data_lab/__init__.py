@@ -16,5 +16,22 @@ except PackageNotFoundError:  # pragma: no cover - fallback for local usage
 from .player.player import Player
 from .summary_sheets.pitcher_summary_sheet import PitcherSummarySheet
 from .summary_sheets.batter_summary_sheet import BatterSummarySheet
+from .exceptions import (
+    NoFangraphsIdError,
+    PlayerNotFoundError,
+    PositionMismatchError,
+    NoStatsError,
+    StatFetchError,
+)
 
-__all__ = ["Player", "PitcherSummarySheet", "BatterSummarySheet", "__version__"]
+__all__ = [
+    "Player",
+    "PitcherSummarySheet",
+    "BatterSummarySheet",
+    "NoFangraphsIdError",
+    "PlayerNotFoundError",
+    "PositionMismatchError",
+    "NoStatsError",
+    "StatFetchError",
+    "__version__",
+]
