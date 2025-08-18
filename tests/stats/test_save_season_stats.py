@@ -3,8 +3,8 @@ import pandas as pd
 import os
 import pytest
 
-from mlb_data_lab.stats import save_season_stats
-from mlb_data_lab.stats.save_season_stats import SeasonStatsDownloader
+from baseball_data_lab.stats import save_season_stats
+from baseball_data_lab.stats.save_season_stats import SeasonStatsDownloader
 
 
 def test_get_team_ids_by_league(tmp_path, monkeypatch):

@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from mlb_data_lab.player.player import Player
+from baseball_data_lab.player.player import Player
 
 @pytest.mark.integration
 def test_set_player_stats_integration():

@@ -6,8 +6,8 @@ import json
 # Add the project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from mlb_data_lab.apis.unified_data_client import UnifiedDataClient
-from mlb_data_lab.config import DATA_DIR
+from baseball_data_lab.apis.unified_data_client import UnifiedDataClient
+from baseball_data_lab.config import DATA_DIR
 
 # Constants
 SEASON = 2024  # Replace with the desired season

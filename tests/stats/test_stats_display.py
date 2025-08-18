@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 from types import SimpleNamespace
 
-from mlb_data_lab.stats.stats_display import StatsDisplay
+from baseball_data_lab.stats.stats_display import StatsDisplay
 
 
 # --- Dummy Player Data ---

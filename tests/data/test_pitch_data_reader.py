@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from mlb_data_lab.data.pitch_data_reader import PitchDataReader
+from baseball_data_lab.data.pitch_data_reader import PitchDataReader
 
 FIXTURE = os.path.join(os.path.dirname(__file__), '..', 'fixtures', 'sample_pitch_data.csv')
 

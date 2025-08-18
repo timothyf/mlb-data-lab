@@ -3,10 +3,10 @@ import pytest
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from mlb_data_lab.data_viz.stats_table import StatsTable
-from mlb_data_lab.config import StatsDisplayConfig
-from mlb_data_lab.config import StatsConfig
-from mlb_data_lab.apis.mlb_stats_client import process_splits
+from baseball_data_lab.data_viz.stats_table import StatsTable
+from baseball_data_lab.config import StatsDisplayConfig
+from baseball_data_lab.config import StatsConfig
+from baseball_data_lab.apis.mlb_stats_client import process_splits
 
 
 

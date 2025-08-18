@@ -5,7 +5,7 @@ import json
 import requests
 import statsapi
 import pandas as pd
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from baseball_data_lab.apis.mlb_stats_client import MlbStatsClient
 
 # A simple fake response class for monkeypatching requests.get
 class FakeResponse:

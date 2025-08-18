@@ -1,7 +1,7 @@
 
 import time
 import argparse
-from mlb_data_lab.stats.save_season_stats import SeasonStatsDownloader
+from baseball_data_lab.stats.save_season_stats import SeasonStatsDownloader
 
 
 if __name__ == "__main__":

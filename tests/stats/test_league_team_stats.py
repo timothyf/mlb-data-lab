@@ -1,6 +1,6 @@
 import pandas as pd
 
-from mlb_data_lab.stats.league_averages import compute_leage_totals, compute_league_averages
+from baseball_data_lab.stats.league_averages import compute_leage_totals, compute_league_averages
 
 
 def create_sample_stats_df():

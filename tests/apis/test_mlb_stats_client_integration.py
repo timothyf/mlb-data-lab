@@ -1,7 +1,7 @@
 # tests/apis/test_mlb_stats_client_integration.py
 
 import pytest
-from mlb_data_lab.apis.mlb_stats_client import MlbStatsClient
+from baseball_data_lab.apis.mlb_stats_client import MlbStatsClient
 import pandas as pd
 
 

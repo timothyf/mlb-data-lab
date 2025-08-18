@@ -5,10 +5,10 @@ import logging
 import pytest
 import pandas as pd
 
-from mlb_data_lab.player.player_lookup import PlayerLookup
-from mlb_data_lab.special_name_mappings import SpecialNameMappings
+from baseball_data_lab.player.player_lookup import PlayerLookup
+from baseball_data_lab.special_name_mappings import SpecialNameMappings
 
-logging.getLogger("mlb_data_lab").setLevel(logging.DEBUG)
+logging.getLogger("baseball_data_lab").setLevel(logging.DEBUG)
 
 
 class DummyClient:

@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from mlb_data_lab.apis.pybaseball_client import PybaseballClient
+from baseball_data_lab.apis.pybaseball_client import PybaseballClient
 
 # @pytest.mark.integration
 # def test_fetch_team_schedule_and_record_integration():

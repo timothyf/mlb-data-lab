@@ -1,6 +1,6 @@
 import pandas as pd
 import pytest
-from mlb_data_lab.stats.save_season_stats import SeasonStatsDownloader
+from baseball_data_lab.stats.save_season_stats import SeasonStatsDownloader
 
 
 @pytest.mark.integration
