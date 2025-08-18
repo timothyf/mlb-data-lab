@@ -12,10 +12,12 @@ from matplotlib import colors as mcolors
 from baseball_data_lab.config import StatsDisplayConfig
 from baseball_data_lab.config import pitch_summary_columns, pitch_colors
 from baseball_data_lab.constants import (
-    color_stats, 
-    cmap_sum, 
-    cmap_sum_r, 
+    color_stats,
 )
+
+# Define color maps locally to avoid importing matplotlib in constants
+cmap_sum = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#648FFF', '#FFFFFF', '#FFB000'])
+cmap_sum_r = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#FFB000', '#FFFFFF', '#648FFF'])
 
 
 class PitchBreakdownTable:
