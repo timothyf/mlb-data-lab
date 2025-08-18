@@ -1,7 +1,4 @@
-import matplotlib
-
-
-color_stats = ['velocity', 'release_extension', 'delta_run_exp_per_100', 
+color_stats = ['velocity', 'release_extension', 'delta_run_exp_per_100',
                'whiff_rate', 'in_zone_rate', 'chase_rate', 'xwoba']
 
 statcast_events = {
@@ -44,12 +41,6 @@ event_styles = {
 #     'HR': '#d62728',  # Red for home runs
 #     'LD': '#9467bd',  # Purple for line drives or another hit type
 # }
-
-
-# Define color maps
-cmap_sum = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#648FFF','#FFFFFF','#FFB000'])
-cmap_sum_r = matplotlib.colors.LinearSegmentedColormap.from_list("", ['#FFB000','#FFFFFF','#648FFF'])
-
 
 # Define the codes for different types of swings and whiffs
 swing_code = ['foul_bunt','foul','hit_into_play','swinging_strike', 'foul_tip',
