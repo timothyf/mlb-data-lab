@@ -2,6 +2,11 @@
 
 import json
 import os
+from pathlib import Path
+
+# Ensure the package can be imported when running from the examples directory
+import sys
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from baseball_data_lab.apis.unified_data_client import UnifiedDataClient
 from baseball_data_lab.config import DATA_DIR

@@ -1,6 +1,11 @@
 """CLI for saving Statcast data for players."""
 
 import argparse
+from pathlib import Path
+
+# Ensure the package can be imported when running from the examples directory
+import sys
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from baseball_data_lab.player.player import Player
 from baseball_data_lab.team.roster import Roster

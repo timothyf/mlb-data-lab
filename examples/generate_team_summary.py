@@ -2,7 +2,12 @@
 
 import argparse
 import warnings
+from pathlib import Path
 from bs4 import MarkupResemblesLocatorWarning
+
+# Ensure the package can be imported when running from the examples directory
+import sys
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from baseball_data_lab.team.team import Team
 from baseball_data_lab.summary_sheets.team_batting_sheet import TeamBattingSheet
