@@ -17,4 +17,7 @@ classifiers = [
   "Operating System :: OS Independent",
   "Typing :: Typed",
 ]
+
+[tool.setuptools.package-data]
+"baseball_data_lab" = ["data/*.json"]
  

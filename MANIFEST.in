@@ -1,3 +1,2 @@
 recursive-include baseball_data_lab/data *
-include baseball_data_lab/special_name_mappings.json
-
+include README.md LICENSE
