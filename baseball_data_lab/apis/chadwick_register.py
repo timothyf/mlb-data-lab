@@ -7,6 +7,7 @@ from difflib import get_close_matches
 from typing import List, Tuple, Iterable, Optional
 
 import pandas as pd
+from baseball_data_lab.config import DATA_DIR
 
 
 class ChadwickRegister:
@@ -15,9 +16,11 @@ class ChadwickRegister:
     # Compiled regex to filter out system/hidden files and match people CSV files.
     PEOPLE_FILE_PATTERN = re.compile(r"^(?!__MACOSX).*people.*\.csv$", re.IGNORECASE)
 
-    def __init__(self, register_file: str = 'chadwick-register.csv', zip_file: str = 'chadwick-register.zip'):
-        self.register_file = register_file
-        self.zip_file = zip_file
+    def __init__(self,
+                 register_file: str = None,
+                 zip_file: str = None):
+        self.register_file = register_file or os.path.join(DATA_DIR, 'chadwick-register.csv')
+        self.zip_file = zip_file or os.path.join(DATA_DIR, 'chadwick-register.zip')
         self.lookup_table: Optional[pd.DataFrame] = None
 
     def _extract_people_files(self, zip_archive: zipfile.ZipFile) -> Iterable[zipfile.ZipInfo]:
