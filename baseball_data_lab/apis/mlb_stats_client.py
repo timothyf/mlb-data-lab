@@ -477,7 +477,7 @@ class MlbStatsClient:
     @staticmethod
     def get_schedule_for_date_range(start_date: str, end_date: str) -> pd.DataFrame:
         """Return the schedule for a given date range."""
-        url = f"{STATS_API_BASE_URL}schedule?sportId=1&startDate={start_date}&endDate={end_date}&hydrate=probablePitcher"
+        url = f"{STATS_API_BASE_URL}schedule?sportId=1&startDate={start_date}&endDate={end_date}&hydrate=probablePitcher,decisions,team"
         data = MlbStatsClient._get_json(url)
         return data["dates"]
     
@@ -486,6 +486,12 @@ class MlbStatsClient:
     def get_team_logo_url(team_id: int) -> str:
         """Return the URL for the team's logo."""
         return f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{team_id}.svg"
+
+    # https://midfield.mlbstatic.com/v1/team/158/spots/128.svg
+    @staticmethod
+    def get_team_spot_url(team_id: int, size: int) -> str:
+        """Return the URL for a specific spot on the team's cap."""
+        return f"https://midfield.mlbstatic.com/v1/team/{team_id}/spots/{size}.svg"
 
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:

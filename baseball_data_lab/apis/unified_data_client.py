@@ -144,7 +144,10 @@ class UnifiedDataClient:
 
     def get_team_logo_url(self, team_id: int) -> str:
         return MlbStatsClient.get_team_logo_url(team_id)
-    
+
+    def get_team_spot_url(self, team_id: int, size: int) -> str:
+        return MlbStatsClient.get_team_spot_url(team_id, size)
+
     #############################
     # PybaseballClient wrappers
     #############################
