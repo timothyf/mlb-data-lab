@@ -409,7 +409,10 @@ def test_get_schedule_for_date_range_integration():
             assert key in game, f"Expected key '{key}' in game entry"
         assert "home" in game["teams"] and "away" in game["teams"], "Game teams should include home and away"
 
-
+        # Check for probable pitcher information
+        assert "probablePitcher" in game["teams"]["home"], "Expected 'probablePitcher' key in game entry"
+        assert "id" in game["teams"]["home"]["probablePitcher"], "Expected 'id' key in probablePitcher"
+        assert "fullName" in game["teams"]["home"]["probablePitcher"], "Expected 'fullName' key in probablePitcher"
 
 @pytest.mark.integration
 def test_fetch_full_season_roster_integration():
