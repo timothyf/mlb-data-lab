@@ -481,6 +481,12 @@ class MlbStatsClient:
         data = MlbStatsClient._get_json(url)
         return data["dates"]
     
+    # https://www.mlbstatic.com/team-logos/team-cap-on-light/109.svg
+    @staticmethod
+    def get_team_logo_url(team_id: int) -> str:
+        """Return the URL for the team's logo."""
+        return f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{team_id}.svg"
+
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
