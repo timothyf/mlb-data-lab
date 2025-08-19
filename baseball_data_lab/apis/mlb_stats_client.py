@@ -477,7 +477,7 @@ class MlbStatsClient:
     @staticmethod
     def get_schedule_for_date_range(start_date: str, end_date: str) -> pd.DataFrame:
         """Return the schedule for a given date range."""
-        url = f"{STATS_API_BASE_URL}schedule?sportId=1&startDate={start_date}&endDate={end_date}"
+        url = f"{STATS_API_BASE_URL}schedule?sportId=1&startDate={start_date}&endDate={end_date}&hydrate=probablePitcher"
         data = MlbStatsClient._get_json(url)
         return data["dates"]
     
