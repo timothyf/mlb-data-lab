@@ -8,7 +8,7 @@ import requests
 import statsapi
 from requests.adapters import HTTPAdapter, Retry
 
-from baseball_data_lab.config import STATS_API_BASE_URL
+from baseball_data_lab.config import STATS_API_BASE_URL, SAVANT_BASE_URL
 
 
 class MlbStatsClient:
@@ -491,8 +491,15 @@ class MlbStatsClient:
     @staticmethod
     def get_team_spot_url(team_id: int, size: int) -> str:
         """Return the URL for a specific spot on the team's cap."""
-        return f"https://midfield.mlbstatic.com/v1/team/{team_id}/spots/{size}.svg"
+        return f"https://midfield.mlbstatic.com/v1/team/{team_id}/spots/{size}"
 
+    # https://baseballsavant.mlb.com/gf?game_pk=776673
+    @staticmethod
+    def get_game_data(game_pk: int) -> pd.DataFrame:
+        """Return the game data for a given game ID."""
+        url = f"{SAVANT_BASE_URL}gf?game_pk={game_pk}"
+        data = MlbStatsClient._get_json(url)
+        return data
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""

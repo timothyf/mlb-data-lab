@@ -3,6 +3,7 @@ from typing import Dict, List
 import os
 
 STATS_API_BASE_URL = "https://statsapi.mlb.com/api/v1/"
+SAVANT_BASE_URL = "https://baseballsavant.mlb.com/"
 FANGRAPHS_BASE_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
 FANGRAPHS_NEXT_URL = "https://www.fangraphs.com/_next/data/Gtd7iofF2h1X98b-Nerh6/players"
 MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"

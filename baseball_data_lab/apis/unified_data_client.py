@@ -148,6 +148,9 @@ class UnifiedDataClient:
     def get_team_spot_url(self, team_id: int, size: int) -> str:
         return MlbStatsClient.get_team_spot_url(team_id, size)
 
+    def get_game_data(self, game_pk: int) -> pd.DataFrame:
+        return MlbStatsClient.get_game_data(game_pk)
+
     #############################
     # PybaseballClient wrappers
     #############################
