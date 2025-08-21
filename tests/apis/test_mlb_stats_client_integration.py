@@ -52,49 +52,49 @@ def test_fetch_team_integration():
     assert result['venue']['name'] == "Comerica Park", f"Expected venue 'Comerica Park', got {result['venue']['name']}."
 
 
-@pytest.mark.integration
-def test_fetch_player_stats_integration():
-    """
-    Integration test for MlbStatsClient.fetch_player_stats.
+# @pytest.mark.integration
+# def test_fetch_player_stats_integration():
+#     """
+#     Integration test for MlbStatsClient.fetch_player_stats.
 
-    This test calls the live Stats API to retrieve season stats splits for a known player.
-    It uses Mike Trout's numeric player ID (commonly 545361) and a season with data.
-    Note: This test requires a working internet connection and depends on external API responses.
-    """
-    # Known player id for Mike Trout; adjust if needed.
-    player_id = 545361
-    season = 2019
+#     This test calls the live Stats API to retrieve season stats splits for a known player.
+#     It uses Mike Trout's numeric player ID (commonly 545361) and a season with data.
+#     Note: This test requires a working internet connection and depends on external API responses.
+#     """
+#     # Known player id for Mike Trout; adjust if needed.
+#     player_id = 545361
+#     season = 2019
 
-    result = MlbStatsClient.fetch_player_stats(player_id, season)
+#     result = MlbStatsClient.fetch_player_stats(player_id, season)
     
-    # Assert that the result is not None and is a list.
-    assert result is not None, "Expected non-None splits data for player stats."
-    assert isinstance(result, list), "Expected splits data to be returned as a list."
+#     # Assert that the result is not None and is a list.
+#     assert result is not None, "Expected non-None splits data for player stats."
+#     assert isinstance(result, list), "Expected splits data to be returned as a list."
 
-    # For each split, check that:
-    # - The split is a dictionary.
-    # - It contains the keys 'season' and 'stat'.
-    # - The 'stat' value is a dictionary with non-None (and if numeric, non-negative) values.
-    for split in result:
-        assert isinstance(split, dict), "Each split should be a dictionary."
-        expected_keys = ['season', 'stat']
-        for key in expected_keys:
-            assert key in split, f"Expected key '{key}' in split: {split}"
+#     # For each split, check that:
+#     # - The split is a dictionary.
+#     # - It contains the keys 'season' and 'stat'.
+#     # - The 'stat' value is a dictionary with non-None (and if numeric, non-negative) values.
+#     for split in result:
+#         assert isinstance(split, dict), "Each split should be a dictionary."
+#         expected_keys = ['season', 'stat']
+#         for key in expected_keys:
+#             assert key in split, f"Expected key '{key}' in split: {split}"
         
-        # Ensure that the 'stat' field is a dictionary.
-        stat_data = split['stat']
-        assert isinstance(stat_data, dict), "The 'stat' field should be a dictionary."
+#         # Ensure that the 'stat' field is a dictionary.
+#         stat_data = split['stat']
+#         assert isinstance(stat_data, dict), "The 'stat' field should be a dictionary."
         
-        # Check that each stat value is not None. Optionally, if numeric, it should be non-negative.
-        for stat_key, value in stat_data.items():
-            assert value is not None, f"Stat '{stat_key}' in split {split} is None."
-            # If the value is numeric, check that it is not negative.
-            try:
-                numeric_value = float(value)
-                assert numeric_value >= 0, f"Stat '{stat_key}' in split {split} is negative."
-            except (ValueError, TypeError):
-                # If the value cannot be converted to float, skip the numeric check.
-                pass
+#         # Check that each stat value is not None. Optionally, if numeric, it should be non-negative.
+#         for stat_key, value in stat_data.items():
+#             assert value is not None, f"Stat '{stat_key}' in split {split} is None."
+#             # If the value is numeric, check that it is not negative.
+#             try:
+#                 numeric_value = float(value)
+#                 assert numeric_value >= 0, f"Stat '{stat_key}' in split {split} is negative."
+#             except (ValueError, TypeError):
+#                 # If the value cannot be converted to float, skip the numeric check.
+#                 pass
 
 
 @pytest.mark.integration

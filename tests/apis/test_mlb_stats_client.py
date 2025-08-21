@@ -44,15 +44,15 @@ def test_fetch_team(monkeypatch):
 # ---------------------------
 # Test fetch_player_stats
 # ---------------------------
-def test_fetch_player_stats(monkeypatch):
-    fake_stats = {"people": [{"stats": [{"splits": [{"some_stat": 42}]}]}]}
-    def fake_statsapi_get(endpoint, params):
-        # 'endpoint' is expected to be 'people'
-        return fake_stats
-    monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
+# def test_fetch_player_stats(monkeypatch):
+#     fake_stats = {"people": [{"stats": [{"splits": [{"some_stat": 42}]}]}]}
+#     def fake_statsapi_get(endpoint, params):
+#         # 'endpoint' is expected to be 'people'
+#         return fake_stats
+#     monkeypatch.setattr(statsapi, "get", fake_statsapi_get)
     
-    result = MlbStatsClient.fetch_player_stats(12345, 2020)
-    assert result == [{"some_stat": 42}]
+#     result = MlbStatsClient.fetch_player_stats(12345, 2020)
+#     assert result == [{"some_stat": 42}]
 
 # ---------------------------
 # Test fetch_player_stats_by_season

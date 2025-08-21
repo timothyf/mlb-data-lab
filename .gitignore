@@ -11,6 +11,10 @@ ignore/*
 util_scripts/*
 *.egg-info
 *.egg-info-OLD
+install_mac.sh
+*_temp.csv
+
+
 
 
 

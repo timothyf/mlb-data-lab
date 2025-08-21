@@ -9,6 +9,7 @@ import statsapi
 from requests.adapters import HTTPAdapter, Retry
 
 from baseball_data_lab.config import STATS_API_BASE_URL, SAVANT_BASE_URL
+from datetime import date
 
 
 class MlbStatsClient:
@@ -80,18 +81,27 @@ class MlbStatsClient:
     # ------------------------------------------------------------------
     @staticmethod
     def fetch_player_info(player_id: int):
+        """Fetch player information by MLBAM player ID.
+            https://statsapi.mlb.com/api/v1/people?personIds=669373&hydrate=currentTeam
+        """
         url = f"{STATS_API_BASE_URL}people?personIds={player_id}&hydrate=currentTeam"
         data = MlbStatsClient._get_json(url)
         return data["people"][0]
 
     @staticmethod
     def fetch_team(team_id: int):
+        """Fetch team information by MLBAM team ID.
+            https://statsapi.mlb.com/api/v1/teams/116 
+        """
         url = f"{STATS_API_BASE_URL}teams/{team_id}"
         data = MlbStatsClient._get_json(url)
         return data.get("teams", {})[0]
 
     @staticmethod
     def fetch_batter_stat_splits(player_id: int, year: int):
+        """
+        Fetch batter stat splits for a player in a specific year.
+       https://statsapi.mlb.com/api/v1/people?personIds=682985&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season=2024)       """
         url = (
             f"{STATS_API_BASE_URL}people?personIds={player_id}"
             f"&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
@@ -101,6 +111,10 @@ class MlbStatsClient:
 
     @staticmethod
     def fetch_pitcher_stat_splits(player_id: int, year: int):
+        """
+        Fetch pitcher stat splits for a player in a specific year.
+        https://statsapi.mlb.com/api/v1/people?personIds=669373&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season=2024)
+        """
         url = (
             f"{STATS_API_BASE_URL}people?personIds={player_id}"
             f"&hydrate=stats(group=[pitching],type=statSplits,sitCodes=[vr,vl],season={year})"
@@ -108,19 +122,19 @@ class MlbStatsClient:
         data = MlbStatsClient._get_json(url)
         return MlbStatsClient._process_splits(data["people"][0]["stats"][0]["splits"])
 
-    @staticmethod
-    def fetch_player_stats(player_id: int, year: int):
-        stats = statsapi.get(
-            "people",
-            {
-                "personIds": player_id,
-                "season": year,
-                "hydrate": f"stats(group=[hitting,pitching],type=season,season={year})",
-            },
-        )["people"][0]
-        if "stats" not in stats:
-            return None
-        return stats["stats"][0]["splits"]
+    # @staticmethod
+    # def fetch_player_stats(player_id: int, year: int):
+    #     stats = statsapi.get(
+    #         "people",
+    #         {
+    #             "personIds": player_id,
+    #             "season": year,
+    #             "hydrate": f"stats(group=[hitting,pitching],type=season,season={year})",
+    #         },
+    #     )["people"][0]
+    #     if "stats" not in stats:
+    #         return None
+    #     return stats["stats"][0]["splits"]
     """
     Fetch season and team-split stats for a player/year using the StatsAPI hydrate
     endpoint.
@@ -151,8 +165,6 @@ class MlbStatsClient:
         timeout: float = 8.0,
     ) -> Dict[str, Any]:
 
-        BASE_URL = "https://statsapi.mlb.com/api/v1"
-
         # Build the hydrate expression
         stat_types = ["season", "seasonAdvanced"]  # add/remove types as needed
         stat_types_part = ",".join(stat_types)
@@ -171,7 +183,7 @@ class MlbStatsClient:
         params = {
             "hydrate": hydrate,
         }
-        url = f"{BASE_URL}/people/{player_id}"
+        url = f"{STATS_API_BASE_URL}/people/{player_id}"
 
         # Build full URL to allow simple monkeypatching of requests.get
         full_url = f"{url}?{urlencode(params)}"
@@ -317,10 +329,13 @@ class MlbStatsClient:
         return results
 
     
-    # Sample
-    #   https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[],type=season,team,season=1984)
     @staticmethod
     def fetch_player_team(player_id: int, year: int):
+        """
+        Fetch the current team for a player in a specific year.
+
+            https://statsapi.mlb.com/api/v1/people?personIds=111509&season=1984&hydrate=stats(group=[],type=season,team,season=1984)
+        """
         url = (
             f"{STATS_API_BASE_URL}people?"
             f"personIds={player_id}"
@@ -371,8 +386,6 @@ class MlbStatsClient:
     def fetch_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         """Return the active roster for a team in a given ``year``.
 
-        This version queries the public MLB Stats API directly rather than using
-        the third-party ``statsapi`` package.
         """
         if not team_id:
             team_id = MlbStatsClient.get_team_id(team_name)
@@ -394,26 +407,6 @@ class MlbStatsClient:
         url = f"{STATS_API_BASE_URL}teams/{team_id}/roster?season={year}&rosterType=fullSeason"
         data = MlbStatsClient._get_json(url)
         return data["roster"]
-    
-
-    # @staticmethod
-    # def fetch_team_roster(team_id: int, season: int) -> pd.DataFrame:
-    #     """
-    #     Return a DataFrame of the team's roster for the given season,
-    #     with columns: 'player_name' and 'mlbam_id'.
-    #     """
-    #     roster_data = statsapi.get('team_roster', {'teamId': team_id, 'season': season})
-    #     players = roster_data.get('roster', [])
-
-    #     records = []
-    #     for p in players:
-    #         person = p.get('person', {})
-    #         records.append({
-    #             'player_name': person.get('fullName'),
-    #             'mlbam_id':   person.get('id')
-    #         })
-
-    #     return pd.DataFrame(records)
 
     @staticmethod
     def get_team_id(team_name):
@@ -471,7 +464,7 @@ class MlbStatsClient:
         """Return the team record for a given season."""
         url = f"{STATS_API_BASE_URL}teams/?teamId={team_id}&season={season}&hydrate=standings"
         data = MlbStatsClient._get_json(url)
-        return data["teams"][0]['record']
+        return data["teams"][0]["record"]
     
     # https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2025-08-16&endDate=2025-08-18
     @staticmethod
@@ -500,6 +493,16 @@ class MlbStatsClient:
         url = f"{SAVANT_BASE_URL}gf?game_pk={game_pk}"
         data = MlbStatsClient._get_json(url)
         return data
+    
+    @staticmethod
+    def get_recent_schedule_for_team(team_id: int) -> pd.DataFrame:
+        """Fetch the recent schedule for a specific team.
+            https://statsapi.mlb.com/api/v1/teams?&teamId=116&season=2025&hydrate=previousSchedule,nextSchedule
+        """
+        season = date.today().year
+        url = f"{STATS_API_BASE_URL}teams?teamId={team_id}&season={season}&hydrate=previousSchedule,nextSchedule"
+        data = MlbStatsClient._get_json(url)
+        return data["teams"][0]
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
