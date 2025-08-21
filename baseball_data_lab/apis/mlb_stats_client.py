@@ -495,14 +495,19 @@ class MlbStatsClient:
         return data
     
     @staticmethod
-    def get_recent_schedule_for_team(team_id: int) -> pd.DataFrame:
-        """Fetch the recent schedule for a specific team.
-            https://statsapi.mlb.com/api/v1/teams?&teamId=116&season=2025&hydrate=previousSchedule,nextSchedule
+    def get_recent_schedule_for_team(team_id: int) -> Dict[str, Any]:
+        """Fetch the recent schedule (previous and next games) for a specific team.
+            https://statsapi.mlb.com/api/v1/teams?teamId=116&season=2025&hydrate=previousSchedule,nextSchedule
+
+        Returns the first team dict from the response, or raises ValueError if not present.
         """
         season = date.today().year
         url = f"{STATS_API_BASE_URL}teams?teamId={team_id}&season={season}&hydrate=previousSchedule,nextSchedule"
         data = MlbStatsClient._get_json(url)
-        return data["teams"][0]
+        teams = data.get("teams") or []
+        if not teams:
+            raise ValueError(f"No team data returned for team_id={team_id} season={season}")
+        return teams[0]
 
 def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
