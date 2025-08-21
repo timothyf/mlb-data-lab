@@ -1,0 +1,235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "copyright": {
+      "type": "string"
+    },
+    "people": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "primaryNumber": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "currentAge": {
+            "type": "integer"
+          },
+          "birthCity": {
+            "type": "string"
+          },
+          "birthStateProvince": {
+            "type": "string"
+          },
+          "birthCountry": {
+            "type": "string"
+          },
+          "height": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "currentTeam": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "primaryPosition": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "abbreviation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "abbreviation",
+              "code",
+              "name",
+              "type"
+            ]
+          },
+          "useName": {
+            "type": "string"
+          },
+          "useLastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "boxscoreName": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "isPlayer": {
+            "type": "boolean"
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "draftYear": {
+            "type": "integer"
+          },
+          "pronunciation": {
+            "type": "string"
+          },
+          "mlbDebutDate": {
+            "type": "string"
+          },
+          "batSide": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "description"
+            ]
+          },
+          "pitchHand": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "description"
+            ]
+          },
+          "nameFirstLast": {
+            "type": "string"
+          },
+          "nameSlug": {
+            "type": "string"
+          },
+          "firstLastName": {
+            "type": "string"
+          },
+          "lastFirstName": {
+            "type": "string"
+          },
+          "lastInitName": {
+            "type": "string"
+          },
+          "initLastName": {
+            "type": "string"
+          },
+          "fullFMLName": {
+            "type": "string"
+          },
+          "fullLFMName": {
+            "type": "string"
+          },
+          "strikeZoneTop": {
+            "type": "number"
+          },
+          "strikeZoneBottom": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "active",
+          "batSide",
+          "birthCity",
+          "birthCountry",
+          "birthDate",
+          "birthStateProvince",
+          "boxscoreName",
+          "currentAge",
+          "currentTeam",
+          "draftYear",
+          "firstLastName",
+          "firstName",
+          "fullFMLName",
+          "fullLFMName",
+          "fullName",
+          "gender",
+          "height",
+          "id",
+          "initLastName",
+          "isPlayer",
+          "isVerified",
+          "lastFirstName",
+          "lastInitName",
+          "lastName",
+          "link",
+          "middleName",
+          "mlbDebutDate",
+          "nameFirstLast",
+          "nameSlug",
+          "pitchHand",
+          "primaryNumber",
+          "primaryPosition",
+          "pronunciation",
+          "strikeZoneBottom",
+          "strikeZoneTop",
+          "useLastName",
+          "useName",
+          "weight"
+        ]
+      }
+    }
+  },
+  "required": [
+    "copyright",
+    "people"
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "copyright": {
+      "type": "string"
+    },
+    "teams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "springLeague": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              },
+              "abbreviation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "abbreviation",
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "allStarStatus": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "season": {
+            "type": "integer"
+          },
+          "venue": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "springVenue": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link"
+            ]
+          },
+          "teamCode": {
+            "type": "string"
+          },
+          "fileCode": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "locationName": {
+            "type": "string"
+          },
+          "firstYearOfPlay": {
+            "type": "string"
+          },
+          "league": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "division": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "sport": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "link": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "link",
+              "name"
+            ]
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "record": {
+            "type": "object",
+            "properties": {
+              "season": {
+                "type": "string"
+              },
+              "streak": {
+                "type": "object",
+                "properties": {
+                  "streakType": {
+                    "type": "string"
+                  },
+                  "streakNumber": {
+                    "type": "integer"
+                  },
+                  "streakCode": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "streakCode",
+                  "streakNumber",
+                  "streakType"
+                ]
+              },
+              "clinchIndicator": {
+                "type": "string"
+              },
+              "divisionRank": {
+                "type": "string"
+              },
+              "leagueRank": {
+                "type": "string"
+              },
+              "wildCardRank": {
+                "type": "string"
+              },
+              "sportRank": {
+                "type": "string"
+              },
+              "gamesPlayed": {
+                "type": "integer"
+              },
+              "gamesBack": {
+                "type": "string"
+              },
+              "wildCardGamesBack": {
+                "type": "string"
+              },
+              "leagueGamesBack": {
+                "type": "string"
+              },
+              "springLeagueGamesBack": {
+                "type": "string"
+              },
+              "sportGamesBack": {
+                "type": "string"
+              },
+              "divisionGamesBack": {
+                "type": "string"
+              },
+              "conferenceGamesBack": {
+                "type": "string"
+              },
+              "leagueRecord": {
+                "type": "object",
+                "properties": {
+                  "wins": {
+                    "type": "integer"
+                  },
+                  "losses": {
+                    "type": "integer"
+                  },
+                  "ties": {
+                    "type": "integer"
+                  },
+                  "pct": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "losses",
+                  "pct",
+                  "ties",
+                  "wins"
+                ]
+              },
+              "lastUpdated": {
+                "type": "string"
+              },
+              "records": {
+                "type": "object",
+                "properties": {
+                  "splitRecords": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wins": {
+                          "type": "integer"
+                        },
+                        "losses": {
+                          "type": "integer"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "pct": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "losses",
+                        "pct",
+                        "type",
+                        "wins"
+                      ]
+                    }
+                  },
+                  "divisionRecords": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wins": {
+                          "type": "integer"
+                        },
+                        "losses": {
+                          "type": "integer"
+                        },
+                        "pct": {
+                          "type": "string"
+                        },
+                        "division": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "name"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "division",
+                        "losses",
+                        "pct",
+                        "wins"
+                      ]
+                    }
+                  },
+                  "overallRecords": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wins": {
+                          "type": "integer"
+                        },
+                        "losses": {
+                          "type": "integer"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "pct": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "losses",
+                        "pct",
+                        "type",
+                        "wins"
+                      ]
+                    }
+                  },
+                  "leagueRecords": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wins": {
+                          "type": "integer"
+                        },
+                        "losses": {
+                          "type": "integer"
+                        },
+                        "pct": {
+                          "type": "string"
+                        },
+                        "league": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "name"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "league",
+                        "losses",
+                        "pct",
+                        "wins"
+                      ]
+                    }
+                  },
+                  "expectedRecords": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wins": {
+                          "type": "integer"
+                        },
+                        "losses": {
+                          "type": "integer"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "pct": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "losses",
+                        "pct",
+                        "type",
+                        "wins"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "divisionRecords",
+                  "expectedRecords",
+                  "leagueRecords",
+                  "overallRecords",
+                  "splitRecords"
+                ]
+              },
+              "runsAllowed": {
+                "type": "integer"
+              },
+              "runsScored": {
+                "type": "integer"
+              },
+              "divisionChamp": {
+                "type": "boolean"
+              },
+              "divisionLeader": {
+                "type": "boolean"
+              },
+              "wildCardLeader": {
+                "type": "boolean"
+              },
+              "hasWildcard": {
+                "type": "boolean"
+              },
+              "clinched": {
+                "type": "boolean"
+              },
+              "eliminationNumber": {
+                "type": "string"
+              },
+              "eliminationNumberSport": {
+                "type": "string"
+              },
+              "eliminationNumberLeague": {
+                "type": "string"
+              },
+              "eliminationNumberDivision": {
+                "type": "string"
+              },
+              "eliminationNumberConference": {
+                "type": "string"
+              },
+              "wildCardEliminationNumber": {
+                "type": "string"
+              },
+              "wins": {
+                "type": "integer"
+              },
+              "losses": {
+                "type": "integer"
+              },
+              "runDifferential": {
+                "type": "integer"
+              },
+              "winningPercentage": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "clinchIndicator",
+              "clinched",
+              "conferenceGamesBack",
+              "divisionChamp",
+              "divisionGamesBack",
+              "divisionLeader",
+              "divisionRank",
+              "eliminationNumber",
+              "eliminationNumberConference",
+              "eliminationNumberDivision",
+              "eliminationNumberLeague",
+              "eliminationNumberSport",
+              "gamesBack",
+              "gamesPlayed",
+              "hasWildcard",
+              "lastUpdated",
+              "leagueGamesBack",
+              "leagueRank",
+              "leagueRecord",
+              "losses",
+              "records",
+              "runDifferential",
+              "runsAllowed",
+              "runsScored",
+              "season",
+              "sportGamesBack",
+              "sportRank",
+              "springLeagueGamesBack",
+              "streak",
+              "wildCardEliminationNumber",
+              "wildCardGamesBack",
+              "wildCardLeader",
+              "wildCardRank",
+              "winningPercentage",
+              "wins"
+            ]
+          },
+          "franchiseName": {
+            "type": "string"
+          },
+          "clubName": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "abbreviation",
+          "active",
+          "allStarStatus",
+          "clubName",
+          "division",
+          "fileCode",
+          "firstYearOfPlay",
+          "franchiseName",
+          "id",
+          "league",
+          "link",
+          "locationName",
+          "name",
+          "record",
+          "season",
+          "shortName",
+          "sport",
+          "springLeague",
+          "springVenue",
+          "teamCode",
+          "teamName",
+          "venue"
+        ]
+      }
+    }
+  },
+  "required": [
+    "copyright",
+    "teams"
+  ]
+}

@@ -1,0 +1,387 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "copyright": {
+      "type": "string"
+    },
+    "totalItems": {
+      "type": "integer"
+    },
+    "totalEvents": {
+      "type": "integer"
+    },
+    "totalGames": {
+      "type": "integer"
+    },
+    "totalGamesInProgress": {
+      "type": "integer"
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "totalItems": {
+            "type": "integer"
+          },
+          "totalEvents": {
+            "type": "integer"
+          },
+          "totalGames": {
+            "type": "integer"
+          },
+          "totalGamesInProgress": {
+            "type": "integer"
+          },
+          "games": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "gamePk": {
+                  "type": "integer"
+                },
+                "gameGuid": {
+                  "type": "string"
+                },
+                "link": {
+                  "type": "string"
+                },
+                "gameType": {
+                  "type": "string"
+                },
+                "season": {
+                  "type": "string"
+                },
+                "gameDate": {
+                  "type": "string"
+                },
+                "officialDate": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "abstractGameState": {
+                      "type": "string"
+                    },
+                    "codedGameState": {
+                      "type": "string"
+                    },
+                    "detailedState": {
+                      "type": "string"
+                    },
+                    "statusCode": {
+                      "type": "string"
+                    },
+                    "startTimeTBD": {
+                      "type": "boolean"
+                    },
+                    "abstractGameCode": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "abstractGameCode",
+                    "abstractGameState",
+                    "codedGameState",
+                    "detailedState",
+                    "startTimeTBD",
+                    "statusCode"
+                  ]
+                },
+                "teams": {
+                  "type": "object",
+                  "properties": {
+                    "away": {
+                      "type": "object",
+                      "properties": {
+                        "leagueRecord": {
+                          "type": "object",
+                          "properties": {
+                            "wins": {
+                              "type": "integer"
+                            },
+                            "losses": {
+                              "type": "integer"
+                            },
+                            "pct": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "losses",
+                            "pct",
+                            "wins"
+                          ]
+                        },
+                        "score": {
+                          "type": "integer"
+                        },
+                        "team": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "name"
+                          ]
+                        },
+                        "isWinner": {
+                          "type": "boolean"
+                        },
+                        "splitSquad": {
+                          "type": "boolean"
+                        },
+                        "seriesNumber": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "leagueRecord",
+                        "seriesNumber",
+                        "splitSquad",
+                        "team"
+                      ]
+                    },
+                    "home": {
+                      "type": "object",
+                      "properties": {
+                        "leagueRecord": {
+                          "type": "object",
+                          "properties": {
+                            "wins": {
+                              "type": "integer"
+                            },
+                            "losses": {
+                              "type": "integer"
+                            },
+                            "pct": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "losses",
+                            "pct",
+                            "wins"
+                          ]
+                        },
+                        "score": {
+                          "type": "integer"
+                        },
+                        "team": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "name"
+                          ]
+                        },
+                        "isWinner": {
+                          "type": "boolean"
+                        },
+                        "splitSquad": {
+                          "type": "boolean"
+                        },
+                        "seriesNumber": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "leagueRecord",
+                        "seriesNumber",
+                        "splitSquad",
+                        "team"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "away",
+                    "home"
+                  ]
+                },
+                "venue": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "link": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "link",
+                    "name"
+                  ]
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "link": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "link"
+                  ]
+                },
+                "isTie": {
+                  "type": "boolean"
+                },
+                "gameNumber": {
+                  "type": "integer"
+                },
+                "publicFacing": {
+                  "type": "boolean"
+                },
+                "doubleHeader": {
+                  "type": "string"
+                },
+                "gamedayType": {
+                  "type": "string"
+                },
+                "tiebreaker": {
+                  "type": "string"
+                },
+                "calendarEventID": {
+                  "type": "string"
+                },
+                "seasonDisplay": {
+                  "type": "string"
+                },
+                "dayNight": {
+                  "type": "string"
+                },
+                "scheduledInnings": {
+                  "type": "integer"
+                },
+                "reverseHomeAwayStatus": {
+                  "type": "boolean"
+                },
+                "inningBreakLength": {
+                  "type": "integer"
+                },
+                "gamesInSeries": {
+                  "type": "integer"
+                },
+                "seriesGameNumber": {
+                  "type": "integer"
+                },
+                "seriesDescription": {
+                  "type": "string"
+                },
+                "recordSource": {
+                  "type": "string"
+                },
+                "ifNecessary": {
+                  "type": "string"
+                },
+                "ifNecessaryDescription": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "rescheduledFrom": {
+                  "type": "string"
+                },
+                "rescheduledFromDate": {
+                  "type": "string"
+                },
+                "rescheduleDate": {
+                  "type": "string"
+                },
+                "rescheduleGameDate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "calendarEventID",
+                "content",
+                "dayNight",
+                "doubleHeader",
+                "gameDate",
+                "gameGuid",
+                "gameNumber",
+                "gamePk",
+                "gameType",
+                "gamedayType",
+                "gamesInSeries",
+                "ifNecessary",
+                "ifNecessaryDescription",
+                "inningBreakLength",
+                "link",
+                "officialDate",
+                "publicFacing",
+                "recordSource",
+                "reverseHomeAwayStatus",
+                "scheduledInnings",
+                "season",
+                "seasonDisplay",
+                "seriesDescription",
+                "seriesGameNumber",
+                "status",
+                "teams",
+                "tiebreaker",
+                "venue"
+              ]
+            }
+          },
+          "events": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "date",
+          "events",
+          "games",
+          "totalEvents",
+          "totalGames",
+          "totalGamesInProgress",
+          "totalItems"
+        ]
+      }
+    }
+  },
+  "required": [
+    "copyright",
+    "dates",
+    "totalEvents",
+    "totalGames",
+    "totalGamesInProgress",
+    "totalItems"
+  ]
+}
