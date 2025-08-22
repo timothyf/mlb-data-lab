@@ -1,0 +1,1578 @@
+mlbam_id,name,link,active,season
+2857,Veterans Memorial Stadium,/api/v1/venues/2857,True,2025
+7253,Ontario Sports Empire Baseball Stadium,/api/v1/venues/7253,True,2025
+7258,Sun Marine Stadium,/api/v1/venues/7258,True,2025
+7260,Coloso del Pacifico,/api/v1/venues/7260,True,2025
+7261,Petco Park Events,/api/v1/venues/7261,True,2025
+2525,Jack Russell Memorial Stadium,/api/v1/venues/2525,False,2025
+7254,Wilson Stadium,/api/v1/venues/7254,True,2025
+7259,Sokken Stadium,/api/v1/venues/7259,True,2025
+4925,Stuart Stadium,/api/v1/venues/4925,False,1955
+4882,Parkway Field,/api/v1/venues/4882,False,1956
+4449,Estadio Mariano 'Mini' Meaux,/api/v1/venues/4449,False,2015
+4834,Holman Stadium,/api/v1/venues/4834,False,1986
+2506,City of Palms Park,/api/v1/venues/2506,False,2018
+2395,Oracle Park,/api/v1/venues/2395,True,2025
+5162,Kal Tire Place,/api/v1/venues/5162,False,2017
+4832,Heritage Park,/api/v1/venues/4832,False,1994
+2680,Petco Park,/api/v1/venues/2680,True,2025
+4837,Hooker Field,/api/v1/venues/4837,False,2003
+2958,Estadio Beto Avila,/api/v1/venues/2958,True,2025
+3122,Estadio Roberto Clemente Walker,/api/v1/venues/3122,True,2025
+2641,Drillers Stadium,/api/v1/venues/2641,False,2010
+32,American Family Field,/api/v1/venues/32,True,2025
+7149,Stevens Park,/api/v1/venues/7149,False,1909
+6554,Anson's Park,/api/v1/venues/6554,False,2025
+680,T-Mobile Park,/api/v1/venues/680,True,2025
+6032,Estadio Arturo C. Nahl,/api/v1/venues/6032,True,2025
+2504,The Stadium at the ESPN Wide World of Sports,/api/v1/venues/2504,True,2025
+5156,Cambria County War Memorial Arena,/api/v1/venues/5156,False,2015
+2810,Memorial Stadium,/api/v1/venues/2810,True,2025
+5186,Webster Bank Arena,/api/v1/venues/5186,False,2017
+6083,Roger Dean Stadium Complex (MIA),/api/v1/venues/6083,True,2025
+4912,Sanders-Jacobs Field,/api/v1/venues/4912,False,1986
+3809,Camelback Ranch,/api/v1/venues/3809,True,2025
+4818,Four Mile Run Park,/api/v1/venues/4818,False,1983
+2721,Robert F. Kennedy Memorial Stadium,/api/v1/venues/2721,False,2007
+4213,Norwood Oval,/api/v1/venues/4213,False,2017
+2701,Walmart Park,/api/v1/venues/2701,True,2025
+6020,Academia De Béisbol Felipe Alou,/api/v1/venues/6020,True,2025
+3329,Arvest Ballpark,/api/v1/venues/3329,True,2025
+2774,Northwest Federal Field,/api/v1/venues/2774,False,2020
+2829,Pirate City Complex,/api/v1/venues/2829,True,2025
+6350,Muncie IN (Unknown),/api/v1/venues/6350,False,2025
+3652,Armin-Wolf Baseball Arena,/api/v1/venues/3652,True,2025
+2524,Phoenix Municipal Stadium,/api/v1/venues/2524,True,2025
+2846,UCHealth Park,/api/v1/venues/2846,True,2025
+6444,Windsor Airport Field,/api/v1/venues/6444,False,2025
+3289,Citi Field,/api/v1/venues/3289,True,2025
+5167,Pegula Ice Arena,/api/v1/venues/5167,False,2017
+5028,Bell Centre,/api/v1/venues/5028,False,2018
+2538,"US West Sports Complex, Hi Corbett Field",/api/v1/venues/2538,False,2011
+3123,Exhibition Stadium,/api/v1/venues/3123,False,1989
+3557,MLB Urban Youth Academy,/api/v1/venues/3557,False,2009
+2660,Doubleday Field,/api/v1/venues/2660,False,2010
+3790,Parkview Field,/api/v1/venues/3790,True,2025
+6120,Goodyear Ballpark Complex (CLE),/api/v1/venues/6120,True,2025
+4845,LaGrave Field,/api/v1/venues/4845,False,2025
+4780,Burns Stadium,/api/v1/venues/4780,False,2002
+6359,Morrison IL (Unknown),/api/v1/venues/6359,False,2025
+4890,Pikeville Athletic Field Complex,/api/v1/venues/4890,False,1984
+4788,Crockett Park,/api/v1/venues/4788,False,1987
+2740,Canal Park,/api/v1/venues/2740,True,2025
+2827,Northwestern Medicine Field,/api/v1/venues/2827,True,2025
+4873,Muzzy Field,/api/v1/venues/4873,False,1982
+7255,Erlanger Park,/api/v1/venues/7255,True,2025
+7256,Hillsboro Hops Ballpark,/api/v1/venues/7256,True,2025
+6790,Kinsman Hardware Field,/api/v1/venues/6790,False,2025
+7194,Pioneer Memorial Stadium,/api/v1/venues/7194,False,1948
+7079,Atwood Stadium,/api/v1/venues/7079,False,2025
+6817,Graham Field,/api/v1/venues/6817,False,2025
+7212,Southside Park,/api/v1/venues/7212,False,2025
+6413,Association Park II,/api/v1/venues/6413,False,2025
+6792,Jeannette PA (Unknown),/api/v1/venues/6792,False,2025
+3132,Lloyd Street Grounds,/api/v1/venues/3132,False,1901
+3556,MacKenzie Stadium,/api/v1/venues/3556,False,2009
+4945,Washington Park,/api/v1/venues/4945,False,1979
+3072,Tomas Oroz Gaytan,/api/v1/venues/3072,False,2016
+5025,Bankers Life Fieldhouse,/api/v1/venues/5025,False,2016
+2528,Dell Diamond,/api/v1/venues/2528,True,2025
+2624,PGE Park,/api/v1/venues/2624,False,2010
+2502,Hermosillo,/api/v1/venues/2502,False,2003
+4830,Henderson Stadium,/api/v1/venues/4830,False,1998
+2757,Heritage Financial Park,/api/v1/venues/2757,True,2025
+3125,Forbes Field,/api/v1/venues/3125,False,1970
+3136,Mile High Stadium,/api/v1/venues/3136,False,1994
+4849,Lansdowne Park,/api/v1/venues/4849,False,1954
+5175,TCF Bank Stadium,/api/v1/venues/5175,False,2017
+2830,Ogren Park Allegiance Field,/api/v1/venues/2830,True,2025
+3650,Blansko Field,/api/v1/venues/3650,False,2008
+4892,Pompano Beach Municipal Stadium,/api/v1/venues/4892,False,1991
+6361,Casino Park,/api/v1/venues/6361,False,2025
+6177,Katy Park,/api/v1/venues/6177,False,2025
+6646,Eclipse Park III,/api/v1/venues/6646,False,2025
+2505,Fort Lauderdale Stadium,/api/v1/venues/2505,False,2009
+7084,McNulty Field,/api/v1/venues/7084,False,1907
+3869,Estadio Enzo Hernandez,/api/v1/venues/3869,False,2011
+7088,Maple Avenue Field,/api/v1/venues/7088,False,1931
+4710,Estadio Panamericano,/api/v1/venues/4710,True,2025
+2518,American Family Fields of Phoenix,/api/v1/venues/2518,True,2025
+6144,Woodbine IA (Unknown),/api/v1/venues/6144,False,2025
+2779,Delta Dental Park,/api/v1/venues/2779,True,2025
+2724,Louisville Slugger Field,/api/v1/venues/2724,True,2025
+3209,Estadio 18 de Marzo de 1938,/api/v1/venues/3209,False,2014
+4919,Smithson Stadium,/api/v1/venues/4919,False,1944
+4805,Durham Athletic Park,/api/v1/venues/4805,False,2004
+6395,Sherman Field,/api/v1/venues/6395,False,2025
+6148,Pann Park,/api/v1/venues/6148,False,2025
+2889,Busch Stadium,/api/v1/venues/2889,True,2025
+7113,Inlet Park I,/api/v1/venues/7113,False,1913
+5027,BB&T Center,/api/v1/venues/5027,False,2018
+3789,Greater Nevada Field,/api/v1/venues/3789,True,2025
+4781,Bush Field,/api/v1/venues/4781,False,1995
+2501,Kino Veterans Memorial Stadium,/api/v1/venues/2501,True,2025
+7090,Lions Field,/api/v1/venues/7090,False,1937
+6091,St. Louis Cardinals DR Complex,/api/v1/venues/6091,True,2025
+4792,College Park,/api/v1/venues/4792,False,1996
+3161,Mahaffey Park,/api/v1/venues/3161,False,1903
+7257,CarMax Park,/api/v1/venues/7257,True,2025
+6258,Park de Young,/api/v1/venues/6258,False,2025
+7186,Pluto Park,/api/v1/venues/7186,False,1913
+7123,Gordy Park,/api/v1/venues/7123,False,1941
+7083,Mercer Park,/api/v1/venues/7083,False,1943
+7170,Smedley Field,/api/v1/venues/7170,False,1948
+7165,Soos Park,/api/v1/venues/7165,False,1947
+7124,Gary Works Field,/api/v1/venues/7124,False,1939
+6163,Williamsport PA (Unknown),/api/v1/venues/6163,False,2025
+7109,Lambertville Base Ball Grounds,/api/v1/venues/7109,False,1906
+5204,Cleveland Arena,/api/v1/venues/5204,False,1973
+7177,Riverview Field,/api/v1/venues/7177,False,1916
+7081,Miami Field,/api/v1/venues/7081,False,1941
+6037,TicketSmarter Stadium,/api/v1/venues/6037,True,2025
+7120,Grove Street Oval I,/api/v1/venues/7120,False,1930
+7184,Pynchon Park,/api/v1/venues/7184,False,1940
+7027,Christian Brothers College Field,/api/v1/venues/7027,False,2025
+7061,Barnett Field,/api/v1/venues/7061,False,2025
+7160,State Hospital Grounds,/api/v1/venues/7160,False,1939
+6971,City Stadium,/api/v1/venues/6971,False,2025
+7134,Federal League Park,/api/v1/venues/7134,False,1916
+7211,Recreation Park,/api/v1/venues/7211,False,2025
+2394,Comerica Park,/api/v1/venues/2394,True,2025
+3135,Metropolitan Stadium,/api/v1/venues/3135,False,1981
+3074,Estadio Emilio Ibarra Almada,/api/v1/venues/3074,True,2025
+2805,American Family Fields of Phoenix - Complex,/api/v1/venues/2805,False,2025
+6097,New York Mets DR Complex,/api/v1/venues/6097,False,2025
+7130,Frankfort PA (Unknown),/api/v1/venues/7130,False,1906
+6101,Los Angeles Dodgers DR Complex,/api/v1/venues/6101,True,2025
+7159,State School Diamond,/api/v1/venues/7159,False,1943
+4777,Bulkeley Stadium,/api/v1/venues/4777,False,1952
+6952,Exposition Park,/api/v1/venues/6952,False,2025
+5268,Wells Fargo Arena,/api/v1/venues/5268,False,2017
+6077,Guv Fuller Field,/api/v1/venues/6077,True,2025
+2790,Modern Woodmen Park,/api/v1/venues/2790,True,2025
+2804,RCGT Park,/api/v1/venues/2804,True,2025
+2532,Scottsdale Stadium,/api/v1/venues/2532,True,2025
+6252,Electric Park,/api/v1/venues/6252,False,2025
+2534,Charlotte Sports Park,/api/v1/venues/2534,True,2025
+5170,SaskTel Centre,/api/v1/venues/5170,False,2017
+5019,American Airlines Center,/api/v1/venues/5019,False,2018
+4950,Wickers Stadium,/api/v1/venues/4950,False,1975
+3119,Comiskey Park,/api/v1/venues/3119,False,1990
+3469,GoMart Ballpark,/api/v1/venues/3469,True,2025
+2850,Four Winds Field,/api/v1/venues/2850,True,2025
+3810,Coolray Field,/api/v1/venues/3810,True,2025
+5160,Hartwall Arena,/api/v1/venues/5160,False,2017
+6411,Glenwood Field,/api/v1/venues/6411,False,2025
+2780,Hank Aaron Stadium,/api/v1/venues/2780,False,2025
+5073,Rogers Arena,/api/v1/venues/5073,False,2018
+7126,Grays Stadium,/api/v1/venues/7126,False,1925
+2513,Space Coast Stadium,/api/v1/venues/2513,False,2017
+4865,Midway Stadium,/api/v1/venues/4865,False,1960
+2759,Classic Auto Group Park,/api/v1/venues/2759,True,2025
+6743,Meyerrose Park,/api/v1/venues/6743,False,2025
+5150,Gocheok Sky Dome,/api/v1/venues/5150,True,2025
+5280,Golden 1 Center,/api/v1/venues/5280,False,2017
+6205,Giants Park I,/api/v1/venues/6205,False,2025
+6891,Rox Park,/api/v1/venues/6891,False,2025
+2509,Chain of Lakes Park,/api/v1/venues/2509,False,2008
+7019,College Hill Park,/api/v1/venues/7019,False,2025
+4933,Thurman Munson Memorial Stadium,/api/v1/venues/4933,False,1996
+2807,McCormick Field,/api/v1/venues/2807,True,2025
+4808,Engel Stadium,/api/v1/venues/4808,False,1999
+6294,Miller Field,/api/v1/venues/6294,False,2025
+3155,Armory Park,/api/v1/venues/3155,False,1903
+6247,Talbert Park,/api/v1/venues/6247,False,2025
+7116,Greenlee Field,/api/v1/venues/7116,False,1938
+4905,Rohnert Park Stadium,/api/v1/venues/4905,False,1985
+6611,Maryland Park,/api/v1/venues/6611,False,2025
+6393,Landis Field,/api/v1/venues/6393,False,2025
+4490,Albert Park,/api/v1/venues/4490,True,2025
+5172,Scotiabank Centre,/api/v1/venues/5172,False,2017
+26,Veterans Stadium,/api/v1/venues/26,False,2003
+4450,Estadio Municipal Pedro Roman Melendez,/api/v1/venues/4450,True,2025
+5064,Pepsi Center,/api/v1/venues/5064,False,2018
+2729,Arthur W. Perdue Stadium,/api/v1/venues/2729,True,2025
+3569,Bowling Green Ballpark,/api/v1/venues/3569,True,2025
+7166,South Norwalk CT (Unknown),/api/v1/venues/7166,False,1909
+6260,Legion Field,/api/v1/venues/6260,False,2025
+2957,Toros Mobil Park,/api/v1/venues/2957,True,2025
+2786,Hunter Wright Stadium,/api/v1/venues/2786,True,2025
+2848,Smokies Stadium,/api/v1/venues/2848,True,2025
+2778,Grayson Stadium,/api/v1/venues/2778,False,2015
+2858,Victory Field,/api/v1/venues/2858,True,2025
+7179,Shewbridge Field,/api/v1/venues/7179,False,1935
+7075,Bacharach Park,/api/v1/venues/7075,False,2025
+6901,Roebling Field,/api/v1/venues/6901,False,2025
+7026,City Park,/api/v1/venues/7026,False,2025
+6910,Red Bird Stadium,/api/v1/venues/6910,False,2025
+6809,Griffith Field,/api/v1/venues/6809,False,2025
+6497,Athletic Park,/api/v1/venues/6497,False,2025
+6031,Jack Cook Field,/api/v1/venues/6031,True,2025
+6747,Midland PA (Unknown),/api/v1/venues/6747,False,2025
+6394,Blue Grass Park,/api/v1/venues/6394,False,2025
+4926,Sulphur Dell,/api/v1/venues/4926,False,1963
+3551,Frasier Field,/api/v1/venues/3551,False,2009
+4883,Pat Thomas Stadium,/api/v1/venues/4883,False,1968
+2728,San Manuel Stadium,/api/v1/venues/2728,True,2025
+5321,Estadio Francisco Villa,/api/v1/venues/5321,True,2025
+6854,Unknown FL (Unknown),/api/v1/venues/6854,False,2025
+5157,Dunkin' Donuts Center,/api/v1/venues/5157,False,2017
+2772,Smith's Ballpark,/api/v1/venues/2772,True,2024
+4825,Haliwell Park,/api/v1/venues/4825,False,1993
+6892,Slatington PA (Unknown),/api/v1/venues/6892,False,2025
+7082,Merchants Park,/api/v1/venues/7082,False,1936
+2543,Mark Light Stadium,/api/v1/venues/2543,False,2002
+5430,Magic Box,/api/v1/venues/5430,False,2025
+2798,Lake Olmstead Stadium,/api/v1/venues/2798,False,2017
+2767,Fifth Third Field,/api/v1/venues/2767,True,2025
+6107,Cleveland Guardians DR Complex,/api/v1/venues/6107,True,2025
+5261,Times Union Center,/api/v1/venues/5261,False,2017
+6119,Peoria Stadium Complex (SD),/api/v1/venues/6119,True,2025
+2743,Carpenter Complex,/api/v1/venues/2743,True,2025
+7020,Clinton Diamond,/api/v1/venues/7020,False,2025
+3929,Beto Ávila Sherwin-Williams,/api/v1/venues/3929,True,2025
+7217,Brazil Development Program,/api/v1/venues/7217,True,2025
+4985,Dunkin' Park,/api/v1/venues/4985,True,2025
+5074,SAP Center,/api/v1/venues/5074,False,2018
+4790,Colburn Park,/api/v1/venues/4790,False,1987
+3111,Arlington Stadium,/api/v1/venues/3111,False,1993
+5169,Rabobank Arena,/api/v1/venues/5169,False,2017
+2510,Estadio Jose Bernardo Perez,/api/v1/venues/2510,True,2025
+7189,Plant Field,/api/v1/venues/7189,False,1941
+6193,City League Park,/api/v1/venues/6193,False,2025
+4846,Laguna Park,/api/v1/venues/4846,False,1970
+5275,Hank McCamish Pavilion,/api/v1/venues/5275,False,2017
+7127,Fulton Park,/api/v1/venues/7127,False,1931
+6650,Elks Park,/api/v1/venues/6650,False,2025
+6207,Brock's Park,/api/v1/venues/6207,False,2025
+7182,Rathert Stadium,/api/v1/venues/7182,False,1941
+4940,Veterans Memorial Stadium,/api/v1/venues/4940,False,1988
+6147,Felton Field,/api/v1/venues/6147,False,2025
+5098,Xcel Energy Center,/api/v1/venues/5098,False,2018
+3031,Estadio Luis Aparicio,/api/v1/venues/3031,True,2025
+5077,Sleep Train Arena,/api/v1/venues/5077,False,2016
+2950,Estadio Kickapoo Lucky Eagle,/api/v1/venues/2950,True,2025
+2785,Hunnicutt Field,/api/v1/venues/2785,True,2025
+6391,Dickson Field,/api/v1/venues/6391,False,2025
+4810,Fair Grounds Field,/api/v1/venues/4810,False,2002
+2833,The Ballpark at Jackson,/api/v1/venues/2833,True,2025
+2726,Dan Daniel Memorial Park,/api/v1/venues/2726,True,2025
+7105,Knights of Columbus Field,/api/v1/venues/7105,False,1923
+4879,Olympic Stadium,/api/v1/venues/4879,False,1980
+6699,Camden NJ (Unknown),/api/v1/venues/6699,False,2025
+4369,Estadio Resurgimiento,/api/v1/venues/4369,False,2017
+6140,York Memorial Stadium,/api/v1/venues/6140,False,2025
+2742,Carl Barger Baseball Complex,/api/v1/venues/2742,False,2017
+6729,Arlington NE (Unknown),/api/v1/venues/6729,False,2025
+5260,Stockton Arena,/api/v1/venues/5260,False,2017
+3750,Estadio Isidoro 'Cholo' Garcia,/api/v1/venues/3750,True,2025
+6548,Pyott's Park,/api/v1/venues/6548,False,2025
+7032,Buff Stadium,/api/v1/venues/7032,False,2025
+6799,Illinois Field,/api/v1/venues/6799,False,2025
+6899,Rossmere Park,/api/v1/venues/6899,False,2025
+6663,Daytona City Island Ballpark,/api/v1/venues/6663,False,2025
+6461,Recreation Park,/api/v1/venues/6461,False,2025
+6898,Rowell Field,/api/v1/venues/6898,False,2025
+2793,Frawley Stadium,/api/v1/venues/2793,True,2025
+4700,Fowler Park and Cunningham Field,/api/v1/venues/4700,False,2014
+5305,Kansas City Convention Center,/api/v1/venues/5305,False,2017
+6662,Dean's Park,/api/v1/venues/6662,False,2025
+7099,League Park,/api/v1/venues/7099,False,1947
+2625,Five County Stadium,/api/v1/venues/2625,True,2025
+7097,League Park,/api/v1/venues/7097,False,1940
+4917,Simplot Stadium,/api/v1/venues/4917,False,1971
+7181,Rebel Stadium,/api/v1/venues/7181,False,1947
+4872,Municipal Stadium,/api/v1/venues/4872,False,1986
+3126,Griffith Stadium,/api/v1/venues/3126,False,1961
+4766,Athletic Park,/api/v1/venues/4766,False,1990
+7178,Schwarz Field,/api/v1/venues/7178,False,1940
+4876,Oaks Park,/api/v1/venues/4876,False,1951
+7208,Terrapin Park,/api/v1/venues/7208,False,2025
+4922,St. Cloud Commons,/api/v1/venues/4922,False,1995
+3015,Les Murakami Stadium,/api/v1/venues/3015,True,2025
+7192,Peru IN (Unknown),/api/v1/venues/7192,False,1916
+5044,Gillette Stadium,/api/v1/venues/5044,False,2016
+2868,Delta Dental Stadium,/api/v1/venues/2868,True,2025
+4891,Point Stadium,/api/v1/venues/4891,False,1961
+2837,Ripken Stadium,/api/v1/venues/2837,True,2025
+7163,St. Marys OH (Unknown),/api/v1/venues/7163,False,1945
+4815,Fiscalini Field,/api/v1/venues/4815,False,2004
+4951,Winnipeg Stadium,/api/v1/venues/4951,False,1971
+4861,Meadowbrook Park,/api/v1/venues/4861,False,1972
+6299,Municipal Athletic Field,/api/v1/venues/6299,False,2025
+6849,West End Park,/api/v1/venues/6849,False,2025
+4765,Athletic Park,/api/v1/venues/4765,False,2002
+21,Astrodome,/api/v1/venues/21,False,1999
+6955,Dexter Park,/api/v1/venues/6955,False,2025
+7207,North Bethlehem PA (Unknown),/api/v1/venues/7207,False,1948
+3110,League Park (1904-10),/api/v1/venues/3110,False,1910
+5000,CACTI Park of the Palm Beaches,/api/v1/venues/5000,True,2025
+6360,Monaca High School,/api/v1/venues/6360,False,2025
+3033,Estadio Br. Julio Hernandez Molina,/api/v1/venues/3033,False,2006
+3159,League Park (1901-09),/api/v1/venues/3159,False,1909
+7092,Lippincott Park,/api/v1/venues/7092,False,1946
+3389,Dickey-Stephens Park,/api/v1/venues/3389,True,2025
+2813,Trustmark Park,/api/v1/venues/2813,True,2025
+4797,Danville Stadium,/api/v1/venues/4797,False,1982
+3832,AL Stadium,/api/v1/venues/3832,True,2025
+2841,Sam Lynn Ballpark,/api/v1/venues/2841,False,2017
+7201,Passon Field,/api/v1/venues/7201,False,1939
+2818,Nelson Wolff Stadium,/api/v1/venues/2818,True,2025
+5295,The Battery Atlanta,/api/v1/venues/5295,False,2017
+4854,Legion Stadium,/api/v1/venues/4854,False,1983
+6450,Island Park,/api/v1/venues/6450,False,2025
+7007,Andrews Field,/api/v1/venues/7007,False,2025
+7168,Sparta IL (Unknown),/api/v1/venues/7168,False,1940
+30,Busch Stadium I,/api/v1/venues/30,False,2005
+4836,Honolulu Stadium,/api/v1/venues/4836,False,1975
+4868,Mission Stadium,/api/v1/venues/4868,False,1964
+2800,Lawrence-Dumont Stadium,/api/v1/venues/2800,False,2007
+4749,Senior High Stadium,/api/v1/venues/4749,False,1969
+6169,West Baden Ball Park,/api/v1/venues/6169,False,2025
+7017,Downtown Park,/api/v1/venues/7017,False,2025
+5198,Tarrant County Convention Center,/api/v1/venues/5198,False,1970
+4629,Sloan Park,/api/v1/venues/4629,True,2025
+6607,Battle Creek MI (Unknown),/api/v1/venues/6607,False,2025
+7199,Pennsylvania Railroad Park,/api/v1/venues/7199,False,1948
+6605,R. M. I Park,/api/v1/venues/6605,False,2025
+6691,Chahinkapa Park,/api/v1/venues/6691,False,2025
+6348,West Field,/api/v1/venues/6348,False,2025
+6198,Sycamore Ball Park,/api/v1/venues/6198,False,2025
+6371,Metropolis Field,/api/v1/venues/6371,False,2025
+6241,Scottdale PA (Unknown),/api/v1/venues/6241,False,2025
+7056,Clarksburg WV (Unknown),/api/v1/venues/7056,False,2025
+7054,Brookside Park,/api/v1/venues/7054,False,2025
+6597,Sprague Field,/api/v1/venues/6597,False,2025
+4831,Henley Field,/api/v1/venues/4831,False,2016
+5066,PNC Arena,/api/v1/venues/5066,False,2018
+6805,Harrison Field,/api/v1/venues/6805,False,2025
+4767,Baseball City Stadium,/api/v1/venues/4767,False,1992
+5165,MGM Grand Garden Arena,/api/v1/venues/5165,False,2017
+6559,Seaboard Park,/api/v1/venues/6559,False,2025
+5485,Regency Athletic Complex,/api/v1/venues/5485,False,2020
+5171,Scandinavium,/api/v1/venues/5171,False,2017
+6467,Lamar Park,/api/v1/venues/6467,False,2025
+2819,New Britain Stadium,/api/v1/venues/2819,False,2025
+7158,Stein's Park,/api/v1/venues/7158,False,1920
+7144,Unknown NJ (Unknown),/api/v1/venues/7144,False,1915
+4725,Browning-Leonard Park,/api/v1/venues/4725,False,1965
+6105,Cincinnati Reds DR Complex,/api/v1/venues/6105,True,2025
+2949,Estadio Cruz Azul Nelson Barrera Romellón,/api/v1/venues/2949,True,2025
+7140,Fair Park Stadium,/api/v1/venues/7140,False,1948
+4898,Queens Park Stadium,/api/v1/venues/4898,False,1974
+4843,Knoxville Municipal Stadium,/api/v1/venues/4843,False,1999
+3148,South Side Park ,/api/v1/venues/3148,False,1910
+2861,Whataburger Field,/api/v1/venues/2861,True,2025
+3029,Estadio Universitario,/api/v1/venues/3029,True,2025
+6108,Chicago White Sox DR Complex,/api/v1/venues/6108,True,2025
+5251,Blue Cross Arena,/api/v1/venues/5251,False,2017
+7112,J & J Dobson Field,/api/v1/venues/7112,False,1925
+2796,L.P. Frans Stadium,/api/v1/venues/2796,True,2025
+2771,Neuroscience Group Field,/api/v1/venues/2771,True,2025
+6314,Jamaica Oval,/api/v1/venues/6314,False,2025
+6727,Asbury Park High School,/api/v1/venues/6727,False,2025
+5265,Valley View Casino Center,/api/v1/venues/5265,False,2017
+2766,Day Air Ballpark,/api/v1/venues/2766,True,2025
+6541,Katy Park,/api/v1/venues/6541,False,2025
+5164,Meridian Centre,/api/v1/venues/5164,False,2017
+3552,Fuessenich Park,/api/v1/venues/3552,False,2008
+6349,Matanzas CU (Unknown),/api/v1/venues/6349,False,2025
+7161,Stars Park,/api/v1/venues/7161,False,1931
+6755,McNulty Field,/api/v1/venues/6755,False,2025
+6134,Fifth Third Park,/api/v1/venues/6134,True,2025
+2954,Estadio 20 de Noviembre,/api/v1/venues/2954,False,2006
+4753,Texas League Park,/api/v1/venues/4753,False,1957
+5300,David L. Lawrence Convention Center,/api/v1/venues/5300,False,2017
+4720,Artillery Park,/api/v1/venues/4720,False,1955
+6104,Detroit Tigers DR Complex,/api/v1/venues/6104,True,2025
+5010,Fort Bragg Field,/api/v1/venues/5010,False,2016
+2640,Chukchansi Park,/api/v1/venues/2640,True,2025
+4050,Minges-Overton Baseball Complex,/api/v1/venues/4050,False,2009
+6073,Clem Spillane Field,/api/v1/venues/6073,False,2025
+4069,Daniel Canonico Stadium,/api/v1/venues/4069,False,2011
+6960,Dwight Park,/api/v1/venues/6960,False,2025
+2775,Gene Autry Park,/api/v1/venues/2775,False,2013
+2503,Cashman Field,/api/v1/venues/2503,False,2025
+3311,Maehara Baseball Stadium ,/api/v1/venues/3311,False,2007
+6200,Sunbury PA (Unknown),/api/v1/venues/6200,False,2025
+6079,Stony Brook Field,/api/v1/venues/6079,True,2025
+2508,Ed Smith Stadium,/api/v1/venues/2508,True,2025
+4947,Welland Sports Stadium,/api/v1/venues/4947,False,1994
+6123,MB Baseball Academy,/api/v1/venues/6123,True,2025
+6529,Rollins Field,/api/v1/venues/6529,False,2025
+7204,Palace Park,/api/v1/venues/7204,False,1941
+3270,Sportek Baseball Field,/api/v1/venues/3270,False,2007
+6217,White City Park,/api/v1/venues/6217,False,2025
+4735,John Affleck Park,/api/v1/venues/4735,False,1980
+7066,3rd & Erie St Grounds,/api/v1/venues/7066,False,2025
+5215,San Diego Sports Arena,/api/v1/venues/5215,False,1983
+5220,Minneapolis Auditorium,/api/v1/venues/5220,False,1958
+7216,Ohio State League Park,/api/v1/venues/7216,False,2025
+3271,Yarkon Sports Complex,/api/v1/venues/3271,False,2007
+7024,City Stadium,/api/v1/venues/7024,False,2025
+6801,Hopewell Park,/api/v1/venues/6801,False,2025
+5229,Wharton Fieldhouse,/api/v1/venues/5229,False,1950
+6398,Leeds AL (Unknown),/api/v1/venues/6398,False,2025
+6851,Wildwood NJ (Unknown),/api/v1/venues/6851,False,2025
+5216,Hofheinz Pavilion,/api/v1/venues/5216,False,1974
+5232,Alexander Coliseum,/api/v1/venues/5232,False,1971
+6941,Offutt Field,/api/v1/venues/6941,False,2025
+6940,Northwestern Park,/api/v1/venues/6940,False,2025
+4724,Bob Hoffman Stadium,/api/v1/venues/4724,False,1969
+6756,Matthewson Park,/api/v1/venues/6756,False,2025
+6938,Osawatomie KS (Unknown),/api/v1/venues/6938,False,2025
+5235,Island Garden,/api/v1/venues/5235,False,1971
+5234,Long Island Arena,/api/v1/venues/5234,False,1968
+5226,State Fair Coliseum,/api/v1/venues/5226,False,1950
+4734,Jennings Stadium,/api/v1/venues/4734,False,1963
+5237,Izod Center,/api/v1/venues/5237,False,2009
+4730,Dobyns-Bennett High School,/api/v1/venues/4730,False,1994
+7009,Athletic Park,/api/v1/venues/7009,False,2025
+5197,Dallas Memorial Auditorium,/api/v1/venues/5197,False,1972
+4760,All-Sports Stadium,/api/v1/venues/4760,False,1997
+4740,Marion High School,/api/v1/venues/4740,False,1976
+4761,Alumni Field,/api/v1/venues/4761,False,2000
+4745,Paul G. Fyffe Field,/api/v1/venues/4745,False,1984
+5192,Edgerton Park Arena,/api/v1/venues/5192,False,1954
+6752,Moody Stadium,/api/v1/venues/6752,False,2025
+5194,Cincinnati Gardens,/api/v1/venues/5194,False,1971
+4748,Scranton Stadium,/api/v1/venues/4748,False,1953
+4741,Max Hess Stadium,/api/v1/venues/4741,False,1960
+3016,Hans L'Orange Field,/api/v1/venues/3016,False,2008
+6562,Trainer Field,/api/v1/venues/6562,False,2025
+6895,Shetzline Park,/api/v1/venues/6895,False,2025
+4743,McNearney Stadium,/api/v1/venues/4743,False,1957
+6293,Ryle Park,/api/v1/venues/6293,False,2025
+5208,War Memorial Coliseum,/api/v1/venues/5208,False,1956
+6896,Shelbyville IN (Unknown),/api/v1/venues/6896,False,2025
+454,Default AST (G),/api/v1/venues/454,False,2006
+2782,Nymeo Field,/api/v1/venues/2782,True,2025
+3970,Huntington Park,/api/v1/venues/3970,True,2025
+426,Default Central (G),/api/v1/venues/426,False,2012
+441,Default Central European (G),/api/v1/venues/441,False,2009
+456,Default CST (G),/api/v1/venues/456,False,2011
+5039,KeyBank Center,/api/v1/venues/5039,False,2018
+5045,Heinz Field,/api/v1/venues/5045,False,2017
+6776,Legion Stadium,/api/v1/venues/6776,False,2025
+5285,Jim Perry Stadium,/api/v1/venues/5285,False,2025
+5480,CaroMont Health Park,/api/v1/venues/5480,True,2025
+5095,Vivint Smart Home Arena,/api/v1/venues/5095,False,2016
+5376,North Harbour Stadium,/api/v1/venues/5376,True,2025
+5092,United Center,/api/v1/venues/5092,False,2018
+5435,IMG Academy,/api/v1/venues/5435,False,2025
+6344,Maxwell Park,/api/v1/venues/6344,False,2025
+6593,Boone County Fair Grounds,/api/v1/venues/6593,False,2025
+5133,Ottawa Civic Center,/api/v1/venues/5133,False,1995
+6415,Shelley Park,/api/v1/venues/6415,False,2025
+6592,Edgar Thompson Park,/api/v1/venues/6592,False,2025
+5107,Boston Arena,/api/v1/venues/5107,False,1927
+5137,St. Louis Arena,/api/v1/venues/5137,False,1993
+5105,Winnipeg Arena,/api/v1/venues/5105,False,1995
+4977,Giants Baseball Complex,/api/v1/venues/4977,True,2025
+5127,Montreal Forum,/api/v1/venues/5127,False,1995
+5113,Greensboro Coliseum,/api/v1/venues/5113,False,1998
+5112,XL Center,/api/v1/venues/5112,False,2017
+5118,Met Center,/api/v1/venues/5118,False,1992
+5057,Moda Center,/api/v1/venues/5057,False,2016
+2856,Clover Park,/api/v1/venues/2856,True,2025
+2839,Russell E. Diethrick Jr. Park,/api/v1/venues/2839,False,2014
+6803,Hill Park,/api/v1/venues/6803,False,2025
+5206,Denver Arena Auditorium,/api/v1/venues/5206,False,1974
+4733,Island Field,/api/v1/venues/4733,False,1935
+3118,Columbia Park,/api/v1/venues/3118,False,1908
+5128,Kemper Arena,/api/v1/venues/5128,False,1984
+2514,Osceola County Stadium,/api/v1/venues/2514,False,2025
+2844,Principal Park,/api/v1/venues/2844,True,2025
+6603,House of David Park,/api/v1/venues/6603,False,2025
+4866,Miles Field,/api/v1/venues/4866,False,1999
+6249,Exhibition Park,/api/v1/venues/6249,False,2025
+5100,Rogers Place,/api/v1/venues/5100,False,2018
+2741,Capital City Stadium,/api/v1/venues/2741,False,2008
+5176,The O2 Arena,/api/v1/venues/5176,False,2017
+4489,Palm Meadows Baseball Facility,/api/v1/venues/4489,False,2016
+6170,Memorial Stadium,/api/v1/venues/6170,False,2025
+5262,Tucson Convention Center,/api/v1/venues/5262,False,2017
+6113,Arizona D-backs DR Complex,/api/v1/venues/6113,True,2025
+4772,Borleske Stadium,/api/v1/venues/4772,True,2025
+4920,Smith-Wills Stadium,/api/v1/venues/4920,False,1999
+3149,Sportsman's Park (1902-08),/api/v1/venues/3149,False,1908
+6659,Delano Hitch Stadium,/api/v1/venues/6659,False,2025
+6363,Johnson Park,/api/v1/venues/6363,False,2025
+7072,Bigelow Field,/api/v1/venues/7072,False,2025
+7108,Lakeview Ballpark,/api/v1/venues/7108,False,1942
+7152,Taylor Field,/api/v1/venues/7152,False,1946
+6022,CACTI Park of the Palm Beaches Complex (WSH),/api/v1/venues/6022,True,2025
+7191,Pirates Park,/api/v1/venues/7191,False,1941
+6081,Estadio de Beisbol Víctor Cervera Pacheco,/api/v1/venues/6081,True,2025
+5510,Sonny Pittaro Field,/api/v1/venues/5510,True,2025
+6161,Harlan & Hollingsworth Grounds,/api/v1/venues/6161,False,2025
+4129,Homestead Sports Complex,/api/v1/venues/4129,False,2009
+2770,Lew Wolff Training Complex,/api/v1/venues/2770,True,2025
+2727,Counter Clocks Field,/api/v1/venues/2727,True,2025
+6130,Bristol Motor Speedway,/api/v1/venues/6130,True,2025
+5425,Fredericksburg Baseball Stadium,/api/v1/venues/5425,False,2025
+5340,Estadio Alfredo Harp Helu,/api/v1/venues/5340,True,2025
+6840,West Side Park,/api/v1/venues/6840,False,2025
+6794,Inlet Park II,/api/v1/venues/6794,False,2025
+7148,West End Grounds,/api/v1/venues/7148,False,1925
+5472,CHS Field,/api/v1/venues/5472,True,2025
+6514,Westwood Field,/api/v1/venues/6514,False,2025
+5415,Hodgetown,/api/v1/venues/5415,True,2025
+5390,Foxwoods Winter Weekend,/api/v1/venues/5390,False,2025
+5440,Campbell's Field,/api/v1/venues/5440,False,2015
+5444,The Ballpark at Harbor Yard,/api/v1/venues/5444,False,2017
+5385,Hiroshima Municipal Stadium,/api/v1/venues/5385,False,2025
+5350,Maestri Stadium,/api/v1/venues/5350,True,2025
+5473,Dedeaux Field,/api/v1/venues/5473,False,2020
+6710,Barnesboro PA (Unknown),/api/v1/venues/6710,False,2025
+5380,CoolToday Park,/api/v1/venues/5380,True,2025
+7169,Slidell LA (Unknown),/api/v1/venues/7169,False,1942
+5422,WellSpan Park,/api/v1/venues/5422,True,2025
+5115,Chicago Stadium,/api/v1/venues/5115,False,1993
+4887,Pelican Stadium,/api/v1/venues/4887,False,1957
+2803,Bank of the James Stadium,/api/v1/venues/2803,True,2025
+5038,FedEx Forum,/api/v1/venues/5038,False,2016
+5233,Teaneck Armory,/api/v1/venues/5233,False,1967
+7202,Osborne Stadium,/api/v1/venues/7202,False,1943
+2681,Citizens Bank Park,/api/v1/venues/2681,True,2025
+4791,College of Staten Island Baseball Complex,/api/v1/venues/4791,False,2000
+6095,San Diego Padres DR Complex,/api/v1/venues/6095,True,2025
+5020,Amway Center,/api/v1/venues/5020,False,2016
+4838,Hughes Stadium,/api/v1/venues/4838,False,1976
+7071,Biddle Field,/api/v1/venues/7071,False,2025
+6243,Mohawk Park,/api/v1/venues/6243,False,2025
+6816,Giants Park II,/api/v1/venues/6816,False,2025
+4827,Hartwell Field,/api/v1/venues/4827,False,1970
+6035,Laney College Baseball Stadium,/api/v1/venues/6035,True,2025
+2808,McCoy Stadium,/api/v1/venues/2808,True,2025
+3157,Fairview Park,/api/v1/venues/3157,False,1902
+7188,Philadelphia PA (Unknown),/api/v1/venues/7188,False,1930
+6094,Athletics DR Complex,/api/v1/venues/6094,True,2025
+6126,Salt River Fields Complex (COL),/api/v1/venues/6126,True,2025
+2789,Joe W. Davis Municipal Stadium,/api/v1/venues/2789,False,2015
+7153,Tate Field,/api/v1/venues/7153,False,1930
+3144,Sick's Stadium,/api/v1/venues/3144,False,1976
+6841,Washington Park III,/api/v1/venues/6841,False,2025
+3121,Ebbets Field,/api/v1/venues/3121,False,1957
+7060,Barnett Field,/api/v1/venues/7060,False,2025
+2392,Daikin Park,/api/v1/venues/2392,True,2025
+6442,Memorial Park,/api/v1/venues/6442,False,2025
+5126,Mount Royal Arena,/api/v1/venues/5126,False,1925
+4727,Clark Field,/api/v1/venues/4727,False,1976
+6969,Colcord Park,/api/v1/venues/6969,False,2025
+2815,Excite Ballpark,/api/v1/venues/2815,True,2025
+6649,East High School Field,/api/v1/venues/6649,False,2025
+4829,Heaton Stadium,/api/v1/venues/4829,False,1994
+6341,New Egypt NJ (Unknown),/api/v1/venues/6341,False,2025
+5525,ABC Supply Stadium,/api/v1/venues/5525,True,2025
+3170,Wiedenmeyer's Park,/api/v1/venues/3170,False,1904
+3141,Robison Field,/api/v1/venues/3141,False,1920
+5131,Nassau Veterans Memorial Coliseum,/api/v1/venues/5131,False,2011
+4880,Parker Field,/api/v1/venues/4880,False,1984
+6948,Norbeck Park,/api/v1/venues/6948,False,2025
+4847,Lane Field,/api/v1/venues/4847,False,1951
+2823,NBT Bank Stadium,/api/v1/venues/2823,True,2025
+6515,Dayton OH (Unknown),/api/v1/venues/6515,False,2025
+2812,Mike Lansing Field,/api/v1/venues/2812,False,2011
+5111,Stampede Corral,/api/v1/venues/5111,False,1982
+6142,Municipal Stadium,/api/v1/venues/6142,False,2025
+6114,Tempe Diablo Stadium Complex,/api/v1/venues/6114,True,2025
+2507,Hohokam Stadium,/api/v1/venues/2507,True,2025
+3162,Neil Park (1902-03),/api/v1/venues/3162,False,1903
+2700,BayCare Ballpark,/api/v1/venues/2700,True,2025
+6090,Texas Rangers DR Complex,/api/v1/venues/6090,True,2025
+6298,Palatka FL (Unknown),/api/v1/venues/6298,False,2025
+4807,Edmonds Field,/api/v1/venues/4807,False,1960
+4783,Cardinal Field,/api/v1/venues/4783,False,1999
+11,The Kingdome,/api/v1/venues/11,False,2001
+3134,Memorial Stadium,/api/v1/venues/3134,False,2007
+4915,Silver Stadium,/api/v1/venues/4915,False,1996
+5315,Max Bishop Stadium,/api/v1/venues/5315,True,2020
+7206,Olympic Field,/api/v1/venues/7206,False,1919
+4723,Bill Wigle Field,/api/v1/venues/4723,False,1988
+5122,Long Beach Arena,/api/v1/venues/5122,False,1967
+3127,Hilltop Park,/api/v1/venues/3127,False,1912
+2735,Journey Bank Ballpark,/api/v1/venues/2735,True,2025
+6133,Taipei Dome,/api/v1/venues/6133,True,2025
+5259,Ricoh Coliseum,/api/v1/venues/5259,False,2017
+2854,LoanMart Field,/api/v1/venues/2854,True,2025
+5180,Yubileyny Sports Palace,/api/v1/venues/5180,False,2017
+3312,Target Field,/api/v1/venues/3312,True,2025
+6100,Miami Marlins DR Complex,/api/v1/venues/6100,True,2025
+5017,Amalie Arena,/api/v1/venues/5017,False,2018
+4924,Stade Municipal de Quebec,/api/v1/venues/4924,False,1977
+3549,Alumni Field,/api/v1/venues/3549,False,2008
+5132,Madison Square Garden (III),/api/v1/venues/5132,False,1968
+6914,Port Richmond,/api/v1/venues/6914,False,2025
+5075,Scotiabank Saddledome,/api/v1/venues/5075,False,2018
+4930,The Ballpark,/api/v1/venues/4930,False,1988
+4754,Tullar Field,/api/v1/venues/4754,False,1965
+6490,Elmer NJ (Unknown),/api/v1/venues/6490,False,2025
+5418,TD Bank Ballpark,/api/v1/venues/5418,True,2025
+2752,Damaschke Field,/api/v1/venues/2752,False,2009
+5199,HemisFair Arena,/api/v1/venues/5199,False,1992
+5421,Constellation Field,/api/v1/venues/5421,True,2025
+4904,Toro Stadium,/api/v1/venues/4904,False,1974
+4840,John Ducey Park,/api/v1/venues/4840,False,1994
+6609,Black Sox Ball Park,/api/v1/venues/6609,False,2025
+6296,Rodeo Grounds,/api/v1/venues/6296,False,2025
+6076,Whitehouse Field,/api/v1/venues/6076,True,2025
+6839,Y. M. C. A. Field,/api/v1/venues/6839,False,2025
+2794,Kindrick Legion Field,/api/v1/venues/2794,False,2018
+3749,Estadio Yldefonso Sola Morales,/api/v1/venues/3749,True,2025
+7052,Chicago Heights IL (Unknown),/api/v1/venues/7052,False,2025
+6305,Bradner Stadium,/api/v1/venues/6305,False,2025
+5442,Riverfront Stadium,/api/v1/venues/5442,False,2010
+4935,Tingley Field,/api/v1/venues/4935,False,1968
+2831,Pohlman Field,/api/v1/venues/2831,True,2025
+6447,Almendares Park II,/api/v1/venues/6447,False,2025
+2512,UPMC Park,/api/v1/venues/2512,True,2025
+4955,Municipal Stadium,/api/v1/venues/4955,False,1976
+7030,Boulevard Field,/api/v1/venues/7030,False,2025
+4732,Durkee Field,/api/v1/venues/4732,False,1954
+5179,Videotron Centre,/api/v1/venues/5179,False,2017
+6103,Kansas City Royals DR Complex,/api/v1/venues/6103,True,2025
+2748,Dehler Park,/api/v1/venues/2748,True,2025
+6493,Federal Park,/api/v1/venues/6493,False,2025
+4948,West Palm Beach Municipal Stadium,/api/v1/venues/4948,False,1997
+5210,Cobo Arena,/api/v1/venues/5210,False,1977
+6399,Lake Charles LA (Unknown),/api/v1/venues/6399,False,2025
+5461,Taoyuan International Stadium,/api/v1/venues/5461,True,2025
+3554,J.P. Riddle Stadium,/api/v1/venues/3554,False,2008
+6847,West Side Park,/api/v1/venues/6847,False,2025
+6300,Holland Field,/api/v1/venues/6300,False,2025
+5474,Legacy Field at Prasco Park,/api/v1/venues/5474,False,2020
+6965,Cove Field,/api/v1/venues/6965,False,2025
+7162,Stadium Park,/api/v1/venues/7162,False,1944
+3057,Estadio Julian Javier,/api/v1/venues/3057,True,2025
+5225,Amway Arena,/api/v1/venues/5225,False,2009
+4012,Prince George Citizen Field,/api/v1/venues/4012,False,2009
+2838,Rosenblatt Stadium,/api/v1/venues/2838,False,2010
+6966,Cottage Hill Park,/api/v1/venues/6966,False,2025
+6125,Surprise Stadium Complex (KC),/api/v1/venues/6125,True,2025
+6598,Bismarck Baseball Park,/api/v1/venues/6598,False,2025
+3049,Estadio Quisqueya Juan Marichal,/api/v1/venues/3049,True,2025
+7012,American Bridge Field,/api/v1/venues/7012,False,2025
+4914,Serge B. Simmons Field,/api/v1/venues/4914,False,1996
+4705,Truist Park,/api/v1/venues/4705,True,2025
+7033,Cassopolis MI (Unknown),/api/v1/venues/7033,False,2025
+3054,Estadio Tetelo Vargas,/api/v1/venues/3054,True,2025
+2762,Funko Field,/api/v1/venues/2762,True,2025
+5054,Madison Square Garden,/api/v1/venues/5054,False,2018
+3140,Polo Grounds IV,/api/v1/venues/3140,False,1963
+2511,Publix Field at Joker Marchant Stadium,/api/v1/venues/2511,True,2025
+6449,Turner Field,/api/v1/venues/6449,False,2025
+3142,Seals Stadium,/api/v1/venues/3142,False,1959
+6789,Keller Field,/api/v1/venues/6789,False,2025
+2516,The Diamond,/api/v1/venues/2516,True,2025
+5264,UW-Milwaukee Panther Arena,/api/v1/venues/5264,False,2017
+2747,Pelicans Ballpark,/api/v1/venues/2747,True,2025
+6459,Guy Smith Stadium,/api/v1/venues/6459,False,2025
+2734,Bowen Field,/api/v1/venues/2734,True,2025
+2834,Ray Winder Field,/api/v1/venues/2834,False,2009
+5161,Investors Group Field,/api/v1/venues/5161,False,2017
+4742,McConnell Field,/api/v1/venues/4742,False,1950
+6647,Eastside Park,/api/v1/venues/6647,False,2025
+3143,Shibe Park,/api/v1/venues/3143,False,1970
+4875,Nicollet Park,/api/v1/venues/4875,False,1955
+23,Milwaukee County Stadium,/api/v1/venues/23,False,2000
+2765,LMCU Ballpark,/api/v1/venues/2765,True,2025
+2531,Desert Sun Stadium,/api/v1/venues/2531,False,2007
+4410,Merlin Street Oval,/api/v1/venues/4410,False,2016
+4309,JetBlue Park,/api/v1/venues/4309,True,2025
+6304,Pepperell Park ,/api/v1/venues/6304,False,2025
+4995,Estadio de los Tomateros,/api/v1/venues/4995,True,2025
+4800,Disch Field,/api/v1/venues/4800,False,1967
+6499,Wiregrass Stadium,/api/v1/venues/6499,False,2025
+6516,Milan Ball Park,/api/v1/venues/6516,False,2025
+4011,Meiji Jingu Stadium,/api/v1/venues/4011,False,2025
+4801,Donovan Stadium,/api/v1/venues/4801,False,2001
+3128,Huntington Avenue Grounds,/api/v1/venues/3128,False,1911
+2860,Watt Powell Park,/api/v1/venues/2860,False,2008
+4722,Bay Street Ball Grounds,/api/v1/venues/4722,False,1927
+5223,KeyArena at Seattle Center,/api/v1/venues/5223,False,2017
+6491,Elizabeth NJ (Unknown),/api/v1/venues/6491,False,2025
+4751,Stumpf Field,/api/v1/venues/4751,False,1961
+4510,Estadio Sonora,/api/v1/venues/4510,True,2025
+6961,Dyckman Oval,/api/v1/venues/6961,False,2025
+7101,League Park II,/api/v1/venues/7101,False,1934
+3751,Estadio Francisco Paquito Montaner,/api/v1/venues/3751,True,2025
+3055,Estadio Francisco Micheli,/api/v1/venues/3055,True,2025
+7197,Panther Park,/api/v1/venues/7197,False,1948
+5224,Tacoma Dome,/api/v1/venues/5224,False,1994
+3169,West Side Park,/api/v1/venues/3169,False,1915
+2732,Blair County Ballpark,/api/v1/venues/2732,False,2004
+3669,Botchan Stadium,/api/v1/venues/3669,False,2025
+6725,Athletic Park,/api/v1/venues/6725,False,2025
+6149,Martin-Parry Field,/api/v1/venues/6149,False,2025
+6697,Broadway and Everett Street Park,/api/v1/venues/6697,False,2025
+7004,Amphitheater,/api/v1/venues/7004,False,2025
+7055,Crump Park,/api/v1/venues/7055,False,2025
+4010,Tsuruoka Dream Stadium,/api/v1/venues/4010,False,2025
+6401,Lebanon Field,/api/v1/venues/6401,False,2025
+2835,Valley Strong Ballpark,/api/v1/venues/2835,True,2025
+6561,Felton Field,/api/v1/venues/6561,False,2025
+6550,Chicago IL (Unknown),/api/v1/venues/6550,False,2025
+7003,Athletic Park,/api/v1/venues/7003,False,2025
+2955,Parque Centenario 27 de Febrero,/api/v1/venues/2955,True,2025
+6115,Sloan Park Complex,/api/v1/venues/6115,True,2025
+7196,Penns Grove NJ (Unknown),/api/v1/venues/7196,False,1929
+4828,Hawkins Stadium,/api/v1/venues/4828,False,1959
+2773,Innovative Field,/api/v1/venues/2773,True,2025
+6248,Municipal Stadium,/api/v1/venues/6248,False,2025
+6949,Norfolk Athletic Park,/api/v1/venues/6949,False,2025
+6071,Lowell Park,/api/v1/venues/6071,True,2025
+3769,Parque Deportivo Colon,/api/v1/venues/3769,False,2017
+4913,Sec Taylor Stadium,/api/v1/venues/4913,False,1991
+3166,Rocky Point Park,/api/v1/venues/3166,False,1903
+6109,Chicago Cubs DR Complex,/api/v1/venues/6109,False,2025
+5168,PPL Center,/api/v1/venues/5168,False,2017
+4889,Pete Vonachen Stadium,/api/v1/venues/4889,False,2001
+6006,Billy Hebert Field,/api/v1/venues/6006,False,2004
+6888,Scott Field,/api/v1/venues/6888,False,2025
+7198,Parkersburg WV (Unknown),/api/v1/venues/7198,False,1932
+4860,McDonough Park,/api/v1/venues/4860,False,1993
+7136,Fairbury IL (Unknown),/api/v1/venues/7136,False,1916
+2535,Hiram Bithorn Stadium,/api/v1/venues/2535,True,2025
+7173,Ridgewood Grounds,/api/v1/venues/7173,False,1917
+6190,Dunn Field,/api/v1/venues/6190,False,2025
+4878,Oiler Park,/api/v1/venues/4878,False,1976
+4739,League Park,/api/v1/venues/4739,False,1961
+2545,Christensen Stadium,/api/v1/venues/2545,False,2004
+5420,Clipper Magazine Stadium,/api/v1/venues/5420,True,2025
+4842,Kiwanis Field,/api/v1/venues/4842,False,1994
+6167,Island Park,/api/v1/venues/6167,False,2025
+3230,Coca-Cola Park,/api/v1/venues/3230,True,2025
+5471,Boomers Stadium,/api/v1/venues/5471,False,2020
+7,Kauffman Stadium,/api/v1/venues/7,True,2025
+7125,Garfield Park,/api/v1/venues/7125,False,1943
+7102,League Park II,/api/v1/venues/7102,False,1942
+2763,Falcon Park,/api/v1/venues/2763,True,2025
+6968,Community Park,/api/v1/venues/6968,False,2025
+5531,Kobe Sports Park Baseball Stadium,/api/v1/venues/5531,False,2025
+5139,Thunderdome,/api/v1/venues/5139,False,1995
+3109,League Park (1901-03),/api/v1/venues/3109,False,1903
+6412,Athletic Field,/api/v1/venues/6412,False,2025
+2761,Wake Forest Baseball Park,/api/v1/venues/2761,False,2013
+5252,BMO Harris Bank Center,/api/v1/venues/5252,False,2017
+6954,DeKalb IL (Unknown),/api/v1/venues/6954,False,2025
+7154,Sunset Park,/api/v1/venues/7154,False,1932
+7119,Gunther Park,/api/v1/venues/7119,False,1919
+4952,Witter Field,/api/v1/venues/4952,False,1983
+2754,Jackie Robinson Training Complex,/api/v1/venues/2754,False,2025
+4469,Alamodome,/api/v1/venues/4469,False,2017
+6462,Sportsman's Park,/api/v1/venues/6462,False,2025
+18,Cinergy Field,/api/v1/venues/18,False,2002
+6135,The Ballpark at America First Square,/api/v1/venues/6135,True,2025
+6121,American Family Fields of Phoenix Complex,/api/v1/venues/6121,True,2025
+4928,Swayne Field,/api/v1/venues/4928,False,1955
+4881,Parker Field,/api/v1/venues/4881,False,1966
+2825,Home of the OWLZ,/api/v1/venues/2825,True,2025
+6959,Eagle Ball Park,/api/v1/venues/6959,False,2025
+6204,Kulage's Park,/api/v1/venues/6204,False,2025
+5046,Honda Center,/api/v1/venues/5046,False,2018
+5222,Pyramid Arena,/api/v1/venues/5222,False,2003
+5256,H-E-B Center at Cedar Park,/api/v1/venues/5256,False,2017
+2866,ShoreTown Ballpark,/api/v1/venues/2866,True,2025
+3834,Goodyear Ballpark,/api/v1/venues/3834,True,2025
+5158,Essar Centre,/api/v1/venues/5158,False,2017
+4509,Johnson Stadium at Doubleday Field,/api/v1/venues/4509,False,2017
+6749,Municipal Stadium,/api/v1/venues/6749,False,2025
+6136,Covenant Health Park,/api/v1/venues/6136,True,2025
+3069,Estadio Francisco Carranza Limon,/api/v1/venues/3069,True,2025
+6759,Memphis TN (Unknown),/api/v1/venues/6759,False,2025
+6643,Elberton GA (Unknown),/api/v1/venues/6643,False,2025
+5018,American Airlines Arena,/api/v1/venues/5018,False,2016
+7133,Foster Park,/api/v1/venues/7133,False,1926
+3290,Melching Field,/api/v1/venues/3290,False,2007
+5185,Budweiser Gardens,/api/v1/venues/5185,False,2017
+6118,Camelback Ranch Complex (LAD),/api/v1/venues/6118,True,2025
+4939,Veterans Field,/api/v1/venues/4939,False,1982
+5219,Market Square Arena,/api/v1/venues/5219,False,1998
+6498,Dover DE (Unknown),/api/v1/venues/6498,False,2025
+6806,Handlan's Park,/api/v1/venues/6806,False,2025
+4768,Beehive Field,/api/v1/venues/4768,False,1995
+4776,Buffalo Stadium,/api/v1/venues/4776,False,1961
+5163,Lakeview Arena,/api/v1/venues/5163,False,2017
+2517,Holman Stadium,/api/v1/venues/2517,True,2025
+6019,Academia de Beisbol de Los Astros de Houston,/api/v1/venues/6019,True,2025
+6007,Angel Toledo Meza,/api/v1/venues/6007,True,2025
+7114,Ideal Park,/api/v1/venues/7114,False,1927
+4763,Anderson Memorial Stadium,/api/v1/venues/4763,False,1984
+4858,Maple Leaf Stadium,/api/v1/venues/4858,False,1967
+4569,Bobby Mattick Complex,/api/v1/venues/4569,True,2025
+2863,Yakima County Stadium,/api/v1/venues/2863,False,2012
+5191,Memorial Coliseum,/api/v1/venues/5191,False,1994
+5207,North Side High School,/api/v1/venues/5207,False,1951
+6942,Olemar Field,/api/v1/venues/6942,False,2025
+5178,T-Mobile Arena,/api/v1/venues/5178,False,2018
+3269,Gezer Field,/api/v1/venues/3269,False,2007
+2864,Yankee Complex,/api/v1/venues/2864,True,2025
+4169,loanDepot park,/api/v1/venues/4169,True,2025
+5202,International Amphitheatre,/api/v1/venues/5202,False,1961
+2822,Jackson Field,/api/v1/venues/2822,True,2025
+5465,Morse Stadium,/api/v1/venues/5465,False,2020
+4814,Finch Field,/api/v1/venues/4814,False,1969
+4910,Salinas Municipal Stadium,/api/v1/venues/4910,False,1992
+3070,Hector Espino,/api/v1/venues/3070,False,2015
+6741,National Park,/api/v1/venues/6741,False,2025
+3969,Estadio Nuevo Laredo,/api/v1/venues/3969,True,2025
+5177,The Q Centre,/api/v1/venues/5177,False,2017
+2847,Skylands Park,/api/v1/venues/2847,False,2005
+4270,Generic VST,/api/v1/venues/4270,False,2015
+5085,TD Garden,/api/v1/venues/5085,False,2018
+7080,Neptune City Ballfield,/api/v1/venues/7080,False,1932
+4787,Civic Stadium,/api/v1/venues/4787,False,1937
+7215,Kingsbury Park,/api/v1/venues/7215,False,2025
+5034,PPG Paints Arena,/api/v1/venues/5034,False,2018
+6692,Chadwick IL (Unknown),/api/v1/venues/6692,False,2025
+6025,HAWKS Baseball Park Chikugo,/api/v1/venues/6025,True,2025
+3189,Dow Diamond,/api/v1/venues/3189,True,2025
+4149,ONEOK Field,/api/v1/venues/4149,True,2025
+5089,Toyota Center,/api/v1/venues/5089,False,2016
+2746,Civic Stadium,/api/v1/venues/2746,False,2009
+3124,Exposition Park,/api/v1/venues/3124,False,1909
+6857,Tumbling Dam Park,/api/v1/venues/6857,False,2025
+5416,Regency Furniture Stadium,/api/v1/venues/5416,True,2025
+6448,Hattiesburg MI (Unknown),/api/v1/venues/6448,False,2025
+2755,Riders Field,/api/v1/venues/2755,True,2025
+6078,Veterans Field,/api/v1/venues/6078,True,2025
+5043,Gila River Arena,/api/v1/venues/5043,False,2018
+4826,Peninsula War Memorial Stadium,/api/v1/venues/4826,False,1992
+6956,Dodger Stadium,/api/v1/venues/6956,False,2025
+5193,Rochester Community War Mem,/api/v1/venues/5193,False,1956
+4796,Cranberry Ballpark,/api/v1/venues/4796,False,1938
+4611,Viticon Stadium,/api/v1/venues/4611,True,2025
+2722,Hammons Field,/api/v1/venues/2722,True,2025
+5375,Geelong Baseball Centre,/api/v1/venues/5375,True,2025
+6397,LaSalle IL (Unknown),/api/v1/venues/6397,False,2025
+3689,Telus Field,/api/v1/venues/3689,False,2008
+6011,Academia de Beisbol de los Metros de Nueva York (1),/api/v1/venues/6011,True,2025
+4934,Tim McCarver Stadium,/api/v1/venues/4934,False,1999
+5495,Estadio Pedro Montanez,/api/v1/venues/5495,True,2025
+4785,Coastal Carolina College Stadium,/api/v1/venues/4785,False,1992
+6441,Hamtramck Stadium,/api/v1/venues/6441,False,2025
+7155,Summers Field,/api/v1/venues/7155,False,1935
+3449,English Field,/api/v1/venues/3449,True,2025
+3349,Estadio Nueva Esparta,/api/v1/venues/3349,True,2025
+3558,USA Baseball National Training Complex,/api/v1/venues/3558,True,2025
+2737,C.O. Brown Stadium,/api/v1/venues/2737,False,2007
+6547,Cermak Park,/api/v1/venues/6547,False,2025
+6013,Academia de Beisbol de los Metros de Nueva York (2),/api/v1/venues/6013,True,2025
+4841,John Petrakis Field,/api/v1/venues/4841,False,1976
+4029,Goodwin Field,/api/v1/venues/4029,False,2009
+6791,Jonesboro AR (Unknown),/api/v1/venues/6791,False,2025
+6947,Newton Ball Park,/api/v1/venues/6947,False,2025
+6023,Chicago Cubs Baseball Operations Dominicana LLC,/api/v1/venues/6023,True,2025
+5441,Cooper Park,/api/v1/venues/5441,False,2018
+4885,Paul Eames Sports Complex,/api/v1/venues/4885,False,2002
+3147,South End Grounds,/api/v1/venues/3147,False,1914
+6410,Kenosha WI (Unknown),/api/v1/venues/6410,False,2025
+4089,Truist Stadium,/api/v1/venues/4089,True,2025
+7096,Lewis Park,/api/v1/venues/7096,False,1948
+2820,Mirabito Stadium,/api/v1/venues/2820,True,2025
+3116,Cleveland Municipal Stadium,/api/v1/venues/3116,False,1993
+2520,Roger Dean Chevrolet Stadium,/api/v1/venues/2520,True,2025
+7176,Riverside Park,/api/v1/venues/7176,False,1940
+7143,Victory Field I,/api/v1/venues/7143,False,1948
+4953,World War Memorial Stadium,/api/v1/venues/4953,False,2004
+3,Fenway Park,/api/v1/venues/3,True,2025
+6661,Covington Ball Park,/api/v1/venues/6661,False,2025
+5205,Coliseum at Richfield,/api/v1/venues/5205,False,1993
+4946,Waters Field,/api/v1/venues/4946,False,1965
+2523,George M. Steinbrenner Field,/api/v1/venues/2523,True,2025
+5355,Las Vegas Ballpark,/api/v1/venues/5355,True,2025
+6551,Red Sox Park,/api/v1/venues/6551,False,2025
+6820,Great Lakes Naval Training Center,/api/v1/venues/6820,False,2025
+4877,Offermann Stadium,/api/v1/venues/4877,False,1960
+7147,Whitney Street Park,/api/v1/venues/7147,False,1922
+6861,Texas League Park,/api/v1/venues/6861,False,2025
+4823,Goodland Field,/api/v1/venues/4823,False,1994
+2809,McDermott Field,/api/v1/venues/2809,False,2006
+2768,Momentum Bank Ballpark,/api/v1/venues/2768,True,2025
+5076,Scottrade Center,/api/v1/venues/5076,False,2018
+6739,Municipal Stadium,/api/v1/venues/6739,False,2025
+6750,Municipal Stadium,/api/v1/venues/6750,False,2025
+7151,Texas League Park,/api/v1/venues/7151,False,1947
+6698,Bronx Oval,/api/v1/venues/6698,False,2025
+4721,Athletic Park,/api/v1/venues/4721,False,1937
+7156,Stockyards Park,/api/v1/venues/7156,False,1939
+6122,Paulino Baseball Academy,/api/v1/venues/6122,True,2025
+4859,Marinelli Field,/api/v1/venues/4859,False,1999
+6347,McCulloch Park,/api/v1/venues/6347,False,2025
+1,Angel Stadium,/api/v1/venues/1,True,2025
+7041,Auburn Park,/api/v1/venues/7041,False,2025
+5400,SEGRA Stadium,/api/v1/venues/5400,True,2025
+7063,Beloit WI (Unknown),/api/v1/venues/7063,False,2025
+6545,St. Michael's Park,/api/v1/venues/6545,False,2025
+4900,Recreation Park,/api/v1/venues/4900,False,1965
+3071,General Angel Flores,/api/v1/venues/3071,False,2015
+6494,Carson Park,/api/v1/venues/6494,False,2025
+7059,Benjamin Russell Field,/api/v1/venues/7059,False,2025
+7086,Loughlin Oval,/api/v1/venues/7086,False,1908
+6726,Athletic Field,/api/v1/venues/6726,False,2025
+7117,Hilldale Park,/api/v1/venues/7117,False,1933
+2536,TD Ballpark,/api/v1/venues/2536,True,2025
+4271,Werner Park,/api/v1/venues/4271,True,2025
+19,Coors Field,/api/v1/venues/19,True,2025
+2802,Lindquist Field,/api/v1/venues/2802,True,2025
+4529,Regions Field,/api/v1/venues/4529,True,2025
+6261,Polo IL (Unknown),/api/v1/venues/6261,False,2025
+5263,Utica Memorial Auditorium,/api/v1/venues/5263,False,2017
+3249,Buck O'Neil Complex,/api/v1/venues/3249,False,2012
+4799,Derks Field,/api/v1/venues/4799,False,1992
+5029,BMO Harris Bradley Center,/api/v1/venues/5029,False,2016
+3156,Burns Park,/api/v1/venues/3156,False,1902
+24,Olympic Stadium,/api/v1/venues/24,True,2025
+29,3Com Park at Candlestick Point,/api/v1/venues/29,False,1999
+4738,Lawrence Stadium,/api/v1/venues/4738,False,1968
+3165,Ramona Park,/api/v1/venues/3165,False,1953
+6558,Athletic Field,/api/v1/venues/6558,False,2025
+4747,Schepps Palm Field,/api/v1/venues/4747,False,1959
+7037,Booker T. Washington High School,/api/v1/venues/7037,False,2025
+4670,Truist Field,/api/v1/venues/4670,True,2025
+5325,Globe Life Field,/api/v1/venues/5325,True,2025
+5086,The Palace at Auburn Hills,/api/v1/venues/5086,False,2016
+2758,Dwyer Stadium,/api/v1/venues/2758,True,2025
+4774,Bringhurst Field,/api/v1/venues/4774,False,1975
+3076,Estadio Nido de los Aguilas,/api/v1/venues/3076,True,2025
+4850,Larry H. Miller Field,/api/v1/venues/4850,False,2004
+5475,T-Bones Stadium,/api/v1/venues/5475,False,2020
+4899,Quigley Stadium,/api/v1/venues/4899,False,1982
+2842,Trenton Thunder Ballpark,/api/v1/venues/2842,True,2025
+2909,Progress Energy Park,/api/v1/venues/2909,False,2014
+5078,Smoothie King Center,/api/v1/venues/5078,False,2016
+7187,Red Cap Stadium,/api/v1/venues/7187,False,1942
+6116,Surprise Stadium Complex (TEX),/api/v1/venues/6116,True,2025
+5231,Kiel Auditorium,/api/v1/venues/5231,False,1967
+4728,Clyde Allen Field,/api/v1/venues/4728,False,1972
+6290,Willard Park,/api/v1/venues/6290,False,2025
+6853,Wilmington Park,/api/v1/venues/6853,False,2025
+3752,Estadio Luis Rodriguez Olmo ,/api/v1/venues/3752,False,2010
+7175,Riverside Park,/api/v1/venues/7175,False,1910
+6690,Celoron Park,/api/v1/venues/6690,False,2025
+2731,Banner Island Ballpark,/api/v1/venues/2731,True,2025
+4214,RNA Showgrounds,/api/v1/venues/4214,False,2016
+5033,Chesapeake Energy Arena,/api/v1/venues/5033,False,2016
+6889,School Stadium,/api/v1/venues/6889,False,2025
+12,Tropicana Field,/api/v1/venues/12,True,2025
+3429,Fluor Field at the West End,/api/v1/venues/3429,True,2025
+6500,Dequindre Park,/api/v1/venues/6500,False,2025
+6021,Philadelphia Phillies DR Complex,/api/v1/venues/6021,True,2025
+7094,Liberty Park,/api/v1/venues/7094,False,1923
+5120,Detroit Olympia,/api/v1/venues/5120,False,1978
+2620,Regions Park,/api/v1/venues/2620,False,2004
+6645,Edgewood Park,/api/v1/venues/6645,False,2025
+4888,Pete Beiden Field,/api/v1/venues/4888,False,2001
+2799,The Hangar,/api/v1/venues/2799,True,2025
+6700,Butler Field,/api/v1/venues/6700,False,2025
+6590,Brandon MB (Unknown),/api/v1/venues/6590,False,2025
+3991,Taichung Intercontinental Baseball Stadium,/api/v1/venues/3991,True,2025
+4211,Melbourne Ballpark,/api/v1/venues/4211,True,2024
+4918,Sims Legion Park,/api/v1/venues/4918,False,1992
+5084,Target Center,/api/v1/venues/5084,False,2016
+2783,Herschel Greer Stadium,/api/v1/venues/2783,False,2014
+7093,Long Branch Resort Baseball Park,/api/v1/venues/7093,False,1916
+6390,Travelers Field,/api/v1/venues/6390,False,2025
+5015,Air Canada Centre,/api/v1/venues/5015,False,2018
+6129,Goodyear Ballpark Complex (CIN),/api/v1/venues/6129,True,2025
+2811,Memorial Stadium,/api/v1/venues/2811,False,2009
+4770,Bethel Park,/api/v1/venues/4770,False,1968
+4835,Holt-Moffit Field,/api/v1/venues/4835,False,1967
+7095,Lexington Park,/api/v1/venues/7095,False,1945
+2816,Municipal Stadium,/api/v1/venues/2816,True,2025
+6644,Egyptian Field,/api/v1/venues/6644,False,2025
+4884,Paterson Field,/api/v1/venues/4884,False,1980
+5155,BMO Field,/api/v1/venues/5155,False,2017
+6542,Kanawha Park,/api/v1/venues/6542,False,2025
+25,Shea Stadium,/api/v1/venues/25,False,2008
+6913,Polo Park,/api/v1/venues/6913,False,2025
+5062,Oakland-Alameda County Coliseum Arena,/api/v1/venues/5062,False,2016
+6591,Bogalusa LA (Unknown),/api/v1/venues/6591,False,2025
+3113,Baker Bowl,/api/v1/venues/3113,False,1938
+6164,Martin-Perry Field,/api/v1/venues/6164,False,2025
+7141,Washington Park,/api/v1/venues/7141,False,1943
+2814,Montgomery Riverwalk Stadium,/api/v1/venues/2814,True,2025
+6362,R & P Field,/api/v1/venues/6362,False,2025
+7073,Bigler Field,/api/v1/venues/7073,False,2025
+4906,Royal Athletic Park,/api/v1/venues/4906,False,1980
+5106,America West Arena,/api/v1/venues/5106,False,2002
+2801,Centene Stadium at Legion Park,/api/v1/venues/2801,True,2025
+7200,Pennsy Field,/api/v1/venues/7200,False,1939
+5174,Tate Rink,/api/v1/venues/5174,False,2017
+6543,Charleroi Baseball Park,/api/v1/venues/6543,False,2025
+2753,Boyce Cox Field,/api/v1/venues/2753,True,2025
+3309,Nationals Park,/api/v1/venues/3309,True,2025
+4729,Devereaux Meadow,/api/v1/venues/4729,False,1967
+4786,City Park Stadium,/api/v1/venues/4786,False,1959
+4960,Keesler Federal Park,/api/v1/venues/4960,True,2025
+5335,Estadio Evaristo 'Varo' Roldan,/api/v1/venues/5335,False,2025
+6191,Maple Leaf Stadium ,/api/v1/venues/6191,False,2025
+2956,Estadio de la Revolucion,/api/v1/venues/2956,True,2025
+4773,Bosse Field,/api/v1/venues/4773,True,2025
+6098,Minnesota Twins DR Complex,/api/v1/venues/6098,True,2025
+3909,Estadio Adolfo Lopez Mateos,/api/v1/venues/3909,True,2025
+4771,Borchert Field,/api/v1/venues/4771,False,1952
+6610,Bugle Field,/api/v1/venues/6610,False,2025
+6301,Orange Playground,/api/v1/venues/6301,False,2025
+4789,Cobb Field,/api/v1/venues/4789,False,2004
+4902,Riverfront Stadium,/api/v1/venues/4902,False,1993
+6793,Johnston Field,/api/v1/venues/6793,False,2025
+7013,American Legion Field,/api/v1/venues/7013,False,2025
+5277,College Park Center,/api/v1/venues/5277,False,2017
+3139,Polo Grounds III,/api/v1/venues/3139,False,1911
+2738,Eastwood Field,/api/v1/venues/2738,True,2025
+2826,Gesa Stadium,/api/v1/venues/2826,True,2025
+5230,MECCA Arena,/api/v1/venues/5230,False,1987
+4862,Meinen Stadium,/api/v1/venues/4862,False,1991
+4856,Luther Williams Field,/api/v1/venues/4856,False,2002
+4189,Tianmu Baseball Stadium,/api/v1/venues/4189,False,2011
+4764,Angels Stadium,/api/v1/venues/4764,False,1993
+3133,Los Angeles Memorial Coliseum,/api/v1/venues/3133,False,2008
+6519,Municipal Stadium,/api/v1/venues/6519,False,2025
+6701,Burlington WI (Unknown),/api/v1/venues/6701,False,2025
+5217,Compaq Center,/api/v1/venues/5217,False,2002
+3210,Estadio Chihuahua,/api/v1/venues/3210,True,2025
+3889,Enrique 'Trapo' Torrebiarte Stadium,/api/v1/venues/3889,False,2008
+2725,NelsonCorp Field,/api/v1/venues/2725,True,2025
+7135,Fans Field,/api/v1/venues/7135,False,1948
+4927,Louisiana SuperDome,/api/v1/venues/4927,False,1978
+3112,Atlanta-Fulton County Stadium,/api/v1/venues/3112,False,1996
+5022,AT&T Center,/api/v1/venues/5022,False,2017
+4249,Salt River Fields at Talking Stick,/api/v1/venues/4249,True,2025
+6564,Henninger Field,/api/v1/venues/6564,False,2025
+2723,First National Bank Field,/api/v1/venues/2723,True,2025
+4746,Robbins Park,/api/v1/venues/4746,False,1969
+2769,FirstEnergy Stadium,/api/v1/venues/2769,True,2025
+4109,PK Park,/api/v1/venues/4109,True,2025
+7085,Marion IN (Unknown),/api/v1/venues/7085,False,1914
+4839,Joe Martin Field,/api/v1/venues/4839,False,1996
+5520,Virginia Credit Union Stadium,/api/v1/venues/5520,True,2025
+6641,Erasmus Field,/api/v1/venues/6641,False,2025
+5203,Baltimore Civic Center,/api/v1/venues/5203,False,1972
+7193,Peters Park,/api/v1/venues/7193,False,1947
+6259,Mayos Island Park,/api/v1/venues/6259,False,2025
+6608,Bangor PA (Unknown),/api/v1/venues/6608,False,2025
+2951,Parque Lic. Eduardo Vasconcelos,/api/v1/venues/2951,True,2025
+4820,Gill Stadium,/api/v1/venues/4820,False,2004
+6092,Tampa Bay Rays DR Complex,/api/v1/venues/6092,True,2025
+5255,Giant Center,/api/v1/venues/5255,False,2017
+5116,Colisee Pepsi,/api/v1/venues/5116,False,1994
+2852,Vystar Ballpark,/api/v1/venues/2852,True,2025
+6017,Brazell Field at GCU Ballpark,/api/v1/venues/6017,True,2025
+2845,Dodd Stadium,/api/v1/venues/2845,True,2025
+2865,Shrine on Airline,/api/v1/venues/2865,False,2025
+2869,Estadio Hermanos Serdan,/api/v1/venues/2869,True,2025
+5108,Boston Garden,/api/v1/venues/5108,False,1994
+7129,Forest Park,/api/v1/venues/7129,False,1910
+4793,Community Park,/api/v1/venues/4793,False,1999
+4941,Vince Genna Stadium,/api/v1/venues/4941,False,1994
+6893,Shipbuilders Park,/api/v1/venues/6893,False,2025
+3138,Palace of the Fans,/api/v1/venues/3138,False,1911
+6096,New York Yankees DR Complex,/api/v1/venues/6096,True,2025
+2529,Sutter Health Park,/api/v1/venues/2529,True,2025
+6651,Elizabethport NJ (Unknown),/api/v1/venues/6651,False,2025
+4990,Estadio BBVA Bancomer,/api/v1/venues/4990,False,2015
+2776,Synovus Park,/api/v1/venues/2776,True,2025
+3051,Estadio Cibao,/api/v1/venues/3051,True,2025
+3164,Oriole Park,/api/v1/venues/3164,False,1944
+428,Default Pacific (G),/api/v1/venues/428,False,2012
+5130,Continental Airlines Arena,/api/v1/venues/5130,False,2006
+2500,Tempe Diablo Stadium,/api/v1/venues/2500,True,2025
+7010,Alberta Park,/api/v1/venues/7010,False,2025
+3129,Jarry Park,/api/v1/venues/3129,False,1976
+6967,Coplay/Catasauqua PA (Unknown),/api/v1/venues/6967,False,2025
+6838,Woodruff Field ,/api/v1/venues/6838,False,2025
+4937,V.J. Keefe Memorial Field,/api/v1/venues/4937,False,1992
+6627,Firestone Stadium,/api/v1/venues/6627,False,2025
+2913,Estadio Jose Perez Colmenares,/api/v1/venues/2913,True,2025
+6034,Glacier Bank Park,/api/v1/venues/6034,True,2025
+4715,First Horizon Park,/api/v1/venues/4715,True,2025
+6209,Sportsman's Park III,/api/v1/venues/6209,False,2025
+5109,Buffalo Memorial Auditorium,/api/v1/venues/5109,False,1995
+5031,Canadian Tire Centre,/api/v1/venues/5031,False,2018
+6194,Toms River NJ (Unknown),/api/v1/venues/6194,False,2025
+5532,Seibu Dome,/api/v1/venues/5532,False,2025
+2784,TVA Credit Union Ballpark,/api/v1/venues/2784,True,2025
+3729,FIU Baseball Stadium,/api/v1/venues/3729,False,2008
+6080,Doran Park,/api/v1/venues/6080,True,2025
+4589,Sydney Cricket Ground,/api/v1/venues/4589,False,2016
+6086,CoolToday Park Complex,/api/v1/venues/6086,True,2025
+7142,Walnut Street Park,/api/v1/venues/7142,False,1922
+27,Three Rivers Stadium,/api/v1/venues/27,False,2000
+5121,Miami Arena,/api/v1/venues/5121,False,1998
+6818,Grand View Park,/api/v1/venues/6818,False,2025
+4806,East Field,/api/v1/venues/4806,False,1993
+6852,Wilson Municipal Park,/api/v1/venues/6852,False,2025
+3168,Sportsman's Park (1909-66),/api/v1/venues/3168,False,1966
+4713,Okinawa Cellular Stadium,/api/v1/venues/4713,False,2025
+3670,Madonna Stadium,/api/v1/venues/3670,False,2025
+6307,New York NY (Unknown),/api/v1/venues/6307,False,2025
+4779,Burnett Field,/api/v1/venues/4779,False,1964
+4051,Frazier Field,/api/v1/venues/4051,False,2009
+5419,Fairfield Properties Ballpark,/api/v1/venues/5419,True,2025
+5320,Estadio Domingo Santana TV4,/api/v1/venues/5320,True,2025
+6944,Omaha Municipal Stadium,/api/v1/venues/6944,False,2025
+4736,Johnson Field,/api/v1/venues/4736,False,1968
+3555,Joe Wolfe Field,/api/v1/venues/3555,False,2008
+6015,Monumental Simon Bolivar,/api/v1/venues/6015,True,2025
+7172,Roosevelt Stadium,/api/v1/venues/7172,False,1925
+7214,Legion Field,/api/v1/venues/7214,False,2025
+5143,Capital Centre,/api/v1/venues/5143,False,2001
+15,Chase Field,/api/v1/venues/15,True,2025
+6297,Painesville OH (Unknown),/api/v1/venues/6297,False,1939
+2953,Parque Francisco I. Madero,/api/v1/venues/2953,True,2025
+5200,Municipal Auditorium,/api/v1/venues/5200,False,1974
+3470,Melaleuca Field,/api/v1/venues/3470,True,2025
+7167,Speedway Park,/api/v1/venues/7167,False,1947
+5213,Municipal Auditorium,/api/v1/venues/5213,False,1966
+2602,Great American Ball Park,/api/v1/venues/2602,True,2025
+4916,Simmons Field,/api/v1/venues/4916,False,1992
+4970,Estadio de Beisbol 'Fray Nano',/api/v1/venues/4970,False,2020
+5190,Charlotte Coliseum,/api/v1/venues/5190,False,2004
+5138,Expo Hall,/api/v1/venues/5138,False,1992
+6962,Community Park,/api/v1/venues/6962,False,2025
+4816,Fleming Stadium,/api/v1/venues/4816,False,1973
+3115,Braves Field,/api/v1/venues/3115,False,1952
+6291,Minch Park,/api/v1/venues/6291,False,2025
+4908,Russwood Park,/api/v1/venues/4908,False,1960
+7011,Allentown Park,/api/v1/venues/7011,False,2025
+7139,Fair Grounds Park,/api/v1/venues/7139,False,1947
+2952,Estadio General Heriberto Jara Corona,/api/v1/venues/2952,False,2006
+2533,Florida Power Park,/api/v1/venues/2533,False,2004
+4949,Westgate Park,/api/v1/venues/4949,False,1967
+6599,Bellevue Athletic Field,/api/v1/venues/6599,False,2025
+6946,Newfield Park ,/api/v1/venues/6946,False,2025
+2849,St. Lucie Sports Complex,/api/v1/venues/2849,True,2025
+5533,Yokohama Stadium,/api/v1/venues/5533,False,2025
+6257,Richmond VA (Unknown),/api/v1/venues/6257,False,2025
+5254,Citizens Business Bank Arena,/api/v1/venues/5254,False,2017
+4864,Miami Stadium,/api/v1/venues/4864,False,1988
+5136,Cow Palace,/api/v1/venues/5136,False,1992
+5258,Mohegan Sun Arena at Casey Plaza,/api/v1/venues/5258,False,2017
+6084,CACTI Park of the Palm Beaches Complex (HOU),/api/v1/venues/6084,True,2025
+6074,Eldredge Park,/api/v1/venues/6074,True,2025
+2730,Avista Stadium,/api/v1/venues/2730,True,2025
+2756,Sahlen Field,/api/v1/venues/2756,True,2025
+6951,New York Avenue Grounds,/api/v1/venues/6951,False,2025
+3709,St. Albert Legion Park,/api/v1/venues/3709,False,2008
+4911,Samuel W. Wolfson Park,/api/v1/venues/4911,False,2002
+2764,Atrium Health Ballpark,/api/v1/venues/2764,True,2025
+7128,Ft. Atkinson (Unknown),/api/v1/venues/7128,False,1900
+6160,Spudder Park,/api/v1/venues/6160,False,2025
+6945,North End Park,/api/v1/venues/6945,False,2025
+7062,Beaver Falls High School,/api/v1/venues/7062,False,2025
+7203,Panhandle Park,/api/v1/venues/7203,False,1932
+4744,Municipal Stadium,/api/v1/venues/4744,False,1980
+6368,ARMCO Field,/api/v1/venues/6368,False,2025
+7210,Polo Grounds V,/api/v1/venues/7210,False,2025
+4757,Ainsworth Field,/api/v1/venues/4757,False,1993
+6549,Normal Park,/api/v1/venues/6549,False,2025
+6431,League Park,/api/v1/venues/6431,False,2025
+3150,Washington Park ,/api/v1/venues/3150,False,1912
+5195,Municipal Auditorium,/api/v1/venues/5195,False,1973
+5266,Van Andel Arena,/api/v1/venues/5266,False,2017
+5360,Sliwa Stadium,/api/v1/venues/5360,False,2018
+6124,Roger Dean Stadium Complex (STL),/api/v1/venues/6124,True,2025
+6110,Baltimore Orioles DR Complex,/api/v1/venues/6110,True,2025
+6409,Northeast Park,/api/v1/venues/6409,False,2025
+4795,Corning Memorial Stadium,/api/v1/venues/4795,False,1969
+3120,Crosley Field,/api/v1/venues/3120,False,1970
+6746,Miller Stadium,/api/v1/venues/6746,False,2025
+2853,The Diamond,/api/v1/venues/2853,True,2025
+5455,Toyota Field,/api/v1/venues/5455,True,2025
+7005,American Legion Park,/api/v1/venues/7005,False,2025
+7100,League Park,/api/v1/venues/7100,False,1946
+6400,Lancaster PA (Unknown),/api/v1/venues/6400,False,2025
+5395,Vantelin Dome Nagoya,/api/v1/venues/5395,False,2025
+2682,AT&T Field,/api/v1/venues/2682,True,2025
+4896,Pynchon Stadium,/api/v1/venues/4896,False,1965
+3833,NL Stadium,/api/v1/venues/3833,True,2025
+6138,Estadio Jose Briceno,/api/v1/venues/6138,True,2025
+6939,North Washington PA (Unknown),/api/v1/venues/6939,False,2025
+2777,Grainger Stadium,/api/v1/venues/2777,True,2025
+4833,Hilltop Park,/api/v1/venues/4833,False,1963
+5145,Little Caesars Arena,/api/v1/venues/5145,False,2018
+6963,Community Center Field,/api/v1/venues/6963,False,2025
+20,Hard Rock Stadium,/api/v1/venues/20,False,2017
+6087,Ed Smith Stadium Complex,/api/v1/venues/6087,True,2025
+4901,Riley Park,/api/v1/venues/4901,False,1991
+6199,Terre Haute IN (Unknown),/api/v1/venues/6199,False,2025
+6846,White Water Park,/api/v1/venues/6846,False,2025
+6664,Davis Field,/api/v1/venues/6664,False,2025
+5351,Wesley Barrow Stadium,/api/v1/venues/5351,True,2025
+6897,Red Wing Stadium,/api/v1/venues/6897,False,2025
+4209,Empire Ballpark,/api/v1/venues/4209,True,2025
+5140,Mutual Street Arena,/api/v1/venues/5140,False,1930
+5141,Maple Leafs Gardens,/api/v1/venues/5141,False,1998
+4857,MacArthur Stadium,/api/v1/venues/4857,False,1996
+7121,Griffin GA (Unknown),/api/v1/venues/7121,False,1939
+6694,Burlington NJ (Unknown),/api/v1/venues/6694,False,2025
+2521,Knights Stadium,/api/v1/venues/2521,False,2014
+4844,Labatt Park,/api/v1/venues/4844,False,1993
+4794,Conrad Park,/api/v1/venues/4794,False,1970
+2781,Harbor Park,/api/v1/venues/2781,True,2025
+4190,Chengcing Lake Baseball Stadium,/api/v1/venues/4190,False,2011
+2542,AutoZone Park,/api/v1/venues/2542,True,2025
+5410,Polar Park,/api/v1/venues/5410,True,2025
+4824,Estadio Latinoamericano,/api/v1/venues/4824,False,2016
+2791,John Thurman Field,/api/v1/venues/2791,True,2025
+2749,FNB Field,/api/v1/venues/2749,True,2025
+2843,Chickasaw Bricktown Ballpark,/api/v1/venues/2843,True,2025
+7252,Academia La Javilla,/api/v1/venues/7252,True,2025
+3153,Wrigley Field,/api/v1/venues/3153,False,1961
+14,Rogers Centre,/api/v1/venues/14,True,2025
+4894,Potter County Memorial Stadium,/api/v1/venues/4894,False,1982
+6085,JetBlue Park Complex,/api/v1/venues/6085,True,2025
+2530,Peoria Stadium,/api/v1/venues/2530,True,2025
+6753,Monitor Park,/api/v1/venues/6753,False,2025
+6340,PJ Flahrety Memorial Field,/api/v1/venues/6340,False,2025
+10,Oakland Coliseum,/api/v1/venues/10,True,2024
+5370,Texas Live!,/api/v1/venues/5370,False,2018
+4778,Burlington Athletic Park,/api/v1/venues/4778,False,2004
+6024,Yaguate Complex,/api/v1/venues/6024,True,2025
+6111,Boston Red Sox DR Complex,/api/v1/venues/6111,True,2025
+4855,Lexington Stadium,/api/v1/venues/4855,False,1956
+7091,Logan Square Park,/api/v1/venues/7091,False,1910
+4755,Withers Field,/api/v1/venues/4755,False,1993
+5445,Field of Dreams,/api/v1/venues/5445,True,2025
+4803,Duncan Park,/api/v1/venues/4803,False,1994
+6244,Scranton-Dunmore Stadium,/api/v1/venues/6244,False,2025
+4893,Ponce de Leon Park,/api/v1/venues/4893,False,1964
+6197,Memorial Stadium,/api/v1/venues/6197,False,2025
+3073,Estadio Teodoro Mariscal,/api/v1/venues/3073,True,2025
+4944,Warner Park,/api/v1/venues/4944,False,1994
+2787,Jackie Robinson Ballpark,/api/v1/venues/2787,True,2025
+4812,Fans Field,/api/v1/venues/4812,False,1974
+4870,Municipal Park,/api/v1/venues/4870,False,1978
+2828,Pioneer Park,/api/v1/venues/2828,True,2025
+5,Progressive Field,/api/v1/venues/5,True,2025
+6804,High Rock Park,/api/v1/venues/6804,False,2025
+3310,Francis Wong Stadium,/api/v1/venues/3310,False,2007
+6008,Yakult Toda Baseball Field,/api/v1/venues/6008,True,2025
+4821,Gilmore Field,/api/v1/venues/4821,False,1951
+5257,MassMutual Center,/api/v1/venues/5257,False,2017
+4909,Sal Maglie Stadium,/api/v1/venues/4909,False,1993
+6112,Atlanta Braves DR Complex,/api/v1/venues/6112,True,2025
+5166,Mile One Centre,/api/v1/venues/5166,False,2017
+4813,Ferris Field,/api/v1/venues/4813,False,1956
+6665,Cycler Park,/api/v1/venues/6665,False,2025
+4759,Albuquerque Sports Stadium,/api/v1/venues/4759,False,2000
+6842,Washington Park,/api/v1/venues/6842,False,2025
+31,PNC Park,/api/v1/venues/31,True,2025
+5530,Chiba Marine Stadium,/api/v1/venues/5530,False,2025
+6457,Municipal Stadium,/api/v1/venues/6457,False,2025
+13,Choctaw Stadium,/api/v1/venues/13,True,2025
+5228,Arizona Veterans Memorial Coliseum,/api/v1/venues/5228,False,1991
+3137,Municipal Stadium,/api/v1/venues/3137,False,1972
+4932,The Cocoa Expo,/api/v1/venues/4932,False,1977
+4897,Q Stadium,/api/v1/venues/4897,False,1973
+16,Turner Field,/api/v1/venues/16,False,2016
+5450,Equity Bank Park,/api/v1/venues/5450,True,2025
+5236,Rutgers Athletic Center,/api/v1/venues/5236,False,1980
+4931,The Ballpark at St. John's,/api/v1/venues/4931,False,2000
+7104,Lakewood NJ (Unknown),/api/v1/venues/7104,False,1906
+7087,Marienville PA (Unknown),/api/v1/venues/7087,False,1932
+7251,Twin Lakes Park,/api/v1/venues/7251,True,2025
+5058,Bell MTS Place,/api/v1/venues/5058,False,2018
+5470,Blair Field,/api/v1/venues/5470,False,2020
+6162,South Side Park,/api/v1/venues/6162,False,2025
+4943,War Memorial Stadium,/api/v1/venues/4943,False,1987
+6745,Minnehaha Park,/api/v1/venues/6745,False,2025
+2736,Burlington Athletic Stadium,/api/v1/venues/2736,True,2025
+6309,Recreation Park III,/api/v1/venues/6309,False,2025
+6667,Cramton Bowl,/api/v1/venues/6667,False,2025
+6250,Mooers Park,/api/v1/venues/6250,False,2025
+7205,North Topeka Ballpark,/api/v1/venues/7205,False,1939
+5081,Staples Center,/api/v1/venues/5081,False,2018
+4549,Thomas Stadium,/api/v1/venues/4549,False,2013
+9,Yankee Stadium I,/api/v1/venues/9,False,2008
+6392,Halloran Park,/api/v1/venues/6392,False,2025
+6018,ES CON Field,/api/v1/venues/6018,True,2025
+5142,Pacific Coliseum,/api/v1/venues/5142,False,1994
+4329,Blue Wahoos Stadium,/api/v1/venues/4329,True,2025
+2603,Surprise Stadium,/api/v1/venues/2603,True,2025
+7115,Hyde Park Stadium,/api/v1/venues/7115,False,1943
+6973,Clarkin's Field,/api/v1/venues/6973,False,2025
+4712,Sapporo Dome,/api/v1/venues/4712,False,2025
+7089,Luna Park,/api/v1/venues/7089,False,1932
+4942,Vincent-Beck Stadium,/api/v1/venues/4942,False,1986
+3512,Wukesong Baseball Stadium,/api/v1/venues/3512,False,2008
+6594,Barons Park,/api/v1/venues/6594,False,2025
+3651,Ostrava Field,/api/v1/venues/3651,False,2008
+6308,Catholic Protectory Oval,/api/v1/venues/6308,False,2025
+4784,Casey Field,/api/v1/venues/4784,False,1976
+2836,SIUH Northwell Health Community Park,/api/v1/venues/2836,True,2025
+7171,South Park,/api/v1/venues/7171,False,1929
+6403,Artesian Park,/api/v1/venues/6403,False,2025
+6082,Charlotte Sports Park Complex,/api/v1/venues/6082,True,2025
+4798,DeLorimier Downs,/api/v1/venues/4798,False,1960
+3629,Pim Mulier Stadium,/api/v1/venues/3629,False,2008
+6075,McKeon Park,/api/v1/venues/6075,True,2025
+4809,Euless Park,/api/v1/venues/4809,False,1988
+7111,Holcomb Field,/api/v1/venues/7111,False,1940
+2397,Tokyo Dome,/api/v1/venues/2397,True,2025
+4726,Chemeteka Community College,/api/v1/venues/4726,False,1989
+2821,Dozer Park,/api/v1/venues/2821,True,2025
+5276,Mohegan Sun Arena,/api/v1/venues/5276,False,2017
+7006,Amusement Park,/api/v1/venues/7006,False,2025
+5240,Estadio Luis A. Canena Marquez,/api/v1/venues/5240,False,2018
+4819,Giants Field,/api/v1/venues/4819,False,1961
+2750,Community Field,/api/v1/venues/2750,True,2025
+2929,Estadio Alberto Romo Chavez,/api/v1/venues/2929,True,2025
+2824,Papago Sports Complex,/api/v1/venues/2824,True,2025
+4851,Lawrence Park,/api/v1/venues/4851,False,1984
+6443,Recreation Park,/api/v1/venues/6443,False,2025
+6192,Trenton YMCA Field,/api/v1/venues/6192,False,2025
+5218,Indiana State Fairgrounds Coliseum,/api/v1/venues/5218,False,1973
+3030,Estadio Alfonso Carrasquel,/api/v1/venues/3030,True,2025
+7174,Ripley Park,/api/v1/venues/7174,False,1938
+4711,Koshien Stadium,/api/v1/venues/4711,False,2025
+401,TBD,/api/v1/venues/401,True,2025
+5212,Philadelphia Arena,/api/v1/venues/5212,False,1951
+4212,EPC Solar Ballpark,/api/v1/venues/4212,True,2024
+3158,Jailhouse Flats,/api/v1/venues/3158,False,1902
+5245,Estadio de los Yaquis,/api/v1/venues/5245,True,2025
+4965,Wagener Field at Kendrick Family Ballpark,/api/v1/venues/4965,True,2025
+2623,Hoover Metropolitan Stadium,/api/v1/venues/2623,True,2025
+3089,Osaka Dome,/api/v1/venues/3089,False,2025
+5214,San Francisco Civic Auditorium,/api/v1/venues/5214,False,1968
+6089,Washington Nationals DR Complex,/api/v1/venues/6089,True,2025
+6143,Idora Park,/api/v1/venues/6143,False,2025
+3117,Colt Stadium,/api/v1/venues/3117,False,1964
+2817,Rogers Field at Nat Bailey Stadium,/api/v1/venues/2817,True,2025
+7028,Central Avenue Park,/api/v1/venues/7028,False,2025
+6351,Athletic Park,/api/v1/venues/6351,False,2025
+6141,Mark Park,/api/v1/venues/6141,False,2025
+4669,Southwest University Park,/api/v1/venues/4669,True,2025
+2733,Peoples Natural Gas Field,/api/v1/venues/2733,True,2025
+6166,Lawrence Stadium,/api/v1/venues/6166,False,2025
+6512,Ducks Park,/api/v1/venues/6512,False,2025
+6513,Soldier's Home Park,/api/v1/venues/6513,False,2025
+17,Wrigley Field,/api/v1/venues/17,True,2025
+2683,Isotopes Park,/api/v1/venues/2683,True,2025
+2788,Northeast Community Credit Union Ballpark,/api/v1/venues/2788,True,2025
+2745,Cheney Stadium,/api/v1/venues/2745,True,2025
+6454,Grant Town WV (Unknown),/api/v1/venues/6454,False,2025
+2959,Parque de Beisbol Kukulcán,/api/v1/venues/2959,True,2025
+7138,Fans Field,/api/v1/venues/7138,False,1948
+7164,Sportsman Park,/api/v1/venues/7164,False,1948
+3075,Estadio Manuel Ciclon Echeverria,/api/v1/venues/3075,True,2025
+7190,Pittsburgh KS (Unknown),/api/v1/venues/7190,False,1946
+2867,Municipal Stadium,/api/v1/venues/2867,False,2005
+2,Oriole Park at Camden Yards,/api/v1/venues/2,True,2025
+2751,Cooper Stadium,/api/v1/venues/2751,False,2008
+6451,Harrisburg PA (Unknown),/api/v1/venues/6451,False,2025
+6345,Sulphur Dell II,/api/v1/venues/6345,False,2025
+6240,Island Park,/api/v1/venues/6240,False,2025
+6353,Montgomery AL (Unknown),/api/v1/venues/6353,False,2025
+4049,Doak Field at Dail Park,/api/v1/venues/4049,False,2009
+6560,River Field,/api/v1/venues/6560,False,2025
+3690,Seaman Stadium,/api/v1/venues/3690,False,2008
+6106,Colorado Rockies DR Complex,/api/v1/venues/6106,True,2025
+7195,Pencoyd Field,/api/v1/venues/7195,False,1928
+4903,Riverside Sports Complex,/api/v1/venues/4903,False,1995
+4289,Nachan Ka'an,/api/v1/venues/4289,False,2011
+5290,Dicolor Australia Stadium,/api/v1/venues/5290,True,2025
+5059,Nationwide Arena,/api/v1/venues/5059,False,2018
+3529,Duane Banks Field,/api/v1/venues/3529,False,2025
+6072,Red Wilson Field,/api/v1/venues/6072,True,2025
+2840,Carilion Clinic Field,/api/v1/venues/2840,True,2025
+4895,Privateer Park,/api/v1/venues/4895,False,1996
+6311,Hasson-Ramage Park,/api/v1/venues/6311,False,2025
+7064,Bi State League Park,/api/v1/venues/7064,False,2025
+5209,Olympic Stadium,/api/v1/venues/5209,False,1960
+7145,Union League Park,/api/v1/venues/7145,False,1908
+22,Dodger Stadium,/api/v1/venues/22,True,2025
+3649,Mestsky Stadium,/api/v1/venues/3649,False,2008
+6652,Delanco Athletic Assoc. Field,/api/v1/venues/6652,False,2025
+2855,Tigertown Complex,/api/v1/venues/2855,True,2025
+6705,Booster Park,/api/v1/venues/6705,False,2025
+6860,Ward Field,/api/v1/venues/6860,False,2025
+6342,New Brunswick High School,/api/v1/venues/6342,False,2025
+6139,Mariana AR (Unknown),/api/v1/venues/6139,False,1938
+2515,Baseball City Stadium,/api/v1/venues/2515,False,2002
+2797,PNC Field,/api/v1/venues/2797,True,2025
+6953,Elks Park,/api/v1/venues/6953,False,2025
+3032,Estadio Antonio Herrera Gutierrez,/api/v1/venues/3032,True,2025
+6102,Los Angeles Angels DR Complex,/api/v1/venues/6102,True,2025
+6911,Reading Grounds,/api/v1/venues/6911,False,2025
+3131,League Park (1910-46),/api/v1/venues/3131,False,1946
+5030,Bridgestone Arena,/api/v1/venues/5030,False,2018
+5270,Duke Energy Convention Center,/api/v1/venues/5270,False,2017
+7131,Freeport Stadium,/api/v1/venues/7131,False,1937
+2806,Heritage Field,/api/v1/venues/2806,False,2017
+4762,Alumni Field,/api/v1/venues/4762,False,1997
+2792,Joseph L. Bruno Stadium,/api/v1/venues/2792,True,2025
+7213,Rowland Field,/api/v1/venues/7213,False,2025
+4921,SPAR Stadium,/api/v1/venues/4921,False,1985
+3559,Wahconah Park,/api/v1/venues/3559,False,2008
+7107,Lakeside Stadium,/api/v1/venues/7107,False,1943
+7150,Thames Field,/api/v1/venues/7150,False,1939
+4737,Lauer's Park,/api/v1/venues/4737,False,1932
+6255,Chavis Park,/api/v1/venues/6255,False,2025
+2832,Prince George's Stadium,/api/v1/venues/2832,True,2025
+6093,Seattle Mariners DR Complex,/api/v1/venues/6093,True,2025
+4750,Stade Bellevue,/api/v1/venues/4750,False,1975
+6740,Municipal Stadium,/api/v1/venues/6740,False,2025
+6010,Academia de Beisbol de Los Piratas de Pittsburgh,/api/v1/venues/6010,True,2025
+6601,Memorial Park,/api/v1/venues/6601,False,2025
+6128,Peoria Stadium Complex (SEA),/api/v1/venues/6128,True,2025
+6492,Elgin IL (Unknown),/api/v1/venues/6492,False,2025
+6800,Huntsville Manufacturing Park,/api/v1/venues/6800,False,2025
+7122,Greyhound Park,/api/v1/venues/7122,False,1948
+3167,Roosevelt Stadium,/api/v1/venues/3167,False,1981
+7018,Civic Stadium,/api/v1/venues/7018,False,2025
+5365,TD Ameritrade Park,/api/v1/venues/5365,False,2025
+7053,Cedarhurst NY (Unknown),/api/v1/venues/7053,False,2025
+8,Hubert H. Humphrey Metrodome,/api/v1/venues/8,False,2009
+4874,Ned Skeldon Stadium,/api/v1/venues/4874,False,2001
+3410,Parque la Junta,/api/v1/venues/3410,True,2025
+5159,FirstOntario Centre,/api/v1/venues/5159,False,2017
+6501,Sand Lotters Park,/api/v1/venues/6501,False,2025
+6596,Bloomsburg Fair Racetrack,/api/v1/venues/6596,False,2025
+5072,Northlands Coliseum,/api/v1/venues/5072,False,2016
+7016,Dwenger Park,/api/v1/venues/7016,False,2025
+7074,44th and Parkside Ballpark,/api/v1/venues/7074,False,2025
+6127,Camelback Ranch Complex (CWS),/api/v1/venues/6127,True,2025
+4429,Hillsboro Ballpark,/api/v1/venues/4429,True,2025
+6150,Woodbury NJ (Unknown),/api/v1/venues/6150,False,2025
+6848,Washington Stadium,/api/v1/venues/6848,False,2025
+4769,Bernie Arbour Memorial stadium,/api/v1/venues/4769,False,1992
+6858,Tin Plate Field,/api/v1/venues/6858,False,2025
+4869,Moana Stadium,/api/v1/venues/4869,False,1992
+5083,Talking Stick Resort Arena,/api/v1/venues/5083,False,2016
+6458,Harrison Park,/api/v1/venues/6458,False,2025
+2744,Centennial Field,/api/v1/venues/2744,True,2025
+5042,Georgia Dome,/api/v1/venues/5042,False,1998
+4350,Suplizio Field,/api/v1/venues/4350,True,2025
+5135,Civic Arena,/api/v1/venues/5135,False,2009
+5211,Pontiac Silverdome,/api/v1/venues/5211,False,1987
+6807,Horlick Field,/api/v1/venues/6807,False,2025
+3163,Neil Park (1905-32),/api/v1/venues/3163,False,1932
+6600,City Park,/api/v1/venues/6600,False,2025
+5117,McNichols Sports Arena,/api/v1/venues/5117,False,1999
+5125,Jubilee Arena,/api/v1/venues/5125,False,1919
+6570,J. Edgar Walters Jr. Park,/api/v1/venues/6570,False,2025
+5026,Barclays Center,/api/v1/venues/5026,False,2018
+5381,London Stadium,/api/v1/venues/5381,True,2025
+5124,Montreal Arena,/api/v1/venues/5124,False,1917
+2527,Parque Foro Sol,/api/v1/venues/2527,False,2017
+7157,Spring Bank Park,/api/v1/venues/7157,False,1915
+4804,Dunn Field,/api/v1/venues/4804,False,1995
+2541,Durham Bulls Athletic Park,/api/v1/venues/2541,True,2025
+7103,Lenox Oval,/api/v1/venues/7103,False,1916
+4210,Blacktown International Sportspark,/api/v1/venues/4210,True,2025
+5405,Blue Lake Sports Park,/api/v1/venues/5405,False,2025
+5253,Bojangles' Coliseum,/api/v1/venues/5253,False,2017
+6146,Eagle Park,/api/v1/venues/6146,False,2025
+6306,Vinton Street Park,/api/v1/venues/6306,False,2025
+2859,Volcanoes Stadium,/api/v1/venues/2859,True,2025
+5201,Salt Palace,/api/v1/venues/5201,False,1990
+7031,Brighton Oval,/api/v1/venues/7031,False,2025
+6744,Mitchell Stadium,/api/v1/venues/6744,False,2025
+3090,Fukuoka Dome,/api/v1/venues/3090,False,2025
+4349,XinZhuang Stadium,/api/v1/venues/4349,False,2012
+6088,Toronto Blue Jays DR Complex,/api/v1/venues/6088,True,2025
+5087,Time Warner Arena,/api/v1/venues/5087,False,2016
+2526,LECOM Park,/api/v1/venues/2526,True,2025
+5173,Sprint Center,/api/v1/venues/5173,False,2017
+2540,"Joseph P. Riley, Jr. Ballpark",/api/v1/venues/2540,True,2025
+6014,Estadio Guatamare,/api/v1/venues/6014,True,2025
+4775,Brooks Field,/api/v1/venues/4775,False,2001
+4,Rate Field,/api/v1/venues/4,True,2025
+5094,Verizon Center,/api/v1/venues/5094,False,2018
+6343,Wilson Park,/api/v1/venues/6343,False,2025
+2739,Calfee Park,/api/v1/venues/2739,True,2025
+6201,South End Park,/api/v1/venues/6201,False,2025
+6855,Utica Park,/api/v1/venues/6855,False,2025
+7183,Randall's Island Stadium,/api/v1/venues/7183,False,1938
+7185,Point Breeze Park,/api/v1/venues/7185,False,1917
+5110,Omni Coliseum,/api/v1/venues/5110,False,1997
+5134,Spectrum,/api/v1/venues/5134,False,1995
+5096,Wells Fargo Center,/api/v1/venues/5096,False,2018
+5114,Chicago Coliseum,/api/v1/venues/5114,False,1962
+5336,Estadio Hermanos Marrero,/api/v1/venues/5336,False,2018
+4923,Stade Amedee-Roy,/api/v1/venues/4923,False,1973
+4907,Ruppert Stadium,/api/v1/venues/4907,False,1949
+7118,Hammond LA (Unknown),/api/v1/venues/7118,False,1942
+3114,Bennett Park,/api/v1/venues/3114,False,1911
+4811,Fair Grounds Park,/api/v1/venues/4811,False,1998
+2912,Medlar Field at Lubrano Park,/api/v1/venues/2912,True,2025
+5123,The Forum,/api/v1/venues/5123,False,1998
+2851,AdventHealth Stadium,/api/v1/venues/2851,True,2025
+5067,Prudential Center,/api/v1/venues/5067,False,2018
+5330,Uni-Trade Stadium,/api/v1/venues/5330,True,2025
+7250,Yankee Complex Field 2,/api/v1/venues/7250,True,2025
+3550,Cardines Field,/api/v1/venues/3550,False,2008
+5417,Truist Point,/api/v1/venues/5417,True,2025
+6890,Russell Field,/api/v1/venues/6890,False,2025
+6206,Metropolitan Park,/api/v1/venues/6206,False,2025
+7034,Cecilian Park,/api/v1/venues/7034,False,2025
+7132,Florence NJ (Unknown),/api/v1/venues/7132,False,1923
+6757,Masels Field,/api/v1/venues/6757,False,2025
+5267,Veterans Memorial Arena,/api/v1/venues/5267,False,2017
+2862,Lee Health Sports Complex,/api/v1/venues/2862,True,2025
+5250,Allstate Arena,/api/v1/venues/5250,False,2017
+4389,Estadio Nacional Rod Carew,/api/v1/venues/4389,True,2025
+4853,Legion Field,/api/v1/venues/4853,False,1986
+6292,Hinchliffe Stadium,/api/v1/venues/6292,False,2025
+6728,Arnold Park,/api/v1/venues/6728,False,2025
+7180,Reservoir Park,/api/v1/venues/7180,False,1929
+5490,Estadio Forum de La Guaira,/api/v1/venues/5490,True,2025
+6203,Memorial Park,/api/v1/venues/6203,False,2025
+5144,Phillips Arena,/api/v1/venues/5144,False,2016
+6751,Morgan G. Bulkeley Stadium,/api/v1/venues/6751,False,2025
+28,Qualcomm Stadium,/api/v1/venues/28,False,2003
+6544,Hayman Park,/api/v1/venues/6544,False,2025
+5221,Minneapolis Armory,/api/v1/venues/5221,False,1959
+6099,Milwaukee Brewers DR Complex,/api/v1/venues/6099,True,2025
+4886,Payne Park,/api/v1/venues/4886,False,1989
+3313,Yankee Stadium,/api/v1/venues/3313,True,2025
+6242,Memorial Park,/api/v1/venues/6242,False,2025
+2760,Edward A. LeLacheur Park,/api/v1/venues/2760,True,2025
+7110,Knight Park,/api/v1/venues/7110,False,1923
+6460,Joannes Park,/api/v1/venues/6460,False,2025
+5515,Colorado Convention Center,/api/v1/venues/5515,True,2025
+4936,Tinker Field,/api/v1/venues/4936,False,2003
+4863,Met Park,/api/v1/venues/4863,False,1992
+7025,City Park,/api/v1/venues/7025,False,2025
+6540,Clarion PA (Unknown),/api/v1/venues/6540,False,2025
+6070,Estadio Conspiradores,/api/v1/venues/6070,True,2025
+3160,League Park,/api/v1/venues/3160,False,1901
+5535,Estadio Nestor Morales,/api/v1/venues/5535,True,2025
+4980,Segra Park,/api/v1/venues/4980,True,2025
+5069,Quicken Loans Arena,/api/v1/venues/5069,False,2017
+6315,Saratoga Park,/api/v1/venues/6315,False,2025
+4848,Lanphier Park,/api/v1/venues/4848,False,1995
+6912,Recreation Park,/api/v1/venues/6912,False,2025
+5047,Joe Louis Arena,/api/v1/venues/5047,False,2017
+6713,Belleville Athletic Field,/api/v1/venues/6713,False,2025
+4009,Miyagi Baseball Stadium,/api/v1/venues/4009,False,2025
+6,Tiger Stadium,/api/v1/venues/6,False,1999
+5119,Reunion Arena,/api/v1/venues/5119,False,2000
+6693,Central Park,/api/v1/venues/6693,False,2025
+5227,Oncenter War Memorial Arena,/api/v1/venues/5227,False,2017
+4938,Vaughn Street Park,/api/v1/venues/4938,False,1951
+7078,Athletic Park,/api/v1/venues/7078,False,2025
+6496,All-Sports Stadium,/api/v1/venues/6496,False,2025
+2795,Maimonides Park,/api/v1/venues/2795,True,2025
+3949,Rickwood Field,/api/v1/venues/3949,True,2025
+6009,Gwangju-KIA Champions Field,/api/v1/venues/6009,True,2025
+6504,Mack Park,/api/v1/venues/6504,False,2025
+5196,ARCO Arena,/api/v1/venues/5196,False,1987
+4867,Mirmow Stadium,/api/v1/venues/4867,False,1974
+4871,Municipal Stadium,/api/v1/venues/4871,False,1968
+2519,Lee Health Sports Complex Fields,/api/v1/venues/2519,True,2025
+6440,Hoboken NJ (Unknown),/api/v1/venues/6440,False,2025
+7002,Athletic Park,/api/v1/venues/7002,False,2025
+6117,Salt River Fields Complex (AZ),/api/v1/venues/6117,True,2025
+6771,Lincoln Park,/api/v1/venues/6771,False,2025
+6251,Roebling Ball Park,/api/v1/venues/6251,False,2025
+5345,SRP Park,/api/v1/venues/5345,True,2025
+4758,Al Lopez Field,/api/v1/venues/4758,False,1988
+4954,Yale Field,/api/v1/venues/4954,False,2003
+7098,League Park,/api/v1/venues/7098,False,1915
+4752,Tech Field,/api/v1/venues/4752,False,1946
+7137,Fairground Park,/api/v1/venues/7137,False,1939
+3154,Aloha Stadium,/api/v1/venues/3154,False,1997

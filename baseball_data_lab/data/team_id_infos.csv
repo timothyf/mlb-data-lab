@@ -1,0 +1,39 @@
+mlbam_team_id,abbrev,full_name,location_name,team_name,league,fg_team_id,mlbam_league_id,mlbam_division_id,bref_team_id,retrosheet_team_id,active_from,active_to
+108,LAA,Los Angeles Angels,Los Angeles,Angels,AL,1,103,200,LAA,ANA,2016,
+109,ARI,Arizona Diamondbacks,Arizona,Diamondbacks,NL,15,104,204,ARI,ARI,1998,
+110,BAL,Baltimore Orioles,Baltimore,Orioles,AL,2,103,201,BAL,BAL,1970,
+111,BOS,Boston Red Sox,Boston,Red Sox,AL,3,103,201,BOS,BOS,1970,
+112,CHC,Chicago Cubs,Chicago,Cubs,NL,17,104,205,CHC,CHN,1970,
+113,CIN,Cincinnati Reds,Cincinnati,Reds,NL,18,104,205,CIN,CIN,1970,
+114,CLE,Cleveland Indians,Cleveland,Indians,AL,5,103,202,CLE,CLE,1970,2021
+114,CLE,Cleveland Guardians,Cleveland,Guardians,AL,5,103,202,CLE,CLE,2022,
+115,COL,Colorado Rockies,Colorado,Rockies,NL,19,104,204,COL,COL,1993,
+116,DET,Detroit Tigers,Detroit,Tigers,AL,6,103,202,DET,DET,1970,
+117,HOU,Houston Astros,Houston,Astros,AL,21,103,200,HOU,HOU,1970,
+118,KC,Kansas City Royals,Kansas City,Royals,AL,7,103,202,KCR,KCA,1970,
+119,LAD,Los Angeles Dodgers,Los Angeles,Dodgers,NL,22,104,204,LAD,LAN,1970,
+120,MON,Montreal Expos,Montreal,Expos,NL,24,104,204,MON,MON,1970,2004
+120,WSH,Washington Nationals,Washington,Nationals,NL,24,104,203,WSN,WAS,2005,
+121,NYM,New York Mets,New York,Mets,NL,25,104,203,NYM,NYN,1970,
+133,OAK,Oakland Athletics,Oakland,Athletics,AL,10,103,200,OAK,OAK,1970,
+134,PIT,Pittsburgh Pirates,Pittsburgh,Pirates,NL,27,104,205,PIT,PIT,1970,
+135,SD,San Diego Padres,San Diego,Padres,NL,29,104,204,SDP,SDN,1970,
+136,SEA,Seattle Mariners,Seattle,Mariners,AL,11,103,200,SEA,SEA,1977,
+137,SF,San Francisco Giants,San Francisco,Giants,NL,30,104,204,SFG,SFN,1970,
+138,STL,St. Louis Cardinals,St. Louis,Cardinals,NL,28,104,205,STL,SLN,1970,
+139,TB,Tampa Bay Devil Rays,Tampa Bay,Devil Rays,AL,12,103,201,TBD,TBA,1998,2007
+139,TB,Tampa Bay Rays,Tampa Bay,Rays,AL,12,103,201,TBR,TBA,2008,
+140,TEX,Texas Rangers,Texas,Rangers,AL,13,103,200,TEX,TEX,1972,
+140,WSA,Washington Senators,Washington,Senators,AL,13,103,201,WSA,WS2,1970,1971
+141,TOR,Toronto Blue Jays,Toronto,Blue Jays,AL,14,103,201,TOR,TOR,1977,
+142,MIN,Minnesota Twins,Minnesota,Twins,AL,8,103,202,MIN,MIN,1970,
+143,PHI,Philadelphia Phillies,Philadelphia,Phillies,NL,26,104,203,PHI,PHI,1970,
+144,ATL,Atlanta Braves,Atlanta,Braves,NL,16,104,205,ATL,ATL,1970,
+145,CWS,Chicago White Sox,Chicago,White Sox,AL,4,103,202,CHW,CHA,1970,
+146,MIA,Florida Marlins,Florida,Marlins,NL,20,104,203,FLA,FLO,1993,2011
+146,MIA,Miami Marlins,Miami,Marlins,NL,20,104,203,MIA,MIA,2012,
+147,NYY,New York Yankees,New York,Yankees,AL,9,103,201,NYY,NYA,1970,
+158,MIL,Milwaukee Brewers,Milwaukee,Brewers,NL,23,104,205,MIL,MIL,1970,
+108,CAL,California Angels,California,Angels,AL,1,103,200,CAL,CAL,1970,1996
+108,ANA,Anaheim Angels,Anaheim,Angels,AL,1,103,200,ANA,ANA,1997,2004
+108,LAA,Los Angeles Angels of Anaheim,Los Angeles,Angels,AL,1,103,200,LAA,ANA,2005,2015

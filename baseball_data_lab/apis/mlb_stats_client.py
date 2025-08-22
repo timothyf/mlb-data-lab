@@ -476,15 +476,15 @@ class MlbStatsClient:
     
     # https://www.mlbstatic.com/team-logos/team-cap-on-light/109.svg
     @staticmethod
-    def get_team_logo_url(team_id: int) -> str:
+    def get_team_logo_url(mlbam_team_id: int) -> str:
         """Return the URL for the team's logo."""
-        return f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{team_id}.svg"
+        return f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{mlbam_team_id}.svg"
 
-    # https://midfield.mlbstatic.com/v1/team/158/spots/128.svg
+    # https://midfield.mlbstatic.com/v1/team/158/spots/128
     @staticmethod
-    def get_team_spot_url(team_id: int, size: int) -> str:
+    def get_team_spot_url(mlbam_team_id: int, size: int) -> str:
         """Return the URL for a specific spot on the team's cap."""
-        return f"https://midfield.mlbstatic.com/v1/team/{team_id}/spots/{size}"
+        return f"https://midfield.mlbstatic.com/v1/team/{mlbam_team_id}/spots/{size}"
 
     # https://baseballsavant.mlb.com/gf?game_pk=776673
     @staticmethod
@@ -494,6 +494,15 @@ class MlbStatsClient:
         data = MlbStatsClient._get_json(url)
         return data
     
+    @staticmethod
+    def get_game_boxscore_data(game_pk: int) -> pd.DataFrame:
+        """Return the game boxscore data for a given game ID.
+            http://statsapi.mlb.com/api/v1/game/776673/boxscore
+        """
+        url = f"{STATS_API_BASE_URL}game/{game_pk}/boxscore"
+        data = MlbStatsClient._get_json(url)
+        return data
+
     @staticmethod
     def get_recent_schedule_for_team(team_id: int) -> Dict[str, Any]:
         """Fetch the recent schedule (previous and next games) for a specific team.

@@ -142,17 +142,20 @@ class UnifiedDataClient:
     def get_schedule_for_date_range(self, start_date: str, end_date: str) -> pd.DataFrame:
         return MlbStatsClient.get_schedule_for_date_range(start_date, end_date) 
 
-    def get_team_logo_url(self, team_id: int) -> str:
-        return MlbStatsClient.get_team_logo_url(team_id)
+    def get_team_logo_url(self, mlbam_team_id: int) -> str:
+        return MlbStatsClient.get_team_logo_url(mlbam_team_id)
 
-    def get_team_spot_url(self, team_id: int, size: int) -> str:
-        return MlbStatsClient.get_team_spot_url(team_id, size)
+    def get_team_spot_url(self, mlbam_team_id: int, size: int) -> str:
+        return MlbStatsClient.get_team_spot_url(mlbam_team_id, size)
 
     def get_game_data(self, game_pk: int) -> pd.DataFrame:
         return MlbStatsClient.get_game_data(game_pk)
     
     def get_recent_schedule_for_team(self, team_id: int) -> pd.DataFrame:
         return MlbStatsClient.get_recent_schedule_for_team(team_id)
+
+    def get_game_boxscore_data(game_pk: int) -> pd.DataFrame:
+        return MlbStatsClient.get_game_boxscore_data(game_pk)
 
     #############################
     # PybaseballClient wrappers

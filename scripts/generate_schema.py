@@ -5,7 +5,7 @@ import argparse
 import sys
 
 # Usage:
-# python generate_schema.py "https://baseballsavant.mlb.com/gf?game_pk=776673"
+# python generate_schema.py "https://baseballsavant.mlb.com/gf?game_pk=776673" > schema.json
 
 
 def fetch_schema(url):
