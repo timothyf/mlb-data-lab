@@ -7,6 +7,7 @@ SAVANT_BASE_URL = "https://baseballsavant.mlb.com/"
 FANGRAPHS_BASE_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
 FANGRAPHS_NEXT_URL = "https://www.fangraphs.com/_next/data/Gtd7iofF2h1X98b-Nerh6/players"
 MLB_STATIC_BASE_URL = "https://img.mlbstatic.com/mlb-photos/image/"
+MLB_INFRA_BASE_URL = "https://bdfed.stitch.mlbinfra.com/bdfed/"
 
 # https://tjstatsapps-2025-mlb-pitching-app.hf.space/session/d2492a78e6783686d77e033535d0f94086a09e7c5b5fcc3ff961abc3c39ee809/download/download_all?w=
 

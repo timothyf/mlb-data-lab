@@ -385,7 +385,7 @@ class MlbStatsClient:
     @staticmethod
     def fetch_active_roster(team_id: int = None, team_name: str = None, year: int = 2024):
         """Return the active roster for a team in a given ``year``.
-
+            https://statsapi.mlb.com/api/v1/teams/116/roster?season=2025&rosterType=active
         """
         if not team_id:
             team_id = MlbStatsClient.get_team_id(team_name)
@@ -453,7 +453,9 @@ class MlbStatsClient:
     @staticmethod
     def get_standings_data(season: int, league_ids: str) -> pd.DataFrame:
         """Return the standings data for a given season."""
-        """ AL ID = 103, NL ID = 104"""
+        """ AL ID = 103, NL ID = 104
+            https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2025&standingsTypes=regularSeason
+        """
         url = f"{STATS_API_BASE_URL}standings?leagueId={league_ids}&season={season}&standingsTypes=regularSeason"
         data = MlbStatsClient._get_json(url)
         return data["records"]
@@ -500,6 +502,18 @@ class MlbStatsClient:
             http://statsapi.mlb.com/api/v1/game/776673/boxscore
         """
         url = f"{STATS_API_BASE_URL}game/{game_pk}/boxscore"
+        data = MlbStatsClient._get_json(url)
+        return data
+    
+    @staticmethod
+    def get_team_stats_for_date_range(team_id: int, start_date: str, end_date: str) -> pd.DataFrame:
+        """Fetch the team stats for a specific date range.
+            https://statsapi.mlb.com/api/v1/teams/116/stats?season=2025&startDate=2025-03-01&endDate=2025-11-01
+
+            https://bdfed.stitch.mlbinfra.com/bdfed/stats/team?&env=prod&gameType=R&group=pitching&order=desc&sortStat=strikeouts&stats=season&season=2025&limit=30&offset=0&leagueIds=103,104&daysBack=-29
+
+        """
+        url = f"{STATS_API_BASE_URL}teams/{team_id}/stats?season=2025&startDate={start_date}&endDate={end_date}"
         data = MlbStatsClient._get_json(url)
         return data
 

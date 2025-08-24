@@ -144,3 +144,12 @@ class FangraphsClient:
 #     return re.search(r'>(.*?)<', name_field).group(1)
 
 
+        @staticmethod
+        def fetch_past_30_days_for_team(team_id: int, season: int):
+            """Fetch the past 30 days of player stats for a specific team and season.
+                https://www.fangraphs.com/api/leaders/major-league/data?age=&pos=all&stats=pit&lg=all&qual=y&season=2025&season1=2025&startdate=2025-03-01&enddate=2025-11-01&month=3&hand=&team=6%2Cts&pageitems=30&pagenum=1&ind=0&rost=0&players=&type=8&postseason=&sortdir=default&sortstat=WAR
+            """
+            url = f"{FANGRAPHS_BASE_URL}?age=&pos=all&stats=bat&lg=all&qual=0&season={season}&season1={season}&hand=&team={team_id}&pageitems=30&pagenum=1&ind=0&rost=0&players=0&type=8&postseason=&sortdir=default&sortstat=WAR"
+            data = requests.get(url).json()
+            df = pd.DataFrame(data=data['data'])
+            return df
