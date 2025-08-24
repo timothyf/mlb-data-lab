@@ -157,6 +157,9 @@ class UnifiedDataClient:
     def get_game_boxscore_data(game_pk: int) -> pd.DataFrame:
         return MlbStatsClient.get_game_boxscore_data(game_pk)
 
+    def fetch_player_stats_career(player_id: int):
+        return MlbStatsClient.fetch_player_stats_career(player_id)
+
     #############################
     # PybaseballClient wrappers
     #############################

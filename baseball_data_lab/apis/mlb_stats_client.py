@@ -271,6 +271,23 @@ class MlbStatsClient:
         print (f"Fetched stats for player {player_id} in {year}: {result}")
 
         return result
+    
+    @staticmethod
+    def fetch_player_stats_career(player_id: int):
+        """
+        Fetch career stats for a player.
+            Batter example:
+            https://statsapi.mlb.com/api/v1/people/682985/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&gameType=R&leagueListId=mlb&group=hitting,pitching
+            Pitcher example:
+            https://statsapi.mlb.com/api/v1/people/669373/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&gameType=R&leagueListId=mlb&group=hitting,pitching
+        """
+        url = (
+            f"{STATS_API_BASE_URL}people?"
+            f"personIds={player_id}"
+            f"&hydrate=stats(group=[],type=career)"
+        )
+        data = MlbStatsClient._get_json(url)
+        return data
 
     ## Usage:
     # # Jack Flaherty, 2024
