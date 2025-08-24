@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/player-season.json",
+  "title": "Player Season Aggregate",
+  "type": "object",
+  "required": ["player_id", "season", "season_stats", "teams", "team_ids"],
+  "properties": {
+    "player_id": { "type": "integer" },
+
+    "season": {
+      "type": "object",
+      "description": "Season aggregate (can be empty).",
+      "additionalProperties": true
+    },
+
+    "season_stats": {
+      "type": "object",
+      "required": ["season"],
+      "properties": {
+        "season": {
+          "type": "object",
+          "description": "Season-level stats (can be empty).",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "teams": {
+      "type": "object",
+      "description": "Map of teamId ➜ team object. Keys are numeric strings.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "$ref": "#/$defs/team"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "team_ids": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+
+  "$defs": {
+    "team": {
+      "type": "object",
+      "required": ["teamId", "teamName", "abbrev", "leagueId", "leagueName", "stats"],
+      "properties": {
+        "teamId": { "type": "integer" },
+        "teamName": { "type": "string" },
+        "abbrev": { "type": "string" },
+        "leagueId": { "type": "integer" },
+        "leagueName": { "type": "string" },
+        "stats": { "$ref": "#/$defs/stats" }
+      },
+      "additionalProperties": false
+    },
+
+    "stats": {
+      "type": "object",
+      "properties": {
+        "age": { "type": "integer" },
+        "gamesPlayed": { "type": "integer" },
+        "groundOuts": { "type": "integer" },
+        "airOuts": { "type": "integer" },
+        "runs": { "type": "integer" },
+        "doubles": { "type": "integer" },
+        "triples": { "type": "integer" },
+        "homeRuns": { "type": "integer" },
+        "strikeOuts": { "type": "integer" },
+        "baseOnBalls": { "type": "integer" },
+        "intentionalWalks": { "type": "integer" },
+        "hits": { "type": "integer" },
+        "hitByPitch": { "type": "integer" },
+
+        "avg": { "type": "string" },
+        "atBats": { "type": "integer" },
+        "obp": { "type": "string" },
+        "slg": { "type": "string" },
+        "ops": { "type": "string" },
+
+        "caughtStealing": { "type": "integer" },
+        "stolenBases": { "type": "integer" },
+        "stolenBasePercentage": { "type": "string" },
+        "caughtStealingPercentage": { "type": "string" },
+
+        "groundIntoDoublePlay": { "type": "integer" },
+        "numberOfPitches": { "type": "integer" },
+        "plateAppearances": { "type": "integer" },
+        "totalBases": { "type": "integer" },
+        "rbi": { "type": "integer" },
+        "leftOnBase": { "type": "integer" },
+
+        "sacBunts": { "type": "integer" },
+        "sacFlies": { "type": "integer" },
+        "babip": { "type": "string" },
+        "groundOutsToAirouts": { "type": "string" },
+        "catchersInterference": { "type": "integer" },
+        "atBatsPerHomeRun": { "type": "string" },
+
+        "BB%": { "type": "number" },
+        "K%": { "type": "number" },
+
+        "extraBaseHits": { "type": "integer" },
+        "gidp": { "type": "integer" },
+        "gidpOpp": { "type": "integer" },
+
+        "pitchesPerPlateAppearance": { "type": "string" },
+        "walksPerPlateAppearance": { "type": "string" },
+        "strikeoutsPerPlateAppearance": { "type": "string" },
+        "homeRunsPerPlateAppearance": { "type": "string" },
+        "walksPerStrikeout": { "type": "string" },
+        "iso": { "type": "string" },
+
+        "reachedOnError": { "type": "integer" },
+        "walkOffs": { "type": "integer" },
+
+        "flyOuts": { "type": "integer" },
+        "totalSwings": { "type": "integer" },
+        "swingAndMisses": { "type": "integer" },
+        "ballsInPlay": { "type": "integer" },
+        "popOuts": { "type": "integer" },
+        "lineOuts": { "type": "integer" },
+        "flyHits": { "type": "integer" },
+        "popHits": { "type": "integer" },
+        "lineHits": { "type": "integer" },
+        "groundHits": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,1 @@
+pytest -m integration -s

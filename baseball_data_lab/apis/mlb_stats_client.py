@@ -164,6 +164,9 @@ class MlbStatsClient:
         group: Optional[Literal["batting", "pitching", "fielding"]] = None,
         timeout: float = 8.0,
     ) -> Dict[str, Any]:
+        """Fetch player stats for a specific season.
+            https://statsapi.mlb.com/api/v1/people/656427?hydrate=team,stats(type=[season,seasonAdvanced](team(league))),leagueListId=mlb_hist,season=2024
+        """
 
         # Build the hydrate expression
         stat_types = ["season", "seasonAdvanced"]  # add/remove types as needed
@@ -187,6 +190,7 @@ class MlbStatsClient:
 
         # Build full URL to allow simple monkeypatching of requests.get
         full_url = f"{url}?{urlencode(params)}"
+        print (f"Fetching player stats from URL: {full_url}")
         try:
             resp = requests.get(full_url, timeout=timeout)
         except TypeError:
@@ -263,6 +267,8 @@ class MlbStatsClient:
                 team_stats = result["teams"][team_id]["stats"]
                 team_stats.update(stat_block)
                 MlbStatsClient._add_rate_stats(team_stats)
+
+        print (f"Fetched stats for player {player_id} in {year}: {result}")
 
         return result
 

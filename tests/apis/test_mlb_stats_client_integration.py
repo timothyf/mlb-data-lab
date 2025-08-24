@@ -158,6 +158,52 @@ def test_fetch_player_stats_by_season_integration():
         # e.g., gamesPlayed/gamesPitched may or may not be present depending on group
         # So we just ensure dict-ness and leave content checks to unit tests against fixtures.
 
+    
+    # -- Case 3: Riley Greene (2024)
+    player_id = 682985
+    season = 2024
+
+    result = MlbStatsClient.fetch_player_stats_by_season(player_id, season)
+
+    # Structure checks again
+    assert isinstance(result, dict)
+    assert result.get("player_id") == player_id
+    assert "season" in result and isinstance(result["season"], dict)
+    assert "teams" in result and isinstance(result["teams"], dict)
+    assert "team_ids" in result and isinstance(result["team_ids"], list)
+
+    # Validate each team entry has a stats bucket
+    for tid in result["team_ids"]:
+        team_entry = result["teams"][tid]
+        assert isinstance(team_entry.get("stats"), dict)
+        # Optional: presence of a few common numeric stats if available
+        # (don’t fail if missing—API fields can vary by group/type)
+        # e.g., gamesPlayed/gamesPitched may or may not be present depending on group
+        # So we just ensure dict-ness and leave content checks to unit tests against fixtures. 
+
+
+    # -- Case 4: Tarik Skubal (2024)
+    player_id = 669373
+    season = 2024
+
+    result = MlbStatsClient.fetch_player_stats_by_season(player_id, season)
+
+    # Structure checks again
+    assert isinstance(result, dict)
+    assert result.get("player_id") == player_id
+    assert "season" in result and isinstance(result["season"], dict)
+    assert "teams" in result and isinstance(result["teams"], dict)
+    assert "team_ids" in result and isinstance(result["team_ids"], list)
+
+    # Validate each team entry has a stats bucket
+    for tid in result["team_ids"]:
+        team_entry = result["teams"][tid]
+        assert isinstance(team_entry.get("stats"), dict)
+        # Optional: presence of a few common numeric stats if available
+        # (don’t fail if missing—API fields can vary by group/type)
+        # e.g., gamesPlayed/gamesPitched may or may not be present depending on group
+        # So we just ensure dict-ness and leave content checks to unit tests against fixtures. 
+
 
 """Integration test for MlbStatsClient.get_player_teams_for_season against live API."""
 @pytest.mark.integration
