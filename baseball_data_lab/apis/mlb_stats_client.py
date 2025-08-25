@@ -101,7 +101,11 @@ class MlbStatsClient:
     def fetch_batter_stat_splits(player_id: int, year: int):
         """
         Fetch batter stat splits for a player in a specific year.
-       https://statsapi.mlb.com/api/v1/people?personIds=682985&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season=2024)       """
+       https://statsapi.mlb.com/api/v1/people?personIds=682985&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[d7,d15,d30,vr,vl,h,a],season=2024)
+        
+        lookup sitCodes here
+          https://statsapi.mlb.com/api/v1/situationCodes         
+        """
         url = (
             f"{STATS_API_BASE_URL}people?personIds={player_id}"
             f"&hydrate=stats(group=[hitting],type=statSplits,sitCodes=[vr,vl,h,a],season={year})"
@@ -190,7 +194,7 @@ class MlbStatsClient:
 
         # Build full URL to allow simple monkeypatching of requests.get
         full_url = f"{url}?{urlencode(params)}"
-        print (f"Fetching player stats from URL: {full_url}")
+        #print (f"Fetching player stats from URL: {full_url}")
         try:
             resp = requests.get(full_url, timeout=timeout)
         except TypeError:
@@ -268,7 +272,7 @@ class MlbStatsClient:
                 team_stats.update(stat_block)
                 MlbStatsClient._add_rate_stats(team_stats)
 
-        print (f"Fetched stats for player {player_id} in {year}: {result}")
+        #print (f"Fetched stats for player {player_id} in {year}: {result}")
 
         return result
     
@@ -281,11 +285,7 @@ class MlbStatsClient:
             Pitcher example:
             https://statsapi.mlb.com/api/v1/people/669373/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&gameType=R&leagueListId=mlb&group=hitting,pitching
         """
-        url = (
-            f"{STATS_API_BASE_URL}people?"
-            f"personIds={player_id}"
-            f"&hydrate=stats(group=[],type=career)"
-        )
+        url = STATS_API_BASE_URL + f"people/{player_id}/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&gameType=R&leagueListId=mlb&group=hitting,pitching"
         data = MlbStatsClient._get_json(url)
         return data
 
@@ -555,7 +555,90 @@ class MlbStatsClient:
             raise ValueError(f"No team data returned for team_id={team_id} season={season}")
         return teams[0]
 
-def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
-    """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
-    return MlbStatsClient._process_splits(data)
 
+
+    # Example StatsAPI queries (left here for reference):
+    # https://statsapi.mlb.com/api/v1/people?personIds=682985&hydrate=stats(type=[season,statSplits,lastXGames],group=hitting,gameType=R,sitCodes=[vl,vr,risp],limit=30,season=2025)
+    #
+    # Formatted for readability:
+    # https://statsapi.mlb.com/api/v1/people?
+    #     personIds=682985
+    #     &hydrate=stats(
+    #         type=[season,statSplits,lastXGames],
+    #         group=hitting,
+    #         gameType=R,
+    #         sitCodes=[vl,vr,risp],
+    #         limit=30,
+    #         season=2025
+    #     )
+
+    @staticmethod
+    def example_usage() -> None:
+        url = MlbStatsClient.build_statsapi_url(
+            "people",
+            {
+                "personIds": 682985,
+                "hydrate": {
+                    "stats": {
+                        "type": ["season", "statSplits", "lastXGames"],
+                        "group": "hitting",
+                        "gameType": "R",
+                        "sitCodes": ["vl", "vr", "risp"],
+                        "limit": 30,
+                        "season": 2025
+                    }
+                }
+            }
+        )
+        print(url)
+
+
+    @staticmethod
+    def build_statsapi_url(endpoint: str, params: dict) -> str:
+        """
+        Build a StatsAPI URL with optional hydrate=stats(...) handling.
+        
+        Example:
+            build_statsapi_url(
+                "/people",
+                {
+                    "personIds": 682985,
+                    "hydrate": {
+                        "stats": {
+                            "type": ["season", "statSplits", "lastXGames"],
+                            "group": "hitting",
+                            "gameType": "R",
+                            "sitCodes": ["vl", "vr", "risp"],
+                            "limit": 30,
+                            "season": 2025
+                        }
+                    }
+                }
+            )
+        """
+        query_params = {}
+        for key, value in params.items():
+            if key == "hydrate" and isinstance(value, dict):
+                # Special case: hydrate=stats(...)
+                hydrate_parts = []
+                for hkey, hval in value.items():
+                    if isinstance(hval, dict):
+                        inner_parts = []
+                        for ikey, ival in hval.items():
+                            if isinstance(ival, list):
+                                inner_parts.append(f"{ikey}=[{','.join(map(str, ival))}]")
+                            else:
+                                inner_parts.append(f"{ikey}={ival}")
+                        hydrate_parts.append(f"{hkey}({','.join(inner_parts)})")
+                    else:
+                        hydrate_parts.append(f"{hkey}={hval}")
+                query_params[key] = ",".join(hydrate_parts)
+            else:
+                query_params[key] = value
+        
+        return f"{STATS_API_BASE_URL}{endpoint}?{urlencode(query_params, safe='[],()')}"
+    
+
+# def process_splits(data: List[Dict[str, Any]]) -> pd.DataFrame:
+#     """Compatibility wrapper around :meth:`MlbStatsClient._process_splits`."""
+#     return MlbStatsClient._process_splits(data)

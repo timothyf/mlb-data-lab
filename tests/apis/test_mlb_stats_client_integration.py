@@ -386,6 +386,17 @@ def test_fetch_active_roster_integration():
     assert isinstance(roster, list), "Expected roster data to be a dict."
     assert len(roster) > 20, "Expected at least twentry players in roster."
 
+@pytest.mark.integration
+def test_fetch_player_stats_career_integration():
+    """
+    Integration test for MlbStatsClient.fetch_player_stats_career using sample data for a player.
+    """
+    player_id = 682985  # Example player ID
+    data = MlbStatsClient.fetch_player_stats_career(player_id)
+    stats = data.get("stats", [])
+    assert stats is not None, "Expected non-None player stats."
+    assert isinstance(stats, list), "Expected player stats to be a list."
+    assert len(stats) > 0, "Expected player stats list to have at least one entry."
 
 @pytest.mark.integration
 def test_get_standings_data_integration():
